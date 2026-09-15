@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -9,29 +10,43 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
-  <meta name="theme-color" content="#05080c">
-<link rel="manifest" href="./manifest.json">
+  <meta
+    name="theme-color"
+    content="#05080c"
+  >
 
-<link
-  rel="apple-touch-icon"
-  href="./images/icon-192.png"
->
-
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
->
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black-translucent"
->
-
-<meta
-  name="apple-mobile-web-app-title"
-  content="Mrs Wolfie"
->
   <title>Mrs Wolfie | Team Wolfie</title>
+
+
+  <!-- =====================================================
+       PWA
+  ====================================================== -->
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="./images/icon-192.png"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Mrs Wolfie"
+  >
+
 
   <style>
 
@@ -45,25 +60,31 @@
       box-sizing: border-box;
     }
 
+
     html {
       scroll-behavior: smooth;
       background: #030506;
     }
 
+
     body {
+
       min-height: 100vh;
 
       background:
+
         radial-gradient(
           circle at 0% 30%,
-          rgba(137, 220, 255, 0.13),
+          rgba(137,220,255,0.13),
           transparent 30%
         ),
+
         radial-gradient(
           circle at 100% 35%,
-          rgba(255, 143, 211, 0.13),
+          rgba(255,143,211,0.13),
           transparent 32%
         ),
+
         #030506;
 
       color: #ffffff;
@@ -76,20 +97,19 @@
       overflow-x: hidden;
     }
 
+
     a {
       color: inherit;
       text-decoration: none;
-    }
-
-    button,
-    a {
       -webkit-tap-highlight-color: transparent;
     }
+
 
     img {
       display: block;
       max-width: 100%;
     }
+
 
 
     /* =========================================================
@@ -99,16 +119,10 @@
     :root {
 
       --blue: #89dcff;
-
       --blue-bright: #b9ecff;
 
-      --blue-dark: #183745;
-
       --pink: #ff8fd3;
-
       --pink-bright: #ffb8e3;
-
-      --pink-dark: #452238;
 
       --white: #ffffff;
 
@@ -117,13 +131,14 @@
       --black: #030506;
 
       --panel: #080c11;
-
       --panel-2: #0b1016;
 
-      --line: rgba(255,255,255,0.08);
+      --line:
+        rgba(255,255,255,0.08);
 
       --max: 1180px;
     }
+
 
 
     /* =========================================================
@@ -131,50 +146,77 @@
     ========================================================= */
 
     .topbar {
+
       height: 62px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
       position: relative;
 
-      background: rgba(3, 6, 9, 0.98);
+      background:
+        rgba(3,6,9,0.98);
 
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.05);
 
       z-index: 5000;
     }
 
-    .menu-button {
+
+    .home-button {
+
       position: absolute;
 
       left: 18px;
+
       top: 50%;
 
-      transform: translateY(-50%);
+      transform:
+        translateY(-50%);
 
-      width: 38px;
-      height: 38px;
+      width: 40px;
+
+      height: 40px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
 
-      border-radius: 10px;
+      border-radius: 11px;
 
-      border: 1px solid rgba(137,220,255,0.20);
+      border:
+        1px solid
+        rgba(137,220,255,0.25);
 
-      background: rgba(137,220,255,0.06);
+      background:
 
-      color: var(--blue);
+        linear-gradient(
+          135deg,
+          rgba(137,220,255,0.10),
+          rgba(255,143,211,0.07)
+        );
 
-      font-size: 21px;
+      color:
+        var(--blue);
 
-      cursor: pointer;
+      font-size:
+        20px;
+
+      box-shadow:
+        0 0 20px
+        rgba(137,220,255,0.05);
     }
 
+
     .brand {
+
       text-align: center;
 
       text-transform: uppercase;
@@ -186,7 +228,9 @@
       line-height: 1.2;
     }
 
+
     .brand-top {
+
       display: block;
 
       color: var(--blue);
@@ -194,7 +238,9 @@
       font-size: 8px;
     }
 
+
     .brand-bottom {
+
       display: block;
 
       color: #ffffff;
@@ -204,20 +250,26 @@
       margin-top: 3px;
     }
 
+
     .status-dot {
+
       position: absolute;
 
       right: 21px;
+
       top: 50%;
 
-      transform: translateY(-50%);
+      transform:
+        translateY(-50%);
 
       width: 8px;
+
       height: 8px;
 
       border-radius: 50%;
 
-      background: var(--pink);
+      background:
+        var(--pink);
 
       box-shadow:
         0 0 8px var(--pink),
@@ -225,11 +277,13 @@
     }
 
 
+
     /* =========================================================
        HERO
     ========================================================= */
 
     .hero {
+
       position: relative;
 
       min-height: 530px;
@@ -237,37 +291,47 @@
       overflow: hidden;
 
       display: flex;
+
       align-items: center;
 
       isolation: isolate;
 
-      background: #080a0d;
+      background:
+        #080a0d;
     }
 
+
     .hero-background {
+
       position: absolute;
 
       inset: 0;
 
       background-image:
+
         linear-gradient(
           90deg,
           rgba(3,8,12,0.08) 0%,
           rgba(3,8,12,0.05) 42%,
           rgba(15,4,11,0.32) 100%
         ),
+
         url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
-      background-size: cover;
+      background-size:
+        cover;
 
-      background-position: center 32%;
+      background-position:
+        center 32%;
 
       z-index: -3;
 
       pointer-events: none;
     }
 
+
     .hero::before {
+
       content: "";
 
       position: absolute;
@@ -275,6 +339,7 @@
       inset: 0;
 
       background:
+
         linear-gradient(
           90deg,
           rgba(137,220,255,0.15),
@@ -287,7 +352,9 @@
       pointer-events: none;
     }
 
+
     .hero::after {
+
       content: "";
 
       position: absolute;
@@ -296,13 +363,14 @@
       right: 0;
       bottom: 0;
 
-      height: 180px;
+      height: 200px;
 
       background:
+
         linear-gradient(
           to bottom,
           transparent,
-          rgba(3,5,6,0.72)
+          #030506
         );
 
       z-index: -1;
@@ -310,199 +378,289 @@
       pointer-events: none;
     }
 
+
     .hero-inner {
-      width: min(var(--max), calc(100% - 40px));
 
-      margin: 0 auto;
+      width:
+        min(
+          var(--max),
+          calc(100% - 40px)
+        );
 
-      padding: 80px 0 100px;
+      margin:
+        0 auto;
+
+      padding:
+        80px 0 100px;
     }
+
 
     .hero-content {
-      width: min(520px, 100%);
+
+      width:
+        min(
+          520px,
+          100%
+        );
     }
+
 
     .eyebrow {
-      color: var(--blue);
 
-      font-size: 11px;
+      color:
+        var(--blue);
 
-      font-weight: 900;
+      font-size:
+        11px;
 
-      letter-spacing: 4px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        4px;
 
-      margin-bottom: 14px;
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        14px;
     }
+
 
     .hero-title {
-      font-size: clamp(58px, 8vw, 100px);
 
-      font-weight: 1000;
+      font-size:
+        clamp(
+          58px,
+          8vw,
+          100px
+        );
 
-      line-height: 0.82;
+      font-weight:
+        1000;
 
-      text-transform: uppercase;
+      line-height:
+        0.82;
 
-      letter-spacing: -3px;
+      text-transform:
+        uppercase;
 
-      text-shadow: 0 8px 30px rgba(0,0,0,0.55);
+      letter-spacing:
+        -3px;
+
+      text-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.55);
     }
+
 
     .hero-title .mrs {
       color: var(--blue);
     }
 
+
     .hero-title .wolfie {
       color: var(--pink);
     }
 
+
     .hero-name {
-      margin-top: 18px;
 
-      font-size: 14px;
+      margin-top:
+        18px;
 
-      font-weight: 900;
+      font-size:
+        14px;
 
-      letter-spacing: 1px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        1px;
+
+      text-transform:
+        uppercase;
     }
+
 
     .hero-tags {
-      margin-top: 18px;
 
-      display: flex;
+      margin-top:
+        18px;
 
-      flex-wrap: wrap;
+      display:
+        flex;
 
-      gap: 10px;
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
     }
+
 
     .tag {
-      padding: 8px 12px;
 
-      border-radius: 999px;
+      padding:
+        8px 12px;
 
-      font-size: 8px;
+      border-radius:
+        999px;
 
-      font-weight: 900;
+      font-size:
+        8px;
 
-      letter-spacing: 1.5px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        1.5px;
 
-      background: rgba(5,10,14,0.80);
+      text-transform:
+        uppercase;
+
+      background:
+        rgba(5,10,14,0.80);
     }
+
 
     .tag-blue {
-      border: 1px solid rgba(137,220,255,0.45);
 
-      color: var(--blue);
+      border:
+        1px solid
+        rgba(137,220,255,0.45);
+
+      color:
+        var(--blue);
     }
+
 
     .tag-pink {
-      border: 1px solid rgba(255,143,211,0.45);
 
-      color: var(--pink);
+      border:
+        1px solid
+        rgba(255,143,211,0.45);
+
+      color:
+        var(--pink);
     }
+
 
 
     /* =========================================================
-       NAVIGATION
+       BOTTOM NAVIGATION
     ========================================================= */
 
     .nav-wrap {
+
       position: relative;
 
       z-index: 9999;
 
-      margin-top: -31px;
+      margin-top:
+        -31px;
 
-      padding: 0 20px;
-
-      pointer-events: auto;
+      padding:
+        0 20px;
     }
+
 
     .app-nav {
-      width: min(620px, 100%);
 
-      margin: 0 auto;
+      width:
+        min(
+          620px,
+          100%
+        );
 
-      display: grid;
+      margin:
+        0 auto;
 
-      grid-template-columns: repeat(4, 1fr);
+      display:
+        grid;
 
-      padding: 7px;
+      grid-template-columns:
+        repeat(4,1fr);
 
-      background: rgba(7,11,16,0.98);
-
-      border: 1px solid rgba(255,255,255,0.09);
-
-      border-radius: 17px;
-
-      box-shadow:
-        0 15px 45px rgba(0,0,0,0.70);
-
-      pointer-events: auto;
-
-      position: relative;
-
-      z-index: 10000;
-    }
-
-    .nav-item {
-      min-height: 62px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-
-      justify-content: center;
-
-      gap: 5px;
-
-      border-radius: 12px;
-
-      color: #77828d;
-
-      font-size: 8px;
-
-      font-weight: 900;
-
-      letter-spacing: 1.5px;
-
-      text-transform: uppercase;
-
-      cursor: pointer;
-
-      pointer-events: auto;
-
-      position: relative;
-
-      z-index: 10001;
-
-      transition:
-        color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
-    }
-
-    .nav-item:hover {
-      color: #ffffff;
-
-      background: rgba(255,255,255,0.05);
-
-      transform: translateY(-1px);
-    }
-
-    .nav-item.active {
-      color: var(--blue);
+      padding:
+        7px;
 
       background:
+        rgba(7,11,16,0.98);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.09);
+
+      border-radius:
+        17px;
+
+      box-shadow:
+        0 15px 45px
+        rgba(0,0,0,0.70);
+    }
+
+
+    .nav-item {
+
+      min-height:
+        62px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        5px;
+
+      border-radius:
+        12px;
+
+      color:
+        #77828d;
+
+      font-size:
+        8px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        1.5px;
+
+      text-transform:
+        uppercase;
+
+      transition:
+        0.2s ease;
+    }
+
+
+    .nav-item:hover {
+
+      color:
+        #ffffff;
+
+      background:
+        rgba(255,255,255,0.05);
+    }
+
+
+    .nav-item.active {
+
+      color:
+        var(--blue);
+
+      background:
+
         linear-gradient(
           135deg,
           rgba(137,220,255,0.11),
@@ -510,21 +668,21 @@
         );
     }
 
+
     .nav-item.fight {
       color: var(--pink);
     }
 
+
     .nav-icon {
-      font-size: 16px;
 
-      line-height: 1;
+      font-size:
+        16px;
 
-      pointer-events: none;
+      line-height:
+        1;
     }
 
-    .nav-item span {
-      pointer-events: none;
-    }
 
 
     /* =========================================================
@@ -532,12 +690,20 @@
     ========================================================= */
 
     main {
-      width: min(var(--max), calc(100% - 40px));
 
-      margin: 0 auto;
+      width:
+        min(
+          var(--max),
+          calc(100% - 40px)
+        );
 
-      padding: 55px 0 80px;
+      margin:
+        0 auto;
+
+      padding:
+        55px 0 80px;
     }
+
 
 
     /* =========================================================
@@ -545,36 +711,403 @@
     ========================================================= */
 
     .section-heading {
-      display: flex;
 
-      align-items: center;
+      display:
+        flex;
 
-      justify-content: space-between;
+      align-items:
+        center;
 
-      margin-bottom: 18px;
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        18px;
     }
+
 
     .section-heading h2 {
-      font-size: 12px;
 
-      font-weight: 1000;
+      font-size:
+        12px;
 
-      letter-spacing: 4px;
+      font-weight:
+        1000;
 
-      text-transform: uppercase;
+      letter-spacing:
+        4px;
+
+      text-transform:
+        uppercase;
     }
+
 
     .section-link {
-      color: var(--pink);
 
-      font-size: 8px;
+      color:
+        var(--pink);
 
-      font-weight: 900;
+      font-size:
+        8px;
 
-      letter-spacing: 1.5px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        1.5px;
+
+      text-transform:
+        uppercase;
     }
+
+
+
+    /* =========================================================
+       DASHBOARD STATUS
+    ========================================================= */
+
+    .dashboard-status {
+
+      margin-bottom:
+        48px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        14px;
+    }
+
+
+    .status-card {
+
+      min-height:
+        145px;
+
+      padding:
+        25px;
+
+      border-radius:
+        21px;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(137,220,255,0.11),
+          rgba(8,12,17,0.98) 55%,
+          rgba(255,143,211,0.08)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,0.06);
+    }
+
+
+    .status-card.blue-card {
+
+      border-left:
+        2px solid
+        var(--blue);
+    }
+
+
+    .status-card.pink-card {
+
+      border-right:
+        2px solid
+        var(--pink);
+    }
+
+
+    .status-label {
+
+      color:
+        var(--muted);
+
+      font-size:
+        8px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        2px;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        12px;
+    }
+
+
+    .status-number {
+
+      color:
+        var(--blue);
+
+      font-size:
+        clamp(
+          35px,
+          5vw,
+          55px
+        );
+
+      font-weight:
+        1000;
+
+      line-height:
+        1;
+    }
+
+
+    .status-number span {
+
+      font-size:
+        12px;
+
+      letter-spacing:
+        2px;
+    }
+
+
+    .status-main {
+
+      color:
+        var(--pink);
+
+      font-size:
+        clamp(
+          20px,
+          3vw,
+          32px
+        );
+
+      font-weight:
+        1000;
+
+      text-transform:
+        uppercase;
+
+      line-height:
+        1.05;
+    }
+
+
+    .status-sub {
+
+      margin-top:
+        10px;
+
+      color:
+        #7d8994;
+
+      font-size:
+        8px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        1px;
+
+      text-transform:
+        uppercase;
+    }
+
+
+
+    /* =========================================================
+       QUICK ACCESS
+    ========================================================= */
+
+    .quick-section {
+
+      margin-bottom:
+        50px;
+    }
+
+
+    .quick-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:
+        12px;
+    }
+
+
+    .quick-card {
+
+      min-height:
+        150px;
+
+      padding:
+        20px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        space-between;
+
+      border-radius:
+        20px;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(137,220,255,0.08),
+          rgba(8,12,17,0.98) 55%,
+          rgba(255,143,211,0.07)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,0.06);
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+
+    .quick-card:hover {
+
+      transform:
+        translateY(-3px);
+
+      border-color:
+        rgba(137,220,255,0.25);
+    }
+
+
+    .quick-card.fight-access {
+
+      border-top:
+        2px solid
+        var(--pink);
+    }
+
+
+    .quick-card.schedule-access {
+
+      border-top:
+        2px solid
+        var(--blue);
+    }
+
+
+    .quick-card.profile-access {
+
+      border-top:
+        2px solid
+        var(--pink);
+    }
+
+
+    .quick-card.record-access {
+
+      border-top:
+        2px solid
+        var(--blue);
+    }
+
+
+    .quick-icon {
+
+      font-size:
+        28px;
+    }
+
+
+    .quick-title {
+
+      margin-top:
+        18px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        1000;
+
+      letter-spacing:
+        1.5px;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .quick-text {
+
+      margin-top:
+        7px;
+
+      color:
+        #74808b;
+
+      font-size:
+        8px;
+
+      font-weight:
+        800;
+
+      line-height:
+        1.5;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .quick-arrow {
+
+      position:
+        absolute;
+
+      right:
+        17px;
+
+      bottom:
+        14px;
+
+      color:
+        var(--pink);
+
+      font-size:
+        20px;
+
+      font-weight:
+        1000;
+    }
+
 
 
     /* =========================================================
@@ -582,19 +1115,28 @@
     ========================================================= */
 
     .next-fight-section {
-      margin-bottom: 48px;
+
+      margin-bottom:
+        48px;
     }
 
+
     .fight-card {
-      position: relative;
 
-      overflow: hidden;
+      position:
+        relative;
 
-      border-radius: 26px;
+      overflow:
+        hidden;
 
-      padding: 36px;
+      border-radius:
+        26px;
+
+      padding:
+        36px;
 
       background:
+
         linear-gradient(
           110deg,
           rgba(137,220,255,0.13),
@@ -603,424 +1145,500 @@
         );
 
       border-left:
-        2px solid rgba(137,220,255,0.85);
+        2px solid
+        rgba(137,220,255,0.85);
 
       border-right:
-        2px solid rgba(255,143,211,0.85);
+        2px solid
+        rgba(255,143,211,0.85);
 
       box-shadow:
-        0 20px 60px rgba(0,0,0,0.55);
+        0 20px 60px
+        rgba(0,0,0,0.55);
     }
 
-    .fight-card::before {
-      content: "";
 
-      position: absolute;
+    .fight-top {
 
-      inset: 0;
+      position:
+        relative;
 
-      background:
-        linear-gradient(
-          90deg,
-          rgba(137,220,255,0.05),
-          transparent 45%,
-          rgba(255,143,211,0.05)
-        );
+      display:
+        flex;
 
-      pointer-events: none;
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
     }
+
 
     .fight-label {
-      position: relative;
 
-      color: var(--pink);
+      color:
+        var(--pink);
 
-      font-size: 9px;
+      font-size:
+        9px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      letter-spacing: 3px;
+      letter-spacing:
+        3px;
 
-      text-transform: uppercase;
+      text-transform:
+        uppercase;
     }
+
+
+    .fight-days {
+
+      padding:
+        7px 10px;
+
+      border-radius:
+        999px;
+
+      border:
+        1px solid
+        rgba(137,220,255,0.25);
+
+      background:
+        rgba(137,220,255,0.07);
+
+      color:
+        var(--blue);
+
+      font-size:
+        7px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        1px;
+
+      text-transform:
+        uppercase;
+    }
+
 
     .promotion {
-      position: relative;
 
-      margin-top: 15px;
+      position:
+        relative;
 
-      font-size: clamp(30px, 5vw, 48px);
+      margin-top:
+        15px;
 
-      font-weight: 1000;
+      font-size:
+        clamp(
+          30px,
+          5vw,
+          48px
+        );
 
-      text-transform: uppercase;
+      font-weight:
+        1000;
+
+      text-transform:
+        uppercase;
     }
+
 
     .event-name {
-      position: relative;
 
-      margin-top: 4px;
+      position:
+        relative;
 
-      color: #aab4bd;
+      margin-top:
+        4px;
 
-      font-size: 11px;
+      color:
+        var(--blue);
 
-      font-weight: 900;
+      font-size:
+        11px;
 
-      letter-spacing: 2px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        2px;
+
+      text-transform:
+        uppercase;
     }
 
+
     .fighters {
-      position: relative;
 
-      margin-top: 42px;
+      position:
+        relative;
 
-      display: grid;
+      margin-top:
+        42px;
+
+      display:
+        grid;
 
       grid-template-columns:
         minmax(0,1fr)
         auto
         minmax(0,1fr);
 
-      gap: 25px;
+      gap:
+        25px;
 
-      align-items: center;
+      align-items:
+        center;
     }
+
 
     .fighter-name {
-      font-size: clamp(22px,4vw,36px);
 
-      font-weight: 1000;
+      font-size:
+        clamp(
+          22px,
+          4vw,
+          36px
+        );
 
-      text-transform: uppercase;
+      font-weight:
+        1000;
+
+      text-transform:
+        uppercase;
     }
+
 
     .fighter-name.left {
       color: var(--blue);
     }
 
+
     .fighter-name.right {
+
       color: var(--pink);
 
-      text-align: right;
+      text-align:
+        right;
     }
+
 
     .versus {
-      font-size: 26px;
 
-      font-style: italic;
+      font-size:
+        26px;
 
-      font-weight: 1000;
+      font-style:
+        italic;
+
+      font-weight:
+        1000;
     }
+
 
     .fight-info {
-      position: relative;
 
-      display: grid;
+      position:
+        relative;
 
-      grid-template-columns: 1fr 1fr;
+      display:
+        grid;
 
-      gap: 12px;
+      grid-template-columns:
+        1fr 1fr;
 
-      margin-top: 30px;
+      gap:
+        12px;
+
+      margin-top:
+        30px;
     }
+
 
     .info-box {
-      padding: 17px;
 
-      border-radius: 11px;
+      padding:
+        17px;
 
-      background: rgba(0,0,0,0.35);
-    }
-
-    .info-label {
-      display: block;
-
-      color: #75828d;
-
-      font-size: 7px;
-
-      font-weight: 900;
-
-      letter-spacing: 1.5px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 6px;
-    }
-
-    .info-value {
-      font-size: 11px;
-
-      font-weight: 900;
-
-      text-transform: uppercase;
-    }
-
-    .details-button {
-      position: relative;
-
-      display: inline-flex;
-
-      margin-top: 20px;
-
-      padding: 12px 17px;
-
-      border-radius: 9px;
-
-      border: 1px solid rgba(137,220,255,0.35);
+      border-radius:
+        11px;
 
       background:
+        rgba(0,0,0,0.35);
+    }
+
+
+    .info-label {
+
+      display:
+        block;
+
+      color:
+        #75828d;
+
+      font-size:
+        7px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        1.5px;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        6px;
+    }
+
+
+    .info-value {
+
+      font-size:
+        11px;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .details-button {
+
+      position:
+        relative;
+
+      display:
+        inline-flex;
+
+      margin-top:
+        20px;
+
+      padding:
+        12px 17px;
+
+      border-radius:
+        9px;
+
+      border:
+        1px solid
+        rgba(137,220,255,0.35);
+
+      background:
+
         linear-gradient(
           90deg,
           rgba(137,220,255,0.10),
           rgba(255,143,211,0.10)
         );
 
-      color: #ffffff;
+      color:
+        #ffffff;
 
-      font-size: 8px;
+      font-size:
+        8px;
 
-      font-weight: 900;
+      font-weight:
+        900;
 
-      letter-spacing: 1.5px;
+      letter-spacing:
+        1.5px;
 
-      text-transform: uppercase;
-
-      cursor: pointer;
+      text-transform:
+        uppercase;
     }
+
 
 
     /* =========================================================
-       FIGHTER PROFILE
+       PROFILE
     ========================================================= */
 
     .fighter-section {
-      margin-bottom: 48px;
+      margin-bottom:
+        48px;
     }
+
 
     .profile-card {
-      display: grid;
 
-      grid-template-columns: 350px 1fr;
+      display:
+        grid;
 
-      min-height: 430px;
+      grid-template-columns:
+        350px 1fr;
 
-      overflow: hidden;
+      min-height:
+        430px;
 
-      border-radius: 24px;
+      overflow:
+        hidden;
 
-      background: #080c11;
+      border-radius:
+        24px;
+
+      background:
+        #080c11;
 
       border-left:
-        2px solid rgba(137,220,255,0.65);
+        2px solid
+        rgba(137,220,255,0.65);
 
       border-right:
-        2px solid rgba(255,143,211,0.65);
+        2px solid
+        rgba(255,143,211,0.65);
     }
 
+
     .profile-image {
-      min-height: 430px;
+
+      min-height:
+        430px;
 
       background-image:
+
         linear-gradient(
           to bottom,
           transparent 50%,
           rgba(4,7,10,0.30)
         ),
+
         url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
-      background-size: cover;
+      background-size:
+        cover;
 
-      background-position: center;
+      background-position:
+        center;
     }
+
 
     .profile-content {
-      padding: 55px;
 
-      display: flex;
+      padding:
+        55px;
 
-      flex-direction: column;
+      display:
+        flex;
 
-      justify-content: center;
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
     }
+
 
     .profile-kicker {
-      color: var(--pink);
 
-      font-size: 9px;
+      color:
+        var(--pink);
 
-      font-weight: 900;
+      font-size:
+        9px;
 
-      letter-spacing: 3px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        3px;
 
-      margin-bottom: 18px;
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        18px;
     }
+
 
     .profile-title {
-      font-size: clamp(28px,4vw,42px);
 
-      font-weight: 1000;
-
-      margin-bottom: 18px;
-    }
-
-    .profile-text {
-      max-width: 650px;
-
-      color: #929da7;
-
-      line-height: 1.7;
-
-      font-size: 14px;
-    }
-
-    .profile-badge {
-      width: fit-content;
-
-      margin-top: 20px;
-
-      padding: 8px 12px;
-
-      border-radius: 7px;
-
-      border: 1px solid rgba(137,220,255,0.30);
-
-      color: var(--blue);
-
-      font-size: 8px;
-
-      font-weight: 900;
-
-      letter-spacing: 1.5px;
-
-      text-transform: uppercase;
-    }
-
-
-    /* =========================================================
-       SCHEDULE
-    ========================================================= */
-
-    .schedule-section {
-      margin-bottom: 45px;
-    }
-
-    .schedule-list {
-      display: grid;
-
-      gap: 12px;
-    }
-
-    .schedule-card {
-      min-height: 90px;
-
-      display: grid;
-
-      grid-template-columns: 100px 1fr 35px;
-
-      align-items: center;
-
-      overflow: hidden;
-
-      border-radius: 18px;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(137,220,255,0.11),
-          rgba(8,12,17,0.98) 40%,
-          rgba(255,143,211,0.12)
+      font-size:
+        clamp(
+          28px,
+          4vw,
+          42px
         );
 
-      border-left:
-        2px solid rgba(137,220,255,0.75);
+      font-weight:
+        1000;
 
-      border-right:
-        2px solid rgba(255,143,211,0.65);
+      margin-bottom:
+        18px;
     }
 
-    .schedule-date {
-      height: 100%;
 
-      display: flex;
+    .profile-text {
 
-      flex-direction: column;
+      max-width:
+        650px;
 
-      align-items: center;
+      color:
+        #929da7;
 
-      justify-content: center;
+      line-height:
+        1.7;
 
-      border-right: 1px solid rgba(255,255,255,0.06);
+      font-size:
+        14px;
     }
 
-    .schedule-day {
-      font-size: 27px;
 
-      font-weight: 1000;
+    .profile-actions {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
+      margin-top:
+        22px;
     }
 
-    .schedule-month {
-      margin-top: 4px;
 
-      color: var(--blue);
+    .profile-button {
 
-      font-size: 8px;
+      padding:
+        10px 14px;
 
-      font-weight: 900;
+      border-radius:
+        8px;
 
-      letter-spacing: 2px;
+      border:
+        1px solid
+        rgba(137,220,255,0.25);
+
+      color:
+        var(--blue);
+
+      font-size:
+        8px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        1.3px;
+
+      text-transform:
+        uppercase;
     }
 
-    .schedule-content {
-      padding: 15px 20px;
-    }
-
-    .schedule-type {
-      color: var(--pink);
-
-      font-size: 8px;
-
-      font-weight: 900;
-
-      letter-spacing: 1.5px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 7px;
-    }
-
-    .schedule-title {
-      font-size: 13px;
-
-      font-weight: 1000;
-
-      text-transform: uppercase;
-    }
-
-    .schedule-location {
-      margin-top: 5px;
-
-      color: #74808b;
-
-      font-size: 8px;
-
-      font-weight: 700;
-
-      text-transform: uppercase;
-    }
-
-    .schedule-arrow {
-      color: var(--pink);
-
-      font-size: 22px;
-
-      font-weight: 900;
-    }
 
 
     /* =========================================================
@@ -1028,23 +1646,33 @@
     ========================================================= */
 
     .motto {
-      min-height: 180px;
 
-      margin-top: 42px;
+      min-height:
+        180px;
 
-      display: flex;
+      margin-top:
+        42px;
 
-      flex-direction: column;
+      display:
+        flex;
 
-      align-items: center;
+      flex-direction:
+        column;
 
-      justify-content: center;
+      align-items:
+        center;
 
-      text-align: center;
+      justify-content:
+        center;
 
-      border-radius: 26px;
+      text-align:
+        center;
+
+      border-radius:
+        26px;
 
       background:
+
         linear-gradient(
           110deg,
           rgba(137,220,255,0.15),
@@ -1053,31 +1681,50 @@
         );
     }
 
+
     .motto-small {
-      color: var(--blue);
 
-      font-size: 9px;
+      color:
+        var(--blue);
 
-      font-weight: 900;
+      font-size:
+        9px;
 
-      letter-spacing: 3px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        3px;
 
-      margin-bottom: 16px;
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        16px;
     }
+
 
     .motto-main {
-      font-size: clamp(32px,6vw,54px);
 
-      font-weight: 1000;
+      font-size:
+        clamp(
+          32px,
+          6vw,
+          54px
+        );
 
-      text-transform: uppercase;
+      font-weight:
+        1000;
+
+      text-transform:
+        uppercase;
     }
+
 
     .motto-main span {
       color: var(--pink);
     }
+
 
 
     /* =========================================================
@@ -1085,21 +1732,31 @@
     ========================================================= */
 
     footer {
-      padding: 80px 20px 45px;
 
-      text-align: center;
+      padding:
+        80px 20px 45px;
+
+      text-align:
+        center;
     }
 
+
     .footer-line {
-      width: 240px;
 
-      max-width: 80%;
+      width:
+        240px;
 
-      height: 2px;
+      max-width:
+        80%;
 
-      margin: 0 auto 14px;
+      height:
+        2px;
+
+      margin:
+        0 auto 14px;
 
       background:
+
         linear-gradient(
           90deg,
           transparent,
@@ -1108,37 +1765,49 @@
           var(--pink),
           transparent
         );
-
-      box-shadow:
-        0 0 10px rgba(137,220,255,0.30),
-        0 0 10px rgba(255,143,211,0.25);
     }
+
 
     .footer-title {
-      color: #77818b;
 
-      font-size: 8px;
+      color:
+        #77818b;
 
-      font-weight: 900;
+      font-size:
+        8px;
 
-      letter-spacing: 3px;
+      font-weight:
+        900;
 
-      text-transform: uppercase;
+      letter-spacing:
+        3px;
+
+      text-transform:
+        uppercase;
     }
+
 
     .copyright {
-      margin-top: 14px;
 
-      color: #59626b;
+      margin-top:
+        14px;
 
-      font-size: 7px;
+      color:
+        #59626b;
 
-      font-weight: 800;
+      font-size:
+        7px;
 
-      letter-spacing: 1.5px;
+      font-weight:
+        800;
 
-      text-transform: uppercase;
+      letter-spacing:
+        1.5px;
+
+      text-transform:
+        uppercase;
     }
+
 
 
     /* =========================================================
@@ -1147,163 +1816,287 @@
 
     @media (max-width: 760px) {
 
+
       body {
-        padding-bottom: 90px;
+        padding-bottom:
+          90px;
       }
+
 
       .topbar {
-        height: 55px;
+        height:
+          55px;
       }
+
 
       .hero {
-        min-height: 500px;
 
-        align-items: flex-end;
+        min-height:
+          500px;
+
+        align-items:
+          flex-end;
       }
+
 
       .hero-background {
-        background-position: 46% center;
+
+        background-position:
+          46% center;
       }
+
 
       .hero-inner {
-        width: calc(100% - 32px);
+
+        width:
+          calc(100% - 32px);
 
         padding:
-          80px 0
-          80px;
+          80px 0;
       }
+
 
       .hero-content {
-        width: 100%;
+        width:
+          100%;
       }
+
 
       .eyebrow {
-        font-size: 8px;
 
-        letter-spacing: 2.5px;
+        font-size:
+          8px;
+
+        letter-spacing:
+          2.5px;
       }
+
 
       .hero-title {
-        font-size: clamp(52px,17vw,80px);
 
-        letter-spacing: -2px;
+        font-size:
+          clamp(
+            52px,
+            17vw,
+            80px
+          );
+
+        letter-spacing:
+          -2px;
       }
+
 
       .hero-name {
-        font-size: 10px;
+        font-size:
+          10px;
       }
+
 
       .nav-wrap {
-        height: 0;
 
-        margin: 0;
+        height:
+          0;
 
-        padding: 0;
+        margin:
+          0;
+
+        padding:
+          0;
       }
+
 
       .app-nav {
-        position: fixed;
 
-        left: 50%;
+        position:
+          fixed;
+
+        left:
+          50%;
 
         bottom:
-          calc(12px + env(safe-area-inset-bottom));
+          calc(
+            12px +
+            env(safe-area-inset-bottom)
+          );
 
-        transform: translateX(-50%);
+        transform:
+          translateX(-50%);
 
-        width: calc(100% - 24px);
+        width:
+          calc(100% - 24px);
 
-        z-index: 99999;
+        z-index:
+          99999;
 
         box-shadow:
-          0 15px 50px rgba(0,0,0,0.90);
+          0 15px 50px
+          rgba(0,0,0,0.90);
       }
+
 
       .nav-item {
-        min-height: 57px;
 
-        font-size: 7px;
+        min-height:
+          57px;
+
+        font-size:
+          7px;
       }
+
 
       main {
-        width: calc(100% - 28px);
 
-        padding-top: 40px;
+        width:
+          calc(100% - 28px);
+
+        padding-top:
+          40px;
       }
+
+
+      .dashboard-status {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .quick-grid {
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+
+      .quick-card {
+
+        min-height:
+          145px;
+
+        padding:
+          17px;
+      }
+
 
       .fight-card {
-        padding: 25px 20px;
 
-        border-radius: 20px;
+        padding:
+          25px 20px;
+
+        border-radius:
+          20px;
       }
+
+
+      .fight-top {
+
+        flex-direction:
+          column;
+
+        align-items:
+          flex-start;
+      }
+
 
       .fighters {
-        grid-template-columns: 1fr;
 
-        gap: 12px;
+        grid-template-columns:
+          1fr;
 
-        text-align: center;
+        gap:
+          12px;
 
-        margin-top: 30px;
+        text-align:
+          center;
+
+        margin-top:
+          30px;
       }
+
 
       .fighter-name.left,
       .fighter-name.right {
-        text-align: center;
+        text-align:
+          center;
       }
+
 
       .versus {
-        font-size: 20px;
+        font-size:
+          20px;
       }
+
 
       .fight-info {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
+
+
+      .details-button {
+
+        width:
+          100%;
+
+        justify-content:
+          center;
+      }
+
 
       .profile-card {
-        grid-template-columns: 1fr;
 
-        min-height: 0;
+        grid-template-columns:
+          1fr;
+
+        min-height:
+          0;
       }
+
 
       .profile-image {
-        min-height: 390px;
 
-        background-position: center 25%;
+        min-height:
+          390px;
+
+        background-position:
+          center 25%;
       }
+
 
       .profile-content {
-        padding: 30px 24px 35px;
+
+        padding:
+          30px 24px 35px;
       }
 
-      .schedule-card {
-        grid-template-columns: 75px 1fr 25px;
 
-        min-height: 85px;
+      .profile-button {
+
+        flex:
+          1;
+
+        text-align:
+          center;
       }
 
-      .schedule-day {
-        font-size: 22px;
-      }
-
-      .schedule-content {
-        padding: 12px;
-      }
-
-      .schedule-title {
-        font-size: 11px;
-      }
 
       .motto {
-        min-height: 150px;
 
-        padding: 25px;
+        min-height:
+          150px;
+
+        padding:
+          25px;
       }
+
 
       footer {
-        padding-bottom: 120px;
+        padding-bottom:
+          120px;
       }
+
     }
+
 
 
     /* =========================================================
@@ -1312,43 +2105,102 @@
 
     @media (max-width: 420px) {
 
+
       .hero {
-        min-height: 460px;
+        min-height:
+          460px;
       }
+
 
       .hero-title {
-        font-size: 55px;
+        font-size:
+          55px;
       }
+
 
       .tag {
-        font-size: 7px;
+        font-size:
+          7px;
       }
+
+
+      .quick-grid {
+
+        grid-template-columns:
+          1fr 1fr;
+
+        gap:
+          9px;
+      }
+
+
+      .quick-card {
+
+        min-height:
+          135px;
+
+        padding:
+          15px;
+      }
+
+
+      .quick-icon {
+        font-size:
+          24px;
+      }
+
+
+      .quick-title {
+        font-size:
+          10px;
+      }
+
+
+      .quick-text {
+        font-size:
+          7px;
+      }
+
 
       .promotion {
-        font-size: 29px;
+        font-size:
+          29px;
       }
+
 
       .fighter-name {
-        font-size: 24px;
+        font-size:
+          24px;
       }
+
 
       .profile-image {
-        min-height: 330px;
+        min-height:
+          330px;
       }
+
 
       .section-heading h2 {
-        font-size: 10px;
 
-        letter-spacing: 3px;
+        font-size:
+          10px;
+
+        letter-spacing:
+          3px;
       }
+
 
       .motto-main {
-        font-size: 31px;
+        font-size:
+          31px;
       }
+
     }
 
   </style>
+
 </head>
+
 
 
 <body>
@@ -1360,13 +2212,14 @@
 
   <header class="topbar">
 
-    <button
-      class="menu-button"
-      type="button"
-      aria-label="Menu"
+
+    <a
+      href="./index.html"
+      class="home-button"
+      aria-label="Mrs Wolfie Home"
     >
-      ☰
-    </button>
+      ⌂
+    </a>
 
 
     <div class="brand">
@@ -1384,6 +2237,7 @@
 
     <div class="status-dot"></div>
 
+
   </header>
 
 
@@ -1394,12 +2248,15 @@
 
   <section class="hero">
 
+
     <div class="hero-background"></div>
 
 
     <div class="hero-inner">
 
+
       <div class="hero-content">
+
 
         <div class="eyebrow">
           TEAM WOLFIE • BOXER
@@ -1428,31 +2285,39 @@
 
         <div class="hero-tags">
 
+
           <span class="tag tag-blue">
             TEAM WOLFIE
           </span>
+
 
           <span class="tag tag-pink">
             REPRESENTING TEAM WOLFPACK
           </span>
 
+
         </div>
+
 
       </div>
 
+
     </div>
+
 
   </section>
 
 
 
   <!-- =======================================================
-       NAVIGATION
+       BOTTOM NAVIGATION
   ======================================================== -->
 
   <div class="nav-wrap">
 
+
     <nav class="app-nav">
+
 
       <a
         href="./index.html"
@@ -1469,6 +2334,7 @@
         </span>
 
       </a>
+
 
 
       <a
@@ -1488,6 +2354,7 @@
       </a>
 
 
+
       <a
         href="./profile.html"
         class="nav-item"
@@ -1503,6 +2370,7 @@
         </span>
 
       </a>
+
 
 
       <a
@@ -1521,17 +2389,275 @@
 
       </a>
 
+
     </nav>
+
 
   </div>
 
 
 
   <!-- =======================================================
-       MAIN CONTENT
+       MAIN DASHBOARD
   ======================================================== -->
 
   <main>
+
+
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+
+    <section>
+
+
+      <div class="section-heading">
+
+        <h2>
+          MRS WOLFIE DASHBOARD
+        </h2>
+
+        <span class="section-link">
+          TEAM WOLFIE
+        </span>
+
+      </div>
+
+
+
+      <div class="dashboard-status">
+
+
+        <!-- DAYS TO GO -->
+
+        <div class="status-card blue-card">
+
+
+          <div class="status-label">
+            NEXT FIGHT
+          </div>
+
+
+          <div
+            class="status-number"
+            id="dashboardDays"
+          >
+            --
+          </div>
+
+
+          <div class="status-sub">
+            17 OCTOBER 2026 • AYR RACECOURSE
+          </div>
+
+
+        </div>
+
+
+
+        <!-- OPPONENT -->
+
+        <div class="status-card pink-card">
+
+
+          <div class="status-label">
+            NEXT OPPONENT
+          </div>
+
+
+          <div class="status-main">
+            COLLEEN LEYDEN
+          </div>
+
+
+          <div class="status-sub">
+            AYRSHIRE BOXING • THE LAUNCH
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         QUICK ACCESS
+    ====================================================== -->
+
+    <section class="quick-section">
+
+
+      <div class="section-heading">
+
+        <h2>
+          QUICK ACCESS
+        </h2>
+
+        <span class="section-link">
+          MRS WOLFIE
+        </span>
+
+      </div>
+
+
+
+      <div class="quick-grid">
+
+
+
+        <!-- NEXT FIGHT -->
+
+        <a
+          href="./fight.html"
+          class="quick-card fight-access"
+        >
+
+
+          <div>
+
+            <div class="quick-icon">
+              🥊
+            </div>
+
+
+            <div class="quick-title">
+              NEXT FIGHT
+            </div>
+
+
+            <div class="quick-text">
+              Fight night details and live countdown
+            </div>
+
+          </div>
+
+
+          <div class="quick-arrow">
+            ›
+          </div>
+
+
+        </a>
+
+
+
+        <!-- SCHEDULE -->
+
+        <a
+          href="./schedule.html"
+          class="quick-card schedule-access"
+        >
+
+
+          <div>
+
+            <div class="quick-icon">
+              ▣
+            </div>
+
+
+            <div class="quick-title">
+              FIGHT SCHEDULE
+            </div>
+
+
+            <div class="quick-text">
+              Upcoming fights and event dates
+            </div>
+
+          </div>
+
+
+          <div class="quick-arrow">
+            ›
+          </div>
+
+
+        </a>
+
+
+
+        <!-- PROFILE -->
+
+        <a
+          href="./profile.html"
+          class="quick-card profile-access"
+        >
+
+
+          <div>
+
+            <div class="quick-icon">
+              ♟
+            </div>
+
+
+            <div class="quick-title">
+              MY PROFILE
+            </div>
+
+
+            <div class="quick-text">
+              Mrs Wolfie fighter profile
+            </div>
+
+          </div>
+
+
+          <div class="quick-arrow">
+            ›
+          </div>
+
+
+        </a>
+
+
+
+        <!-- RECORD -->
+
+        <a
+          href="./schedule.html#fight-history"
+          class="quick-card record-access"
+        >
+
+
+          <div>
+
+            <div class="quick-icon">
+              ★
+            </div>
+
+
+            <div class="quick-title">
+              FIGHT RECORD
+            </div>
+
+
+            <div class="quick-text">
+              Previous fights and results
+            </div>
+
+          </div>
+
+
+          <div class="quick-arrow">
+            ›
+          </div>
+
+
+        </a>
+
+
+      </div>
+
+
+    </section>
 
 
 
@@ -1551,12 +2677,14 @@
           NEXT FIGHT
         </h2>
 
+
         <a
           href="./fight.html"
           class="section-link"
         >
           FIGHT NIGHT →
         </a>
+
 
       </div>
 
@@ -1565,9 +2693,27 @@
       <article class="fight-card">
 
 
-        <div class="fight-label">
-          UPCOMING FIGHT
+        <div class="fight-top">
+
+
+          <div
+            class="fight-label"
+            id="fightStatus"
+          >
+            UPCOMING FIGHT
+          </div>
+
+
+          <div
+            class="fight-days"
+            id="fightDays"
+          >
+            CALCULATING...
+          </div>
+
+
         </div>
+
 
 
         <h3 class="promotion">
@@ -1583,6 +2729,7 @@
 
         <div class="fighters">
 
+
           <div class="fighter-name left">
             MRS WOLFIE
           </div>
@@ -1596,6 +2743,7 @@
           <div class="fighter-name right">
             COLLEEN LEYDEN
           </div>
+
 
         </div>
 
@@ -1645,6 +2793,7 @@
 
       </article>
 
+
     </section>
 
 
@@ -1662,12 +2811,14 @@
           THE FIGHTER
         </h2>
 
+
         <a
           href="./profile.html"
           class="section-link"
         >
-          MRS WOLFIE
+          PROFILE →
         </a>
+
 
       </div>
 
@@ -1700,6 +2851,7 @@
           <p class="profile-text">
 
             Boxer and Co-Founder of Team Wolfpack.
+
             Mrs Wolfie represents determination,
             strength and the fighting spirit behind
             Team Wolfie.
@@ -1707,139 +2859,34 @@
           </p>
 
 
-          <div class="profile-badge">
-            REPRESENTING TEAM WOLFPACK
+
+          <div class="profile-actions">
+
+
+            <a
+              href="./profile.html"
+              class="profile-button"
+            >
+              VIEW PROFILE →
+            </a>
+
+
+            <a
+              href="./schedule.html"
+              class="profile-button"
+            >
+              FIGHT SCHEDULE →
+            </a>
+
+
           </div>
 
 
         </div>
 
+
       </article>
 
-    </section>
-
-
-
-    <!-- =====================================================
-         FIGHT SCHEDULE
-    ====================================================== -->
-
-    <section class="schedule-section">
-
-
-      <div class="section-heading">
-
-        <h2>
-          FIGHT SCHEDULE
-        </h2>
-
-        <span class="section-link">
-          2026
-        </span>
-
-      </div>
-
-
-
-      <div class="schedule-list">
-
-
-        <!-- OCTOBER -->
-
-        <a
-          href="./fight.html"
-          class="schedule-card"
-        >
-
-
-          <div class="schedule-date">
-
-            <div class="schedule-day">
-              17
-            </div>
-
-            <div class="schedule-month">
-              OCT
-            </div>
-
-          </div>
-
-
-
-          <div class="schedule-content">
-
-            <div class="schedule-type">
-              UPCOMING FIGHT
-            </div>
-
-            <div class="schedule-title">
-              MRS WOLFIE VS COLLEEN LEYDEN
-            </div>
-
-            <div class="schedule-location">
-              AYR RACECOURSE • THE LAUNCH
-            </div>
-
-          </div>
-
-
-          <div class="schedule-arrow">
-            ›
-          </div>
-
-
-        </a>
-
-
-
-        <!-- NOVEMBER -->
-
-        <a
-          href="./schedule.html"
-          class="schedule-card"
-        >
-
-
-          <div class="schedule-date">
-
-            <div class="schedule-day">
-              20/21
-            </div>
-
-            <div class="schedule-month">
-              NOV
-            </div>
-
-          </div>
-
-
-
-          <div class="schedule-content">
-
-            <div class="schedule-type">
-              SUPER MIDDLEWEIGHT TITLE
-            </div>
-
-            <div class="schedule-title">
-              MRS WOLFIE VS TBA
-            </div>
-
-            <div class="schedule-location">
-              EASTHOUSES MINERS CLUB
-            </div>
-
-          </div>
-
-
-          <div class="schedule-arrow">
-            ›
-          </div>
-
-
-        </a>
-
-
-      </div>
 
     </section>
 
@@ -1858,10 +2905,13 @@
 
 
       <div class="motto-main">
+
         HUNT WITHOUT
+
         <span>
           FEAR
         </span>
+
       </div>
 
 
@@ -1895,24 +2945,206 @@
   </footer>
 
 
-<script>
-if ("serviceWorker" in navigator) {
 
-  window.addEventListener("load", () => {
+  <!-- =======================================================
+       LIVE DASHBOARD
+  ======================================================== -->
 
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then(() => {
-        console.log("Mrs Wolfie App service worker registered.");
-      })
-      .catch((error) => {
-        console.error("Service worker registration failed:", error);
-      });
+  <script>
 
-  });
+    /*
+      Next fight:
+      17 October 2026
 
-}
-</script>
+      Countdown is to the beginning of fight day
+      because an official fight time has not been
+      entered.
+    */
+
+    const nextFight =
+      new Date(
+        "2026-10-17T00:00:00+01:00"
+      ).getTime();
+
+
+    const dashboardDays =
+      document.getElementById(
+        "dashboardDays"
+      );
+
+
+    const fightDays =
+      document.getElementById(
+        "fightDays"
+      );
+
+
+    const fightStatus =
+      document.getElementById(
+        "fightStatus"
+      );
+
+
+
+    function updateHomeDashboard() {
+
+
+      const now =
+        Date.now();
+
+
+      const distance =
+        nextFight - now;
+
+
+
+      /* ===============================================
+         FIGHT DAY
+      =============================================== */
+
+      if (
+        distance <= 0 &&
+        distance > -(24 * 60 * 60 * 1000)
+      ) {
+
+
+        dashboardDays.innerHTML =
+          'FIGHT <span>DAY</span>';
+
+
+        fightDays.textContent =
+          "FIGHT DAY";
+
+
+        fightStatus.textContent =
+          "FIGHT DAY";
+
+
+        return;
+
+      }
+
+
+
+      /* ===============================================
+         FIGHT HAS PASSED
+      =============================================== */
+
+      if (distance <= 0) {
+
+
+        dashboardDays.innerHTML =
+          'FIGHT <span>COMPLETE</span>';
+
+
+        fightDays.textContent =
+          "COMPLETED";
+
+
+        fightStatus.textContent =
+          "FIGHT NIGHT";
+
+
+        return;
+
+      }
+
+
+
+      /* ===============================================
+         DAYS REMAINING
+      =============================================== */
+
+      const days =
+        Math.ceil(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      dashboardDays.innerHTML =
+        days +
+        ' <span>DAYS TO GO</span>';
+
+
+      if (days === 1) {
+
+        fightDays.textContent =
+          "1 DAY TO GO";
+
+      }
+
+      else {
+
+        fightDays.textContent =
+          days +
+          " DAYS TO GO";
+
+      }
+
+
+    }
+
+
+
+    updateHomeDashboard();
+
+
+    setInterval(
+      updateHomeDashboard,
+      60000
+    );
+
+  </script>
+
+
+
+  <!-- =======================================================
+       SERVICE WORKER
+  ======================================================== -->
+
+  <script>
+
+    if ("serviceWorker" in navigator) {
+
+
+      window.addEventListener(
+        "load",
+        () => {
+
+
+          navigator.serviceWorker
+            .register(
+              "./service-worker.js"
+            )
+
+            .then(() => {
+
+              console.log(
+                "Mrs Wolfie App service worker registered."
+              );
+
+            })
+
+            .catch((error) => {
+
+              console.error(
+                "Service worker registration failed:",
+                error
+              );
+
+            });
+
+
+        }
+      );
+
+
+    }
+
+  </script>
+
+
 </body>
 
 </html>
