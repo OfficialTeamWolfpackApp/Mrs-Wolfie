@@ -10,7 +10,27 @@
 >
 
 <meta name="theme-color" content="#030506">
+<link rel="manifest" href="./manifest.json">
 
+<link
+  rel="apple-touch-icon"
+  href="./images/icon-192.png"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Mrs Wolfie"
+>
 <title>Mrs Wolfie | Fighter Profile</title>
 
 <style>
@@ -1989,7 +2009,24 @@ MRS WOLFIE
 
 </footer>
 
+<script>
+if ("serviceWorker" in navigator) {
 
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .then(() => {
+        console.log("Mrs Wolfie App service worker registered.");
+      })
+      .catch((error) => {
+        console.error("Service worker registration failed:", error);
+      });
+
+  });
+
+}
+</script>
 </body>
 
 </html>
