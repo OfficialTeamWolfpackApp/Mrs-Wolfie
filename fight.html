@@ -2141,15 +2141,11 @@
 
 
     /* =====================================================
-       GET CENTRAL DATA
+       CENTRAL FIGHT DATABASE
     ====================================================== */
 
     const fightData =
-      window.MRS_WOLFIE_FIGHTS;
-
-
-    const currentFight =
-      fightData.nextFight;
+      window.MRS_WOLFIE_FIGHTS || {};
 
 
 
@@ -2249,6 +2245,77 @@
 
 
     /* =====================================================
+       TIME VALUES
+    ====================================================== */
+
+    const oneSecond =
+      1000;
+
+
+    const oneMinute =
+      oneSecond * 60;
+
+
+    const oneHour =
+      oneMinute * 60;
+
+
+    const oneDay =
+      oneHour * 24;
+
+
+
+    /* =====================================================
+       CREATE LOCAL FIGHT DATE
+    ====================================================== */
+
+    function createFightDate(
+      dateString
+    ) {
+
+
+      if (!dateString) {
+
+        return null;
+
+      }
+
+
+      const parts =
+        dateString
+          .split("-")
+          .map(Number);
+
+
+      if (
+        parts.length !== 3 ||
+        parts.some(
+          value =>
+            !Number.isFinite(value)
+        )
+      ) {
+
+        return null;
+
+      }
+
+
+      return new Date(
+        parts[0],
+        parts[1] - 1,
+        parts[2],
+        0,
+        0,
+        0,
+        0
+      );
+
+
+    }
+
+
+
+    /* =====================================================
        CREATE OPPONENT INITIALS
     ====================================================== */
 
@@ -2269,7 +2336,8 @@
         .trim()
         .split(/\s+/)
         .map(
-          word => word.charAt(0)
+          word =>
+            word.charAt(0)
         )
         .join("")
         .substring(0, 3)
@@ -2285,18 +2353,31 @@
     ====================================================== */
 
     function createShortDate(
-      dateString
+      fight
     ) {
 
 
-      const date =
-        new Date(
-          dateString +
-          "T12:00:00"
+      if (!fight) {
+
+        return "TBA";
+
+      }
+
+
+      const startDate =
+        createFightDate(
+          fight.date
         );
 
 
-      const monthNames = [
+      if (!startDate) {
+
+        return "TBA";
+
+      }
+
+
+      const months = [
 
         "JAN",
         "FEB",
@@ -2314,14 +2395,53 @@
       ];
 
 
+      /*
+        Multi-day event.
+      */
+
+      if (fight.dateEnd) {
+
+
+        const endDate =
+          createFightDate(
+            fight.dateEnd
+          );
+
+
+        if (
+          endDate &&
+          endDate.getMonth() ===
+          startDate.getMonth()
+        ) {
+
+
+          return (
+            startDate.getDate() +
+            "/" +
+            endDate.getDate() +
+            " " +
+            months[
+              startDate.getMonth()
+            ] +
+            " " +
+            startDate.getFullYear()
+          );
+
+
+        }
+
+
+      }
+
+
       return (
-        date.getDate() +
+        startDate.getDate() +
         " " +
-        monthNames[
-          date.getMonth()
+        months[
+          startDate.getMonth()
         ] +
         " " +
-        date.getFullYear()
+        startDate.getFullYear()
       );
 
 
@@ -2330,50 +2450,49 @@
 
 
     /* =====================================================
-       LOAD CENTRAL FIGHT INFORMATION
+       FIND CURRENT NEXT FIGHT
     ====================================================== */
 
-    function loadFightInformation() {
+    function getCurrentFight() {
 
 
-      fightSectionDate.textContent =
-        createShortDate(
-          currentFight.date
+      /*
+        Use the automatic helper from
+        fight-data.js whenever available.
+      */
+
+      if (
+        typeof
+        window.MRS_WOLFIE_GET_NEXT_FIGHT
+        === "function"
+      ) {
+
+
+        return (
+          window.MRS_WOLFIE_GET_NEXT_FIGHT()
         );
 
 
-      fightPromotion.textContent =
-        currentFight.promotion;
+      }
 
 
-      fightEvent.textContent =
-        currentFight.event;
+      /*
+        Fallback to nextFight.
+      */
+
+      if (
+        fightData.nextFight &&
+        fightData.nextFight.date
+      ) {
 
 
-      fightDateDisplay.textContent =
-        currentFight.dateDisplay;
+        return fightData.nextFight;
 
 
-      opponentName.textContent =
-        currentFight.opponent;
+      }
 
 
-      opponentInitials.textContent =
-        createInitials(
-          currentFight.opponent
-        );
-
-
-      eventDate.textContent =
-        currentFight.dateDisplay;
-
-
-      eventVenue.textContent =
-        currentFight.venue;
-
-
-      eventInfoName.textContent =
-        currentFight.event;
+      return null;
 
 
     }
@@ -2381,23 +2500,238 @@
 
 
     /* =====================================================
-       COUNTDOWN TARGET
+       NO FIGHT ANNOUNCED
     ====================================================== */
 
-    /*
-      The countdown uses the date from
-      fight-data.js.
+    function showNoFightState() {
 
-      It counts down to the beginning
-      of fight day because no official
-      bell time has been entered.
-    */
 
-    const fightDate =
-      new Date(
-        currentFight.date +
-        "T00:00:00+01:00"
-      ).getTime();
+      if (fightSectionDate) {
+
+        fightSectionDate.textContent =
+          "TBA";
+
+      }
+
+
+      if (fightCardStatus) {
+
+        fightCardStatus.textContent =
+          "AWAITING ANNOUNCEMENT";
+
+      }
+
+
+      if (fightPromotion) {
+
+        fightPromotion.textContent =
+          "NEXT FIGHT";
+
+      }
+
+
+      if (fightEvent) {
+
+        fightEvent.textContent =
+          "TO BE ANNOUNCED";
+
+      }
+
+
+      if (fightDateDisplay) {
+
+        fightDateDisplay.textContent =
+          "TBA";
+
+      }
+
+
+      if (opponentInitials) {
+
+        opponentInitials.textContent =
+          "TBA";
+
+      }
+
+
+      if (opponentName) {
+
+        opponentName.textContent =
+          "TBA";
+
+      }
+
+
+      if (eventDate) {
+
+        eventDate.textContent =
+          "TBA";
+
+      }
+
+
+      if (eventVenue) {
+
+        eventVenue.textContent =
+          "TBA";
+
+      }
+
+
+      if (eventInfoName) {
+
+        eventInfoName.textContent =
+          "TO BE ANNOUNCED";
+
+      }
+
+
+      if (daysElement) {
+
+        daysElement.textContent =
+          "--";
+
+      }
+
+
+      if (hoursElement) {
+
+        hoursElement.textContent =
+          "--";
+
+      }
+
+
+      if (minutesElement) {
+
+        minutesElement.textContent =
+          "--";
+
+      }
+
+
+      if (secondsElement) {
+
+        secondsElement.textContent =
+          "--";
+
+      }
+
+
+      if (countdownTitle) {
+
+        countdownTitle.textContent =
+          "NEXT FIGHT TO BE ANNOUNCED";
+
+      }
+
+
+    }
+
+
+
+    /* =====================================================
+       LOAD FIGHT INFORMATION
+    ====================================================== */
+
+    function loadFightInformation(
+      currentFight
+    ) {
+
+
+      if (!currentFight) {
+
+        showNoFightState();
+
+        return;
+
+      }
+
+
+      if (fightSectionDate) {
+
+        fightSectionDate.textContent =
+          createShortDate(
+            currentFight
+          );
+
+      }
+
+
+      if (fightPromotion) {
+
+        fightPromotion.textContent =
+          currentFight.promotion ||
+          "TBA";
+
+      }
+
+
+      if (fightEvent) {
+
+        fightEvent.textContent =
+          currentFight.event ||
+          "TBA";
+
+      }
+
+
+      if (fightDateDisplay) {
+
+        fightDateDisplay.textContent =
+          currentFight.dateDisplay ||
+          "TBA";
+
+      }
+
+
+      if (opponentName) {
+
+        opponentName.textContent =
+          currentFight.opponent ||
+          "TBA";
+
+      }
+
+
+      if (opponentInitials) {
+
+        opponentInitials.textContent =
+          createInitials(
+            currentFight.opponent
+          );
+
+      }
+
+
+      if (eventDate) {
+
+        eventDate.textContent =
+          currentFight.dateDisplay ||
+          "TBA";
+
+      }
+
+
+      if (eventVenue) {
+
+        eventVenue.textContent =
+          currentFight.venue ||
+          "TBA";
+
+      }
+
+
+      if (eventInfoName) {
+
+        eventInfoName.textContent =
+          currentFight.event ||
+          "TBA";
+
+      }
+
+
+    }
 
 
 
@@ -2408,55 +2742,50 @@
     function updateFightCountdown() {
 
 
-      const now =
-        Date.now();
+      const currentFight =
+        getCurrentFight();
 
 
-      const distance =
-        fightDate - now;
+      /*
+        No future fight currently exists.
+      */
 
+      if (!currentFight) {
 
-      const oneDay =
-        1000 * 60 * 60 * 24;
-
-
-
-      /* ===============================================
-         FIGHT HAS PASSED
-      =============================================== */
-
-      if (
-        distance <= -oneDay
-      ) {
-
-
-        daysElement.textContent =
-          "00";
-
-
-        hoursElement.textContent =
-          "00";
-
-
-        minutesElement.textContent =
-          "00";
-
-
-        secondsElement.textContent =
-          "00";
-
-
-        countdownTitle.textContent =
-          "FIGHT COMPLETE";
-
-
-        fightCardStatus.textContent =
-          "FIGHT COMPLETE";
-
+        showNoFightState();
 
         return;
 
       }
+
+
+      loadFightInformation(
+        currentFight
+      );
+
+
+      const fightDate =
+        createFightDate(
+          currentFight.date
+        );
+
+
+      if (!fightDate) {
+
+        showNoFightState();
+
+        return;
+
+      }
+
+
+      const now =
+        new Date();
+
+
+      const distance =
+        fightDate.getTime() -
+        now.getTime();
 
 
 
@@ -2464,8 +2793,25 @@
          FIGHT DAY
       =============================================== */
 
+      const today =
+        new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+
+
+      const fightDay =
+        new Date(
+          fightDate.getFullYear(),
+          fightDate.getMonth(),
+          fightDate.getDate()
+        );
+
+
       if (
-        distance <= 0
+        today.getTime() ===
+        fightDay.getTime()
       ) {
 
 
@@ -2500,125 +2846,157 @@
 
 
       /* ===============================================
-         CALCULATE TIME
+         CALCULATE COUNTDOWN
       =============================================== */
 
-      const days =
-        Math.floor(
-          distance /
-          oneDay
-        );
+      if (distance > 0) {
 
 
-      const hours =
-        Math.floor(
-          (
-            distance %
+        const days =
+          Math.floor(
+            distance /
             oneDay
-          ) /
-          (1000 * 60 * 60)
-        );
+          );
 
 
-      const minutes =
-        Math.floor(
-          (
-            distance %
-            (1000 * 60 * 60)
-          ) /
-          (1000 * 60)
-        );
+        const hours =
+          Math.floor(
+            (
+              distance %
+              oneDay
+            ) /
+            oneHour
+          );
 
 
-      const seconds =
-        Math.floor(
-          (
-            distance %
-            (1000 * 60)
-          ) /
-          1000
-        );
+        const minutes =
+          Math.floor(
+            (
+              distance %
+              oneHour
+            ) /
+            oneMinute
+          );
 
 
-
-      /* ===============================================
-         UPDATE COUNTDOWN
-      =============================================== */
-
-      daysElement.textContent =
-        String(days).padStart(
-          2,
-          "0"
-        );
-
-
-      hoursElement.textContent =
-        String(hours).padStart(
-          2,
-          "0"
-        );
-
-
-      minutesElement.textContent =
-        String(minutes).padStart(
-          2,
-          "0"
-        );
-
-
-      secondsElement.textContent =
-        String(seconds).padStart(
-          2,
-          "0"
-        );
+        const seconds =
+          Math.floor(
+            (
+              distance %
+              oneMinute
+            ) /
+            oneSecond
+          );
 
 
 
-      /* ===============================================
-         AUTOMATIC FIGHT STATUS
-      =============================================== */
-
-      if (
-        distance <= oneDay
-      ) {
+        daysElement.textContent =
+          String(days).padStart(
+            2,
+            "0"
+          );
 
 
-        countdownTitle.textContent =
-          "FIGHT TOMORROW";
+        hoursElement.textContent =
+          String(hours).padStart(
+            2,
+            "0"
+          );
 
 
-        fightCardStatus.textContent =
-          "FIGHT TOMORROW";
+        minutesElement.textContent =
+          String(minutes).padStart(
+            2,
+            "0"
+          );
 
+
+        secondsElement.textContent =
+          String(seconds).padStart(
+            2,
+            "0"
+          );
+
+
+
+        /* =============================================
+           AUTOMATIC STATUS
+        ============================================= */
+
+        const calendarDays =
+          Math.ceil(
+            distance /
+            oneDay
+          );
+
+
+        if (
+          calendarDays === 1
+        ) {
+
+
+          countdownTitle.textContent =
+            "FIGHT TOMORROW";
+
+
+          fightCardStatus.textContent =
+            "FIGHT TOMORROW";
+
+
+        }
+
+        else if (
+          calendarDays <= 7
+        ) {
+
+
+          countdownTitle.textContent =
+            "FIGHT WEEK COUNTDOWN";
+
+
+          fightCardStatus.textContent =
+            "FIGHT WEEK";
+
+
+        }
+
+        else {
+
+
+          countdownTitle.textContent =
+            "COUNTDOWN TO FIGHT DAY";
+
+
+          fightCardStatus.textContent =
+            currentFight.type ===
+            "TITLE FIGHT"
+              ? "UPCOMING TITLE FIGHT"
+              : "UPCOMING FIGHT";
+
+
+        }
+
+
+        return;
 
       }
 
-      else if (
-        distance <=
-        (7 * oneDay)
-      ) {
 
 
-        countdownTitle.textContent =
-          "FIGHT WEEK COUNTDOWN";
+      /*
+        If the date changes while this page
+        is open, rerun the automatic fight
+        selector. This allows the page to
+        move to the next announced fight.
+      */
+
+      const newCurrentFight =
+        getCurrentFight();
 
 
-        fightCardStatus.textContent =
-          "FIGHT WEEK";
+      if (!newCurrentFight) {
 
-
-      }
-
-      else {
-
-
-        countdownTitle.textContent =
-          "COUNTDOWN TO FIGHT DAY";
-
-
-        fightCardStatus.textContent =
-          "UPCOMING FIGHT";
-
+        showNoFightState();
 
       }
 
@@ -2628,11 +3006,8 @@
 
 
     /* =====================================================
-       START PAGE
+       START
     ====================================================== */
-
-    loadFightInformation();
-
 
     updateFightCountdown();
 
