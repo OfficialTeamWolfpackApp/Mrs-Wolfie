@@ -60,15 +60,12 @@
       box-sizing: border-box;
     }
 
-
     html {
       scroll-behavior: smooth;
       background: #030506;
     }
 
-
     body {
-
       min-height: 100vh;
 
       font-family:
@@ -79,38 +76,28 @@
       color: #ffffff;
 
       background:
-
         radial-gradient(
           circle at 0% 25%,
           rgba(137,220,255,0.13),
           transparent 30%
         ),
-
         radial-gradient(
           circle at 100% 35%,
           rgba(255,143,211,0.13),
           transparent 32%
         ),
-
         #030506;
 
       overflow-x: hidden;
     }
 
-
     a {
-
       color: inherit;
-
       text-decoration: none;
-
-      -webkit-tap-highlight-color:
-        transparent;
+      -webkit-tap-highlight-color: transparent;
     }
 
-
     :root {
-
       --blue: #89dcff;
       --blue-light: #bceeff;
 
@@ -130,19 +117,15 @@
     }
 
 
-
     /* =========================================================
        HEADER
     ========================================================= */
 
     .topbar {
-
       height: 62px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
 
       position: relative;
@@ -157,44 +140,45 @@
       z-index: 5000;
     }
 
-
-    .menu-button {
-
+    .home-button {
       position: absolute;
 
       left: 18px;
-
       top: 50%;
 
       transform:
         translateY(-50%);
 
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
 
-      border-radius: 10px;
+      border-radius: 11px;
 
       border:
         1px solid
-        rgba(137,220,255,0.20);
+        rgba(137,220,255,0.25);
 
       background:
-        rgba(137,220,255,0.06);
+        linear-gradient(
+          135deg,
+          rgba(137,220,255,0.10),
+          rgba(255,143,211,0.07)
+        );
 
       color: var(--blue);
 
-      font-size: 21px;
+      font-size: 20px;
+
+      box-shadow:
+        0 0 20px
+        rgba(137,220,255,0.05);
     }
 
-
     .brand {
-
       text-align: center;
 
       font-weight: 900;
@@ -204,9 +188,7 @@
       letter-spacing: 3px;
     }
 
-
     .brand-top {
-
       display: block;
 
       color: var(--blue);
@@ -214,9 +196,7 @@
       font-size: 8px;
     }
 
-
     .brand-bottom {
-
       display: block;
 
       margin-top: 3px;
@@ -224,13 +204,10 @@
       font-size: 9px;
     }
 
-
     .status-dot {
-
       position: absolute;
 
       right: 21px;
-
       top: 50%;
 
       transform:
@@ -241,8 +218,7 @@
 
       border-radius: 50%;
 
-      background:
-        var(--pink);
+      background: var(--pink);
 
       box-shadow:
         0 0 8px var(--pink),
@@ -250,19 +226,16 @@
     }
 
 
-
     /* =========================================================
        HERO
     ========================================================= */
 
     .hero {
-
       position: relative;
 
       min-height: 470px;
 
       display: flex;
-
       align-items: center;
 
       overflow: hidden;
@@ -272,37 +245,30 @@
       background: #080a0d;
     }
 
-
     .hero-background {
-
       position: absolute;
 
       inset: 0;
 
       background-image:
-
         linear-gradient(
           90deg,
           rgba(2,7,10,0.12),
           rgba(2,7,10,0.12) 45%,
           rgba(16,4,12,0.38)
         ),
-
         url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
       background-size: cover;
 
-      background-position:
-        center 30%;
+      background-position: center 30%;
 
       z-index: -3;
 
       pointer-events: none;
     }
 
-
     .hero::before {
-
       content: "";
 
       position: absolute;
@@ -310,7 +276,6 @@
       inset: 0;
 
       background:
-
         linear-gradient(
           90deg,
           rgba(137,220,255,0.14),
@@ -323,9 +288,7 @@
       pointer-events: none;
     }
 
-
     .hero::after {
-
       content: "";
 
       position: absolute;
@@ -337,7 +300,6 @@
       height: 180px;
 
       background:
-
         linear-gradient(
           to bottom,
           transparent,
@@ -349,9 +311,7 @@
       pointer-events: none;
     }
 
-
     .hero-inner {
-
       width:
         min(
           var(--max),
@@ -366,9 +326,7 @@
         90px 0 100px;
     }
 
-
     .hero-kicker {
-
       color: var(--pink);
 
       font-size: 10px;
@@ -382,9 +340,7 @@
       margin-bottom: 15px;
     }
 
-
     .hero-title {
-
       font-size:
         clamp(
           48px,
@@ -401,19 +357,15 @@
       letter-spacing: -3px;
     }
 
-
     .hero-title .blue {
       color: var(--blue);
     }
-
 
     .hero-title .pink {
       color: var(--pink);
     }
 
-
     .hero-subtitle {
-
       margin-top: 18px;
 
       color: #ffffff;
@@ -428,28 +380,21 @@
     }
 
 
-
     /* =========================================================
        NAVIGATION
     ========================================================= */
 
     .nav-wrap {
-
       position: relative;
 
       z-index: 9999;
 
       margin-top: -32px;
 
-      padding:
-        0 20px;
-
-      pointer-events: auto;
+      padding: 0 20px;
     }
 
-
     .app-nav {
-
       width:
         min(
           620px,
@@ -477,15 +422,9 @@
       box-shadow:
         0 15px 45px
         rgba(0,0,0,0.75);
-
-      position: relative;
-
-      z-index: 10000;
     }
 
-
     .nav-item {
-
       min-height: 62px;
 
       display: flex;
@@ -493,7 +432,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       gap: 5px;
@@ -511,24 +449,23 @@
       text-transform: uppercase;
 
       cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
     }
 
-
     .nav-item:hover {
-
       color: #ffffff;
 
       background:
         rgba(255,255,255,0.05);
     }
 
-
     .nav-item.active {
-
       color: var(--pink);
 
       background:
-
         linear-gradient(
           135deg,
           rgba(137,220,255,0.07),
@@ -536,11 +473,9 @@
         );
     }
 
-
     .nav-icon {
       font-size: 16px;
     }
-
 
 
     /* =========================================================
@@ -548,7 +483,6 @@
     ========================================================= */
 
     main {
-
       width:
         min(
           var(--max),
@@ -561,26 +495,24 @@
         60px 0 80px;
     }
 
-
     .section {
       margin-bottom: 55px;
     }
 
+    #fight-history {
+      scroll-margin-top: 35px;
+    }
 
     .section-heading {
-
       display: flex;
 
       align-items: center;
-
       justify-content: space-between;
 
       margin-bottom: 18px;
     }
 
-
     .section-heading h2 {
-
       font-size: 12px;
 
       font-weight: 1000;
@@ -590,9 +522,7 @@
       text-transform: uppercase;
     }
 
-
     .section-label {
-
       color: var(--pink);
 
       font-size: 8px;
@@ -605,13 +535,11 @@
     }
 
 
-
     /* =========================================================
        NEXT FIGHT
     ========================================================= */
 
     .next-fight {
-
       position: relative;
 
       overflow: hidden;
@@ -621,7 +549,6 @@
       border-radius: 27px;
 
       background:
-
         linear-gradient(
           110deg,
           rgba(137,220,255,0.14),
@@ -630,21 +557,17 @@
         );
 
       border-left:
-        2px solid
-        var(--blue);
+        2px solid var(--blue);
 
       border-right:
-        2px solid
-        var(--pink);
+        2px solid var(--pink);
 
       box-shadow:
         0 25px 70px
         rgba(0,0,0,0.55);
     }
 
-
     .next-fight::before {
-
       content: "";
 
       position: absolute;
@@ -652,12 +575,10 @@
       inset: 0;
 
       background-image:
-
         linear-gradient(
           rgba(255,255,255,0.02) 1px,
           transparent 1px
         ),
-
         linear-gradient(
           90deg,
           rgba(255,255,255,0.02) 1px,
@@ -670,17 +591,13 @@
       pointer-events: none;
     }
 
-
     .next-content {
-
       position: relative;
 
       z-index: 2;
     }
 
-
     .next-top {
-
       display: flex;
 
       justify-content: space-between;
@@ -692,9 +609,7 @@
       margin-bottom: 12px;
     }
 
-
     .next-label {
-
       color: var(--pink);
 
       font-size: 9px;
@@ -706,9 +621,7 @@
       text-transform: uppercase;
     }
 
-
     .days-to-go {
-
       display: inline-flex;
 
       align-items: center;
@@ -718,8 +631,7 @@
       padding:
         8px 12px;
 
-      border-radius:
-        20px;
+      border-radius: 20px;
 
       background:
         rgba(137,220,255,0.08);
@@ -728,25 +640,18 @@
         1px solid
         rgba(137,220,255,0.22);
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      letter-spacing:
-        1.5px;
+      letter-spacing: 1.5px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
-
     .next-promotion {
-
       font-size:
         clamp(
           30px,
@@ -759,9 +664,7 @@
       text-transform: uppercase;
     }
 
-
     .next-event {
-
       margin-top: 6px;
 
       color: var(--blue);
@@ -775,9 +678,7 @@
       text-transform: uppercase;
     }
 
-
     .matchup {
-
       margin-top: 38px;
 
       display: grid;
@@ -790,9 +691,7 @@
       align-items: center;
     }
 
-
     .fighter {
-
       font-size:
         clamp(
           23px,
@@ -805,22 +704,17 @@
       text-transform: uppercase;
     }
 
-
     .fighter.mrs {
       color: var(--blue);
     }
 
-
     .fighter.opponent {
-
       color: var(--pink);
 
       text-align: right;
     }
 
-
     .vs {
-
       font-size: 28px;
 
       font-style: italic;
@@ -828,9 +722,7 @@
       font-weight: 1000;
     }
 
-
     .next-info {
-
       display: grid;
 
       grid-template-columns:
@@ -841,9 +733,7 @@
       margin-top: 32px;
     }
 
-
     .info-box {
-
       padding: 18px;
 
       border-radius: 12px;
@@ -856,9 +746,7 @@
         rgba(255,255,255,0.05);
     }
 
-
     .info-label {
-
       color: #77838e;
 
       font-size: 7px;
@@ -872,9 +760,7 @@
       margin-bottom: 7px;
     }
 
-
     .info-value {
-
       font-size: 12px;
 
       font-weight: 900;
@@ -882,9 +768,7 @@
       text-transform: uppercase;
     }
 
-
     .fight-button {
-
       display: inline-flex;
 
       align-items: center;
@@ -903,14 +787,11 @@
         rgba(137,220,255,0.35);
 
       background:
-
         linear-gradient(
           90deg,
           rgba(137,220,255,0.10),
           rgba(255,143,211,0.10)
         );
-
-      color: #ffffff;
 
       font-size: 8px;
 
@@ -919,38 +800,20 @@
       letter-spacing: 1.5px;
 
       text-transform: uppercase;
-
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease;
     }
-
-
-    .fight-button:hover {
-
-      transform:
-        translateY(-2px);
-
-      border-color:
-        var(--pink);
-    }
-
 
 
     /* =========================================================
-       UPCOMING SCHEDULE
+       UPCOMING FIGHTS
     ========================================================= */
 
     .schedule-list {
-
       display: grid;
 
       gap: 14px;
     }
 
-
     .schedule-card {
-
       min-height: 115px;
 
       display: grid;
@@ -967,7 +830,6 @@
       border-radius: 19px;
 
       background:
-
         linear-gradient(
           90deg,
           rgba(137,220,255,0.11),
@@ -984,27 +846,21 @@
         rgba(255,143,211,0.65);
 
       transition:
-        transform 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.2s ease;
     }
-
 
     .schedule-card:hover {
       transform:
         translateY(-2px);
     }
 
-
     .next-card {
-
       box-shadow:
         0 0 30px
         rgba(137,220,255,0.05);
     }
 
-
     .schedule-date {
-
       height: 100%;
 
       display: flex;
@@ -1012,7 +868,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       border-right:
@@ -1020,17 +875,13 @@
         rgba(255,255,255,0.06);
     }
 
-
     .date-day {
-
       font-size: 29px;
 
       font-weight: 1000;
     }
 
-
     .date-month {
-
       margin-top: 4px;
 
       color: var(--blue);
@@ -1044,16 +895,12 @@
       text-transform: uppercase;
     }
 
-
     .schedule-info {
-
       padding:
         20px 25px;
     }
 
-
     .next-badge {
-
       display: inline-block;
 
       margin-bottom: 8px;
@@ -1070,25 +917,18 @@
         1px solid
         rgba(137,220,255,0.25);
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      font-size:
-        6px;
+      font-size: 6px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      letter-spacing:
-        1.5px;
+      letter-spacing: 1.5px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
-
     .schedule-type {
-
       color: var(--pink);
 
       font-size: 8px;
@@ -1102,9 +942,7 @@
       margin-bottom: 8px;
     }
 
-
     .schedule-fight {
-
       font-size: 15px;
 
       font-weight: 1000;
@@ -1112,9 +950,7 @@
       text-transform: uppercase;
     }
 
-
     .schedule-event {
-
       margin-top: 7px;
 
       color: #87929d;
@@ -1126,9 +962,7 @@
       text-transform: uppercase;
     }
 
-
     .schedule-arrow {
-
       color: var(--pink);
 
       font-size: 25px;
@@ -1138,14 +972,7 @@
       text-align: center;
     }
 
-
-
-    /* =========================================================
-       TITLE FIGHT
-    ========================================================= */
-
     .title-card {
-
       border-left-color:
         rgba(137,220,255,0.80);
 
@@ -1153,9 +980,7 @@
         rgba(255,143,211,0.80);
     }
 
-
     .title-badge {
-
       display: inline-block;
 
       margin-top: 9px;
@@ -1184,21 +1009,17 @@
     }
 
 
-
     /* =========================================================
-       PREVIOUS FIGHTS
+       FIGHT HISTORY
     ========================================================= */
 
     .history-list {
-
       display: grid;
 
       gap: 12px;
     }
 
-
     .history-card {
-
       min-height: 100px;
 
       display: grid;
@@ -1213,7 +1034,6 @@
       border-radius: 18px;
 
       background:
-
         linear-gradient(
           90deg,
           rgba(137,220,255,0.08),
@@ -1226,9 +1046,7 @@
         rgba(255,255,255,0.05);
     }
 
-
     .history-date {
-
       height: 100%;
 
       display: flex;
@@ -1236,7 +1054,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       border-right:
@@ -1244,17 +1061,13 @@
         rgba(255,255,255,0.06);
     }
 
-
     .history-day {
-
       font-size: 23px;
 
       font-weight: 1000;
     }
 
-
     .history-month {
-
       margin-top: 4px;
 
       color: var(--blue);
@@ -1266,15 +1079,12 @@
       letter-spacing: 2px;
     }
 
-
     .history-info {
       padding:
         18px 22px;
     }
 
-
     .history-promotion {
-
       color: var(--pink);
 
       font-size: 8px;
@@ -1288,9 +1098,7 @@
       margin-bottom: 7px;
     }
 
-
     .history-fight {
-
       font-size: 13px;
 
       font-weight: 1000;
@@ -1298,9 +1106,7 @@
       text-transform: uppercase;
     }
 
-
     .history-venue {
-
       margin-top: 6px;
 
       color: #74808b;
@@ -1310,9 +1116,7 @@
       text-transform: uppercase;
     }
 
-
     .result {
-
       text-align: center;
 
       font-size: 20px;
@@ -1320,16 +1124,13 @@
       font-weight: 1000;
     }
 
-
     .result.win {
       color: var(--blue);
     }
 
-
     .result.loss {
       color: var(--pink);
     }
-
 
 
     /* =========================================================
@@ -1337,7 +1138,6 @@
     ========================================================= */
 
     .motto {
-
       min-height: 190px;
 
       padding: 30px;
@@ -1347,7 +1147,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       text-align: center;
@@ -1355,7 +1154,6 @@
       border-radius: 26px;
 
       background:
-
         linear-gradient(
           110deg,
           rgba(137,220,255,0.15),
@@ -1364,9 +1162,7 @@
         );
     }
 
-
     .motto-small {
-
       color: var(--blue);
 
       font-size: 9px;
@@ -1380,9 +1176,7 @@
       margin-bottom: 16px;
     }
 
-
     .motto-main {
-
       font-size:
         clamp(
           32px,
@@ -1395,11 +1189,9 @@
       text-transform: uppercase;
     }
 
-
     .motto-main span {
       color: var(--pink);
     }
-
 
 
     /* =========================================================
@@ -1407,16 +1199,13 @@
     ========================================================= */
 
     footer {
-
       padding:
         80px 20px 45px;
 
       text-align: center;
     }
 
-
     .footer-line {
-
       width: 240px;
 
       max-width: 80%;
@@ -1427,7 +1216,6 @@
         0 auto 14px;
 
       background:
-
         linear-gradient(
           90deg,
           transparent,
@@ -1438,9 +1226,7 @@
         );
     }
 
-
     .footer-name {
-
       color: #77818b;
 
       font-size: 8px;
@@ -1452,9 +1238,7 @@
       text-transform: uppercase;
     }
 
-
     .copyright {
-
       margin-top: 14px;
 
       color: #59626b;
@@ -1469,37 +1253,30 @@
     }
 
 
-
     /* =========================================================
        MOBILE
     ========================================================= */
 
     @media (max-width: 760px) {
 
-
       body {
         padding-bottom: 90px;
       }
-
 
       .topbar {
         height: 55px;
       }
 
-
       .hero {
         min-height: 440px;
       }
-
 
       .hero-background {
         background-position:
           46% center;
       }
 
-
       .hero-inner {
-
         width:
           calc(100% - 30px);
 
@@ -1507,17 +1284,13 @@
           80px 0;
       }
 
-
       .hero-title {
-
         font-size: 50px;
 
         letter-spacing: -2px;
       }
 
-
       .nav-wrap {
-
         height: 0;
 
         margin: 0;
@@ -1525,9 +1298,7 @@
         padding: 0;
       }
 
-
       .app-nav {
-
         position: fixed;
 
         left: 50%;
@@ -1551,165 +1322,130 @@
           rgba(0,0,0,0.90);
       }
 
-
       .nav-item {
-
         min-height: 57px;
 
         font-size: 7px;
       }
 
-
       main {
-
         width:
           calc(100% - 28px);
 
         padding-top: 42px;
       }
 
-
       .next-fight {
         padding:
           27px 21px;
       }
 
-
       .next-top {
+        align-items: flex-start;
 
-        align-items:
-          flex-start;
-
-        flex-direction:
-          column;
+        flex-direction: column;
       }
 
-
       .matchup {
-
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
 
         text-align: center;
 
         gap: 12px;
       }
 
-
       .fighter.opponent {
         text-align: center;
       }
-
 
       .vs {
         font-size: 20px;
       }
 
-
       .next-info {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
-
 
       .fight-button {
         width: 100%;
       }
 
-
       .schedule-card {
-
         grid-template-columns:
           78px 1fr 30px;
 
         min-height: 105px;
       }
 
-
       .schedule-info {
         padding:
           15px 13px;
       }
 
-
       .date-day {
         font-size: 23px;
       }
-
 
       .schedule-fight {
         font-size: 11px;
       }
 
-
       .history-card {
-
         grid-template-columns:
           78px 1fr 45px;
       }
-
 
       .history-info {
         padding: 14px;
       }
 
-
       .history-fight {
         font-size: 11px;
       }
 
+      #fight-history {
+        scroll-margin-top: 20px;
+      }
 
       footer {
         padding-bottom: 120px;
       }
-
     }
 
 
-
     @media (max-width: 420px) {
-
 
       .hero-title {
         font-size: 44px;
       }
 
-
       .next-promotion {
         font-size: 29px;
       }
 
-
       .section-heading h2 {
-
         font-size: 10px;
 
         letter-spacing: 3px;
       }
 
-
       .schedule-card {
-
         grid-template-columns:
           70px 1fr 25px;
       }
-
 
       .schedule-event {
         font-size: 7px;
       }
 
-
       .motto-main {
         font-size: 31px;
       }
-
     }
 
   </style>
 
 </head>
-
 
 
 <body>
@@ -1721,13 +1457,12 @@
 
   <header class="topbar">
 
-
     <a
       href="./index.html"
-      class="menu-button"
-      aria-label="Home"
+      class="home-button"
+      aria-label="Mrs Wolfie Home"
     >
-      ☰
+      ⌂
     </a>
 
 
@@ -1746,7 +1481,6 @@
 
     <div class="status-dot"></div>
 
-
   </header>
 
 
@@ -1757,12 +1491,10 @@
 
   <section class="hero">
 
-
     <div class="hero-background"></div>
 
 
     <div class="hero-inner">
-
 
       <div class="hero-kicker">
         TEAM WOLFIE • 2026
@@ -1786,9 +1518,7 @@
         MRS WOLFIE
       </div>
 
-
     </div>
-
 
   </section>
 
@@ -1799,7 +1529,6 @@
   ======================================================== -->
 
   <div class="nav-wrap">
-
 
     <nav class="app-nav">
 
@@ -1820,7 +1549,6 @@
       </a>
 
 
-
       <a
         href="./fight.html"
         class="nav-item"
@@ -1837,7 +1565,6 @@
       </a>
 
 
-
       <a
         href="./profile.html"
         class="nav-item"
@@ -1852,7 +1579,6 @@
         </span>
 
       </a>
-
 
 
       <a
@@ -1872,7 +1598,6 @@
 
 
     </nav>
-
 
   </div>
 
@@ -1935,7 +1660,6 @@
           </div>
 
 
-
           <h2 class="next-promotion">
             AYRSHIRE BOXING
           </h2>
@@ -1985,7 +1709,6 @@
             </div>
 
 
-
             <div class="info-box">
 
               <div class="info-label">
@@ -1997,7 +1720,6 @@
               </div>
 
             </div>
-
 
 
             <div class="info-box">
@@ -2014,7 +1736,6 @@
 
 
           </div>
-
 
 
           <a
@@ -2059,10 +1780,7 @@
       <div class="schedule-list">
 
 
-
-        <!-- ===============================================
-             17 OCTOBER 2026
-        ================================================ -->
+        <!-- OCTOBER -->
 
         <a
           href="./fight.html"
@@ -2072,19 +1790,15 @@
 
           <div class="schedule-date">
 
-
             <div class="date-day">
               17
             </div>
-
 
             <div class="date-month">
               OCT
             </div>
 
-
           </div>
-
 
 
           <div class="schedule-info">
@@ -2113,7 +1827,6 @@
           </div>
 
 
-
           <div class="schedule-arrow">
             ›
           </div>
@@ -2123,28 +1836,22 @@
 
 
 
-        <!-- ===============================================
-             20 / 21 NOVEMBER 2026
-        ================================================ -->
+        <!-- NOVEMBER -->
 
         <div class="schedule-card title-card">
 
 
           <div class="schedule-date">
 
-
             <div class="date-day">
               20/21
             </div>
-
 
             <div class="date-month">
               NOV
             </div>
 
-
           </div>
-
 
 
           <div class="schedule-info">
@@ -2173,7 +1880,6 @@
           </div>
 
 
-
           <div class="schedule-arrow">
             ›
           </div>
@@ -2191,9 +1897,16 @@
 
     <!-- =====================================================
          FIGHT HISTORY
+
+         IMPORTANT:
+         The id below allows:
+         schedule.html#fight-history
     ====================================================== -->
 
-    <section class="section">
+    <section
+      class="section"
+      id="fight-history"
+    >
 
 
       <div class="section-heading">
@@ -2213,51 +1926,39 @@
       <div class="history-list">
 
 
-
-        <!-- ===============================================
-             14 MARCH 2026
-        ================================================ -->
+        <!-- 14 MARCH 2026 -->
 
         <div class="history-card">
 
 
           <div class="history-date">
 
-
             <div class="history-day">
               14
             </div>
-
 
             <div class="history-month">
               MAR 26
             </div>
 
-
           </div>
 
 
-
           <div class="history-info">
-
 
             <div class="history-promotion">
               TRAIN 4 FIGHT PROMOTIONS
             </div>
 
-
             <div class="history-fight">
               MRS WOLFIE VS KATIE FAE THE BING
             </div>
-
 
             <div class="history-venue">
               EASTHOUSES MINERS CLUB
             </div>
 
-
           </div>
-
 
 
           <div class="result win">
@@ -2269,50 +1970,39 @@
 
 
 
-        <!-- ===============================================
-             05 JULY 2025
-        ================================================ -->
+        <!-- 05 JULY 2025 -->
 
         <div class="history-card">
 
 
           <div class="history-date">
 
-
             <div class="history-day">
               05
             </div>
-
 
             <div class="history-month">
               JUL 25
             </div>
 
-
           </div>
 
 
-
           <div class="history-info">
-
 
             <div class="history-promotion">
               EBO
             </div>
 
-
             <div class="history-fight">
               MRS WOLFIE VS BRY KELLY
             </div>
-
 
             <div class="history-venue">
               TRILOGY NIGHTCLUB
             </div>
 
-
           </div>
-
 
 
           <div class="result loss">
@@ -2324,50 +2014,39 @@
 
 
 
-        <!-- ===============================================
-             25 MAY 2025
-        ================================================ -->
+        <!-- 25 MAY 2025 -->
 
         <div class="history-card">
 
 
           <div class="history-date">
 
-
             <div class="history-day">
               25
             </div>
-
 
             <div class="history-month">
               MAY 25
             </div>
 
-
           </div>
 
 
-
           <div class="history-info">
-
 
             <div class="history-promotion">
               EBO
             </div>
 
-
             <div class="history-fight">
               MRS WOLFIE VS DEMI WISE
             </div>
-
 
             <div class="history-venue">
               TRILOGY NIGHTCLUB
             </div>
 
-
           </div>
-
 
 
           <div class="result loss">
@@ -2446,11 +2125,9 @@
   <script>
 
     /*
-      The app does not assume a bell time.
+      Countdown goes to the start of fight day.
 
-      This calculates the number of calendar days
-      remaining until the start of fight day:
-      17 October 2026.
+      No exact fight/bell time is assumed.
     */
 
     const nextFightDate =
@@ -2546,15 +2223,8 @@
     }
 
 
-
     updateFightStatus();
 
-
-
-    /*
-      Refresh periodically in case the installed
-      app remains open across midnight.
-    */
 
     setInterval(
       updateFightStatus,
