@@ -3,8 +3,17 @@
    SERVICE WORKER
 ========================================================= */
 
+
+/* =========================================================
+   CACHE VERSION
+
+   Increase this version whenever the core app structure
+   changes significantly.
+========================================================= */
+
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v2";
+  "mrs-wolfie-boxing-v3";
+
 
 
 /* =========================================================
@@ -22,6 +31,8 @@ const APP_FILES = [
   "./profile.html",
 
   "./schedule.html",
+
+  "./fight-data.js",
 
   "./manifest.json",
 
@@ -48,25 +59,31 @@ self.addEventListener(
 
     event.waitUntil(
 
+
       caches
-        .open(CACHE_NAME)
+        .open(
+          CACHE_NAME
+        )
 
         .then(
           (cache) => {
+
 
             return cache.addAll(
               APP_FILES
             );
 
+
           }
         )
+
 
     );
 
 
     /*
-      Activate the new service worker
-      without waiting for the old one.
+      Activate this service worker immediately
+      rather than waiting for the old worker.
     */
 
     self.skipWaiting();
@@ -132,8 +149,7 @@ self.addEventListener(
 
 
     /*
-      Immediately control any open
-      Mrs Wolfie app windows.
+      Immediately control existing app windows.
     */
 
     self.clients.claim();
@@ -154,7 +170,7 @@ self.addEventListener(
 
 
     /*
-      Only handle normal GET requests.
+      Only intercept GET requests.
     */
 
     if (
@@ -162,21 +178,130 @@ self.addEventListener(
       "GET"
     ) {
 
+
       return;
+
 
     }
 
 
 
+    const requestURL =
+      new URL(
+        event.request.url
+      );
+
+
+
+    /* =====================================================
+       CENTRAL FIGHT DATA
+
+       NETWORK FIRST
+    ====================================================== */
+
     /*
-      HTML / PAGE NAVIGATION
+      fight-data.js is deliberately handled differently
+      from ordinary static assets.
 
-      Network first means the app checks
-      GitHub for the newest page.
+      Every time the app opens, it attempts to retrieve
+      the newest fight database from GitHub.
 
-      If there is no internet connection,
-      it falls back to the cached version.
+      If the user is offline, the most recently cached
+      copy is used instead.
+
+      This means future fight updates do NOT require us
+      to change the service-worker cache number every time.
     */
+
+    if (
+      requestURL.pathname.endsWith(
+        "/fight-data.js"
+      )
+    ) {
+
+
+      event.respondWith(
+
+
+        fetch(
+          event.request,
+          {
+            cache: "no-store"
+          }
+        )
+
+
+          .then(
+            (networkResponse) => {
+
+
+              if (
+                networkResponse &&
+                networkResponse.ok
+              ) {
+
+
+                const responseCopy =
+                  networkResponse.clone();
+
+
+                caches
+                  .open(
+                    CACHE_NAME
+                  )
+
+                  .then(
+                    (cache) => {
+
+
+                      cache.put(
+                        event.request,
+                        responseCopy
+                      );
+
+
+                    }
+                  );
+
+
+              }
+
+
+              return networkResponse;
+
+
+            }
+          )
+
+
+          .catch(
+            () => {
+
+
+              return caches.match(
+                event.request
+              );
+
+
+            }
+          )
+
+
+      );
+
+
+      return;
+
+
+    }
+
+
+
+    /* =====================================================
+       HTML PAGE NAVIGATION
+
+       NETWORK FIRST
+    ====================================================== */
 
     if (
       event.request.mode ===
@@ -201,7 +326,9 @@ self.addEventListener(
 
 
               caches
-                .open(CACHE_NAME)
+                .open(
+                  CACHE_NAME
+                )
 
                 .then(
                   (cache) => {
@@ -238,7 +365,9 @@ self.addEventListener(
                 cachedPage
               ) {
 
+
                 return cachedPage;
+
 
               }
 
@@ -262,14 +391,11 @@ self.addEventListener(
 
 
 
-    /*
-      IMAGES / ICONS / OTHER FILES
+    /* =====================================================
+       OTHER FILES
 
-      Use cached copy first for speed.
-
-      If it is not cached, retrieve it
-      from the network and save it.
-    */
+       CACHE FIRST
+    ====================================================== */
 
     event.respondWith(
 
@@ -287,7 +413,9 @@ self.addEventListener(
               cachedResponse
             ) {
 
+
               return cachedResponse;
+
 
             }
 
@@ -302,17 +430,14 @@ self.addEventListener(
                 (networkResponse) => {
 
 
-                  /*
-                    Do not cache failed
-                    network responses.
-                  */
-
                   if (
                     !networkResponse ||
                     networkResponse.status !== 200
                   ) {
 
+
                     return networkResponse;
+
 
                   }
 
@@ -324,7 +449,9 @@ self.addEventListener(
 
 
                   caches
-                    .open(CACHE_NAME)
+                    .open(
+                      CACHE_NAME
+                    )
 
                     .then(
                       (cache) => {
