@@ -17,7 +17,10 @@
     content="#05070a"
   >
 
-  <!-- PWA -->
+  <!-- =====================================================
+       PWA
+  ====================================================== -->
+
   <link
     rel="manifest"
     href="./manifest.json"
@@ -47,8 +50,7 @@
   <style>
 
     /* =========================================================
-       MRS WOLFIE BOXING APP
-       FIGHT PAGE
+       RESET
     ========================================================= */
 
     * {
@@ -163,22 +165,45 @@
     }
 
 
-    .menu-button {
+    /*
+      HOME BUTTON
+
+      This replaces the old hamburger/menu icon.
+
+      The app uses:
+      - quick access on Home
+      - fixed bottom navigation
+
+      so no side menu is required.
+    */
+
+    .home-button {
 
       position: absolute;
 
       left: 18px;
 
-      width: 38px;
-      height: 38px;
+      top: 50%;
 
-      border-radius: 10px;
+      transform:
+        translateY(-50%);
+
+      width: 40px;
+      height: 40px;
+
+      border-radius: 11px;
 
       border:
         1px solid
         rgba(137,220,255,0.25);
 
-      background: #071017;
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(137,220,255,0.10),
+          rgba(255,143,211,0.07)
+        );
 
       color: var(--blue);
 
@@ -188,6 +213,10 @@
       justify-content: center;
 
       font-size: 20px;
+
+      box-shadow:
+        0 0 20px
+        rgba(137,220,255,0.05);
     }
 
 
@@ -344,20 +373,15 @@
 
       color: var(--pink);
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        5px;
+      letter-spacing: 5px;
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        14px;
+      margin-bottom: 14px;
     }
 
 
@@ -370,17 +394,13 @@
           92px
         );
 
-      line-height:
-        0.92;
+      line-height: 0.92;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
 
-      letter-spacing:
-        -3px;
+      letter-spacing: -3px;
 
       text-shadow:
         0 6px 30px
@@ -400,20 +420,15 @@
 
     .hero-subtitle {
 
-      margin-top:
-        18px;
+      margin-top: 18px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        3px;
+      letter-spacing: 3px;
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
       color:
         rgba(255,255,255,0.88);
@@ -431,14 +446,9 @@
 
       z-index: 20;
 
-      margin-top:
-        -28px;
+      margin-top: -28px;
 
-      padding:
-        0 20px;
-
-      pointer-events:
-        auto;
+      padding: 0 20px;
     }
 
 
@@ -450,8 +460,7 @@
           100%
         );
 
-      margin:
-        auto;
+      margin: auto;
 
       background:
         rgba(7,11,16,0.96);
@@ -460,14 +469,11 @@
         1px solid
         rgba(255,255,255,0.08);
 
-      border-radius:
-        17px;
+      border-radius: 17px;
 
-      padding:
-        7px;
+      padding: 7px;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(4,1fr);
@@ -483,47 +489,31 @@
 
     .nav-item {
 
-      min-height:
-        58px;
+      min-height: 58px;
 
-      border-radius:
-        12px;
+      border-radius: 12px;
 
-      display:
-        flex;
+      display: flex;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      gap:
-        5px;
+      gap: 5px;
 
-      color:
-        #77828d;
+      color: #77828d;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        1.5px;
+      letter-spacing: 1.5px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      transition:
-        0.25s ease;
-
-      cursor:
-        pointer;
+      transition: 0.25s ease;
     }
 
 
@@ -534,8 +524,7 @@
 
     .nav-item:hover {
 
-      color:
-        var(--white);
+      color: var(--white);
 
       background:
         rgba(255,255,255,0.04);
@@ -544,8 +533,7 @@
 
     .nav-item.active {
 
-      color:
-        var(--pink);
+      color: var(--pink);
 
       background:
 
@@ -570,8 +558,7 @@
           calc(100% - 40px)
         );
 
-      margin:
-        auto;
+      margin: auto;
 
       padding:
         70px 0 180px;
@@ -580,52 +567,39 @@
 
     .section-header {
 
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        space-between;
+      justify-content: space-between;
 
-      margin-bottom:
-        18px;
+      margin-bottom: 18px;
     }
 
 
     .section-title {
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .section-tag {
 
-      color:
-        var(--pink);
+      color: var(--pink);
 
-      font-size:
-        9px;
+      font-size: 9px;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -636,14 +610,11 @@
 
     .fight-card {
 
-      position:
-        relative;
+      position: relative;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
-      border-radius:
-        28px;
+      border-radius: 28px;
 
       border-left:
         2px solid
@@ -666,8 +637,7 @@
         0 30px 70px
         rgba(0,0,0,0.55);
 
-      margin-bottom:
-        65px;
+      margin-bottom: 65px;
     }
 
 
@@ -675,11 +645,9 @@
 
       content: "";
 
-      position:
-        absolute;
+      position: absolute;
 
-      inset:
-        0;
+      inset: 0;
 
       background-image:
 
@@ -697,49 +665,38 @@
       background-size:
         40px 40px;
 
-      opacity:
-        0.35;
+      opacity: 0.35;
 
-      pointer-events:
-        none;
+      pointer-events: none;
     }
 
 
     .fight-card-top {
 
-      position:
-        relative;
+      position: relative;
 
-      z-index:
-        2;
+      z-index: 2;
 
       padding:
         34px 38px 18px;
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .fight-card-top .label {
 
-      color:
-        var(--pink);
+      color: var(--pink);
 
-      font-size:
-        9px;
+      font-size: 9px;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        10px;
+      margin-bottom: 10px;
     }
 
 
@@ -752,58 +709,44 @@
           56px
         );
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
 
-      line-height:
-        1;
+      line-height: 1;
     }
 
 
     .event-name {
 
-      margin-top:
-        8px;
+      margin-top: 8px;
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        3px;
+      letter-spacing: 3px;
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .fighters {
 
-      position:
-        relative;
+      position: relative;
 
-      z-index:
-        2;
+      z-index: 2;
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 150px 1fr;
 
-      align-items:
-        center;
+      align-items: center;
 
-      gap:
-        20px;
+      gap: 20px;
 
       padding:
         35px 38px 45px;
@@ -817,20 +760,16 @@
 
     .fighter-photo {
 
-      width:
-        170px;
+      width: 170px;
 
-      height:
-        170px;
+      height: 170px;
 
       margin:
         0 auto 20px;
 
-      border-radius:
-        50%;
+      border-radius: 50%;
 
-      object-fit:
-        cover;
+      object-fit: cover;
 
       object-position:
         center 25%;
@@ -849,23 +788,17 @@
 
     .fighter-label {
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      color:
-        var(--grey);
+      color: var(--grey);
 
-      margin-bottom:
-        7px;
+      margin-bottom: 7px;
     }
 
 
@@ -878,11 +811,9 @@
           32px
         );
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
     }
 
 
@@ -898,32 +829,24 @@
 
     .opponent-circle {
 
-      width:
-        170px;
+      width: 170px;
 
-      height:
-        170px;
+      height: 170px;
 
       margin:
         0 auto 20px;
 
-      border-radius:
-        50%;
+      border-radius: 50%;
 
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      font-size:
-        72px;
+      font-size: 72px;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
 
       color:
         rgba(255,143,211,0.35);
@@ -955,42 +878,31 @@
 
     .vs {
 
-      font-size:
-        64px;
+      font-size: 64px;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
 
-      font-style:
-        italic;
+      font-style: italic;
 
-      line-height:
-        1;
+      line-height: 1;
 
-      color:
-        var(--white);
+      color: var(--white);
     }
 
 
     .fight-date {
 
-      margin-top:
-        18px;
+      margin-top: 18px;
 
-      color:
-        var(--pink);
+      color: var(--pink);
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -1001,23 +913,19 @@
 
     .event-info {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(3,1fr);
 
-      gap:
-        12px;
+      gap: 12px;
 
       padding:
         0 38px 38px;
 
-      position:
-        relative;
+      position: relative;
 
-      z-index:
-        2;
+      z-index: 2;
     }
 
 
@@ -1030,49 +938,37 @@
         1px solid
         rgba(255,255,255,0.06);
 
-      border-radius:
-        14px;
+      border-radius: 14px;
 
-      padding:
-        18px;
+      padding: 18px;
     }
 
 
     .info-label {
 
-      color:
-        var(--grey);
+      color: var(--grey);
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        7px;
+      margin-bottom: 7px;
     }
 
 
     .info-value {
 
-      color:
-        var(--white);
+      color: var(--white);
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
 
@@ -1083,14 +979,11 @@
 
     .countdown-card {
 
-      margin-bottom:
-        65px;
+      margin-bottom: 65px;
 
-      padding:
-        38px;
+      padding: 38px;
 
-      border-radius:
-        24px;
+      border-radius: 24px;
 
       border:
         1px solid
@@ -1105,49 +998,38 @@
           rgba(255,143,211,0.10)
         );
 
-      text-align:
-        center;
+      text-align: center;
     }
 
 
     .countdown-title {
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      font-size:
-        9px;
+      font-size: 9px;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        25px;
+      margin-bottom: 25px;
     }
 
 
     .countdown {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         repeat(4,1fr);
 
-      gap:
-        12px;
+      gap: 12px;
 
-      max-width:
-        650px;
+      max-width: 650px;
 
-      margin:
-        auto;
+      margin: auto;
     }
 
 
@@ -1160,8 +1042,7 @@
         1px solid
         rgba(255,255,255,0.06);
 
-      border-radius:
-        15px;
+      border-radius: 15px;
 
       padding:
         20px 8px;
@@ -1170,8 +1051,7 @@
 
     .count-number {
 
-      display:
-        block;
+      display: block;
 
       font-size:
         clamp(
@@ -1180,33 +1060,25 @@
           48px
         );
 
-      font-weight:
-        1000;
+      font-weight: 1000;
     }
 
 
     .count-label {
 
-      display:
-        block;
+      display: block;
 
-      margin-top:
-        5px;
+      margin-top: 5px;
 
-      color:
-        var(--grey);
+      color: var(--grey);
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-size:
-        7px;
+      font-size: 7px;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -1217,17 +1089,14 @@
 
     .details-card {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         0.8fr 1.2fr;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
-      border-radius:
-        25px;
+      border-radius: 25px;
 
       border-left:
         2px solid
@@ -1237,18 +1106,15 @@
         2px solid
         var(--pink);
 
-      background:
-        var(--panel);
+      background: var(--panel);
 
-      margin-bottom:
-        65px;
+      margin-bottom: 65px;
     }
 
 
     .details-image {
 
-      min-height:
-        440px;
+      min-height: 440px;
 
       background-image:
 
@@ -1260,49 +1126,37 @@
 
         url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
-      background-size:
-        cover;
+      background-size: cover;
 
-      background-position:
-        center;
+      background-position: center;
     }
 
 
     .details-content {
 
-      padding:
-        55px;
+      padding: 55px;
 
-      display:
-        flex;
+      display: flex;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      justify-content:
-        center;
+      justify-content: center;
     }
 
 
     .details-small {
 
-      color:
-        var(--pink);
+      color: var(--pink);
 
-      font-size:
-        9px;
+      font-size: 9px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        3px;
+      letter-spacing: 3px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        15px;
+      margin-bottom: 15px;
     }
 
 
@@ -1315,65 +1169,50 @@
           48px
         );
 
-      line-height:
-        1.05;
+      line-height: 1.05;
 
-      margin-bottom:
-        18px;
+      margin-bottom: 18px;
     }
 
 
     .details-content p {
 
-      color:
-        var(--grey);
+      color: var(--grey);
 
-      line-height:
-        1.8;
+      line-height: 1.8;
 
-      font-size:
-        14px;
+      font-size: 14px;
 
-      max-width:
-        560px;
+      max-width: 560px;
     }
 
 
     .representing {
 
-      display:
-        inline-block;
+      display: inline-block;
 
-      width:
-        fit-content;
+      width: fit-content;
 
-      margin-top:
-        20px;
+      margin-top: 20px;
 
       padding:
         8px 13px;
 
-      border-radius:
-        8px;
+      border-radius: 8px;
 
       border:
         1px solid
         rgba(137,220,255,0.25);
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
@@ -1384,26 +1223,19 @@
 
     .motto {
 
-      min-height:
-        180px;
+      min-height: 180px;
 
-      border-radius:
-        25px;
+      border-radius: 25px;
 
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      flex-direction:
-        column;
+      flex-direction: column;
 
-      text-align:
-        center;
+      text-align: center;
 
       background:
 
@@ -1422,23 +1254,17 @@
 
     .motto-small {
 
-      color:
-        var(--blue);
+      color: var(--blue);
 
-      font-size:
-        9px;
+      font-size: 9px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      font-weight:
-        900;
+      font-weight: 900;
 
-      margin-bottom:
-        14px;
+      margin-bottom: 14px;
     }
 
 
@@ -1451,11 +1277,9 @@
           55px
         );
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        1000;
+      font-weight: 1000;
     }
 
 
@@ -1471,36 +1295,28 @@
 
     footer {
 
-      text-align:
-        center;
+      text-align: center;
 
       padding:
         30px 20px 110px;
 
-      color:
-        #56616c;
+      color: #56616c;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        2px;
+      letter-spacing: 2px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      font-weight:
-        900;
+      font-weight: 900;
     }
 
 
     .footer-line {
 
-      width:
-        210px;
+      width: 210px;
 
-      height:
-        2px;
+      height: 2px;
 
       margin:
         0 auto 16px;
@@ -1525,15 +1341,29 @@
 
     @media (max-width: 760px) {
 
+
       body {
-        padding-bottom:
-          90px;
+        padding-bottom: 90px;
+      }
+
+
+      .topbar {
+        height: 55px;
+      }
+
+
+      .home-button {
+
+        width: 40px;
+
+        height: 40px;
+
+        left: 16px;
       }
 
 
       .fight-hero {
-        min-height:
-          430px;
+        min-height: 430px;
       }
 
 
@@ -1545,17 +1375,14 @@
 
       .hero-content {
 
-        text-align:
-          left;
+        text-align: left;
 
-        padding-bottom:
-          65px;
+        padding-bottom: 65px;
       }
 
 
       .hero-content h1 {
-        font-size:
-          52px;
+        font-size: 52px;
       }
 
 
@@ -1567,15 +1394,13 @@
             var(--max-width)
           );
 
-        padding-top:
-          50px;
+        padding-top: 50px;
       }
 
 
       .fighters {
 
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
 
         padding:
           25px 22px 35px;
@@ -1589,32 +1414,27 @@
 
 
       .vs {
-        font-size:
-          45px;
+        font-size: 45px;
       }
 
 
       .fighter-photo,
       .opponent-circle {
 
-        width:
-          140px;
+        width: 140px;
 
-        height:
-          140px;
+        height: 140px;
       }
 
 
       .opponent-circle {
-        font-size:
-          55px;
+        font-size: 55px;
       }
 
 
       .event-info {
 
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
 
         padding:
           0 22px 25px;
@@ -1628,8 +1448,7 @@
 
 
       .countdown {
-        gap:
-          6px;
+        gap: 6px;
       }
 
 
@@ -1640,21 +1459,18 @@
 
 
       .count-number {
-        font-size:
-          25px;
+        font-size: 25px;
       }
 
 
       .details-card {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
 
       .details-image {
 
-        min-height:
-          400px;
+        min-height: 400px;
 
         background-position:
           center top;
@@ -1669,8 +1485,7 @@
 
       .app-nav {
 
-        position:
-          fixed;
+        position: fixed;
 
         bottom:
           calc(
@@ -1678,8 +1493,7 @@
             env(safe-area-inset-bottom)
           );
 
-        left:
-          50%;
+        left: 50%;
 
         transform:
           translateX(-50%);
@@ -1687,8 +1501,7 @@
         width:
           calc(100% - 24px);
 
-        z-index:
-          9999;
+        z-index: 9999;
 
         box-shadow:
           0 10px 40px
@@ -1698,34 +1511,30 @@
 
       .nav-wrap {
 
-        height:
-          0;
+        height: 0;
 
-        margin:
-          0;
+        margin: 0;
 
-        padding:
-          0;
+        padding: 0;
       }
 
     }
 
 
+
     @media (max-width: 420px) {
 
+
       .count-number {
-        font-size:
-          22px;
+        font-size: 22px;
       }
 
 
       .count-label {
 
-        font-size:
-          6px;
+        font-size: 6px;
 
-        letter-spacing:
-          1px;
+        letter-spacing: 1px;
       }
 
     }
@@ -1744,12 +1553,13 @@
 
   <header class="topbar">
 
+
     <a
       href="./index.html"
-      class="menu-button"
-      aria-label="Home"
+      class="home-button"
+      aria-label="Mrs Wolfie Home"
     >
-      ☰
+      ⌂
     </a>
 
 
@@ -1768,6 +1578,7 @@
 
     <div class="status-dot"></div>
 
+
   </header>
 
 
@@ -1778,7 +1589,9 @@
 
   <section class="fight-hero">
 
+
     <div class="hero-content">
+
 
       <div class="eyebrow">
         TEAM WOLFIE • FIGHT NIGHT
@@ -1802,7 +1615,9 @@
         HUNT WITHOUT FEAR
       </div>
 
+
     </div>
+
 
   </section>
 
@@ -1813,6 +1628,7 @@
   ======================================================== -->
 
   <div class="nav-wrap">
+
 
     <nav class="app-nav">
 
@@ -1878,6 +1694,7 @@
 
     </nav>
 
+
   </div>
 
 
@@ -1899,13 +1716,16 @@
 
       <div class="section-header">
 
+
         <h2 class="section-title">
           NEXT FIGHT
         </h2>
 
+
         <div class="section-tag">
           17 OCT 2026
         </div>
+
 
       </div>
 
@@ -1916,17 +1736,21 @@
 
         <div class="fight-card-top">
 
+
           <div class="label">
             UPCOMING FIGHT
           </div>
+
 
           <h2 class="promotion">
             AYRSHIRE BOXING
           </h2>
 
+
           <div class="event-name">
             THE LAUNCH
           </div>
+
 
         </div>
 
@@ -1939,19 +1763,23 @@
 
           <div class="fighter">
 
+
             <img
               class="fighter-photo"
               src="images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
               alt="Mrs Wolfie"
             >
 
+
             <div class="fighter-label">
               TEAM WOLFIE
             </div>
 
+
             <div class="fighter-name mrs-name">
               MRS WOLFIE
             </div>
+
 
           </div>
 
@@ -1961,13 +1789,16 @@
 
           <div class="versus">
 
+
             <div class="vs">
               VS
             </div>
 
+
             <div class="fight-date">
               17 OCTOBER 2026
             </div>
+
 
           </div>
 
@@ -1977,17 +1808,21 @@
 
           <div class="fighter">
 
+
             <div class="opponent-circle">
               CL
             </div>
+
 
             <div class="fighter-label">
               OPPONENT
             </div>
 
+
             <div class="fighter-name opponent-name">
               COLLEEN LEYDEN
             </div>
+
 
           </div>
 
@@ -2003,27 +1838,33 @@
 
           <div class="info-box">
 
+
             <div class="info-label">
               DATE
             </div>
+
 
             <div class="info-value">
               17 OCTOBER 2026
             </div>
 
+
           </div>
 
 
 
           <div class="info-box">
+
 
             <div class="info-label">
               VENUE
             </div>
 
+
             <div class="info-value">
               AYR RACECOURSE
             </div>
+
 
           </div>
 
@@ -2031,13 +1872,16 @@
 
           <div class="info-box">
 
+
             <div class="info-label">
               EVENT
             </div>
 
+
             <div class="info-value">
               THE LAUNCH
             </div>
+
 
           </div>
 
@@ -2046,6 +1890,7 @@
 
 
       </article>
+
 
     </section>
 
@@ -2072,6 +1917,7 @@
 
         <div class="count-box">
 
+
           <span
             class="count-number"
             id="countDays"
@@ -2079,15 +1925,18 @@
             00
           </span>
 
+
           <span class="count-label">
             DAYS
           </span>
+
 
         </div>
 
 
 
         <div class="count-box">
+
 
           <span
             class="count-number"
@@ -2096,15 +1945,18 @@
             00
           </span>
 
+
           <span class="count-label">
             HOURS
           </span>
+
 
         </div>
 
 
 
         <div class="count-box">
+
 
           <span
             class="count-number"
@@ -2113,15 +1965,18 @@
             00
           </span>
 
+
           <span class="count-label">
             MINUTES
           </span>
+
 
         </div>
 
 
 
         <div class="count-box">
+
 
           <span
             class="count-number"
@@ -2130,9 +1985,11 @@
             00
           </span>
 
+
           <span class="count-label">
             SECONDS
           </span>
+
 
         </div>
 
@@ -2153,13 +2010,16 @@
 
       <div class="section-header">
 
+
         <h2 class="section-title">
           THE FIGHTER
         </h2>
 
+
         <div class="section-tag">
           MRS WOLFIE
         </div>
+
 
       </div>
 
@@ -2173,6 +2033,7 @@
 
 
         <div class="details-content">
+
 
           <div class="details-small">
             TEAM WOLFIE
@@ -2199,6 +2060,7 @@
           <div class="representing">
             REPRESENTING TEAM WOLFPACK
           </div>
+
 
         </div>
 
@@ -2246,9 +2108,12 @@
 
   <footer>
 
+
     <div class="footer-line"></div>
 
+
     © 2026 MRS WOLFIE • TEAM WOLFPACK
+
 
   </footer>
 
@@ -2267,11 +2132,7 @@
       17 October 2026
       00:00 UK time.
 
-      The UK is on British Summer Time
-      (UTC+1) on 17 October 2026.
-
-      Once an official fight/bell time is known,
-      this can be changed to that exact time.
+      No exact bell/fight time is being assumed.
     */
 
     const fightDate =
@@ -2324,7 +2185,7 @@
 
 
       /* ===============================================
-         FIGHT DAY
+         FIGHT DAY / PASSED
       =============================================== */
 
       if (distance <= 0) {
@@ -2429,17 +2290,13 @@
           "0"
         );
 
+
     }
 
 
 
-    /* RUN IMMEDIATELY */
-
     updateFightCountdown();
 
-
-
-    /* UPDATE EVERY SECOND */
 
     setInterval(
       updateFightCountdown,
