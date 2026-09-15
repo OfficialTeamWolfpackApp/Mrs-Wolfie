@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>Mrs Wolfie Boxing</title>
+
+  <meta
+    name="description"
+    content="Official Mrs Wolfie Boxing mobile app."
+  >
+
+  <meta name="theme-color" content="#05080c">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ice: #00BFFF;
+      --ice-light: #EAFBFF;
+      --ice-dark: #003B80;
+
+      --fire: #FF5A00;
+      --fire-light: #FFB000;
+      --fire-dark: #B51A00;
+
+      --black: #05080c;
+      --panel: #0b1016;
+      --panel-light: #121922;
+      --text: #ffffff;
+      --muted: #9ca9b5;
+    }
+
+    html {
+      background: var(--black);
+      color-scheme: dark;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 0% 0%,
+          rgba(0, 191, 255, 0.22),
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 100% 100%,
+          rgba(255, 90, 0, 0.20),
+          transparent 38%
+        ),
+        var(--black);
+
+      padding-bottom: 90px;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* HEADER */
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 68px;
+
+      padding:
+        calc(10px + env(safe-area-inset-top))
+        18px
+        10px;
+
+      background: rgba(5, 8, 12, 0.92);
+
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .brand-small {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-title .ice {
+      color: var(--ice);
+    }
+
+    .brand-title .fire {
+      color: var(--fire);
+    }
+
+    .pack-badge {
+      padding: 8px 10px;
+
+      border: 1px solid rgba(0,191,255,0.35);
+      border-radius: 10px;
+
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+
+      color: var(--ice-light);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(0,191,255,0.10),
+          rgba(255,90,0,0.08)
+        );
+    }
+
+    /* MAIN */
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 480px;
+
+      display: flex;
+      align-items: flex-end;
+
+      padding: 30px 20px 34px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(5,8,12,0.10),
+          rgba(5,8,12,0.96)
+        ),
+        radial-gradient(
+          circle at 20% 30%,
+          rgba(0,191,255,0.30),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 80% 50%,
+          rgba(255,90,0,0.25),
+          transparent 35%
+        ),
+        #080d13;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          115deg,
+          transparent 30%,
+          rgba(255,255,255,0.03) 50%,
+          transparent 70%
+        );
+
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-block;
+
+      margin-bottom: 14px;
+      padding: 7px 10px;
+
+      border-radius: 999px;
+
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+
+      color: var(--ice-light);
+
+      border: 1px solid rgba(0,191,255,0.35);
+
+      background: rgba(0,191,255,0.08);
+    }
+
+    h1 {
+      max-width: 580px;
+
+      font-size:
+        clamp(2.8rem, 12vw, 5.2rem);
+
+      line-height: 0.88;
+
+      font-weight: 1000;
+      letter-spacing: -0.06em;
+
+      text-transform: uppercase;
+
+      text-shadow:
+        0 0 25px rgba(0,191,255,0.12);
+    }
+
+    h1 .mrs {
+      color: var(--ice-light);
+    }
+
+    h1 .wolfie {
+      color: var(--ice);
+    }
+
+    h1 .boxing {
+      color: var(--fire);
+    }
+
+    .hero-text {
+      max-width: 520px;
+
+      margin-top: 18px;
+
+      font-size: 0.98rem;
+      line-height: 1.6;
+
+      color: #c5ced6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 46px;
+
+      padding: 0 17px;
+
+      border-radius: 11px;
+
+      text-decoration: none;
+
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      color: #001018;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--ice-light),
+          var(--ice)
+        );
+
+      box-shadow:
+        0 0 25px rgba(0,191,255,0.18);
+    }
+
+    .btn-secondary {
+      color: white;
+
+      border:
+        1px solid rgba(255,90,0,0.55);
+
+      background:
+        rgba(255,90,0,0.08);
+    }
+
+    /* SECTIONS */
+
+    .section {
+      padding: 32px 18px;
+    }
+
+    .section-title {
+      margin-bottom: 6px;
+
+      font-size: 1.5rem;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      margin-bottom: 20px;
+
+      color: var(--muted);
+
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    /* CARDS */
+
+    .card-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+    }
+
+    .card {
+      min-height: 145px;
+
+      padding: 18px;
+
+      border-radius: 16px;
+
+      text-decoration: none;
+      color: white;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.018)
+        );
+
+      box-shadow:
+        0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .card.ice-card {
+      border-top:
+        2px solid var(--ice);
+    }
+
+    .card.fire-card {
+      border-top:
+        2px solid var(--fire);
+    }
+
+    .card-icon {
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+    }
+
+    .card-title {
+      margin-bottom: 6px;
+
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .card-text {
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    /* QUOTE */
+
+    .motto {
+      margin: 8px 18px 32px;
+      padding: 24px 20px;
+
+      text-align: center;
+
+      border-radius: 18px;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(0,191,255,0.10),
+          rgba(255,90,0,0.10)
+        );
+    }
+
+    .motto-main {
+      font-size: 1.2rem;
+      font-weight: 1000;
+      letter-spacing: 0.04em;
+    }
+
+    .motto-main .blue {
+      color: var(--ice);
+    }
+
+    .motto-main .orange {
+      color: var(--fire);
+    }
+
+    .motto-small {
+      margin-top: 7px;
+
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    /* BOTTOM NAV */
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 200;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      min-height: 68px;
+
+      padding-bottom:
+        env(safe-area-inset-bottom);
+
+      background:
+        rgba(5,8,12,0.96);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-top:
+        1px solid rgba(255,255,255,0.09);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 5px;
+
+      color: #77838e;
+
+      text-decoration: none;
+
+      font-size: 0.61rem;
+      font-weight: 800;
+
+      letter-spacing: 0.05em;
+    }
+
+    .nav-icon {
+      font-size: 1.15rem;
+    }
+
+    .nav-item.active {
+      color: var(--ice);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 390px) {
+      .hero {
+        min-height: 440px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="app-header">
+
+    <div>
+      <div class="brand-small">
+        OFFICIAL MOBILE APP
+      </div>
+
+      <div class="brand-title">
+        <span class="ice">MRS WOLFIE</span>
+        <span class="fire">BOXING</span>
+      </div>
+    </div>
+
+    <div class="pack-badge">
+      TEAM WOLFPACK
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          TEAM WOLFIE • TEAM WOLFPACK
+        </div>
+
+        <h1>
+          <span class="mrs">MRS</span><br>
+          <span class="wolfie">WOLFIE</span><br>
+          <span class="boxing">BOXING</span>
+        </h1>
+
+        <p class="hero-text">
+          Follow the journey of Zoey “Mrs Wolfie” James,
+          Team Wolfie boxer and Co-Founder of Team Wolfpack.
+          Fight news, events, results, sponsors and everything
+          behind the journey — all in one place.
+        </p>
+
+        <div class="hero-buttons">
+
+          <a class="btn btn-primary" href="#journey">
+            Explore
+          </a>
+
+          <a class="btn btn-secondary" href="#fights">
+            Fight Schedule
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section" id="journey">
+
+      <h2 class="section-title">
+        Mrs Wolfie
+      </h2>
+
+      <p class="section-subtitle">
+        Boxing, determination and the journey behind
+        Team Wolfie's fighter.
+      </p>
+
+
+      <div class="card-grid">
+
+        <a href="#" class="card ice-card">
+
+          <div class="card-icon">🥊</div>
+
+          <div class="card-title">
+            Fighter Profile
+          </div>
+
+          <div class="card-text">
+            Discover Mrs Wolfie's boxing journey,
+            story and fighter profile.
+          </div>
+
+        </a>
+
+
+        <a href="#fights" class="card fire-card">
+
+          <div class="card-icon">🔥</div>
+
+          <div class="card-title">
+            Fight Nights
+          </div>
+
+          <div class="card-text">
+            Upcoming fights, previous bouts
+            and event information.
+          </div>
+
+        </a>
+
+
+        <a href="#" class="card ice-card">
+
+          <div class="card-icon">🐺</div>
+
+          <div class="card-title">
+            Team Wolfpack
+          </div>
+
+          <div class="card-text">
+            Meet the people standing behind
+            Mrs Wolfie and the wider pack.
+          </div>
+
+        </a>
+
+
+        <a href="#" class="card fire-card">
+
+          <div class="card-icon">🤝</div>
+
+          <div class="card-title">
+            Sponsors
+          </div>
+
+          <div class="card-text">
+            Meet the businesses supporting
+            Mrs Wolfie's boxing journey.
+          </div>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <section class="section" id="fights">
+
+      <h2 class="section-title">
+        Fight Centre
+      </h2>
+
+      <p class="section-subtitle">
+        Mrs Wolfie's upcoming events and fight history
+        will live here in the finished app.
+      </p>
+
+    </section>
+
+
+    <div class="motto">
+
+      <div class="motto-main">
+        <span class="blue">HUNT WITHOUT FEAR</span>
+      </div>
+
+      <div class="motto-small">
+        ONE PACK • ONE PURPOSE
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <nav class="bottom-nav">
+
+    <a class="nav-item active" href="#">
+      <span class="nav-icon">⌂</span>
+      HOME
+    </a>
+
+    <a class="nav-item" href="#journey">
+      <span class="nav-icon">🥊</span>
+      FIGHTER
+    </a>
+
+    <a class="nav-item" href="#fights">
+      <span class="nav-icon">⚡</span>
+      FIGHTS
+    </a>
+
+    <a class="nav-item" href="#">
+      <span class="nav-icon">☰</span>
+      MORE
+    </a>
+
+  </nav>
+
+</body>
+</html>
