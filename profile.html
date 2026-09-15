@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -9,8 +10,22 @@
   content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
-<meta name="theme-color" content="#030506">
-<link rel="manifest" href="./manifest.json">
+<meta
+  name="theme-color"
+  content="#030506"
+>
+
+<title>Mrs Wolfie | Fighter Profile</title>
+
+
+<!-- =====================================================
+     PWA
+====================================================== -->
+
+<link
+  rel="manifest"
+  href="./manifest.json"
+>
 
 <link
   rel="apple-touch-icon"
@@ -31,7 +46,7 @@
   name="apple-mobile-web-app-title"
   content="Mrs Wolfie"
 >
-<title>Mrs Wolfie | Fighter Profile</title>
+
 
 <style>
 
@@ -51,6 +66,7 @@ html {
 }
 
 body {
+
   min-height: 100vh;
 
   font-family:
@@ -61,16 +77,19 @@ body {
   color: #ffffff;
 
   background:
+
     radial-gradient(
       circle at 0% 28%,
       rgba(137,220,255,0.13),
       transparent 30%
     ),
+
     radial-gradient(
       circle at 100% 35%,
       rgba(255,143,211,0.12),
       transparent 32%
     ),
+
     #030506;
 
   overflow-x: hidden;
@@ -126,44 +145,66 @@ a {
   height: 62px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   position: relative;
 
-  background: rgba(3,6,9,0.98);
+  background:
+    rgba(3,6,9,0.98);
 
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom:
+    1px solid
+    rgba(255,255,255,0.05);
 
   z-index: 5000;
 }
 
 
-.menu-button {
+/* =========================================================
+   HOME BUTTON
+========================================================= */
+
+.home-button {
 
   position: absolute;
 
   left: 18px;
   top: 50%;
 
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%);
 
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  border-radius: 10px;
+  border-radius: 11px;
 
-  border: 1px solid rgba(137,220,255,0.20);
+  border:
+    1px solid
+    rgba(137,220,255,0.25);
 
-  background: rgba(137,220,255,0.06);
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,0.10),
+      rgba(255,143,211,0.07)
+    );
 
   color: var(--blue);
 
-  font-size: 21px;
+  font-size: 20px;
+
+  box-shadow:
+    0 0 20px
+    rgba(137,220,255,0.05);
 }
 
 
@@ -206,7 +247,8 @@ a {
   right: 21px;
   top: 50%;
 
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%);
 
   width: 8px;
   height: 8px;
@@ -261,7 +303,8 @@ a {
 
   background-size: cover;
 
-  background-position: center 30%;
+  background-position:
+    center 30%;
 
   z-index: -3;
 
@@ -305,6 +348,7 @@ a {
   height: 180px;
 
   background:
+
     linear-gradient(
       to bottom,
       transparent,
@@ -319,13 +363,18 @@ a {
 
 .hero-inner {
 
-  width: min(var(--max), calc(100% - 40px));
+  width:
+    min(
+      var(--max),
+      calc(100% - 40px)
+    );
 
   margin: auto;
 
   text-align: center;
 
-  padding: 90px 0 100px;
+  padding:
+    90px 0 100px;
 }
 
 
@@ -347,7 +396,12 @@ a {
 
 .hero-title {
 
-  font-size: clamp(55px,8vw,96px);
+  font-size:
+    clamp(
+      55px,
+      8vw,
+      96px
+    );
 
   font-weight: 1000;
 
@@ -401,24 +455,33 @@ a {
 
 .app-nav {
 
-  width: min(620px,100%);
+  width:
+    min(
+      620px,
+      100%
+    );
 
   margin: auto;
 
   display: grid;
 
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns:
+    repeat(4,1fr);
 
   padding: 7px;
 
   border-radius: 17px;
 
-  background: rgba(7,11,16,0.98);
+  background:
+    rgba(7,11,16,0.98);
 
-  border: 1px solid rgba(255,255,255,0.09);
+  border:
+    1px solid
+    rgba(255,255,255,0.09);
 
   box-shadow:
-    0 15px 45px rgba(0,0,0,0.75);
+    0 15px 45px
+    rgba(0,0,0,0.75);
 
   position: relative;
 
@@ -454,6 +517,10 @@ a {
   position: relative;
 
   z-index: 10001;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 
@@ -461,7 +528,8 @@ a {
 
   color: white;
 
-  background: rgba(255,255,255,0.05);
+  background:
+    rgba(255,255,255,0.05);
 }
 
 
@@ -480,7 +548,6 @@ a {
 
 
 .nav-icon {
-
   font-size: 16px;
 }
 
@@ -491,11 +558,16 @@ a {
 
 main {
 
-  width: min(var(--max),calc(100% - 40px));
+  width:
+    min(
+      var(--max),
+      calc(100% - 40px)
+    );
 
   margin: auto;
 
-  padding: 60px 0 80px;
+  padding:
+    60px 0 80px;
 }
 
 
@@ -548,7 +620,8 @@ main {
 
   display: grid;
 
-  grid-template-columns: 420px 1fr;
+  grid-template-columns:
+    420px 1fr;
 
   overflow: hidden;
 
@@ -559,13 +632,16 @@ main {
   background: #080c11;
 
   border-left:
-    2px solid rgba(137,220,255,0.70);
+    2px solid
+    rgba(137,220,255,0.70);
 
   border-right:
-    2px solid rgba(255,143,211,0.70);
+    2px solid
+    rgba(255,143,211,0.70);
 
   box-shadow:
-    0 25px 70px rgba(0,0,0,0.55);
+    0 25px 70px
+    rgba(0,0,0,0.55);
 }
 
 
@@ -619,7 +695,12 @@ main {
 
 .profile-name {
 
-  font-size: clamp(34px,5vw,52px);
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      52px
+    );
 
   font-weight: 1000;
 
@@ -671,7 +752,8 @@ main {
 
 .profile-tag {
 
-  padding: 9px 12px;
+  padding:
+    9px 12px;
 
   border-radius: 8px;
 
@@ -689,7 +771,9 @@ main {
 
   color: var(--blue);
 
-  border: 1px solid rgba(137,220,255,0.30);
+  border:
+    1px solid
+    rgba(137,220,255,0.30);
 }
 
 
@@ -697,7 +781,9 @@ main {
 
   color: var(--pink);
 
-  border: 1px solid rgba(255,143,211,0.30);
+  border:
+    1px solid
+    rgba(255,143,211,0.30);
 }
 
 
@@ -706,7 +792,6 @@ main {
 ========================================================= */
 
 .about-section {
-
   margin-top: 55px;
 }
 
@@ -727,10 +812,12 @@ main {
     );
 
   border-left:
-    2px solid rgba(137,220,255,0.55);
+    2px solid
+    rgba(137,220,255,0.55);
 
   border-right:
-    2px solid rgba(255,143,211,0.55);
+    2px solid
+    rgba(255,143,211,0.55);
 }
 
 
@@ -752,7 +839,12 @@ main {
 
 .about-title {
 
-  font-size: clamp(28px,4vw,42px);
+  font-size:
+    clamp(
+      28px,
+      4vw,
+      42px
+    );
 
   font-weight: 1000;
 
@@ -773,7 +865,6 @@ main {
 
 
 .about-text strong {
-
   color: #ffffff;
 }
 
@@ -783,7 +874,6 @@ main {
 ========================================================= */
 
 .identity-section {
-
   margin-top: 55px;
 }
 
@@ -792,7 +882,8 @@ main {
 
   display: grid;
 
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns:
+    repeat(3,1fr);
 
   gap: 15px;
 }
@@ -814,28 +905,33 @@ main {
 
   background: #080c11;
 
-  border: 1px solid rgba(255,255,255,0.06);
+  border:
+    1px solid
+    rgba(255,255,255,0.06);
 }
 
 
 .identity-card:nth-child(1) {
 
   border-top:
-    2px solid var(--blue);
+    2px solid
+    var(--blue);
 }
 
 
 .identity-card:nth-child(2) {
 
   border-top:
-    2px solid var(--pink);
+    2px solid
+    var(--pink);
 }
 
 
 .identity-card:nth-child(3) {
 
   border-top:
-    2px solid var(--blue);
+    2px solid
+    var(--blue);
 }
 
 
@@ -868,7 +964,6 @@ main {
 ========================================================= */
 
 .journey-section {
-
   margin-top: 55px;
 }
 
@@ -882,10 +977,12 @@ main {
   background: #080c11;
 
   border-left:
-    2px solid rgba(137,220,255,0.65);
+    2px solid
+    rgba(137,220,255,0.65);
 
   border-right:
-    2px solid rgba(255,143,211,0.65);
+    2px solid
+    rgba(255,143,211,0.65);
 }
 
 
@@ -920,7 +1017,6 @@ main {
 ========================================================= */
 
 .history-section {
-
   margin-top: 55px;
 }
 
@@ -939,7 +1035,8 @@ main {
 
   display: grid;
 
-  grid-template-columns: 105px 1fr 65px;
+  grid-template-columns:
+    105px 1fr 65px;
 
   align-items: center;
 
@@ -957,10 +1054,12 @@ main {
     );
 
   border-left:
-    2px solid rgba(137,220,255,0.65);
+    2px solid
+    rgba(137,220,255,0.65);
 
   border-right:
-    2px solid rgba(255,143,211,0.55);
+    2px solid
+    rgba(255,143,211,0.55);
 }
 
 
@@ -976,7 +1075,8 @@ main {
   justify-content: center;
 
   border-right:
-    1px solid rgba(255,255,255,0.06);
+    1px solid
+    rgba(255,255,255,0.06);
 }
 
 
@@ -1003,7 +1103,6 @@ main {
 
 
 .history-info {
-
   padding: 18px 22px;
 }
 
@@ -1118,7 +1217,12 @@ main {
 
 .motto-main {
 
-  font-size: clamp(32px,6vw,54px);
+  font-size:
+    clamp(
+      32px,
+      6vw,
+      54px
+    );
 
   font-weight: 1000;
 
@@ -1127,7 +1231,6 @@ main {
 
 
 .motto-main span {
-
   color: var(--pink);
 }
 
@@ -1138,7 +1241,8 @@ main {
 
 footer {
 
-  padding: 80px 20px 45px;
+  padding:
+    80px 20px 45px;
 
   text-align: center;
 }
@@ -1152,7 +1256,8 @@ footer {
 
   height: 2px;
 
-  margin: 0 auto 14px;
+  margin:
+    0 auto 14px;
 
   background:
 
@@ -1203,28 +1308,44 @@ footer {
 
 @media (max-width: 760px) {
 
+
   body {
     padding-bottom: 90px;
   }
 
 
-  .hero {
+  .topbar {
+    height: 55px;
+  }
 
+
+  .home-button {
+
+    left: 16px;
+
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .hero {
     min-height: 470px;
   }
 
 
   .hero-background {
-
-    background-position: 47% center;
+    background-position:
+      47% center;
   }
 
 
   .hero-inner {
 
-    width: calc(100% - 30px);
+    width:
+      calc(100% - 30px);
 
-    padding: 80px 0;
+    padding:
+      80px 0;
   }
 
 
@@ -1253,13 +1374,22 @@ footer {
     left: 50%;
 
     bottom:
-      calc(12px + env(safe-area-inset-bottom));
+      calc(
+        12px +
+        env(safe-area-inset-bottom)
+      );
 
-    transform: translateX(-50%);
+    transform:
+      translateX(-50%);
 
-    width: calc(100% - 24px);
+    width:
+      calc(100% - 24px);
 
     z-index: 99999;
+
+    box-shadow:
+      0 15px 50px
+      rgba(0,0,0,0.90);
   }
 
 
@@ -1273,7 +1403,8 @@ footer {
 
   main {
 
-    width: calc(100% - 28px);
+    width:
+      calc(100% - 28px);
 
     padding-top: 42px;
   }
@@ -1291,12 +1422,12 @@ footer {
 
     min-height: 430px;
 
-    background-position: center 25%;
+    background-position:
+      center 25%;
   }
 
 
   .profile-info {
-
     padding: 35px 25px;
   }
 
@@ -1304,37 +1435,72 @@ footer {
   .about-card,
   .journey-card {
 
-    padding: 30px 24px;
+    padding:
+      30px 24px;
   }
 
 
   .identity-grid {
-
     grid-template-columns: 1fr;
   }
 
 
   .history-card {
 
-    grid-template-columns: 78px 1fr 45px;
+    grid-template-columns:
+      78px 1fr 45px;
   }
 
 
   .history-info {
-
     padding: 14px;
   }
 
 
   .history-fight {
-
     font-size: 11px;
   }
 
 
   footer {
-
     padding-bottom: 120px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+
+  .hero-title {
+    font-size: 48px;
+  }
+
+
+  .profile-name {
+    font-size: 34px;
+  }
+
+
+  .section-heading h2 {
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+  }
+
+
+  .identity-value {
+    font-size: 18px;
+  }
+
+
+  .motto-main {
+    font-size: 31px;
   }
 
 }
@@ -1353,9 +1519,14 @@ footer {
 
 <header class="topbar">
 
-  <div class="menu-button">
-    ☰
-  </div>
+
+  <a
+    href="./index.html"
+    class="home-button"
+    aria-label="Mrs Wolfie Home"
+  >
+    ⌂
+  </a>
 
 
   <div class="brand">
@@ -1373,6 +1544,7 @@ footer {
 
   <div class="status-dot"></div>
 
+
 </header>
 
 
@@ -1383,10 +1555,12 @@ footer {
 
 <section class="hero">
 
+
   <div class="hero-background"></div>
 
 
   <div class="hero-inner">
+
 
     <div class="hero-kicker">
       TEAM WOLFIE • FIGHTER PROFILE
@@ -1395,13 +1569,16 @@ footer {
 
     <h1 class="hero-title">
 
+
       <span class="blue">
         MRS
       </span>
 
+
       <span class="pink">
         WOLFIE
       </span>
+
 
     </h1>
 
@@ -1410,7 +1587,9 @@ footer {
       HUNT WITHOUT FEAR
     </div>
 
+
   </div>
+
 
 </section>
 
@@ -1421,6 +1600,7 @@ footer {
 ======================================================== -->
 
 <div class="nav-wrap">
+
 
 <nav class="app-nav">
 
@@ -1494,6 +1674,7 @@ SCHEDULE
 
 </nav>
 
+
 </div>
 
 
@@ -1515,13 +1696,16 @@ SCHEDULE
 
 <div class="section-heading">
 
+
 <h2>
 THE FIGHTER
 </h2>
 
+
 <span class="section-label">
 TEAM WOLFIE
 </span>
+
 
 </div>
 
@@ -1588,7 +1772,9 @@ REPRESENTING TEAM WOLFPACK
 
 </div>
 
+
 </article>
+
 
 </section>
 
@@ -1603,13 +1789,16 @@ REPRESENTING TEAM WOLFPACK
 
 <div class="section-heading">
 
+
 <h2>
 ABOUT MRS WOLFIE
 </h2>
 
+
 <span class="section-label">
 THE STORY
 </span>
+
 
 </div>
 
@@ -1671,6 +1860,7 @@ Team Wolfpack whenever she competes.
 
 </div>
 
+
 </section>
 
 
@@ -1684,13 +1874,16 @@ Team Wolfpack whenever she competes.
 
 <div class="section-heading">
 
+
 <h2>
 FIGHTER IDENTITY
 </h2>
 
+
 <span class="section-label">
 MRS WOLFIE
 </span>
+
 
 </div>
 
@@ -1701,27 +1894,33 @@ MRS WOLFIE
 
 <div class="identity-card">
 
+
 <div class="identity-label">
 FIGHTER
 </div>
+
 
 <div class="identity-value">
 Zoey “Mrs Wolfie” James
 </div>
 
+
 </div>
 
 
 
 <div class="identity-card">
+
 
 <div class="identity-label">
 FIGHT TEAM
 </div>
 
+
 <div class="identity-value">
 Team Wolfie
 </div>
+
 
 </div>
 
@@ -1729,18 +1928,22 @@ Team Wolfie
 
 <div class="identity-card">
 
+
 <div class="identity-label">
 REPRESENTING
 </div>
+
 
 <div class="identity-value">
 Team Wolfpack
 </div>
 
+
 </div>
 
 
 </div>
+
 
 </section>
 
@@ -1755,13 +1958,16 @@ Team Wolfpack
 
 <div class="section-heading">
 
+
 <h2>
 BOXING JOURNEY
 </h2>
 
+
 <span class="section-label">
 HUNT WITHOUT FEAR
 </span>
+
 
 </div>
 
@@ -1797,6 +2003,7 @@ It is to keep moving forward.
 
 </div>
 
+
 </section>
 
 
@@ -1810,13 +2017,16 @@ It is to keep moving forward.
 
 <div class="section-heading">
 
+
 <h2>
 FIGHT HISTORY
 </h2>
 
+
 <span class="section-label">
 2025 — 2026
 </span>
+
 
 </div>
 
@@ -1830,32 +2040,41 @@ FIGHT HISTORY
 
 <div class="history-card">
 
+
 <div class="history-date">
+
 
 <div class="history-day">
 25
 </div>
 
+
 <div class="history-month">
 MAY 25
 </div>
 
+
 </div>
 
 
+
 <div class="history-info">
+
 
 <div class="history-promotion">
 EBO
 </div>
 
+
 <div class="history-fight">
 MRS WOLFIE VS DEMI WISE
 </div>
 
+
 <div class="history-venue">
 TRILOGY NIGHTCLUB
 </div>
+
 
 </div>
 
@@ -1863,6 +2082,7 @@ TRILOGY NIGHTCLUB
 <div class="result loss">
 L
 </div>
+
 
 </div>
 
@@ -1872,32 +2092,41 @@ L
 
 <div class="history-card">
 
+
 <div class="history-date">
+
 
 <div class="history-day">
 05
 </div>
 
+
 <div class="history-month">
 JUL 25
 </div>
 
+
 </div>
 
 
+
 <div class="history-info">
+
 
 <div class="history-promotion">
 EBO
 </div>
 
+
 <div class="history-fight">
 MRS WOLFIE VS BRY KELLY
 </div>
 
+
 <div class="history-venue">
 TRILOGY NIGHTCLUB
 </div>
+
 
 </div>
 
@@ -1905,6 +2134,7 @@ TRILOGY NIGHTCLUB
 <div class="result loss">
 L
 </div>
+
 
 </div>
 
@@ -1914,32 +2144,41 @@ L
 
 <div class="history-card">
 
+
 <div class="history-date">
+
 
 <div class="history-day">
 14
 </div>
 
+
 <div class="history-month">
 MAR 26
 </div>
 
+
 </div>
 
 
+
 <div class="history-info">
+
 
 <div class="history-promotion">
 TRAIN 4 FIGHT PROMOTIONS
 </div>
 
+
 <div class="history-fight">
 MRS WOLFIE VS KATIE FAE THE BING
 </div>
 
+
 <div class="history-venue">
 EASTHOUSES MINERS CLUB
 </div>
+
 
 </div>
 
@@ -1948,10 +2187,12 @@ EASTHOUSES MINERS CLUB
 W
 </div>
 
+
 </div>
 
 
 </div>
+
 
 </section>
 
@@ -2009,24 +2250,54 @@ MRS WOLFIE
 
 </footer>
 
+
+
+<!-- =======================================================
+     SERVICE WORKER
+======================================================== -->
+
 <script>
+
 if ("serviceWorker" in navigator) {
 
-  window.addEventListener("load", () => {
 
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then(() => {
-        console.log("Mrs Wolfie App service worker registered.");
-      })
-      .catch((error) => {
-        console.error("Service worker registration failed:", error);
-      });
+  window.addEventListener(
+    "load",
+    () => {
 
-  });
+
+      navigator.serviceWorker
+        .register(
+          "./service-worker.js"
+        )
+
+        .then(() => {
+
+          console.log(
+            "Mrs Wolfie App service worker registered."
+          );
+
+        })
+
+        .catch((error) => {
+
+          console.error(
+            "Service worker registration failed:",
+            error
+          );
+
+        });
+
+
+    }
+  );
+
 
 }
+
 </script>
+
+
 </body>
 
 </html>
