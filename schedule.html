@@ -2119,21 +2119,231 @@
 
 
   <!-- =======================================================
-       NEXT FIGHT STATUS
+       CENTRAL FIGHT DATA
+  ======================================================== -->
+
+  <script src="./fight-data.js"></script>
+
+
+  <!-- =======================================================
+       CENTRAL SCHEDULE DATA
   ======================================================== -->
 
   <script>
 
-    /*
-      Countdown goes to the start of fight day.
+    /* =====================================================
+       CENTRAL DATA
+    ====================================================== */
 
-      No exact fight/bell time is assumed.
-    */
+    const fightData =
+      window.MRS_WOLFIE_FIGHTS || {};
 
-    const nextFightDate =
-      new Date(
-        "2026-10-17T00:00:00+01:00"
+
+    const currentFight =
+      fightData.nextFight || null;
+
+
+    const upcomingFights =
+      Array.isArray(fightData.upcoming)
+        ? fightData.upcoming
+        : [];
+
+
+    const fightHistory =
+      Array.isArray(fightData.history)
+        ? fightData.history
+        : [];
+
+
+    const oneDay =
+      1000 * 60 * 60 * 24;
+
+
+
+    /* =====================================================
+       DATE HELPERS
+    ====================================================== */
+
+    const monthNames = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC"
+    ];
+
+
+    function parseFightDate(dateString) {
+
+      if (!dateString) {
+        return null;
+      }
+
+
+      const date =
+        new Date(
+          dateString +
+          "T12:00:00"
+        );
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return null;
+
+      }
+
+
+      return date;
+
+    }
+
+
+    function getDateDay(fight) {
+
+      const startDate =
+        parseFightDate(
+          fight.date
+        );
+
+
+      if (!startDate) {
+        return "TBA";
+      }
+
+
+      const startDay =
+        String(
+          startDate.getDate()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      if (
+        fight.dateEnd
+      ) {
+
+        const endDate =
+          parseFightDate(
+            fight.dateEnd
+          );
+
+
+        if (endDate) {
+
+          const endDay =
+            String(
+              endDate.getDate()
+            ).padStart(
+              2,
+              "0"
+            );
+
+
+          return (
+            startDay +
+            "/" +
+            endDay
+          );
+
+        }
+
+      }
+
+
+      return startDay;
+
+    }
+
+
+    function getDateMonth(fight) {
+
+      const date =
+        parseFightDate(
+          fight.date
+        );
+
+
+      if (!date) {
+        return "TBA";
+      }
+
+
+      return monthNames[
+        date.getMonth()
+      ];
+
+    }
+
+
+    function getHistoryMonth(fight) {
+
+      const date =
+        parseFightDate(
+          fight.date
+        );
+
+
+      if (!date) {
+        return "TBA";
+      }
+
+
+      return (
+        monthNames[
+          date.getMonth()
+        ] +
+        " " +
+        String(
+          date.getFullYear()
+        ).slice(-2)
+      );
+
+    }
+
+
+    function fightTimestamp(fight) {
+
+      if (
+        !fight ||
+        !fight.date
+      ) {
+
+        return NaN;
+
+      }
+
+
+      return new Date(
+        fight.date +
+        "T00:00:00+01:00"
       ).getTime();
+
+    }
+
+
+
+    /* =====================================================
+       NEXT FIGHT ELEMENTS
+    ====================================================== */
+
+    const nextFightStatus =
+      document.getElementById(
+        "nextFightStatus"
+      );
 
 
     const daysToGo =
@@ -2142,14 +2352,687 @@
       );
 
 
-    const nextFightStatus =
-      document.getElementById(
-        "nextFightStatus"
+    const nextPromotion =
+      document.querySelector(
+        ".next-promotion"
+      );
+
+
+    const nextEvent =
+      document.querySelector(
+        ".next-event"
+      );
+
+
+    const nextOpponent =
+      document.querySelector(
+        ".fighter.opponent"
+      );
+
+
+    const nextInfoValues =
+      document.querySelectorAll(
+        ".next-info .info-value"
+      );
+
+
+    const nextSectionLabel =
+      document.querySelector(
+        ".section .section-label"
+      );
+
+
+    const fightButton =
+      document.querySelector(
+        ".fight-button"
       );
 
 
 
+    /* =====================================================
+       LOAD NEXT FIGHT
+    ====================================================== */
+
+    function loadNextFight() {
+
+
+      if (
+        !currentFight ||
+        !currentFight.date
+      ) {
+
+
+        if (nextFightStatus) {
+
+          nextFightStatus.textContent =
+            "AWAITING ANNOUNCEMENT";
+
+        }
+
+
+        if (daysToGo) {
+
+          daysToGo.textContent =
+            "TO BE ANNOUNCED";
+
+        }
+
+
+        if (nextPromotion) {
+
+          nextPromotion.textContent =
+            "NEXT FIGHT";
+
+        }
+
+
+        if (nextEvent) {
+
+          nextEvent.textContent =
+            "TO BE ANNOUNCED";
+
+        }
+
+
+        if (nextOpponent) {
+
+          nextOpponent.textContent =
+            "TBA";
+
+        }
+
+
+        if (nextInfoValues[0]) {
+
+          nextInfoValues[0].textContent =
+            "TBA";
+
+        }
+
+
+        if (nextInfoValues[1]) {
+
+          nextInfoValues[1].textContent =
+            "TBA";
+
+        }
+
+
+        if (nextInfoValues[2]) {
+
+          nextInfoValues[2].textContent =
+            "TBA";
+
+        }
+
+
+        if (nextSectionLabel) {
+
+          nextSectionLabel.textContent =
+            "TBA";
+
+        }
+
+
+        if (fightButton) {
+
+          fightButton.textContent =
+            "CHECK FIGHT SCHEDULE";
+
+          fightButton.href =
+            "./schedule.html";
+
+        }
+
+
+        return;
+
+      }
+
+
+
+      if (nextPromotion) {
+
+        nextPromotion.textContent =
+          currentFight.promotion ||
+          "TBA";
+
+      }
+
+
+      if (nextEvent) {
+
+        nextEvent.textContent =
+          currentFight.event ||
+          "TBA";
+
+      }
+
+
+      if (nextOpponent) {
+
+        nextOpponent.textContent =
+          currentFight.opponent ||
+          "TBA";
+
+      }
+
+
+      if (nextInfoValues[0]) {
+
+        nextInfoValues[0].textContent =
+          currentFight.dateDisplay ||
+          "TBA";
+
+      }
+
+
+      if (nextInfoValues[1]) {
+
+        nextInfoValues[1].textContent =
+          currentFight.venue ||
+          "TBA";
+
+      }
+
+
+      if (nextInfoValues[2]) {
+
+        nextInfoValues[2].textContent =
+          currentFight.event ||
+          "TBA";
+
+      }
+
+
+      const date =
+        parseFightDate(
+          currentFight.date
+        );
+
+
+      if (
+        nextSectionLabel &&
+        date
+      ) {
+
+        nextSectionLabel.textContent =
+          date.toLocaleDateString(
+            "en-GB",
+            {
+              month: "long",
+              year: "numeric"
+            }
+          ).toUpperCase();
+
+      }
+
+
+      if (fightButton) {
+
+        fightButton.textContent =
+          "VIEW FIGHT NIGHT →";
+
+        fightButton.href =
+          "./fight.html";
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       UPCOMING FIGHTS
+    ====================================================== */
+
+    const scheduleList =
+      document.querySelector(
+        ".schedule-list"
+      );
+
+
+    function renderUpcomingFights() {
+
+
+      if (!scheduleList) {
+        return;
+      }
+
+
+      scheduleList.innerHTML =
+        "";
+
+
+      if (
+        upcomingFights.length === 0
+      ) {
+
+
+        scheduleList.innerHTML = `
+
+          <div class="schedule-card">
+
+            <div class="schedule-date">
+
+              <div class="date-day">
+                TBA
+              </div>
+
+              <div class="date-month">
+                --
+              </div>
+
+            </div>
+
+            <div class="schedule-info">
+
+              <div class="schedule-type">
+                NEXT FIGHT
+              </div>
+
+              <div class="schedule-fight">
+                TO BE ANNOUNCED
+              </div>
+
+              <div class="schedule-event">
+                CHECK BACK FOR THE LATEST FIGHT NEWS
+              </div>
+
+            </div>
+
+            <div class="schedule-arrow">
+              ›
+            </div>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+
+      upcomingFights
+        .slice()
+        .sort(
+          (a, b) =>
+            fightTimestamp(a) -
+            fightTimestamp(b)
+        )
+        .forEach(
+          (fight, index) => {
+
+
+            const isNextFight =
+              currentFight &&
+              fight.date ===
+                currentFight.date &&
+              fight.opponent ===
+                currentFight.opponent;
+
+
+            const cardClass =
+              fight.event &&
+              fight.event
+                .toUpperCase()
+                .includes("TITLE")
+                ? " title-card"
+                : "";
+
+
+            const nextClass =
+              isNextFight
+                ? " next-card"
+                : "";
+
+
+            const tag =
+              isNextFight
+                ? `
+                  <div class="next-badge">
+                    NEXT FIGHT
+                  </div>
+                `
+                : "";
+
+
+            const titleBadge =
+              fight.event &&
+              fight.event
+                .toUpperCase()
+                .includes("TITLE")
+                ? `
+                  <div class="title-badge">
+                    ${fight.event}
+                  </div>
+                `
+                : "";
+
+
+            const typeText =
+              fight.event &&
+              !fight.event
+                .toUpperCase()
+                .includes("TITLE")
+                ? (
+                    (fight.promotion || "TBA") +
+                    " • " +
+                    fight.event
+                  )
+                : (
+                    fight.promotion ||
+                    "TBA"
+                  );
+
+
+            const eventDate =
+              fight.dateDisplay ||
+              "TBA";
+
+
+            const cardContent = `
+
+              <div class="schedule-date">
+
+                <div class="date-day">
+                  ${getDateDay(fight)}
+                </div>
+
+                <div class="date-month">
+                  ${getDateMonth(fight)}
+                </div>
+
+              </div>
+
+
+              <div class="schedule-info">
+
+                ${tag}
+
+                <div class="schedule-type">
+                  ${typeText}
+                </div>
+
+                <div class="schedule-fight">
+                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                </div>
+
+                <div class="schedule-event">
+                  ${fight.venue || "TBA"} • ${eventDate}
+                </div>
+
+                ${titleBadge}
+
+              </div>
+
+
+              <div class="schedule-arrow">
+                ›
+              </div>
+
+            `;
+
+
+
+            if (isNextFight) {
+
+
+              const card =
+                document.createElement(
+                  "a"
+                );
+
+
+              card.href =
+                "./fight.html";
+
+
+              card.className =
+                "schedule-card" +
+                nextClass +
+                cardClass;
+
+
+              card.innerHTML =
+                cardContent;
+
+
+              scheduleList.appendChild(
+                card
+              );
+
+
+            }
+
+            else {
+
+
+              const card =
+                document.createElement(
+                  "div"
+                );
+
+
+              card.className =
+                "schedule-card" +
+                nextClass +
+                cardClass;
+
+
+              card.innerHTML =
+                cardContent;
+
+
+              scheduleList.appendChild(
+                card
+              );
+
+
+            }
+
+
+          }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       FIGHT HISTORY
+    ====================================================== */
+
+    const historyList =
+      document.querySelector(
+        ".history-list"
+      );
+
+
+    function renderFightHistory() {
+
+
+      if (!historyList) {
+        return;
+      }
+
+
+      historyList.innerHTML =
+        "";
+
+
+      if (
+        fightHistory.length === 0
+      ) {
+
+
+        historyList.innerHTML = `
+
+          <div class="history-card">
+
+            <div class="history-date">
+
+              <div class="history-day">
+                --
+              </div>
+
+              <div class="history-month">
+                ---
+              </div>
+
+            </div>
+
+            <div class="history-info">
+
+              <div class="history-promotion">
+                FIGHT HISTORY
+              </div>
+
+              <div class="history-fight">
+                NO FIGHT RESULTS AVAILABLE
+              </div>
+
+            </div>
+
+            <div class="result">
+              -
+            </div>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+
+      fightHistory
+        .slice()
+        .sort(
+          (a, b) =>
+            fightTimestamp(b) -
+            fightTimestamp(a)
+        )
+        .forEach(
+          (fight) => {
+
+
+            const result =
+              (
+                fight.result ||
+                "-"
+              ).toUpperCase();
+
+
+            let resultClass =
+              "";
+
+
+            if (result === "W") {
+
+              resultClass =
+                " win";
+
+            }
+
+            else if (
+              result === "L"
+            ) {
+
+              resultClass =
+                " loss";
+
+            }
+
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+
+            card.className =
+              "history-card";
+
+
+            card.innerHTML = `
+
+              <div class="history-date">
+
+                <div class="history-day">
+                  ${getDateDay(fight)}
+                </div>
+
+                <div class="history-month">
+                  ${getHistoryMonth(fight)}
+                </div>
+
+              </div>
+
+
+              <div class="history-info">
+
+                <div class="history-promotion">
+                  ${fight.promotion || "TBA"}
+                </div>
+
+                <div class="history-fight">
+                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                </div>
+
+                <div class="history-venue">
+                  ${fight.venue || "TBA"}
+                </div>
+
+              </div>
+
+
+              <div class="result${resultClass}">
+                ${result}
+              </div>
+
+            `;
+
+
+            historyList.appendChild(
+              card
+            );
+
+
+          }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       LIVE NEXT-FIGHT STATUS
+    ====================================================== */
+
     function updateFightStatus() {
+
+
+      if (
+        !currentFight ||
+        !currentFight.date
+      ) {
+
+        return;
+
+      }
+
+
+      const nextFightDate =
+        fightTimestamp(
+          currentFight
+        );
 
 
       const now =
@@ -2157,7 +3040,8 @@
 
 
       const distance =
-        nextFightDate - now;
+        nextFightDate -
+        now;
 
 
 
@@ -2165,14 +3049,25 @@
 
       if (
         distance <= 0 &&
-        distance > -(24 * 60 * 60 * 1000)
+        distance > -oneDay
       ) {
 
-        daysToGo.textContent =
-          "FIGHT DAY";
 
-        nextFightStatus.textContent =
-          "FIGHT DAY";
+        if (daysToGo) {
+
+          daysToGo.textContent =
+            "FIGHT DAY";
+
+        }
+
+
+        if (nextFightStatus) {
+
+          nextFightStatus.textContent =
+            "FIGHT DAY";
+
+        }
+
 
         return;
 
@@ -2180,47 +3075,97 @@
 
 
 
-      /* FIGHT HAS PASSED */
+      /* FIGHT COMPLETE */
 
-      if (distance <= 0) {
+      if (
+        distance <= -oneDay
+      ) {
 
-        daysToGo.textContent =
-          "FIGHT COMPLETED";
 
-        nextFightStatus.textContent =
-          "FIGHT NIGHT";
+        if (daysToGo) {
+
+          daysToGo.textContent =
+            "FIGHT COMPLETED";
+
+        }
+
+
+        if (nextFightStatus) {
+
+          nextFightStatus.textContent =
+            "FIGHT COMPLETE";
+
+        }
+
 
         return;
 
       }
 
 
-
-      /* DAYS REMAINING */
 
       const days =
         Math.ceil(
           distance /
-          (1000 * 60 * 60 * 24)
+          oneDay
         );
 
 
-      if (days === 1) {
+      if (daysToGo) {
 
         daysToGo.textContent =
-          "1 DAY TO GO";
+          days === 1
+            ? "1 DAY TO GO"
+            : days +
+              " DAYS TO GO";
 
       }
 
-      else {
 
-        daysToGo.textContent =
-          days + " DAYS TO GO";
+      if (nextFightStatus) {
+
+
+        if (days === 1) {
+
+          nextFightStatus.textContent =
+            "FIGHT TOMORROW";
+
+        }
+
+        else if (
+          days <= 7
+        ) {
+
+          nextFightStatus.textContent =
+            "FIGHT WEEK";
+
+        }
+
+        else {
+
+          nextFightStatus.textContent =
+            "UPCOMING FIGHT";
+
+        }
+
 
       }
-
 
     }
+
+
+
+    /* =====================================================
+       START SCHEDULE
+    ====================================================== */
+
+    loadNextFight();
+
+
+    renderUpcomingFights();
+
+
+    renderFightHistory();
 
 
     updateFightStatus();
