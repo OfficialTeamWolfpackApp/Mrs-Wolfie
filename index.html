@@ -2945,12 +2945,573 @@
   </footer>
 
 
+<script src="./fight-data.js"></script>
+ <!-- =======================================================
+     LIVE DASHBOARD + AUTOMATIC FIGHT STATUS
+======================================================== -->
+  
 
-  <!-- =======================================================
-       LIVE DASHBOARD
-  ======================================================== -->
+ <script>
 
-  <script>
+/* =========================================================
+   CENTRAL FIGHT DATA
+========================================================= */
+
+const fightData =
+  window.MRS_WOLFIE_FIGHTS;
+
+
+const currentFight =
+  fightData.nextFight;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const dashboardDays =
+  document.getElementById(
+    "dashboardDays"
+  );
+
+
+const fightDays =
+  document.getElementById(
+    "fightDays"
+  );
+
+
+const fightStatus =
+  document.getElementById(
+    "fightStatus"
+  );
+
+
+const updateStatus =
+  document.getElementById(
+    "updateStatus"
+  );
+
+
+const updateTitle =
+  document.getElementById(
+    "updateTitle"
+  );
+
+
+const updateMessage =
+  document.getElementById(
+    "updateMessage"
+  );
+
+
+const updateDate =
+  document.getElementById(
+    "updateDate"
+  );
+
+
+const updateAction =
+  document.getElementById(
+    "updateAction"
+  );
+
+
+
+/* =========================================================
+   AUTOMATIC PAGE CONTENT
+========================================================= */
+
+function loadFightInformation() {
+
+
+  /*
+    Dashboard opponent
+  */
+
+  const opponentBox =
+    document.querySelector(
+      ".pink-card .status-main"
+    );
+
+
+  const opponentSub =
+    document.querySelector(
+      ".pink-card .status-sub"
+    );
+
+
+  const dateSub =
+    document.querySelector(
+      ".blue-card .status-sub"
+    );
+
+
+  if (opponentBox) {
+
+    opponentBox.textContent =
+      currentFight.opponent;
+
+  }
+
+
+  if (opponentSub) {
+
+    opponentSub.textContent =
+      currentFight.promotion +
+      " • " +
+      currentFight.event;
+
+  }
+
+
+  if (dateSub) {
+
+    dateSub.textContent =
+      currentFight.dateDisplay +
+      " • " +
+      currentFight.venue;
+
+  }
+
+
+
+  /*
+    Main fight card
+  */
+
+  const promotion =
+    document.querySelector(
+      ".promotion"
+    );
+
+
+  const eventName =
+    document.querySelector(
+      ".event-name"
+    );
+
+
+  const opponentName =
+    document.querySelector(
+      ".fighter-name.right"
+    );
+
+
+  const infoValues =
+    document.querySelectorAll(
+      ".fight-info .info-value"
+    );
+
+
+  if (promotion) {
+
+    promotion.textContent =
+      currentFight.promotion;
+
+  }
+
+
+  if (eventName) {
+
+    eventName.textContent =
+      currentFight.event;
+
+  }
+
+
+  if (opponentName) {
+
+    opponentName.textContent =
+      currentFight.opponent;
+
+  }
+
+
+  if (infoValues[0]) {
+
+    infoValues[0].textContent =
+      currentFight.dateDisplay;
+
+  }
+
+
+  if (infoValues[1]) {
+
+    infoValues[1].textContent =
+      currentFight.venue;
+
+  }
+
+
+
+  /*
+    Update panel pills
+  */
+
+  const updatePills =
+    document.querySelectorAll(
+      ".update-pill"
+    );
+
+
+  if (updatePills[0]) {
+
+    updatePills[0].textContent =
+      "MRS WOLFIE";
+
+  }
+
+
+  if (updatePills[1]) {
+
+    updatePills[1].textContent =
+      "VS " +
+      currentFight.opponent;
+
+  }
+
+
+  if (updatePills[2]) {
+
+    updatePills[2].textContent =
+      currentFight.venue;
+
+  }
+
+
+}
+
+
+
+/* =========================================================
+   FIGHT DATE
+========================================================= */
+
+/*
+  The date is built from fight-data.js.
+
+  00:00 is used because an official
+  fight/bell time has not been entered.
+*/
+
+const nextFight =
+  new Date(
+    currentFight.date +
+    "T00:00:00+01:00"
+  ).getTime();
+
+
+const oneDay =
+  1000 * 60 * 60 * 24;
+
+
+
+/* =========================================================
+   UPDATE DASHBOARD
+========================================================= */
+
+function updateHomeDashboard() {
+
+
+  const now =
+    Date.now();
+
+
+  const distance =
+    nextFight - now;
+
+
+
+  /* =====================================================
+     FIGHT COMPLETE
+  ====================================================== */
+
+  if (
+    distance <= -oneDay
+  ) {
+
+
+    dashboardDays.innerHTML =
+      'FIGHT <span>COMPLETE</span>';
+
+
+    fightDays.textContent =
+      "COMPLETED";
+
+
+    fightStatus.textContent =
+      "FIGHT COMPLETE";
+
+
+    updateStatus.textContent =
+      "FIGHT COMPLETE";
+
+
+    updateTitle.innerHTML =
+      'FIGHT NIGHT <span>COMPLETE</span>';
+
+
+    updateMessage.textContent =
+      "Fight night has now taken place. Check the schedule and fight record for the latest Mrs Wolfie updates.";
+
+
+    updateDate.textContent =
+      currentFight.dateDisplay;
+
+
+    updateAction.textContent =
+      "VIEW FIGHT SCHEDULE →";
+
+
+    updateAction.href =
+      "./schedule.html";
+
+
+    return;
+
+  }
+
+
+
+  /* =====================================================
+     FIGHT DAY
+  ====================================================== */
+
+  if (
+    distance <= 0
+  ) {
+
+
+    dashboardDays.innerHTML =
+      'FIGHT <span>DAY</span>';
+
+
+    fightDays.textContent =
+      "FIGHT DAY";
+
+
+    fightStatus.textContent =
+      "FIGHT DAY";
+
+
+    updateStatus.textContent =
+      "FIGHT DAY";
+
+
+    updateTitle.innerHTML =
+      'IT\'S <span>FIGHT DAY</span>';
+
+
+    updateMessage.textContent =
+      "Mrs Wolfie steps into fight day representing Team Wolfie and Team Wolfpack at " +
+      currentFight.venue +
+      ".";
+
+
+    updateDate.textContent =
+      "TODAY • " +
+      currentFight.dateDisplay;
+
+
+    updateAction.textContent =
+      "OPEN FIGHT NIGHT →";
+
+
+    updateAction.href =
+      "./fight.html";
+
+
+    return;
+
+  }
+
+
+
+  const days =
+    Math.ceil(
+      distance /
+      oneDay
+    );
+
+
+
+  /* =====================================================
+     FIGHT TOMORROW
+  ====================================================== */
+
+  if (
+    days === 1
+  ) {
+
+
+    dashboardDays.innerHTML =
+      '1 <span>DAY TO GO</span>';
+
+
+    fightDays.textContent =
+      "1 DAY TO GO";
+
+
+    fightStatus.textContent =
+      "FIGHT TOMORROW";
+
+
+    updateStatus.textContent =
+      "FIGHT TOMORROW";
+
+
+    updateTitle.innerHTML =
+      'FIGHT NIGHT <span>TOMORROW</span>';
+
+
+    updateMessage.textContent =
+      "One day to go. Mrs Wolfie faces " +
+      currentFight.opponent +
+      " tomorrow at " +
+      currentFight.venue +
+      " for " +
+      currentFight.promotion +
+      ": " +
+      currentFight.event +
+      ".";
+
+
+    updateDate.textContent =
+      currentFight.dateDisplay;
+
+
+    return;
+
+  }
+
+
+
+  /* =====================================================
+     FIGHT WEEK
+  ====================================================== */
+
+  if (
+    days <= 7
+  ) {
+
+
+    dashboardDays.innerHTML =
+      days +
+      ' <span>DAYS TO GO</span>';
+
+
+    fightDays.textContent =
+      days +
+      " DAYS TO GO";
+
+
+    fightStatus.textContent =
+      "FIGHT WEEK";
+
+
+    updateStatus.textContent =
+      "FIGHT WEEK";
+
+
+    updateTitle.innerHTML =
+      'IT\'S <span>FIGHT WEEK</span>';
+
+
+    updateMessage.textContent =
+      "Fight week has arrived. Mrs Wolfie is preparing to face " +
+      currentFight.opponent +
+      " at " +
+      currentFight.venue +
+      " for " +
+      currentFight.promotion +
+      ": " +
+      currentFight.event +
+      ".";
+
+
+    updateDate.textContent =
+      days +
+      " DAYS TO GO";
+
+
+    return;
+
+  }
+
+
+
+  /* =====================================================
+     NORMAL UPCOMING FIGHT
+  ====================================================== */
+
+  dashboardDays.innerHTML =
+    days +
+    ' <span>DAYS TO GO</span>';
+
+
+  fightDays.textContent =
+    days +
+    " DAYS TO GO";
+
+
+  fightStatus.textContent =
+    "UPCOMING FIGHT";
+
+
+  updateStatus.textContent =
+    "NEXT FIGHT";
+
+
+  updateTitle.innerHTML =
+    'NEXT FIGHT: <span>' +
+    currentFight.event +
+    '</span>';
+
+
+  updateMessage.textContent =
+    "Mrs Wolfie returns to the ring at " +
+    currentFight.venue +
+    " for " +
+    currentFight.promotion +
+    ": " +
+    currentFight.event +
+    " against " +
+    currentFight.opponent +
+    ".";
+
+
+  updateDate.textContent =
+    currentFight.dateDisplay;
+
+
+  updateAction.textContent =
+    "VIEW FIGHT DETAILS →";
+
+
+  updateAction.href =
+    "./fight.html";
+
+
+}
+
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadFightInformation();
+
+updateHomeDashboard();
+
+
+setInterval(
+  updateHomeDashboard,
+  60000
+);
+
+</script>
 
     /*
       Next fight:
