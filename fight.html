@@ -165,18 +165,6 @@
     }
 
 
-    /*
-      HOME BUTTON
-
-      This replaces the old hamburger/menu icon.
-
-      The app uses:
-      - quick access on Home
-      - fixed bottom navigation
-
-      so no side menu is required.
-    */
-
     .home-button {
 
       position: absolute;
@@ -1722,7 +1710,10 @@
         </h2>
 
 
-        <div class="section-tag">
+        <div
+          class="section-tag"
+          id="fightSectionDate"
+        >
           17 OCT 2026
         </div>
 
@@ -1737,17 +1728,26 @@
         <div class="fight-card-top">
 
 
-          <div class="label">
+          <div
+            class="label"
+            id="fightCardStatus"
+          >
             UPCOMING FIGHT
           </div>
 
 
-          <h2 class="promotion">
+          <h2
+            class="promotion"
+            id="fightPromotion"
+          >
             AYRSHIRE BOXING
           </h2>
 
 
-          <div class="event-name">
+          <div
+            class="event-name"
+            id="fightEvent"
+          >
             THE LAUNCH
           </div>
 
@@ -1795,7 +1795,10 @@
             </div>
 
 
-            <div class="fight-date">
+            <div
+              class="fight-date"
+              id="fightDateDisplay"
+            >
               17 OCTOBER 2026
             </div>
 
@@ -1809,7 +1812,10 @@
           <div class="fighter">
 
 
-            <div class="opponent-circle">
+            <div
+              class="opponent-circle"
+              id="opponentInitials"
+            >
               CL
             </div>
 
@@ -1819,7 +1825,10 @@
             </div>
 
 
-            <div class="fighter-name opponent-name">
+            <div
+              class="fighter-name opponent-name"
+              id="opponentName"
+            >
               COLLEEN LEYDEN
             </div>
 
@@ -1844,7 +1853,10 @@
             </div>
 
 
-            <div class="info-value">
+            <div
+              class="info-value"
+              id="eventDate"
+            >
               17 OCTOBER 2026
             </div>
 
@@ -1861,7 +1873,10 @@
             </div>
 
 
-            <div class="info-value">
+            <div
+              class="info-value"
+              id="eventVenue"
+            >
               AYR RACECOURSE
             </div>
 
@@ -1878,7 +1893,10 @@
             </div>
 
 
-            <div class="info-value">
+            <div
+              class="info-value"
+              id="eventInfoName"
+            >
               THE LAUNCH
             </div>
 
@@ -1917,7 +1935,6 @@
 
         <div class="count-box">
 
-
           <span
             class="count-number"
             id="countDays"
@@ -1925,18 +1942,15 @@
             00
           </span>
 
-
           <span class="count-label">
             DAYS
           </span>
-
 
         </div>
 
 
 
         <div class="count-box">
-
 
           <span
             class="count-number"
@@ -1945,18 +1959,15 @@
             00
           </span>
 
-
           <span class="count-label">
             HOURS
           </span>
-
 
         </div>
 
 
 
         <div class="count-box">
-
 
           <span
             class="count-number"
@@ -1965,18 +1976,15 @@
             00
           </span>
 
-
           <span class="count-label">
             MINUTES
           </span>
-
 
         </div>
 
 
 
         <div class="count-box">
-
 
           <span
             class="count-number"
@@ -1985,11 +1993,9 @@
             00
           </span>
 
-
           <span class="count-label">
             SECONDS
           </span>
-
 
         </div>
 
@@ -2120,25 +2126,95 @@
 
 
   <!-- =======================================================
-       LIVE FIGHT-DAY COUNTDOWN
+       CENTRAL FIGHT DATA
+  ======================================================== -->
+
+  <script src="./fight-data.js"></script>
+
+
+
+  <!-- =======================================================
+       CENTRAL FIGHT INFORMATION + COUNTDOWN
   ======================================================== -->
 
   <script>
 
-    /*
-      Countdown target:
 
-      Start of fight day:
-      17 October 2026
-      00:00 UK time.
+    /* =====================================================
+       GET CENTRAL DATA
+    ====================================================== */
 
-      No exact bell/fight time is being assumed.
-    */
+    const fightData =
+      window.MRS_WOLFIE_FIGHTS;
 
-    const fightDate =
-      new Date(
-        "2026-10-17T00:00:00+01:00"
-      ).getTime();
+
+    const currentFight =
+      fightData.nextFight;
+
+
+
+    /* =====================================================
+       PAGE ELEMENTS
+    ====================================================== */
+
+    const fightSectionDate =
+      document.getElementById(
+        "fightSectionDate"
+      );
+
+
+    const fightCardStatus =
+      document.getElementById(
+        "fightCardStatus"
+      );
+
+
+    const fightPromotion =
+      document.getElementById(
+        "fightPromotion"
+      );
+
+
+    const fightEvent =
+      document.getElementById(
+        "fightEvent"
+      );
+
+
+    const fightDateDisplay =
+      document.getElementById(
+        "fightDateDisplay"
+      );
+
+
+    const opponentInitials =
+      document.getElementById(
+        "opponentInitials"
+      );
+
+
+    const opponentName =
+      document.getElementById(
+        "opponentName"
+      );
+
+
+    const eventDate =
+      document.getElementById(
+        "eventDate"
+      );
+
+
+    const eventVenue =
+      document.getElementById(
+        "eventVenue"
+      );
+
+
+    const eventInfoName =
+      document.getElementById(
+        "eventInfoName"
+      );
 
 
     const daysElement =
@@ -2172,6 +2248,163 @@
 
 
 
+    /* =====================================================
+       CREATE OPPONENT INITIALS
+    ====================================================== */
+
+    function createInitials(name) {
+
+
+      if (
+        !name ||
+        name.toUpperCase() === "TBA"
+      ) {
+
+        return "TBA";
+
+      }
+
+
+      return name
+        .trim()
+        .split(/\s+/)
+        .map(
+          word => word.charAt(0)
+        )
+        .join("")
+        .substring(0, 3)
+        .toUpperCase();
+
+
+    }
+
+
+
+    /* =====================================================
+       SHORT DATE
+    ====================================================== */
+
+    function createShortDate(
+      dateString
+    ) {
+
+
+      const date =
+        new Date(
+          dateString +
+          "T12:00:00"
+        );
+
+
+      const monthNames = [
+
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC"
+
+      ];
+
+
+      return (
+        date.getDate() +
+        " " +
+        monthNames[
+          date.getMonth()
+        ] +
+        " " +
+        date.getFullYear()
+      );
+
+
+    }
+
+
+
+    /* =====================================================
+       LOAD CENTRAL FIGHT INFORMATION
+    ====================================================== */
+
+    function loadFightInformation() {
+
+
+      fightSectionDate.textContent =
+        createShortDate(
+          currentFight.date
+        );
+
+
+      fightPromotion.textContent =
+        currentFight.promotion;
+
+
+      fightEvent.textContent =
+        currentFight.event;
+
+
+      fightDateDisplay.textContent =
+        currentFight.dateDisplay;
+
+
+      opponentName.textContent =
+        currentFight.opponent;
+
+
+      opponentInitials.textContent =
+        createInitials(
+          currentFight.opponent
+        );
+
+
+      eventDate.textContent =
+        currentFight.dateDisplay;
+
+
+      eventVenue.textContent =
+        currentFight.venue;
+
+
+      eventInfoName.textContent =
+        currentFight.event;
+
+
+    }
+
+
+
+    /* =====================================================
+       COUNTDOWN TARGET
+    ====================================================== */
+
+    /*
+      The countdown uses the date from
+      fight-data.js.
+
+      It counts down to the beginning
+      of fight day because no official
+      bell time has been entered.
+    */
+
+    const fightDate =
+      new Date(
+        currentFight.date +
+        "T00:00:00+01:00"
+      ).getTime();
+
+
+
+    /* =====================================================
+       LIVE COUNTDOWN
+    ====================================================== */
+
     function updateFightCountdown() {
 
 
@@ -2183,12 +2416,57 @@
         fightDate - now;
 
 
+      const oneDay =
+        1000 * 60 * 60 * 24;
+
+
 
       /* ===============================================
-         FIGHT DAY / PASSED
+         FIGHT HAS PASSED
       =============================================== */
 
-      if (distance <= 0) {
+      if (
+        distance <= -oneDay
+      ) {
+
+
+        daysElement.textContent =
+          "00";
+
+
+        hoursElement.textContent =
+          "00";
+
+
+        minutesElement.textContent =
+          "00";
+
+
+        secondsElement.textContent =
+          "00";
+
+
+        countdownTitle.textContent =
+          "FIGHT COMPLETE";
+
+
+        fightCardStatus.textContent =
+          "FIGHT COMPLETE";
+
+
+        return;
+
+      }
+
+
+
+      /* ===============================================
+         FIGHT DAY
+      =============================================== */
+
+      if (
+        distance <= 0
+      ) {
 
 
         daysElement.textContent =
@@ -2211,6 +2489,10 @@
           "FIGHT DAY";
 
 
+        fightCardStatus.textContent =
+          "FIGHT DAY";
+
+
         return;
 
       }
@@ -2224,7 +2506,7 @@
       const days =
         Math.floor(
           distance /
-          (1000 * 60 * 60 * 24)
+          oneDay
         );
 
 
@@ -2232,7 +2514,7 @@
         Math.floor(
           (
             distance %
-            (1000 * 60 * 60 * 24)
+            oneDay
           ) /
           (1000 * 60 * 60)
         );
@@ -2260,7 +2542,7 @@
 
 
       /* ===============================================
-         UPDATE SCREEN
+         UPDATE COUNTDOWN
       =============================================== */
 
       daysElement.textContent =
@@ -2291,8 +2573,65 @@
         );
 
 
+
+      /* ===============================================
+         AUTOMATIC FIGHT STATUS
+      =============================================== */
+
+      if (
+        distance <= oneDay
+      ) {
+
+
+        countdownTitle.textContent =
+          "FIGHT TOMORROW";
+
+
+        fightCardStatus.textContent =
+          "FIGHT TOMORROW";
+
+
+      }
+
+      else if (
+        distance <=
+        (7 * oneDay)
+      ) {
+
+
+        countdownTitle.textContent =
+          "FIGHT WEEK COUNTDOWN";
+
+
+        fightCardStatus.textContent =
+          "FIGHT WEEK";
+
+
+      }
+
+      else {
+
+
+        countdownTitle.textContent =
+          "COUNTDOWN TO FIGHT DAY";
+
+
+        fightCardStatus.textContent =
+          "UPCOMING FIGHT";
+
+
+      }
+
+
     }
 
+
+
+    /* =====================================================
+       START PAGE
+    ====================================================== */
+
+    loadFightInformation();
 
 
     updateFightCountdown();
@@ -2302,6 +2641,7 @@
       updateFightCountdown,
       1000
     );
+
 
   </script>
 
@@ -2313,7 +2653,10 @@
 
   <script>
 
-    if ("serviceWorker" in navigator) {
+
+    if (
+      "serviceWorker" in navigator
+    ) {
 
 
       window.addEventListener(
@@ -2326,22 +2669,26 @@
               "./service-worker.js"
             )
 
-            .then(() => {
+            .then(
+              () => {
 
-              console.log(
-                "Mrs Wolfie App service worker registered."
-              );
+                console.log(
+                  "Mrs Wolfie App service worker registered."
+                );
 
-            })
+              }
+            )
 
-            .catch((error) => {
+            .catch(
+              (error) => {
 
-              console.error(
-                "Service worker registration failed:",
-                error
-              );
+                console.error(
+                  "Service worker registration failed:",
+                  error
+                );
 
-            });
+              }
+            );
 
 
         }
@@ -2349,6 +2696,7 @@
 
 
     }
+
 
   </script>
 
