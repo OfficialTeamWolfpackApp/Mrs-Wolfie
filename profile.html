@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#030506">
+
+<title>Mrs Wolfie | Fighter Profile</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #030506;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 0% 28%,
+      rgba(137,220,255,0.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 35%,
+      rgba(255,143,211,0.12),
+      transparent 32%
+    ),
+    #030506;
+
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   COLOURS
+========================================================= */
+
+:root {
+
+  --blue: #89dcff;
+  --blue-light: #bceeff;
+
+  --pink: #ff8fd3;
+  --pink-light: #ffc0e7;
+
+  --white: #ffffff;
+
+  --black: #030506;
+
+  --panel: #080c11;
+  --panel2: #0b1016;
+
+  --muted: #89949f;
+
+  --max: 1180px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar {
+
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  background: rgba(3,6,9,0.98);
+
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+
+  z-index: 5000;
+}
+
+
+.menu-button {
+
+  position: absolute;
+
+  left: 18px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  border: 1px solid rgba(137,220,255,0.20);
+
+  background: rgba(137,220,255,0.06);
+
+  color: var(--blue);
+
+  font-size: 21px;
+}
+
+
+.brand {
+
+  text-align: center;
+
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  letter-spacing: 3px;
+}
+
+
+.brand-top {
+
+  display: block;
+
+  color: var(--blue);
+
+  font-size: 8px;
+}
+
+
+.brand-bottom {
+
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 9px;
+}
+
+
+.status-dot {
+
+  position: absolute;
+
+  right: 21px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--pink);
+
+  box-shadow:
+    0 0 8px var(--pink),
+    0 0 16px rgba(255,143,211,0.75);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+  position: relative;
+
+  min-height: 520px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  background: #080a0d;
+}
+
+
+.hero-background {
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+
+    linear-gradient(
+      90deg,
+      rgba(2,7,10,0.08),
+      rgba(2,7,10,0.12) 48%,
+      rgba(16,4,12,0.40)
+    ),
+
+    url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
+
+  background-size: cover;
+
+  background-position: center 30%;
+
+  z-index: -3;
+
+  pointer-events: none;
+}
+
+
+.hero::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,0.14),
+      transparent 43%,
+      rgba(255,143,211,0.12)
+    );
+
+  z-index: -2;
+
+  pointer-events: none;
+}
+
+
+.hero::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 180px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      #030506
+    );
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+
+.hero-inner {
+
+  width: min(var(--max), calc(100% - 40px));
+
+  margin: auto;
+
+  text-align: center;
+
+  padding: 90px 0 100px;
+}
+
+
+.hero-kicker {
+
+  color: var(--pink);
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 16px;
+}
+
+
+.hero-title {
+
+  font-size: clamp(55px,8vw,96px);
+
+  font-weight: 1000;
+
+  line-height: 0.9;
+
+  text-transform: uppercase;
+
+  letter-spacing: -3px;
+}
+
+
+.hero-title .blue {
+  color: var(--blue);
+}
+
+
+.hero-title .pink {
+  color: var(--pink);
+}
+
+
+.hero-subtitle {
+
+  margin-top: 18px;
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-wrap {
+
+  position: relative;
+
+  z-index: 9999;
+
+  margin-top: -32px;
+
+  padding: 0 20px;
+}
+
+
+.app-nav {
+
+  width: min(620px,100%);
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  padding: 7px;
+
+  border-radius: 17px;
+
+  background: rgba(7,11,16,0.98);
+
+  border: 1px solid rgba(255,255,255,0.09);
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,0.75);
+
+  position: relative;
+
+  z-index: 10000;
+}
+
+
+.nav-item {
+
+  min-height: 62px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 12px;
+
+  color: #77828d;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.4px;
+
+  text-transform: uppercase;
+
+  position: relative;
+
+  z-index: 10001;
+}
+
+
+.nav-item:hover {
+
+  color: white;
+
+  background: rgba(255,255,255,0.05);
+}
+
+
+.nav-item.active {
+
+  color: var(--pink);
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,0.07),
+      rgba(255,143,211,0.12)
+    );
+}
+
+
+.nav-icon {
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+
+  width: min(var(--max),calc(100% - 40px));
+
+  margin: auto;
+
+  padding: 60px 0 80px;
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.section-heading {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+
+.section-heading h2 {
+
+  font-size: 12px;
+
+  font-weight: 1000;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+
+.section-label {
+
+  color: var(--pink);
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MAIN PROFILE
+========================================================= */
+
+.profile-card {
+
+  display: grid;
+
+  grid-template-columns: 420px 1fr;
+
+  overflow: hidden;
+
+  min-height: 520px;
+
+  border-radius: 26px;
+
+  background: #080c11;
+
+  border-left:
+    2px solid rgba(137,220,255,0.70);
+
+  border-right:
+    2px solid rgba(255,143,211,0.70);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.55);
+}
+
+
+.profile-photo {
+
+  min-height: 520px;
+
+  background-image:
+
+    linear-gradient(
+      to bottom,
+      transparent 55%,
+      rgba(3,5,6,0.30)
+    ),
+
+    url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
+
+  background-size: cover;
+
+  background-position: center;
+}
+
+
+.profile-info {
+
+  padding: 65px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+
+.profile-label {
+
+  color: var(--pink);
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 15px;
+}
+
+
+.profile-name {
+
+  font-size: clamp(34px,5vw,52px);
+
+  font-weight: 1000;
+
+  line-height: 1;
+
+  margin-bottom: 15px;
+}
+
+
+.real-name {
+
+  color: var(--blue);
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 24px;
+}
+
+
+.profile-description {
+
+  color: #929da7;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+
+  max-width: 620px;
+}
+
+
+.profile-tags {
+
+  margin-top: 26px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+
+.profile-tag {
+
+  padding: 9px 12px;
+
+  border-radius: 8px;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+
+.profile-tag.blue {
+
+  color: var(--blue);
+
+  border: 1px solid rgba(137,220,255,0.30);
+}
+
+
+.profile-tag.pink {
+
+  color: var(--pink);
+
+  border: 1px solid rgba(255,143,211,0.30);
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-section {
+
+  margin-top: 55px;
+}
+
+
+.about-card {
+
+  padding: 50px;
+
+  border-radius: 24px;
+
+  background:
+
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,0.11),
+      rgba(8,12,17,0.98) 45%,
+      rgba(255,143,211,0.11)
+    );
+
+  border-left:
+    2px solid rgba(137,220,255,0.55);
+
+  border-right:
+    2px solid rgba(255,143,211,0.55);
+}
+
+
+.about-kicker {
+
+  color: var(--blue);
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 15px;
+}
+
+
+.about-title {
+
+  font-size: clamp(28px,4vw,42px);
+
+  font-weight: 1000;
+
+  margin-bottom: 25px;
+}
+
+
+.about-text {
+
+  color: #9ba5ae;
+
+  font-size: 15px;
+
+  line-height: 1.9;
+
+  max-width: 900px;
+}
+
+
+.about-text strong {
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   IDENTITY
+========================================================= */
+
+.identity-section {
+
+  margin-top: 55px;
+}
+
+
+.identity-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(3,1fr);
+
+  gap: 15px;
+}
+
+
+.identity-card {
+
+  min-height: 150px;
+
+  padding: 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #080c11;
+
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+.identity-card:nth-child(1) {
+
+  border-top:
+    2px solid var(--blue);
+}
+
+
+.identity-card:nth-child(2) {
+
+  border-top:
+    2px solid var(--pink);
+}
+
+
+.identity-card:nth-child(3) {
+
+  border-top:
+    2px solid var(--blue);
+}
+
+
+.identity-label {
+
+  color: #77838e;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 10px;
+}
+
+
+.identity-value {
+
+  font-size: 20px;
+
+  font-weight: 1000;
+}
+
+
+/* =========================================================
+   BOXING JOURNEY
+========================================================= */
+
+.journey-section {
+
+  margin-top: 55px;
+}
+
+
+.journey-card {
+
+  padding: 50px;
+
+  border-radius: 24px;
+
+  background: #080c11;
+
+  border-left:
+    2px solid rgba(137,220,255,0.65);
+
+  border-right:
+    2px solid rgba(255,143,211,0.65);
+}
+
+
+.journey-title {
+
+  color: var(--pink);
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 20px;
+}
+
+
+.journey-text {
+
+  color: #9ba5ae;
+
+  font-size: 15px;
+
+  line-height: 1.9;
+}
+
+
+/* =========================================================
+   FIGHT HISTORY
+========================================================= */
+
+.history-section {
+
+  margin-top: 55px;
+}
+
+
+.history-list {
+
+  display: grid;
+
+  gap: 12px;
+}
+
+
+.history-card {
+
+  min-height: 105px;
+
+  display: grid;
+
+  grid-template-columns: 105px 1fr 65px;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,0.10),
+      #080c11 42%,
+      rgba(255,143,211,0.10)
+    );
+
+  border-left:
+    2px solid rgba(137,220,255,0.65);
+
+  border-right:
+    2px solid rgba(255,143,211,0.55);
+}
+
+
+.history-date {
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  border-right:
+    1px solid rgba(255,255,255,0.06);
+}
+
+
+.history-day {
+
+  font-size: 23px;
+
+  font-weight: 1000;
+}
+
+
+.history-month {
+
+  color: var(--blue);
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  margin-top: 4px;
+}
+
+
+.history-info {
+
+  padding: 18px 22px;
+}
+
+
+.history-promotion {
+
+  color: var(--pink);
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 7px;
+}
+
+
+.history-fight {
+
+  font-size: 13px;
+
+  font-weight: 1000;
+
+  text-transform: uppercase;
+}
+
+
+.history-venue {
+
+  margin-top: 6px;
+
+  color: #74808b;
+
+  font-size: 8px;
+
+  text-transform: uppercase;
+}
+
+
+.result {
+
+  font-size: 18px;
+
+  font-weight: 1000;
+
+  text-align: center;
+}
+
+
+.result.win {
+  color: var(--blue);
+}
+
+
+.result.loss {
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   MOTTO
+========================================================= */
+
+.motto {
+
+  min-height: 190px;
+
+  margin-top: 55px;
+
+  padding: 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  border-radius: 26px;
+
+  background:
+
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,0.15),
+      rgba(9,13,18,0.97) 50%,
+      rgba(255,143,211,0.16)
+    );
+}
+
+
+.motto-small {
+
+  color: var(--blue);
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 16px;
+}
+
+
+.motto-main {
+
+  font-size: clamp(32px,6vw,54px);
+
+  font-weight: 1000;
+
+  text-transform: uppercase;
+}
+
+
+.motto-main span {
+
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+  padding: 80px 20px 45px;
+
+  text-align: center;
+}
+
+
+.footer-line {
+
+  width: 240px;
+
+  max-width: 80%;
+
+  height: 2px;
+
+  margin: 0 auto 14px;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      #ffffff,
+      var(--pink),
+      transparent
+    );
+}
+
+
+.footer-name {
+
+  color: #77818b;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+
+.copyright {
+
+  margin-top: 14px;
+
+  color: #59626b;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  body {
+    padding-bottom: 90px;
+  }
+
+
+  .hero {
+
+    min-height: 470px;
+  }
+
+
+  .hero-background {
+
+    background-position: 47% center;
+  }
+
+
+  .hero-inner {
+
+    width: calc(100% - 30px);
+
+    padding: 80px 0;
+  }
+
+
+  .hero-title {
+
+    font-size: 54px;
+
+    letter-spacing: -2px;
+  }
+
+
+  .nav-wrap {
+
+    height: 0;
+
+    margin: 0;
+
+    padding: 0;
+  }
+
+
+  .app-nav {
+
+    position: fixed;
+
+    left: 50%;
+
+    bottom:
+      calc(12px + env(safe-area-inset-bottom));
+
+    transform: translateX(-50%);
+
+    width: calc(100% - 24px);
+
+    z-index: 99999;
+  }
+
+
+  .nav-item {
+
+    min-height: 57px;
+
+    font-size: 7px;
+  }
+
+
+  main {
+
+    width: calc(100% - 28px);
+
+    padding-top: 42px;
+  }
+
+
+  .profile-card {
+
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+  }
+
+
+  .profile-photo {
+
+    min-height: 430px;
+
+    background-position: center 25%;
+  }
+
+
+  .profile-info {
+
+    padding: 35px 25px;
+  }
+
+
+  .about-card,
+  .journey-card {
+
+    padding: 30px 24px;
+  }
+
+
+  .identity-grid {
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .history-card {
+
+    grid-template-columns: 78px 1fr 45px;
+  }
+
+
+  .history-info {
+
+    padding: 14px;
+  }
+
+
+  .history-fight {
+
+    font-size: 11px;
+  }
+
+
+  footer {
+
+    padding-bottom: 120px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     HEADER
+======================================================== -->
+
+<header class="topbar">
+
+  <div class="menu-button">
+    ☰
+  </div>
+
+
+  <div class="brand">
+
+    <span class="brand-top">
+      TEAM WOLFPACK
+    </span>
+
+    <span class="brand-bottom">
+      MRS WOLFIE
+    </span>
+
+  </div>
+
+
+  <div class="status-dot"></div>
+
+</header>
+
+
+
+<!-- =======================================================
+     HERO
+======================================================== -->
+
+<section class="hero">
+
+  <div class="hero-background"></div>
+
+
+  <div class="hero-inner">
+
+    <div class="hero-kicker">
+      TEAM WOLFIE • FIGHTER PROFILE
+    </div>
+
+
+    <h1 class="hero-title">
+
+      <span class="blue">
+        MRS
+      </span>
+
+      <span class="pink">
+        WOLFIE
+      </span>
+
+    </h1>
+
+
+    <div class="hero-subtitle">
+      HUNT WITHOUT FEAR
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================== -->
+
+<div class="nav-wrap">
+
+<nav class="app-nav">
+
+
+<a
+  href="./index.html"
+  class="nav-item"
+>
+
+<span class="nav-icon">
+⌂
+</span>
+
+<span>
+HOME
+</span>
+
+</a>
+
+
+
+<a
+  href="./fight.html"
+  class="nav-item"
+>
+
+<span class="nav-icon">
+🥊
+</span>
+
+<span>
+FIGHT
+</span>
+
+</a>
+
+
+
+<a
+  href="./profile.html"
+  class="nav-item active"
+>
+
+<span class="nav-icon">
+♟
+</span>
+
+<span>
+PROFILE
+</span>
+
+</a>
+
+
+
+<a
+  href="./schedule.html"
+  class="nav-item"
+>
+
+<span class="nav-icon">
+▣
+</span>
+
+<span>
+SCHEDULE
+</span>
+
+</a>
+
+
+</nav>
+
+</div>
+
+
+
+<!-- =======================================================
+     MAIN
+======================================================== -->
+
+<main>
+
+
+
+<!-- =====================================================
+     PROFILE
+====================================================== -->
+
+<section>
+
+
+<div class="section-heading">
+
+<h2>
+THE FIGHTER
+</h2>
+
+<span class="section-label">
+TEAM WOLFIE
+</span>
+
+</div>
+
+
+
+<article class="profile-card">
+
+
+<div
+  class="profile-photo"
+  role="img"
+  aria-label="Mrs Wolfie"
+></div>
+
+
+
+<div class="profile-info">
+
+
+<div class="profile-label">
+BOXER • CO-FOUNDER
+</div>
+
+
+<h2 class="profile-name">
+Mrs Wolfie
+</h2>
+
+
+<div class="real-name">
+ZOEY “MRS WOLFIE” JAMES
+</div>
+
+
+<p class="profile-description">
+
+Zoey “Mrs Wolfie” James is a boxer and
+Co-Founder of Team Wolfpack.
+
+She fights as part of Team Wolfie while
+representing the wider Team Wolfpack,
+bringing determination, strength and
+fighting spirit every time she steps
+forward.
+
+</p>
+
+
+<div class="profile-tags">
+
+
+<span class="profile-tag blue">
+TEAM WOLFIE
+</span>
+
+
+<span class="profile-tag pink">
+REPRESENTING TEAM WOLFPACK
+</span>
+
+
+</div>
+
+
+</div>
+
+</article>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+====================================================== -->
+
+<section class="about-section">
+
+
+<div class="section-heading">
+
+<h2>
+ABOUT MRS WOLFIE
+</h2>
+
+<span class="section-label">
+THE STORY
+</span>
+
+</div>
+
+
+
+<div class="about-card">
+
+
+<div class="about-kicker">
+MORE THAN BOXING
+</div>
+
+
+<h2 class="about-title">
+Strength. Determination. Purpose.
+</h2>
+
+
+<p class="about-text">
+
+For <strong>Zoey “Mrs Wolfie” James</strong>,
+boxing became more than simply stepping
+into a ring.
+
+It became a source of strength, confidence
+and purpose.
+
+<br><br>
+
+After experiencing domestic violence,
+boxing became an important part of rebuilding
+her confidence and finding strength again.
+
+Rather than allowing those experiences to
+define her future, she channelled them into
+something positive.
+
+<br><br>
+
+Together with
+<strong>Chris “Mr Wolfie” James</strong>,
+she co-founded
+<strong>Team Wolfpack</strong>.
+
+The aim is bigger than individual fights.
+It is about creating an identity built around
+strength, loyalty, unity and supporting
+people both inside and outside the ring.
+
+<br><br>
+
+As a boxer for
+<strong>Team Wolfie</strong>,
+Mrs Wolfie continues to represent
+Team Wolfpack whenever she competes.
+
+</p>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     IDENTITY
+====================================================== -->
+
+<section class="identity-section">
+
+
+<div class="section-heading">
+
+<h2>
+FIGHTER IDENTITY
+</h2>
+
+<span class="section-label">
+MRS WOLFIE
+</span>
+
+</div>
+
+
+
+<div class="identity-grid">
+
+
+<div class="identity-card">
+
+<div class="identity-label">
+FIGHTER
+</div>
+
+<div class="identity-value">
+Zoey “Mrs Wolfie” James
+</div>
+
+</div>
+
+
+
+<div class="identity-card">
+
+<div class="identity-label">
+FIGHT TEAM
+</div>
+
+<div class="identity-value">
+Team Wolfie
+</div>
+
+</div>
+
+
+
+<div class="identity-card">
+
+<div class="identity-label">
+REPRESENTING
+</div>
+
+<div class="identity-value">
+Team Wolfpack
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOXING JOURNEY
+====================================================== -->
+
+<section class="journey-section">
+
+
+<div class="section-heading">
+
+<h2>
+BOXING JOURNEY
+</h2>
+
+<span class="section-label">
+HUNT WITHOUT FEAR
+</span>
+
+</div>
+
+
+
+<div class="journey-card">
+
+
+<div class="journey-title">
+THE FIGHTING SPIRIT
+</div>
+
+
+<p class="journey-text">
+
+Every fight forms another chapter in
+Mrs Wolfie’s boxing journey.
+
+The victories, defeats, training camps
+and challenges all contribute to the same
+purpose — continuing to develop as a fighter,
+building confidence and representing
+Team Wolfie and Team Wolfpack with pride.
+
+<br><br>
+
+The goal is not simply to compete.
+
+It is to keep moving forward.
+
+</p>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FIGHT HISTORY
+====================================================== -->
+
+<section class="history-section">
+
+
+<div class="section-heading">
+
+<h2>
+FIGHT HISTORY
+</h2>
+
+<span class="section-label">
+2025 — 2026
+</span>
+
+</div>
+
+
+
+<div class="history-list">
+
+
+
+<!-- 25 MAY 2025 -->
+
+<div class="history-card">
+
+<div class="history-date">
+
+<div class="history-day">
+25
+</div>
+
+<div class="history-month">
+MAY 25
+</div>
+
+</div>
+
+
+<div class="history-info">
+
+<div class="history-promotion">
+EBO
+</div>
+
+<div class="history-fight">
+MRS WOLFIE VS DEMI WISE
+</div>
+
+<div class="history-venue">
+TRILOGY NIGHTCLUB
+</div>
+
+</div>
+
+
+<div class="result loss">
+L
+</div>
+
+</div>
+
+
+
+<!-- 05 JULY 2025 -->
+
+<div class="history-card">
+
+<div class="history-date">
+
+<div class="history-day">
+05
+</div>
+
+<div class="history-month">
+JUL 25
+</div>
+
+</div>
+
+
+<div class="history-info">
+
+<div class="history-promotion">
+EBO
+</div>
+
+<div class="history-fight">
+MRS WOLFIE VS BRY KELLY
+</div>
+
+<div class="history-venue">
+TRILOGY NIGHTCLUB
+</div>
+
+</div>
+
+
+<div class="result loss">
+L
+</div>
+
+</div>
+
+
+
+<!-- 14 MARCH 2026 -->
+
+<div class="history-card">
+
+<div class="history-date">
+
+<div class="history-day">
+14
+</div>
+
+<div class="history-month">
+MAR 26
+</div>
+
+</div>
+
+
+<div class="history-info">
+
+<div class="history-promotion">
+TRAIN 4 FIGHT PROMOTIONS
+</div>
+
+<div class="history-fight">
+MRS WOLFIE VS KATIE FAE THE BING
+</div>
+
+<div class="history-venue">
+EASTHOUSES MINERS CLUB
+</div>
+
+</div>
+
+
+<div class="result win">
+W
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MOTTO
+====================================================== -->
+
+<section class="motto">
+
+
+<div class="motto-small">
+TEAM WOLFIE
+</div>
+
+
+<div class="motto-main">
+
+HUNT WITHOUT
+
+<span>
+FEAR
+</span>
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================== -->
+
+<footer>
+
+
+<div class="footer-line"></div>
+
+
+<div class="footer-name">
+MRS WOLFIE
+</div>
+
+
+<div class="copyright">
+© 2026 MRS WOLFIE • TEAM WOLFPACK
+</div>
+
+
+</footer>
+
+
+</body>
+
+</html>
