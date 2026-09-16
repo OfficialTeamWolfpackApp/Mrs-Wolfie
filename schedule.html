@@ -1132,6 +1132,10 @@
       color: var(--pink);
     }
 
+    .result.draw {
+      color: #ffffff;
+    }
+
 
     /* =========================================================
        MOTTO
@@ -2140,19 +2144,29 @@
 
 
     const currentFight =
-      fightData.nextFight || null;
+      typeof window.MRS_WOLFIE_GET_NEXT_FIGHT === "function"
+        ? window.MRS_WOLFIE_GET_NEXT_FIGHT()
+        : (fightData.nextFight || null);
 
 
     const upcomingFights =
-      Array.isArray(fightData.upcoming)
-        ? fightData.upcoming
-        : [];
+      typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function"
+        ? window.MRS_WOLFIE_GET_UPCOMING_FIGHTS()
+        : (
+            Array.isArray(fightData.upcoming)
+              ? fightData.upcoming
+              : []
+          );
 
 
     const fightHistory =
-      Array.isArray(fightData.history)
-        ? fightData.history
-        : [];
+      typeof window.MRS_WOLFIE_GET_FIGHT_HISTORY === "function"
+        ? window.MRS_WOLFIE_GET_FIGHT_HISTORY()
+        : (
+            Array.isArray(fightData.history)
+              ? fightData.history
+              : []
+          );
 
 
     const oneDay =
@@ -2327,9 +2341,23 @@
       }
 
 
+      if (
+        typeof window.MRS_WOLFIE_CREATE_DATE ===
+        "function"
+      ) {
+
+        return window
+          .MRS_WOLFIE_CREATE_DATE(
+            fight.date
+          )
+          .getTime();
+
+      }
+
+
       return new Date(
         fight.date +
-        "T00:00:00+01:00"
+        "T12:00:00"
       ).getTime();
 
     }
@@ -2947,6 +2975,15 @@
 
               resultClass =
                 " loss";
+
+            }
+
+            else if (
+              result === "D"
+            ) {
+
+              resultClass =
+                " draw";
 
             }
 
