@@ -6,13 +6,10 @@
 
 /* =========================================================
    CACHE VERSION
-
-   Increase this version whenever the core app structure
-   changes significantly.
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v3";
+  "mrs-wolfie-boxing-v4";
 
 
 
@@ -33,6 +30,8 @@ const APP_FILES = [
   "./schedule.html",
 
   "./fight-data.js",
+
+  "./updates-data.js",
 
   "./manifest.json",
 
@@ -82,8 +81,7 @@ self.addEventListener(
 
 
     /*
-      Activate this service worker immediately
-      rather than waiting for the old worker.
+      Activate the newest service worker immediately.
     */
 
     self.skipWaiting();
@@ -149,7 +147,7 @@ self.addEventListener(
 
 
     /*
-      Immediately control existing app windows.
+      Immediately control open Mrs Wolfie app windows.
     */
 
     self.clients.claim();
@@ -194,29 +192,45 @@ self.addEventListener(
 
 
     /* =====================================================
-       CENTRAL FIGHT DATA
+       CENTRAL APP DATABASES
 
        NETWORK FIRST
     ====================================================== */
 
     /*
-      fight-data.js is deliberately handled differently
-      from ordinary static assets.
+      Both central databases are handled network-first:
 
-      Every time the app opens, it attempts to retrieve
-      the newest fight database from GitHub.
+      fight-data.js
+      updates-data.js
 
-      If the user is offline, the most recently cached
-      copy is used instead.
+      When online:
+      - request the newest version
+      - save that version into the PWA cache
+      - return the newest version to the app
 
-      This means future fight updates do NOT require us
-      to change the service-worker cache number every time.
+      When offline:
+      - use the most recently cached copy
+
+      This means normal fight/news changes do not require
+      another service-worker cache-version change.
     */
 
-    if (
+    const isCentralDataFile =
+
       requestURL.pathname.endsWith(
         "/fight-data.js"
       )
+
+      ||
+
+      requestURL.pathname.endsWith(
+        "/updates-data.js"
+      );
+
+
+
+    if (
+      isCentralDataFile
     ) {
 
 
@@ -232,7 +246,7 @@ self.addEventListener(
 
 
           .then(
-            (networkResponse) => {
+            async (networkResponse) => {
 
 
               if (
@@ -245,23 +259,16 @@ self.addEventListener(
                   networkResponse.clone();
 
 
-                caches
-                  .open(
+                const cache =
+                  await caches.open(
                     CACHE_NAME
-                  )
-
-                  .then(
-                    (cache) => {
-
-
-                      cache.put(
-                        event.request,
-                        responseCopy
-                      );
-
-
-                    }
                   );
+
+
+                await cache.put(
+                  event.request,
+                  responseCopy
+                );
 
 
               }
@@ -275,11 +282,38 @@ self.addEventListener(
 
 
           .catch(
-            () => {
+            async () => {
 
 
-              return caches.match(
-                event.request
+              const cachedResponse =
+                await caches.match(
+                  event.request
+                );
+
+
+              if (
+                cachedResponse
+              ) {
+
+
+                return cachedResponse;
+
+
+              }
+
+
+              /*
+                Normally this should never be reached because
+                both database files are pre-cached during
+                installation.
+              */
+
+              return new Response(
+                "",
+                {
+                  status: 503,
+                  statusText: "Offline"
+                }
               );
 
 
@@ -318,30 +352,32 @@ self.addEventListener(
 
 
           .then(
-            (networkResponse) => {
+            async (networkResponse) => {
 
 
-              const responseCopy =
-                networkResponse.clone();
+              if (
+                networkResponse &&
+                networkResponse.ok
+              ) {
 
 
-              caches
-                .open(
-                  CACHE_NAME
-                )
-
-                .then(
-                  (cache) => {
+                const responseCopy =
+                  networkResponse.clone();
 
 
-                    cache.put(
-                      event.request,
-                      responseCopy
-                    );
+                const cache =
+                  await caches.open(
+                    CACHE_NAME
+                  );
 
 
-                  }
+                await cache.put(
+                  event.request,
+                  responseCopy
                 );
+
+
+              }
 
 
               return networkResponse;
@@ -392,7 +428,7 @@ self.addEventListener(
 
 
     /* =====================================================
-       OTHER FILES
+       OTHER APP FILES
 
        CACHE FIRST
     ====================================================== */
@@ -427,7 +463,7 @@ self.addEventListener(
 
 
               .then(
-                (networkResponse) => {
+                async (networkResponse) => {
 
 
                   if (
@@ -447,24 +483,16 @@ self.addEventListener(
                     networkResponse.clone();
 
 
-
-                  caches
-                    .open(
+                  const cache =
+                    await caches.open(
                       CACHE_NAME
-                    )
-
-                    .then(
-                      (cache) => {
-
-
-                        cache.put(
-                          event.request,
-                          responseCopy
-                        );
-
-
-                      }
                     );
+
+
+                  await cache.put(
+                    event.request,
+                    responseCopy
+                  );
 
 
                   return networkResponse;
