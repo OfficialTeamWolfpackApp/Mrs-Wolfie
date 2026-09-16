@@ -3412,64 +3412,135 @@
       60000
     );
 
-  </script>
+<script>
+
+  /* =========================================================
+     MRS WOLFIE PWA UPDATE SYSTEM
+  ========================================================= */
+
+  if (
+    "serviceWorker" in navigator
+  ) {
 
 
-
-  <!-- =======================================================
-       SERVICE WORKER
-  ======================================================== -->
-
-  <script>
-
-    if (
-      "serviceWorker" in navigator
-    ) {
+    window.addEventListener(
+      "load",
+      async () => {
 
 
-      window.addEventListener(
-        "load",
-        () => {
+        try {
 
 
-          navigator.serviceWorker
-            .register(
-              "./service-worker.js"
-            )
+          /*
+            Register the Mrs Wolfie service worker.
+          */
 
-            .then(
-              () => {
-
-
-                console.log(
-                  "Mrs Wolfie App service worker registered."
-                );
-
-
-              }
-            )
-
-            .catch(
-              (error) => {
-
-
-                console.error(
-                  "Service worker registration failed:",
-                  error
-                );
-
-
+          const registration =
+            await navigator.serviceWorker.register(
+              "./service-worker.js",
+              {
+                updateViaCache: "none"
               }
             );
 
 
+
+          /*
+            Explicitly check GitHub Pages for a newer
+            service-worker.js whenever the app starts.
+          */
+
+          await registration.update();
+
+
+
+          console.log(
+            "Mrs Wolfie App service worker registered and checked for updates."
+          );
+
+
         }
-      );
 
 
-    }
+        catch (error) {
 
-  </script>
+
+          console.error(
+            "Service worker registration/update failed:",
+            error
+          );
+
+
+        }
+
+
+      }
+    );
+
+
+
+    /* =======================================================
+       APP RETURNS TO FOREGROUND
+    ======================================================== */
+
+    document.addEventListener(
+      "visibilitychange",
+      async () => {
+
+
+        if (
+          document.visibilityState !==
+          "visible"
+        ) {
+
+          return;
+
+        }
+
+
+
+        try {
+
+
+          const registration =
+            await navigator.serviceWorker.getRegistration(
+              "./"
+            );
+
+
+          if (
+            registration
+          ) {
+
+
+            await registration.update();
+
+
+          }
+
+
+        }
+
+
+        catch (error) {
+
+
+          console.error(
+            "Mrs Wolfie background update check failed:",
+            error
+          );
+
+
+        }
+
+
+      }
+    );
+
+
+  }
+
+</script>
 
 
 </body>
