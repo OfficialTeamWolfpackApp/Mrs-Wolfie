@@ -9,7 +9,7 @@
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v4";
+  "mrs-wolfie-boxing-v5";
 
 
 
@@ -28,6 +28,8 @@ const APP_FILES = [
   "./profile.html",
 
   "./schedule.html",
+
+  "./updates.html",
 
   "./fight-data.js",
 
@@ -337,6 +339,20 @@ self.addEventListener(
        NETWORK FIRST
     ====================================================== */
 
+    /*
+      Main app pages use network-first.
+
+      When online:
+      - load the newest page
+      - update its cached copy
+
+      When offline:
+      - use the previously cached page
+
+      If that specific page has never been cached,
+      fall back to the Home page.
+    */
+
     if (
       event.request.mode ===
       "navigate"
@@ -432,6 +448,14 @@ self.addEventListener(
 
        CACHE FIRST
     ====================================================== */
+
+    /*
+      Images, icons, manifest and other static assets
+      use cache-first for faster loading.
+
+      If an asset is not already cached, retrieve it
+      from the network and save it for future use.
+    */
 
     event.respondWith(
 
