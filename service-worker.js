@@ -9,7 +9,7 @@
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v5";
+  "mrs-wolfie-boxing-v6";
 
 
 
@@ -60,7 +60,6 @@ self.addEventListener(
 
     event.waitUntil(
 
-
       caches
         .open(
           CACHE_NAME
@@ -69,21 +68,20 @@ self.addEventListener(
         .then(
           (cache) => {
 
-
             return cache.addAll(
               APP_FILES
             );
 
-
           }
         )
-
 
     );
 
 
     /*
-      Activate the newest service worker immediately.
+      Do not leave the new service worker waiting.
+
+      Activate it as soon as installation succeeds.
     */
 
     self.skipWaiting();
@@ -105,7 +103,6 @@ self.addEventListener(
 
     event.waitUntil(
 
-
       caches
         .keys()
 
@@ -114,7 +111,6 @@ self.addEventListener(
 
 
             return Promise.all(
-
 
               cacheNames.map(
                 (cacheName) => {
@@ -125,18 +121,18 @@ self.addEventListener(
                     CACHE_NAME
                   ) {
 
-
                     return caches.delete(
                       cacheName
                     );
 
-
                   }
+
+
+                  return Promise.resolve();
 
 
                 }
               )
-
 
             );
 
@@ -144,15 +140,20 @@ self.addEventListener(
           }
         )
 
+        .then(
+          () => {
+
+            /*
+              Immediately take control of existing
+              Mrs Wolfie app windows.
+            */
+
+            return self.clients.claim();
+
+          }
+        )
 
     );
-
-
-    /*
-      Immediately control open Mrs Wolfie app windows.
-    */
-
-    self.clients.claim();
 
 
   }
@@ -178,9 +179,7 @@ self.addEventListener(
       "GET"
     ) {
 
-
       return;
-
 
     }
 
@@ -195,27 +194,7 @@ self.addEventListener(
 
     /* =====================================================
        CENTRAL APP DATABASES
-
-       NETWORK FIRST
     ====================================================== */
-
-    /*
-      Both central databases are handled network-first:
-
-      fight-data.js
-      updates-data.js
-
-      When online:
-      - request the newest version
-      - save that version into the PWA cache
-      - return the newest version to the app
-
-      When offline:
-      - use the most recently cached copy
-
-      This means normal fight/news changes do not require
-      another service-worker cache-version change.
-    */
 
     const isCentralDataFile =
 
@@ -238,90 +217,130 @@ self.addEventListener(
 
       event.respondWith(
 
-
-        fetch(
-          event.request,
-          {
-            cache: "no-store"
-          }
-        )
+        (async () => {
 
 
-          .then(
-            async (networkResponse) => {
+          try {
 
 
-              if (
-                networkResponse &&
-                networkResponse.ok
-              ) {
+            /*
+              Add a unique query value to the NETWORK
+              request.
+
+              This helps prevent an intermediate browser,
+              PWA or hosting cache from returning an older
+              copy of the central database.
+            */
+
+            const freshURL =
+              new URL(
+                event.request.url
+              );
 
 
-                const responseCopy =
-                  networkResponse.clone();
+            freshURL.searchParams.set(
+              "_mrswolfie",
+              Date.now().toString()
+            );
 
 
-                const cache =
-                  await caches.open(
-                    CACHE_NAME
-                  );
 
-
-                await cache.put(
-                  event.request,
-                  responseCopy
-                );
-
-
-              }
-
-
-              return networkResponse;
-
-
-            }
-          )
-
-
-          .catch(
-            async () => {
-
-
-              const cachedResponse =
-                await caches.match(
-                  event.request
-                );
-
-
-              if (
-                cachedResponse
-              ) {
-
-
-                return cachedResponse;
-
-
-              }
-
-
-              /*
-                Normally this should never be reached because
-                both database files are pre-cached during
-                installation.
-              */
-
-              return new Response(
-                "",
+            const networkResponse =
+              await fetch(
+                freshURL.toString(),
                 {
-                  status: 503,
-                  statusText: "Offline"
+                  method: "GET",
+                  cache: "no-store",
+                  credentials: "same-origin",
+                  redirect: "follow"
                 }
               );
 
 
-            }
-          )
 
+            if (
+              !networkResponse ||
+              !networkResponse.ok
+            ) {
+
+              throw new Error(
+                "Central database network request failed."
+              );
+
+            }
+
+
+
+            /*
+              Save the newest response against the NORMAL
+              request URL.
+
+              This is important because offline requests
+              will still ask for:
+
+              fight-data.js
+              updates-data.js
+
+              without the temporary cache-busting value.
+            */
+
+            const cache =
+              await caches.open(
+                CACHE_NAME
+              );
+
+
+            await cache.put(
+              event.request,
+              networkResponse.clone()
+            );
+
+
+
+            return networkResponse;
+
+
+          }
+
+
+          catch (error) {
+
+
+            /*
+              Offline or network problem.
+
+              Use the most recently cached database.
+            */
+
+            const cachedResponse =
+              await caches.match(
+                event.request
+              );
+
+
+            if (
+              cachedResponse
+            ) {
+
+              return cachedResponse;
+
+            }
+
+
+
+            return new Response(
+              "",
+              {
+                status: 503,
+                statusText: "Offline"
+              }
+            );
+
+
+          }
+
+
+        })()
 
       );
 
@@ -335,23 +354,7 @@ self.addEventListener(
 
     /* =====================================================
        HTML PAGE NAVIGATION
-
-       NETWORK FIRST
     ====================================================== */
-
-    /*
-      Main app pages use network-first.
-
-      When online:
-      - load the newest page
-      - update its cached copy
-
-      When offline:
-      - use the previously cached page
-
-      If that specific page has never been cached,
-      fall back to the Home page.
-    */
 
     if (
       event.request.mode ===
@@ -361,77 +364,116 @@ self.addEventListener(
 
       event.respondWith(
 
-
-        fetch(
-          event.request
-        )
+        (async () => {
 
 
-          .then(
-            async (networkResponse) => {
+          try {
 
 
-              if (
-                networkResponse &&
-                networkResponse.ok
-              ) {
+            /*
+              Navigation is network-first.
+
+              cache: no-store helps installed PWAs request
+              the newest HTML when they are online.
+            */
+
+            const networkResponse =
+              await fetch(
+                event.request,
+                {
+                  cache: "no-store"
+                }
+              );
 
 
-                const responseCopy =
-                  networkResponse.clone();
+
+            if (
+              networkResponse &&
+              networkResponse.ok
+            ) {
 
 
-                const cache =
-                  await caches.open(
-                    CACHE_NAME
-                  );
-
-
-                await cache.put(
-                  event.request,
-                  responseCopy
+              const cache =
+                await caches.open(
+                  CACHE_NAME
                 );
 
 
-              }
-
-
-              return networkResponse;
-
-
-            }
-          )
-
-
-          .catch(
-            async () => {
-
-
-              const cachedPage =
-                await caches.match(
-                  event.request
-                );
-
-
-              if (
-                cachedPage
-              ) {
-
-
-                return cachedPage;
-
-
-              }
-
-
-              return caches.match(
-                "./index.html"
+              await cache.put(
+                event.request,
+                networkResponse.clone()
               );
 
 
             }
-          )
 
+
+
+            return networkResponse;
+
+
+          }
+
+
+          catch (error) {
+
+
+            /*
+              First try the exact requested page.
+            */
+
+            const cachedPage =
+              await caches.match(
+                event.request
+              );
+
+
+            if (
+              cachedPage
+            ) {
+
+              return cachedPage;
+
+            }
+
+
+
+            /*
+              Final offline fallback = Home.
+            */
+
+            const cachedHome =
+              await caches.match(
+                "./index.html"
+              );
+
+
+            if (
+              cachedHome
+            ) {
+
+              return cachedHome;
+
+            }
+
+
+
+            return new Response(
+              "Mrs Wolfie App is currently offline.",
+              {
+                status: 503,
+                headers: {
+                  "Content-Type":
+                    "text/plain; charset=utf-8"
+                }
+              }
+            );
+
+
+          }
+
+
+        })()
 
       );
 
@@ -444,21 +486,10 @@ self.addEventListener(
 
 
     /* =====================================================
-       OTHER APP FILES
-
-       CACHE FIRST
+       OTHER STATIC APP FILES
     ====================================================== */
 
-    /*
-      Images, icons, manifest and other static assets
-      use cache-first for faster loading.
-
-      If an asset is not already cached, retrieve it
-      from the network and save it for future use.
-    */
-
     event.respondWith(
-
 
       caches
         .match(
@@ -473,9 +504,7 @@ self.addEventListener(
               cachedResponse
             ) {
 
-
               return cachedResponse;
-
 
             }
 
@@ -484,7 +513,6 @@ self.addEventListener(
             return fetch(
               event.request
             )
-
 
               .then(
                 async (networkResponse) => {
@@ -495,28 +523,36 @@ self.addEventListener(
                     networkResponse.status !== 200
                   ) {
 
-
                     return networkResponse;
-
 
                   }
 
 
 
-                  const responseCopy =
-                    networkResponse.clone();
+                  /*
+                    Only cache same-origin resources.
+                  */
+
+                  if (
+                    requestURL.origin ===
+                    self.location.origin
+                  ) {
 
 
-                  const cache =
-                    await caches.open(
-                      CACHE_NAME
+                    const cache =
+                      await caches.open(
+                        CACHE_NAME
+                      );
+
+
+                    await cache.put(
+                      event.request,
+                      networkResponse.clone()
                     );
 
 
-                  await cache.put(
-                    event.request,
-                    responseCopy
-                  );
+                  }
+
 
 
                   return networkResponse;
@@ -528,7 +564,6 @@ self.addEventListener(
 
           }
         )
-
 
     );
 
