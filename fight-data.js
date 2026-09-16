@@ -29,7 +29,43 @@ window.MRS_WOLFIE_FIGHTS = {
   ======================================================== */
 
   upcoming: [
+    /* -------------------------------------------------------
+       AUTOMATIC RESULT SYSTEM TEST
+    -------------------------------------------------------- */
 
+    {
+
+      id:
+        "fight-result-system-test",
+
+      promotion:
+        "TEST PROMOTIONS",
+
+      event:
+        "AUTOMATIC RESULT TEST",
+
+      opponent:
+        "TEST OPPONENT",
+
+      date:
+        "2026-09-15",
+
+      dateDisplay:
+        "15 SEPTEMBER 2026",
+
+      venue:
+        "TEST VENUE",
+
+      status:
+        "COMPLETED",
+
+      type:
+        "TEST FIGHT",
+
+      result:
+        "W"
+
+    },
 
     /* -------------------------------------------------------
        17 OCTOBER 2026
