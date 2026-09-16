@@ -7,12 +7,25 @@ window.MRS_WOLFIE_FIGHTS = {
 
 
   /* =======================================================
-     UPCOMING / ANNOUNCED FIGHTS
+     ANNOUNCED FIGHTS
 
-     Add new fights here in date order.
+     Add every newly announced fight here.
 
-     The app automatically selects the first fight
-     that has not finished as the NEXT FIGHT.
+     BEFORE THE FIGHT:
+
+     result: ""
+
+     AFTER THE FIGHT:
+
+     result: "W"
+     result: "L"
+     result: "D"
+
+     Once a result is entered, the app automatically:
+
+     - removes the fight from Upcoming Fights
+     - prevents it being selected as Next Fight
+     - adds it to Fight History
   ======================================================== */
 
   upcoming: [
@@ -23,6 +36,9 @@ window.MRS_WOLFIE_FIGHTS = {
     -------------------------------------------------------- */
 
     {
+
+      id:
+        "fight-17-oct-2026",
 
       promotion:
         "AYRSHIRE BOXING",
@@ -46,7 +62,10 @@ window.MRS_WOLFIE_FIGHTS = {
         "UPCOMING",
 
       type:
-        "FIGHT NIGHT"
+        "FIGHT NIGHT",
+
+      result:
+        ""
 
     },
 
@@ -57,6 +76,9 @@ window.MRS_WOLFIE_FIGHTS = {
     -------------------------------------------------------- */
 
     {
+
+      id:
+        "fight-20-nov-2026",
 
       promotion:
         "TRAIN4FIGHT",
@@ -83,7 +105,10 @@ window.MRS_WOLFIE_FIGHTS = {
         "UPCOMING",
 
       type:
-        "TITLE FIGHT"
+        "TITLE FIGHT",
+
+      result:
+        ""
 
     }
 
@@ -93,7 +118,12 @@ window.MRS_WOLFIE_FIGHTS = {
 
 
   /* =======================================================
-     FIGHT HISTORY
+     EXISTING FIGHT HISTORY
+
+     Previous fights stay here permanently.
+
+     Newly completed fights from the announced-fight
+     section are automatically combined with these.
   ======================================================== */
 
   history: [
@@ -104,6 +134,9 @@ window.MRS_WOLFIE_FIGHTS = {
     -------------------------------------------------------- */
 
     {
+
+      id:
+        "fight-14-mar-2026",
 
       promotion:
         "TRAIN 4 FIGHT PROMOTIONS",
@@ -136,6 +169,9 @@ window.MRS_WOLFIE_FIGHTS = {
 
     {
 
+      id:
+        "fight-05-jul-2025",
+
       promotion:
         "EBO",
 
@@ -166,6 +202,9 @@ window.MRS_WOLFIE_FIGHTS = {
     -------------------------------------------------------- */
 
     {
+
+      id:
+        "fight-25-may-2025",
 
       promotion:
         "EBO",
@@ -199,20 +238,27 @@ window.MRS_WOLFIE_FIGHTS = {
 
 
 /* =========================================================
-   DATE HELPERS
+   DATE HELPER
 ========================================================= */
 
 /*
-  Converts one of our YYYY-MM-DD fight dates
-  into a local Date object.
+  Converts YYYY-MM-DD into a local Date.
 
-  Midday is used for comparison so normal
-  timezone changes around midnight do not
-  accidentally move the calendar date.
+  Midday is used to avoid normal timezone changes
+  accidentally moving the fight to another calendar day.
 */
 
 window.MRS_WOLFIE_CREATE_DATE =
   function(dateString) {
+
+
+    if (!dateString) {
+
+      return new Date(
+        "Invalid Date"
+      );
+
+    }
 
 
     return new Date(
@@ -226,7 +272,143 @@ window.MRS_WOLFIE_CREATE_DATE =
 
 
 /* =========================================================
-   SORT UPCOMING FIGHTS
+   RESULT HELPER
+========================================================= */
+
+/*
+  A fight is considered completed when it has
+  one of the supported result codes.
+
+  W = Win
+  L = Loss
+  D = Draw
+*/
+
+window.MRS_WOLFIE_HAS_RESULT =
+  function(fight) {
+
+
+    if (!fight) {
+
+      return false;
+
+    }
+
+
+    const result =
+      String(
+        fight.result || ""
+      )
+        .trim()
+        .toUpperCase();
+
+
+    return (
+
+      result === "W" ||
+
+      result === "L" ||
+
+      result === "D"
+
+    );
+
+
+  };
+
+
+
+/* =========================================================
+   FIGHT FINAL DATE
+========================================================= */
+
+/*
+  Normal fights use date.
+
+  Multi-day events use dateEnd so the event remains
+  active throughout its final listed calendar day.
+*/
+
+window.MRS_WOLFIE_GET_FINAL_DATE =
+  function(fight) {
+
+
+    if (!fight) {
+
+      return null;
+
+    }
+
+
+    const finalDateString =
+      fight.dateEnd ||
+      fight.date;
+
+
+    if (!finalDateString) {
+
+      return null;
+
+    }
+
+
+    const finalDate =
+      window.MRS_WOLFIE_CREATE_DATE(
+        finalDateString
+      );
+
+
+    if (
+      Number.isNaN(
+        finalDate.getTime()
+      )
+    ) {
+
+      return null;
+
+    }
+
+
+    finalDate.setHours(
+      23,
+      59,
+      59,
+      999
+    );
+
+
+    return finalDate;
+
+
+  };
+
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+window.MRS_WOLFIE_GET_TODAY =
+  function() {
+
+
+    const now =
+      new Date();
+
+
+    return new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+
+  };
+
+
+
+/* =========================================================
+   SORT ANNOUNCED FIGHTS
 ========================================================= */
 
 window.MRS_WOLFIE_FIGHTS.upcoming.sort(
@@ -234,12 +416,15 @@ window.MRS_WOLFIE_FIGHTS.upcoming.sort(
 
 
     return (
+
       window.MRS_WOLFIE_CREATE_DATE(
         a.date
       ) -
+
       window.MRS_WOLFIE_CREATE_DATE(
         b.date
       )
+
     );
 
 
@@ -253,11 +438,13 @@ window.MRS_WOLFIE_FIGHTS.upcoming.sort(
 ========================================================= */
 
 /*
-  This automatically determines which announced
-  fight should be treated as the next fight.
+  A fight can only become NEXT FIGHT when:
 
-  For a multi-day event such as 20/21 November,
-  dateEnd is used as the final event date.
+  1. It does not have a result.
+  2. Its final event date has not passed.
+
+  Once a result is entered, the app immediately
+  skips that fight and selects the next announced fight.
 */
 
 window.MRS_WOLFIE_GET_NEXT_FIGHT =
@@ -268,20 +455,8 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
       window.MRS_WOLFIE_FIGHTS.upcoming;
 
 
-    const now =
-      new Date();
-
-
-    /*
-      Start of today's local calendar day.
-    */
-
     const today =
-      new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-      );
+      window.MRS_WOLFIE_GET_TODAY();
 
 
     const nextFight =
@@ -289,28 +464,33 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
         (fight) => {
 
 
-          const finalDateString =
-            fight.dateEnd ||
-            fight.date;
+          /*
+            Completed fights cannot be Next Fight.
+          */
+
+          if (
+            window.MRS_WOLFIE_HAS_RESULT(
+              fight
+            )
+          ) {
+
+            return false;
+
+          }
+
 
 
           const finalDate =
-            window.MRS_WOLFIE_CREATE_DATE(
-              finalDateString
+            window.MRS_WOLFIE_GET_FINAL_DATE(
+              fight
             );
 
 
-          /*
-            Keep the fight as current throughout
-            its final listed calendar date.
-          */
+          if (!finalDate) {
 
-          finalDate.setHours(
-            23,
-            59,
-            59,
-            999
-          );
+            return false;
+
+          }
 
 
           return (
@@ -322,12 +502,6 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
       );
 
 
-    /*
-      If every announced fight has passed,
-      return null rather than displaying an
-      old fight as if it were upcoming.
-    */
-
     return nextFight || null;
 
 
@@ -336,7 +510,7 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
 
 
 /* =========================================================
-   SET CURRENT NEXT FIGHT
+   CURRENT NEXT FIGHT
 ========================================================= */
 
 window.MRS_WOLFIE_FIGHTS.nextFight =
@@ -345,55 +519,56 @@ window.MRS_WOLFIE_FIGHTS.nextFight =
 
 
 /* =========================================================
-   HELPER: FUTURE / CURRENT UPCOMING FIGHTS
+   ACTIVE UPCOMING FIGHTS
 ========================================================= */
 
 /*
-  This gives Schedule a filtered list.
+  Used by the Schedule page.
 
-  Once a fight's final listed date has passed,
-  it can stop appearing under UPCOMING FIGHTS.
+  A fight appears under UPCOMING FIGHTS when:
+
+  - it does not have a result
+  - its final event date has not passed
 */
 
 window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
   function() {
 
 
-    const now =
-      new Date();
-
-
     const today =
-      new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-      );
+      window.MRS_WOLFIE_GET_TODAY();
 
 
     return (
+
       window.MRS_WOLFIE_FIGHTS.upcoming
+
         .filter(
           (fight) => {
 
 
-            const finalDateString =
-              fight.dateEnd ||
-              fight.date;
+            if (
+              window.MRS_WOLFIE_HAS_RESULT(
+                fight
+              )
+            ) {
+
+              return false;
+
+            }
 
 
             const finalDate =
-              window.MRS_WOLFIE_CREATE_DATE(
-                finalDateString
+              window.MRS_WOLFIE_GET_FINAL_DATE(
+                fight
               );
 
 
-            finalDate.setHours(
-              23,
-              59,
-              59,
-              999
-            );
+            if (!finalDate) {
+
+              return false;
+
+            }
 
 
             return (
@@ -403,6 +578,343 @@ window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
 
           }
         )
+
+        .sort(
+          (a, b) => {
+
+
+            return (
+
+              window.MRS_WOLFIE_CREATE_DATE(
+                a.date
+              ) -
+
+              window.MRS_WOLFIE_CREATE_DATE(
+                b.date
+              )
+
+            );
+
+
+          }
+        )
+
+    );
+
+
+  };
+
+
+
+/* =========================================================
+   COMPLETED ANNOUNCED FIGHTS
+========================================================= */
+
+/*
+  Any fight from the announced-fight section with
+  W, L or D entered is treated as completed.
+*/
+
+window.MRS_WOLFIE_GET_COMPLETED_ANNOUNCED_FIGHTS =
+  function() {
+
+
+    return (
+
+      window.MRS_WOLFIE_FIGHTS.upcoming
+
+        .filter(
+          (fight) => {
+
+
+            return (
+              window.MRS_WOLFIE_HAS_RESULT(
+                fight
+              )
+            );
+
+
+          }
+        )
+
+    );
+
+
+  };
+
+
+
+/* =========================================================
+   COMPLETE FIGHT HISTORY
+========================================================= */
+
+/*
+  Combines:
+
+  1. Existing historical fights
+  2. Newly completed announced fights
+
+  The final list is automatically sorted newest first.
+
+  This means you do NOT need to copy a newly completed
+  fight into the history section manually.
+*/
+
+window.MRS_WOLFIE_GET_FIGHT_HISTORY =
+  function() {
+
+
+    const permanentHistory =
+      window.MRS_WOLFIE_FIGHTS.history;
+
+
+    const newlyCompleted =
+      window.MRS_WOLFIE_GET_COMPLETED_ANNOUNCED_FIGHTS();
+
+
+
+    const combinedHistory = [
+
+      ...permanentHistory,
+
+      ...newlyCompleted
+
+    ];
+
+
+
+    /*
+      Prevent accidental duplicate fights.
+
+      IDs are used when available.
+    */
+
+    const uniqueFights = [];
+
+
+    const usedIds =
+      new Set();
+
+
+
+    combinedHistory.forEach(
+      (fight) => {
+
+
+        const fightId =
+
+          fight.id ||
+
+          [
+            fight.date,
+            fight.opponent,
+            fight.promotion
+          ]
+            .join("-")
+            .toLowerCase();
+
+
+
+        if (
+          usedIds.has(
+            fightId
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        usedIds.add(
+          fightId
+        );
+
+
+        uniqueFights.push(
+          fight
+        );
+
+
+      }
+    );
+
+
+
+    uniqueFights.sort(
+      (a, b) => {
+
+
+        return (
+
+          window.MRS_WOLFIE_CREATE_DATE(
+            b.date
+          ) -
+
+          window.MRS_WOLFIE_CREATE_DATE(
+            a.date
+          )
+
+        );
+
+
+      }
+    );
+
+
+    return uniqueFights;
+
+
+  };
+
+
+
+/* =========================================================
+   FIGHT RECORD
+========================================================= */
+
+/*
+  Automatically calculates Mrs Wolfie's record
+  from the complete Fight History.
+
+  Example return value:
+
+  {
+    wins: 2,
+    losses: 2,
+    draws: 0,
+    total: 4
+  }
+*/
+
+window.MRS_WOLFIE_GET_FIGHT_RECORD =
+  function() {
+
+
+    const history =
+      window.MRS_WOLFIE_GET_FIGHT_HISTORY();
+
+
+    let wins = 0;
+
+    let losses = 0;
+
+    let draws = 0;
+
+
+
+    history.forEach(
+      (fight) => {
+
+
+        const result =
+          String(
+            fight.result || ""
+          )
+            .trim()
+            .toUpperCase();
+
+
+
+        if (
+          result === "W"
+        ) {
+
+          wins += 1;
+
+        }
+
+
+        else if (
+          result === "L"
+        ) {
+
+          losses += 1;
+
+        }
+
+
+        else if (
+          result === "D"
+        ) {
+
+          draws += 1;
+
+        }
+
+
+      }
+    );
+
+
+
+    return {
+
+      wins: wins,
+
+      losses: losses,
+
+      draws: draws,
+
+      total:
+        wins +
+        losses +
+        draws
+
+    };
+
+
+  };
+
+
+
+/* =========================================================
+   FIND FIGHT BY ID
+========================================================= */
+
+/*
+  Allows other parts of the app to retrieve a specific
+  fight without duplicating its information.
+*/
+
+window.MRS_WOLFIE_GET_FIGHT_BY_ID =
+  function(fightId) {
+
+
+    if (!fightId) {
+
+      return null;
+
+    }
+
+
+    const allFights = [
+
+      ...window.MRS_WOLFIE_FIGHTS.upcoming,
+
+      ...window.MRS_WOLFIE_FIGHTS.history
+
+    ];
+
+
+    return (
+
+      allFights.find(
+        (fight) => {
+
+
+          return (
+            fight.id === fightId
+          );
+
+
+        }
+      )
+
+      ||
+
+      null
+
     );
 
 
