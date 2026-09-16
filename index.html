@@ -615,6 +615,8 @@
       align-items: center;
       justify-content: space-between;
 
+      gap: 15px;
+
       margin-bottom:
         18px;
     }
@@ -913,7 +915,7 @@
 
 
     /* =========================================================
-       APP UPDATES / NEWS
+       APP UPDATES
     ========================================================= */
 
     .updates-section {
@@ -1103,6 +1105,7 @@
 
       font-size: 10px;
       font-weight: 800;
+
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -2138,7 +2141,7 @@
 
 
   <!-- =======================================================
-       BOTTOM NAVIGATION
+       NAVIGATION
   ======================================================== -->
 
   <div class="nav-wrap">
@@ -2148,7 +2151,6 @@
       <a
         href="./index.html"
         class="nav-item active"
-        aria-label="Home"
       >
 
         <span class="nav-icon">
@@ -2165,7 +2167,6 @@
       <a
         href="./fight.html"
         class="nav-item fight"
-        aria-label="Fight"
       >
 
         <span class="nav-icon">
@@ -2182,7 +2183,6 @@
       <a
         href="./profile.html"
         class="nav-item"
-        aria-label="Profile"
       >
 
         <span class="nav-icon">
@@ -2199,7 +2199,6 @@
       <a
         href="./schedule.html"
         class="nav-item"
-        aria-label="Schedule"
       >
 
         <span class="nav-icon">
@@ -2219,16 +2218,13 @@
 
 
   <!-- =======================================================
-       MAIN DASHBOARD
+       MAIN
   ======================================================== -->
 
   <main>
 
 
-
-    <!-- =====================================================
-         DASHBOARD
-    ====================================================== -->
+    <!-- DASHBOARD -->
 
     <section>
 
@@ -2441,9 +2437,12 @@
           APP UPDATES
         </h2>
 
-        <span class="section-link">
-          LATEST NEWS
-        </span>
+        <a
+          href="./updates.html"
+          class="section-link"
+        >
+          VIEW ALL UPDATES →
+        </a>
 
       </div>
 
@@ -2584,7 +2583,7 @@
 
 
     <!-- =====================================================
-         THE FIGHTER
+         FIGHTER
     ====================================================== -->
 
     <section class="fighter-section">
@@ -2749,8 +2748,7 @@
           : [];
 
 
-      updatesList.innerHTML =
-        "";
+      updatesList.innerHTML = "";
 
 
       if (
@@ -2944,6 +2942,7 @@
       1000 * 60 * 60 * 24;
 
 
+
     function fightTimestamp(fight) {
 
 
@@ -2951,7 +2950,6 @@
         !fight ||
         !fight.date
       ) {
-
 
         return NaN;
 
