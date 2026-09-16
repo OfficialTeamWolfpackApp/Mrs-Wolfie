@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#05080c"
+  >
+
+  <title>Updates | Mrs Wolfie</title>
+
+
+  <!-- =====================================================
+       PWA
+  ====================================================== -->
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="./images/icon-192.png"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Mrs Wolfie"
+  >
+
+
+  <style>
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #030506;
+    }
+
+    body {
+
+      min-height: 100vh;
+
+      padding-bottom: 100px;
+
+      background:
+
+        radial-gradient(
+          circle at 0% 25%,
+          rgba(137,220,255,0.12),
+          transparent 30%
+        ),
+
+        radial-gradient(
+          circle at 100% 35%,
+          rgba(255,143,211,0.12),
+          transparent 32%
+        ),
+
+        #030506;
+
+      color: #ffffff;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+
+
+    /* =========================================================
+       THEME
+    ========================================================= */
+
+    :root {
+
+      --blue: #89dcff;
+      --pink: #ff8fd3;
+
+      --white: #ffffff;
+
+      --muted: #87929e;
+
+      --panel: #080c11;
+
+      --max: 1000px;
+    }
+
+
+
+    /* =========================================================
+       TOP BAR
+    ========================================================= */
+
+    .topbar {
+
+      height: 62px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: sticky;
+
+      top: 0;
+
+      background:
+        rgba(3,6,9,0.97);
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.05);
+
+      backdrop-filter:
+        blur(16px);
+
+      z-index: 5000;
+    }
+
+    .home-button {
+
+      position: absolute;
+
+      left: 18px;
+      top: 50%;
+
+      transform:
+        translateY(-50%);
+
+      width: 40px;
+      height: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 11px;
+
+      border:
+        1px solid
+        rgba(137,220,255,0.25);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(137,220,255,0.10),
+          rgba(255,143,211,0.07)
+        );
+
+      color: var(--blue);
+
+      font-size: 20px;
+    }
+
+    .brand {
+
+      text-align: center;
+
+      text-transform: uppercase;
+
+      font-weight: 900;
+
+      letter-spacing: 3px;
+
+      line-height: 1.2;
+    }
+
+    .brand-top {
+
+      display: block;
+
+      color: var(--blue);
+
+      font-size: 8px;
+    }
+
+    .brand-bottom {
+
+      display: block;
+
+      margin-top: 3px;
+
+      color: #ffffff;
+
+      font-size: 9px;
+    }
+
+    .status-dot {
+
+      position: absolute;
+
+      right: 21px;
+      top: 50%;
+
+      transform:
+        translateY(-50%);
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--pink);
+
+      box-shadow:
+        0 0 8px var(--pink),
+        0 0 16px rgba(255,143,211,0.75);
+    }
+
+
+
+    /* =========================================================
+       PAGE HERO
+    ========================================================= */
+
+    .page-hero {
+
+      position: relative;
+
+      min-height: 310px;
+
+      display: flex;
+      align-items: flex-end;
+
+      overflow: hidden;
+
+      background:
+
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.13),
+          rgba(5,8,12,0.98) 48%,
+          rgba(255,143,211,0.13)
+        );
+    }
+
+    .page-hero::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 380px;
+      height: 380px;
+
+      left: -160px;
+      top: -120px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(137,220,255,0.12);
+
+      filter:
+        blur(80px);
+    }
+
+    .page-hero::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 380px;
+      height: 380px;
+
+      right: -160px;
+      bottom: -150px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255,143,211,0.12);
+
+      filter:
+        blur(80px);
+    }
+
+    .hero-inner {
+
+      position: relative;
+
+      z-index: 2;
+
+      width:
+        min(
+          var(--max),
+          calc(100% - 40px)
+        );
+
+      margin: 0 auto;
+
+      padding: 70px 0 55px;
+    }
+
+    .eyebrow {
+
+      color: var(--blue);
+
+      font-size: 9px;
+      font-weight: 900;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      margin-bottom: 14px;
+    }
+
+    .page-title {
+
+      font-size:
+        clamp(
+          46px,
+          8vw,
+          78px
+        );
+
+      font-weight: 1000;
+
+      line-height: 0.9;
+
+      letter-spacing: -2px;
+
+      text-transform: uppercase;
+    }
+
+    .page-title span {
+      color: var(--pink);
+    }
+
+    .hero-text {
+
+      max-width: 620px;
+
+      margin-top: 20px;
+
+      color: #8c98a3;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      line-height: 1.7;
+    }
+
+
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    main {
+
+      width:
+        min(
+          var(--max),
+          calc(100% - 40px)
+        );
+
+      margin: 0 auto;
+
+      padding: 50px 0 80px;
+    }
+
+
+
+    /* =========================================================
+       HEADING
+    ========================================================= */
+
+    .section-heading {
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+
+      font-size: 12px;
+
+      font-weight: 1000;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+    }
+
+    .section-label {
+
+      color: var(--pink);
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
+    }
+
+
+
+    /* =========================================================
+       UPDATE CARDS
+    ========================================================= */
+
+    .updates-list {
+
+      display: grid;
+
+      gap: 16px;
+    }
+
+    .update-card {
+
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 28px;
+
+      border-radius: 22px;
+
+      background:
+
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.10),
+          rgba(8,12,17,0.98) 48%,
+          rgba(255,143,211,0.10)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,0.06);
+
+      border-left:
+        2px solid var(--blue);
+
+      border-right:
+        2px solid var(--pink);
+
+      box-shadow:
+        0 15px 40px
+        rgba(0,0,0,0.30);
+    }
+
+    .update-top {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 16px;
+    }
+
+    .update-type {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 6px 10px;
+
+      border-radius: 6px;
+
+      background:
+        rgba(137,220,255,0.08);
+
+      border:
+        1px solid
+        rgba(137,220,255,0.22);
+
+      color: var(--blue);
+
+      font-size: 7px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
+    }
+
+    .update-card[data-type="FIGHT"] .update-type,
+    .update-card[data-type="RESULT"] .update-type,
+    .update-card[data-type="IMPORTANT"] .update-type {
+
+      color: var(--pink);
+
+      border-color:
+        rgba(255,143,211,0.25);
+
+      background:
+        rgba(255,143,211,0.07);
+    }
+
+    .update-date {
+
+      color: #74808b;
+
+      font-size: 7px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.3px;
+
+      text-transform: uppercase;
+
+      text-align: right;
+    }
+
+    .update-title {
+
+      font-size:
+        clamp(
+          20px,
+          4vw,
+          30px
+        );
+
+      font-weight: 1000;
+
+      text-transform: uppercase;
+    }
+
+    .update-message {
+
+      max-width: 760px;
+
+      margin-top: 11px;
+
+      color: #909ba5;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      line-height: 1.7;
+    }
+
+    .update-button {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      margin-top: 20px;
+
+      padding: 11px 15px;
+
+      border-radius: 8px;
+
+      border:
+        1px solid
+        rgba(137,220,255,0.30);
+
+      background:
+
+        linear-gradient(
+          90deg,
+          rgba(137,220,255,0.08),
+          rgba(255,143,211,0.08)
+        );
+
+      color: #ffffff;
+
+      font-size: 7px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.4px;
+
+      text-transform: uppercase;
+    }
+
+    .no-updates {
+
+      padding: 30px;
+
+      text-align: center;
+
+      border-radius: 18px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.06);
+
+      background: var(--panel);
+
+      color: #74808b;
+
+      font-size: 10px;
+
+      font-weight: 900;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
+    }
+
+
+
+    /* =========================================================
+       MOTTO
+    ========================================================= */
+
+    .motto {
+
+      margin-top: 45px;
+
+      min-height: 160px;
+
+      padding: 30px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      border-radius: 24px;
+
+      background:
+
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.14),
+          rgba(9,13,18,0.97) 50%,
+          rgba(255,143,211,0.15)
+        );
+    }
+
+    .motto-small {
+
+      margin-bottom: 14px;
+
+      color: var(--blue);
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+    }
+
+    .motto-main {
+
+      font-size:
+        clamp(
+          29px,
+          6vw,
+          48px
+        );
+
+      font-weight: 1000;
+
+      text-transform: uppercase;
+    }
+
+    .motto-main span {
+      color: var(--pink);
+    }
+
+
+
+    /* =========================================================
+       BOTTOM NAVIGATION
+    ========================================================= */
+
+    .app-nav {
+
+      position: fixed;
+
+      left: 50%;
+
+      bottom:
+        calc(
+          12px +
+          env(safe-area-inset-bottom)
+        );
+
+      transform:
+        translateX(-50%);
+
+      width:
+        min(
+          620px,
+          calc(100% - 24px)
+        );
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      padding: 7px;
+
+      background:
+        rgba(7,11,16,0.98);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.09);
+
+      border-radius: 17px;
+
+      box-shadow:
+        0 15px 50px
+        rgba(0,0,0,0.90);
+
+      z-index: 99999;
+    }
+
+    .nav-item {
+
+      min-height: 57px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 5px;
+
+      border-radius: 12px;
+
+      color: #77828d;
+
+      font-size: 7px;
+
+      font-weight: 900;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
+    }
+
+    .nav-item:hover {
+
+      color: #ffffff;
+
+      background:
+        rgba(255,255,255,0.05);
+    }
+
+    .nav-icon {
+
+      font-size: 16px;
+
+      line-height: 1;
+    }
+
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+
+      padding:
+        30px 20px 120px;
+
+      text-align: center;
+    }
+
+    .footer-line {
+
+      width: 240px;
+
+      max-width: 80%;
+
+      height: 2px;
+
+      margin:
+        0 auto 14px;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--blue),
+          #ffffff,
+          var(--pink),
+          transparent
+        );
+    }
+
+    .footer-title {
+
+      color: #77818b;
+
+      font-size: 8px;
+
+      font-weight: 900;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+    }
+
+    .copyright {
+
+      margin-top: 14px;
+
+      color: #59626b;
+
+      font-size: 7px;
+
+      font-weight: 800;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
+    }
+
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 600px) {
+
+      .topbar {
+        height: 55px;
+      }
+
+      .page-hero {
+
+        min-height: 280px;
+      }
+
+      .hero-inner {
+
+        width:
+          calc(100% - 30px);
+
+        padding:
+          60px 0 45px;
+      }
+
+      .page-title {
+
+        font-size:
+          clamp(
+            44px,
+            15vw,
+            65px
+          );
+      }
+
+      main {
+
+        width:
+          calc(100% - 28px);
+
+        padding-top: 40px;
+      }
+
+      .update-card {
+
+        padding:
+          22px 19px;
+      }
+
+      .update-message {
+
+        font-size: 11px;
+      }
+
+      .motto {
+
+        min-height: 145px;
+      }
+
+    }
+
+
+
+    @media (max-width: 420px) {
+
+      .update-top {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+      }
+
+      .update-date {
+        text-align: left;
+      }
+
+      .update-title {
+        font-size: 19px;
+      }
+
+      .update-button {
+        width: 100%;
+      }
+
+      .section-heading h2 {
+
+        font-size: 10px;
+
+        letter-spacing: 3px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
+
+  <header class="topbar">
+
+    <a
+      href="./index.html"
+      class="home-button"
+      aria-label="Home"
+    >
+      ⌂
+    </a>
+
+
+    <div class="brand">
+
+      <span class="brand-top">
+        TEAM WOLFPACK
+      </span>
+
+      <span class="brand-bottom">
+        MRS WOLFIE
+      </span>
+
+    </div>
+
+
+    <div class="status-dot"></div>
+
+  </header>
+
+
+
+  <!-- =======================================================
+       PAGE HERO
+  ======================================================== -->
+
+  <section class="page-hero">
+
+    <div class="hero-inner">
+
+      <div class="eyebrow">
+        MRS WOLFIE • TEAM WOLFIE
+      </div>
+
+
+      <h1 class="page-title">
+
+        APP
+
+        <span>
+          UPDATES
+        </span>
+
+      </h1>
+
+
+      <p class="hero-text">
+
+        The latest Mrs Wolfie fight announcements,
+        results, Team Wolfie news and important
+        updates — all in one place.
+
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main>
+
+
+    <section>
+
+      <div class="section-heading">
+
+        <h2>
+          LATEST NEWS
+        </h2>
+
+        <span class="section-label">
+          MRS WOLFIE
+        </span>
+
+      </div>
+
+
+      <div
+        class="updates-list"
+        id="updatesList"
+      >
+
+        <div class="no-updates">
+          LOADING LATEST UPDATES...
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MOTTO
+    ====================================================== -->
+
+    <section class="motto">
+
+      <div class="motto-small">
+        TEAM WOLFIE
+      </div>
+
+      <div class="motto-main">
+
+        HUNT WITHOUT
+
+        <span>
+          FEAR
+        </span>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div class="footer-line"></div>
+
+    <div class="footer-title">
+      MRS WOLFIE
+    </div>
+
+    <div class="copyright">
+      © 2026 MRS WOLFIE • TEAM WOLFPACK
+    </div>
+
+  </footer>
+
+
+
+  <!-- =======================================================
+       BOTTOM NAVIGATION
+  ======================================================== -->
+
+  <nav class="app-nav">
+
+    <a
+      href="./index.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ⌂
+      </span>
+
+      <span>
+        HOME
+      </span>
+
+    </a>
+
+
+    <a
+      href="./fight.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        🥊
+      </span>
+
+      <span>
+        FIGHT
+      </span>
+
+    </a>
+
+
+    <a
+      href="./profile.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ♟
+      </span>
+
+      <span>
+        PROFILE
+      </span>
+
+    </a>
+
+
+    <a
+      href="./schedule.html"
+      class="nav-item"
+    >
+
+      <span class="nav-icon">
+        ▣
+      </span>
+
+      <span>
+        SCHEDULE
+      </span>
+
+    </a>
+
+  </nav>
+
+
+
+  <!-- =======================================================
+       CENTRAL UPDATES DATABASE
+  ======================================================== -->
+
+  <script src="./updates-data.js"></script>
+
+
+
+  <!-- =======================================================
+       RENDER UPDATES
+  ======================================================== -->
+
+  <script>
+
+    const updatesList =
+      document.getElementById(
+        "updatesList"
+      );
+
+
+    function renderUpdates() {
+
+
+      if (!updatesList) {
+
+        return;
+
+      }
+
+
+      const updates =
+        typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES ===
+        "function"
+          ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
+          : [];
+
+
+      updatesList.innerHTML = "";
+
+
+      if (
+        updates.length === 0
+      ) {
+
+
+        const emptyMessage =
+          document.createElement(
+            "div"
+          );
+
+
+        emptyMessage.className =
+          "no-updates";
+
+
+        emptyMessage.textContent =
+          "NO NEW UPDATES AT THE MOMENT";
+
+
+        updatesList.appendChild(
+          emptyMessage
+        );
+
+
+        return;
+
+      }
+
+
+
+      updates.forEach(
+        (update) => {
+
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+
+          card.className =
+            "update-card";
+
+
+          card.dataset.type =
+            update.type ||
+            "NEWS";
+
+
+
+          /* TYPE + DATE */
+
+          const top =
+            document.createElement(
+              "div"
+            );
+
+
+          top.className =
+            "update-top";
+
+
+          const type =
+            document.createElement(
+              "div"
+            );
+
+
+          type.className =
+            "update-type";
+
+
+          type.textContent =
+            update.type ||
+            "NEWS";
+
+
+          const date =
+            document.createElement(
+              "div"
+            );
+
+
+          date.className =
+            "update-date";
+
+
+          date.textContent =
+            update.dateDisplay ||
+            "";
+
+
+          top.appendChild(type);
+          top.appendChild(date);
+
+
+
+          /* TITLE */
+
+          const title =
+            document.createElement(
+              "div"
+            );
+
+
+          title.className =
+            "update-title";
+
+
+          title.textContent =
+            update.title ||
+            "MRS WOLFIE UPDATE";
+
+
+
+          /* MESSAGE */
+
+          const message =
+            document.createElement(
+              "div"
+            );
+
+
+          message.className =
+            "update-message";
+
+
+          message.textContent =
+            update.message ||
+            "";
+
+
+
+          card.appendChild(top);
+          card.appendChild(title);
+          card.appendChild(message);
+
+
+
+          /* OPTIONAL BUTTON */
+
+          if (
+            update.buttonText &&
+            update.link
+          ) {
+
+
+            const button =
+              document.createElement(
+                "a"
+              );
+
+
+            button.className =
+              "update-button";
+
+
+            button.href =
+              update.link;
+
+
+            button.textContent =
+              update.buttonText +
+              " →";
+
+
+            card.appendChild(
+              button
+            );
+
+
+          }
+
+
+          updatesList.appendChild(
+            card
+          );
+
+
+        }
+      );
+
+
+    }
+
+
+    renderUpdates();
+
+  </script>
+
+
+
+  <!-- =======================================================
+       SERVICE WORKER
+  ======================================================== -->
+
+  <script>
+
+    if (
+      "serviceWorker" in navigator
+    ) {
+
+
+      window.addEventListener(
+        "load",
+        () => {
+
+
+          navigator.serviceWorker
+            .register(
+              "./service-worker.js"
+            )
+
+            .then(
+              () => {
+
+
+                console.log(
+                  "Mrs Wolfie App service worker registered."
+                );
+
+
+              }
+            )
+
+            .catch(
+              (error) => {
+
+
+                console.error(
+                  "Service worker registration failed:",
+                  error
+                );
+
+
+              }
+            );
+
+
+        }
+      );
+
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
