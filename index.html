@@ -23,6 +23,107 @@ main{width:min(var(--max),calc(100% - 40px));margin:auto;padding:55px 0 80px}.se
 .journey-card{display:grid;grid-template-columns:1.2fr .8fr;overflow:hidden;border-radius:24px;background:#080c11;border-left:2px solid rgba(137,220,255,.65);border-right:2px solid rgba(255,143,211,.65)}.journey-content{padding:42px}.journey-kicker{color:var(--pink);font-size:9px;font-weight:900;letter-spacing:3px;text-transform:uppercase}.journey-title{margin-top:12px;font-size:clamp(27px,4vw,42px);font-weight:1000;text-transform:uppercase}.journey-text{margin-top:14px;color:#929da7;line-height:1.7;font-size:13px}.journey-image{min-height:330px;background:linear-gradient(to left,transparent 45%,#080c11),url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png") center 28%/cover no-repeat}.team-card{padding:36px;text-align:center;border-radius:24px;background:linear-gradient(110deg,rgba(137,220,255,.12),rgba(9,13,18,.97) 50%,rgba(255,143,211,.13));border:1px solid rgba(255,255,255,.06)}.team-small{color:var(--blue);font-size:9px;font-weight:900;letter-spacing:3px;text-transform:uppercase}.team-main{margin-top:12px;font-size:clamp(26px,5vw,45px);font-weight:1000;text-transform:uppercase}.team-main span{color:var(--pink)}.team-motto{margin-top:12px;color:#89949e;font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.motto{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:26px;background:linear-gradient(110deg,rgba(137,220,255,.15),rgba(9,13,18,.97) 50%,rgba(255,143,211,.16))}.motto-small{color:var(--blue);font-size:9px;font-weight:900;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}.motto-main{font-size:clamp(32px,6vw,54px);font-weight:1000;text-transform:uppercase}.motto-main span{color:var(--pink)}footer{padding:70px 20px 45px;text-align:center}.footer-line{width:240px;max-width:80%;height:2px;margin:0 auto 14px;background:linear-gradient(90deg,transparent,var(--blue),#fff,var(--pink),transparent)}.footer-title{color:#77818b;font-size:8px;font-weight:900;letter-spacing:3px;text-transform:uppercase}.copyright{margin-top:14px;color:#59626b;font-size:7px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
 @media(max-width:760px){body{padding-bottom:90px}.topbar{height:55px}.hero{min-height:515px;align-items:flex-end}.hero-bg{background-position:46% center}.hero-inner{width:calc(100% - 32px);padding:80px 0}.hero-title{font-size:clamp(52px,17vw,80px);letter-spacing:-2px}.hero-name{font-size:10px}.hero-actions{width:100%}.hero-btn{flex:1}.nav-wrap{height:0;margin:0;padding:0}.app-nav{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 24px);z-index:99999;box-shadow:0 15px 50px rgba(0,0,0,.9)}.nav-item{min-height:57px;font-size:7px}main{width:calc(100% - 28px);padding-top:40px}.fight-card{padding:25px 20px}.fight-top{flex-direction:column;align-items:flex-start}.fighters{grid-template-columns:1fr;gap:12px;text-align:center;margin-top:30px}.fighter.left,.fighter.right{text-align:center}.fight-info{grid-template-columns:1fr}.action-btn{width:100%}.record-grid{grid-template-columns:1fr 1fr}.schedule-card{grid-template-columns:74px 1fr auto;gap:12px;padding:17px 14px}.schedule-date{font-size:10px}.schedule-opponent{font-size:13px}.quick-grid{grid-template-columns:1fr 1fr}.journey-card{grid-template-columns:1fr}.journey-image{min-height:300px;order:-1;background:linear-gradient(to bottom,transparent 55%,#080c11),url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png") center 25%/cover no-repeat}.journey-content{padding:28px 23px}.update-top{align-items:flex-start}.motto{min-height:150px;padding:25px}footer{padding-bottom:120px}}
 @media(max-width:420px){.hero{min-height:470px}.hero-title{font-size:55px}.section-heading h2{font-size:10px;letter-spacing:3px}.record-number{font-size:30px}.quick-card{min-height:130px;padding:15px}.quick-title{font-size:10px}.quick-text{font-size:7px}.schedule-card{grid-template-columns:65px 1fr auto}.update-top{flex-direction:column;gap:8px}.motto-main{font-size:31px}}
+
+/* =========================================================
+   HOME VISUAL POLISH — FIGHTER DASHBOARD V2
+========================================================= */
+.hero{min-height:610px}
+.hero-bg{background-position:center 29%}
+.hero-inner{padding:92px 0 130px}
+.hero-content{width:min(610px,100%);transform:translateY(-4px)}
+.hero-sub{color:#c2cbd3}
+.hero-actions{margin-top:28px}
+.hero-btn{min-width:155px;padding:14px 19px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.hero-btn.primary{color:#fff;background:linear-gradient(90deg,rgba(137,220,255,.24),rgba(137,220,255,.10));border-color:rgba(137,220,255,.58)}
+.hero-btn.secondary{background:linear-gradient(90deg,rgba(255,143,211,.13),rgba(5,10,14,.78));border-color:rgba(255,143,211,.48)}
+
+main{padding-top:48px}
+.section{margin-bottom:42px}
+.section-heading{margin-bottom:14px}
+
+.fight-card{padding:34px 36px 36px;background:
+radial-gradient(circle at 0 0,rgba(137,220,255,.11),transparent 32%),
+radial-gradient(circle at 100% 100%,rgba(255,143,211,.11),transparent 34%),
+linear-gradient(110deg,rgba(137,220,255,.10),rgba(8,12,17,.985) 48%,rgba(255,143,211,.10))}
+.fight-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(137,220,255,.04),transparent 38%,rgba(255,143,211,.04))}
+.fight-card>*{position:relative}
+.count-pill{font-size:9px;padding:9px 14px;box-shadow:0 0 22px rgba(137,220,255,.08)}
+.command-countdown{display:flex;align-items:flex-start;gap:12px;margin:24px 0 4px;padding:18px 20px;width:max-content;max-width:100%;border-radius:16px;background:rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.055)}
+.countdown-cell{min-width:74px;text-align:center}
+.countdown-cell strong{display:block;font-size:34px;line-height:.95;font-weight:1000;color:var(--blue);font-variant-numeric:tabular-nums}
+.countdown-cell:nth-of-type(5) strong{color:var(--pink)}
+.countdown-cell span{display:block;margin-top:7px;color:#7f8b96;font-size:7px;font-weight:900;letter-spacing:1.5px}
+.countdown-divider{padding-top:4px;color:rgba(255,255,255,.24);font-size:26px;font-weight:900}
+.promotion{margin-top:22px}
+.fighters{margin-top:32px}
+.action-btn{transition:transform .2s ease,border-color .2s ease}
+.action-btn:hover,.hero-btn:hover{transform:translateY(-2px)}
+
+.record-card{position:relative;overflow:hidden;padding:22px 14px}
+.record-card:after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:.45}
+.record-card:nth-child(even):after{background:linear-gradient(90deg,transparent,var(--pink),transparent)}
+.record-number{font-size:38px}
+.record-label{margin-top:8px}
+
+.schedule-card{transition:transform .2s ease,border-color .2s ease}
+.schedule-card:hover{transform:translateX(3px);border-color:rgba(137,220,255,.18)}
+
+.journey-card{min-height:355px}
+.journey-content{padding:38px 42px}
+.journey-timeline{display:flex;align-items:center;margin-top:24px;max-width:560px}
+.journey-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:62px;text-align:center}
+.journey-step span{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;font-size:8px;font-weight:1000;border:1px solid rgba(137,220,255,.35);background:#091016;color:var(--blue)}
+.journey-step strong{font-size:7px;letter-spacing:1px;color:#8d98a3;white-space:nowrap}
+.journey-step.complete span{box-shadow:0 0 16px rgba(137,220,255,.10)}
+.journey-step.next span{border-color:rgba(255,143,211,.55);color:var(--pink);box-shadow:0 0 18px rgba(255,143,211,.13)}
+.journey-step.next strong{color:var(--pink)}
+.journey-line{height:1px;flex:1;min-width:18px;background:linear-gradient(90deg,rgba(137,220,255,.45),rgba(255,143,211,.35));margin:0 5px 19px}
+
+.closing-section{margin-top:8px}
+.closing-card{position:relative;overflow:hidden;min-height:245px;padding:48px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:
+radial-gradient(circle at 0 50%,rgba(137,220,255,.14),transparent 34%),
+radial-gradient(circle at 100% 50%,rgba(255,143,211,.15),transparent 34%),
+#080c11;border-left:2px solid rgba(137,220,255,.72);border-right:2px solid rgba(255,143,211,.72)}
+.closing-title{margin-top:15px;font-size:clamp(36px,6vw,62px);line-height:.95;font-weight:1000;letter-spacing:-1.5px;text-transform:uppercase}
+.closing-title span{color:var(--pink)}
+.closing-rule{width:190px;height:1px;margin-top:24px;background:linear-gradient(90deg,transparent,var(--blue),#fff,var(--pink),transparent)}
+.closing-pack{margin-top:13px;color:#69747f;font-size:7px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+
+@media(max-width:760px){
+  .hero{min-height:540px}
+  .hero-bg{background-position:44% center}
+  .hero-inner{padding:82px 0 92px}
+  .hero-content{transform:none}
+  .hero-actions{gap:8px}
+  .hero-btn{min-width:0;padding:13px 12px}
+  main{padding-top:36px}
+  .section{margin-bottom:36px}
+  .fight-card{padding:23px 18px 25px}
+  .command-countdown{width:100%;justify-content:center;gap:7px;margin-top:18px;padding:15px 8px}
+  .countdown-cell{min-width:58px}
+  .countdown-cell strong{font-size:29px}
+  .countdown-divider{font-size:22px}
+  .journey-content{padding:27px 21px 30px}
+  .journey-timeline{overflow:hidden}
+  .journey-step{min-width:54px}
+  .journey-step strong{font-size:6px}
+  .journey-line{min-width:8px;margin-left:2px;margin-right:2px}
+  .closing-card{min-height:220px;padding:38px 18px}
+  .closing-title{font-size:clamp(34px,10vw,48px)}
+}
+@media(max-width:420px){
+  .hero{min-height:500px}
+  .hero-bg{background-position:43% center}
+  .command-countdown{gap:4px}
+  .countdown-cell{min-width:52px}
+  .countdown-cell strong{font-size:27px}
+  .countdown-cell span{font-size:6px;letter-spacing:1px}
+  .countdown-divider{font-size:20px}
+  .journey-step{min-width:48px}
+  .journey-step span{width:27px;height:27px}
+  .journey-step strong{font-size:5.5px}
+}
+
 </style>
 </head>
 <body>
@@ -30,12 +131,30 @@ main{width:min(var(--max),calc(100% - 40px));margin:auto;padding:55px 0 80px}.se
 <section class="hero"><div class="hero-bg"></div><div class="hero-inner"><div class="hero-content"><div class="eyebrow">TEAM WOLFIE • BOXER</div><h1 class="hero-title"><span class="mrs">MRS</span><br><span class="wolfie">WOLFIE</span></h1><div class="hero-name">ZOEY “MRS WOLFIE” JAMES</div><div class="hero-sub">TEAM WOLFIE • REPRESENTING TEAM WOLFPACK</div><div class="hero-actions"><a href="#next-fight" class="hero-btn primary">NEXT FIGHT →</a><a href="./profile.html" class="hero-btn secondary">MY PROFILE →</a></div></div></div></section>
 <div class="nav-wrap"><nav class="app-nav"><a href="./index.html" class="nav-item active"><span class="nav-icon">⌂</span><span>HOME</span></a><a href="./fight.html" class="nav-item fight"><span class="nav-icon">🥊</span><span>FIGHT</span></a><a href="./profile.html" class="nav-item"><span class="nav-icon">♟</span><span>PROFILE</span></a><a href="./schedule.html" class="nav-item"><span class="nav-icon">▣</span><span>SCHEDULE</span></a></nav></div>
 <main>
-<section class="section" id="next-fight"><div class="section-heading"><h2>FIGHT COMMAND</h2><a href="./fight.html" class="section-link" id="fightSectionLink">FIGHT NIGHT →</a></div><article class="fight-card"><div class="fight-top"><div class="fight-state" id="fightState">LOADING FIGHT...</div><div class="count-pill" id="fightCountdown">CALCULATING...</div></div><h3 class="promotion" id="fightPromotion">LOADING...</h3><div class="event-name" id="fightEvent">LOADING...</div><div class="fighters"><div class="fighter left">MRS WOLFIE</div><div class="vs">VS</div><div class="fighter right" id="fightOpponent">TBA</div></div><div class="fight-info"><div class="info-box"><span class="info-label">DATE</span><span class="info-value" id="fightDate">TBA</span></div><div class="info-box"><span class="info-label">VENUE</span><span class="info-value" id="fightVenue">TBA</span></div></div><a href="./fight.html" class="action-btn" id="fightButton">VIEW FIGHT NIGHT →</a></article></section>
+<section class="section" id="next-fight"><div class="section-heading"><h2>FIGHT COMMAND</h2><a href="./fight.html" class="section-link" id="fightSectionLink">FIGHT NIGHT →</a></div><article class="fight-card"><div class="fight-top"><div class="fight-state" id="fightState">LOADING FIGHT...</div><div class="count-pill" id="fightCountdown">CALCULATING...</div></div>
+<div class="command-countdown" aria-label="Live fight countdown">
+  <div class="countdown-cell"><strong id="commandDays">--</strong><span>DAYS</span></div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-cell"><strong id="commandHours">--</strong><span>HOURS</span></div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-cell"><strong id="commandMinutes">--</strong><span>MINUTES</span></div>
+</div>
+<h3 class="promotion" id="fightPromotion">LOADING...</h3><div class="event-name" id="fightEvent">LOADING...</div><div class="fighters"><div class="fighter left">MRS WOLFIE</div><div class="vs">VS</div><div class="fighter right" id="fightOpponent">TBA</div></div><div class="fight-info"><div class="info-box"><span class="info-label">DATE</span><span class="info-value" id="fightDate">TBA</span></div><div class="info-box"><span class="info-label">VENUE</span><span class="info-value" id="fightVenue">TBA</span></div></div><a href="./fight.html" class="action-btn" id="fightButton">VIEW FIGHT NIGHT →</a></article></section>
 <section class="section"><div class="section-heading"><h2>MY FIGHT RECORD</h2><a href="./schedule.html#fight-history" class="section-link">FIGHT HISTORY →</a></div><div class="record-grid"><div class="record-card"><div class="record-number" id="recordTotal">—</div><div class="record-label">FIGHTS</div></div><div class="record-card"><div class="record-number" id="recordWins">—</div><div class="record-label">WINS</div></div><div class="record-card"><div class="record-number" id="recordLosses">—</div><div class="record-label">LOSSES</div></div><div class="record-card"><div class="record-number" id="recordDraws">—</div><div class="record-label">DRAWS</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>UPCOMING SCHEDULE</h2><a href="./schedule.html" class="section-link">FULL SCHEDULE →</a></div><div class="schedule-list" id="schedulePreview"><div class="schedule-card"><div class="schedule-meta">LOADING...</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>LATEST UPDATE</h2><a href="./updates.html" class="section-link">VIEW ALL →</a></div><div id="latestUpdate"><div class="update-card"><div class="no-updates">LOADING LATEST UPDATE...</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>QUICK ACCESS</h2><span class="section-link">MRS WOLFIE</span></div><div class="quick-grid"><a href="./fight.html" class="quick-card"><div><div class="quick-icon">🥊</div><div class="quick-title">FIGHT NIGHT</div><div class="quick-text">Countdown and fight details</div></div><div class="quick-arrow">›</div></a><a href="./schedule.html" class="quick-card"><div><div class="quick-icon">▣</div><div class="quick-title">SCHEDULE</div><div class="quick-text">Upcoming events and dates</div></div><div class="quick-arrow">›</div></a><a href="./profile.html" class="quick-card"><div><div class="quick-icon">♟</div><div class="quick-title">PROFILE</div><div class="quick-text">Mrs Wolfie fighter profile</div></div><div class="quick-arrow">›</div></a><a href="./schedule.html#fight-history" class="quick-card"><div><div class="quick-icon">★</div><div class="quick-title">FIGHT HISTORY</div><div class="quick-text">Previous fights and results</div></div><div class="quick-arrow">›</div></a></div></section>
-<section class="section"><div class="section-heading"><h2>THE JOURNEY</h2><a href="./profile.html" class="section-link">MY STORY →</a></div><article class="journey-card"><div class="journey-content"><div class="journey-kicker">MRS WOLFIE • THE JOURNEY</div><div class="journey-title" id="journeyTitle">THE NEXT CHAPTER</div><p class="journey-text" id="journeyText">Boxer and Co-Founder of Team Wolfpack. Follow the fights, results and next chapter of the Mrs Wolfie journey.</p><a href="./schedule.html#fight-history" class="action-btn">VIEW THE JOURNEY →</a></div><div class="journey-image" role="img" aria-label="Mrs Wolfie"></div></article></section>
+<section class="section"><div class="section-heading"><h2>THE JOURNEY</h2><a href="./profile.html" class="section-link">MY STORY →</a></div><article class="journey-card"><div class="journey-content"><div class="journey-kicker">MRS WOLFIE • THE JOURNEY</div><div class="journey-title" id="journeyTitle">THE NEXT CHAPTER</div><p class="journey-text" id="journeyText">Boxer and Co-Founder of Team Wolfpack. Follow the fights, results and next chapter of the Mrs Wolfie journey.</p>
+<div class="journey-timeline">
+  <div class="journey-step complete"><span>01</span><strong>DEBUT</strong></div>
+  <div class="journey-line"></div>
+  <div class="journey-step complete"><span>02</span><strong>FIGHT 2</strong></div>
+  <div class="journey-line"></div>
+  <div class="journey-step complete"><span>03</span><strong>FIRST WIN</strong></div>
+  <div class="journey-line"></div>
+  <div class="journey-step next"><span>04</span><strong>NEXT FIGHT</strong></div>
+</div>
+<a href="./schedule.html#fight-history" class="action-btn">VIEW THE JOURNEY →</a></div><div class="journey-image" role="img" aria-label="Mrs Wolfie"></div></article></section>
 <section class="section"><div class="team-card"><div class="team-small">TEAM WOLFIE</div><div class="team-main">REPRESENTING <span>TEAM WOLFPACK</span></div><div class="team-motto">ONE PACK • ONE PURPOSE • STRENGTH IN UNITY</div></div></section>
 <section class="motto"><div class="motto-small">TEAM WOLFIE</div><div class="motto-main">HUNT WITHOUT <span>FEAR</span></div></section>
 </main>
@@ -48,7 +167,18 @@ main{width:min(var(--max),calc(100% - 40px));margin:auto;padding:55px 0 80px}.se
   const esc=v=>String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
   function currentFight(){return typeof window.MRS_WOLFIE_GET_NEXT_FIGHT==="function"?window.MRS_WOLFIE_GET_NEXT_FIGHT():(window.MRS_WOLFIE_FIGHTS?.nextFight||null)}
   function dateObj(s){return typeof window.MRS_WOLFIE_CREATE_DATE==="function"?window.MRS_WOLFIE_CREATE_DATE(s):new Date(s+"T12:00:00")}
-  function updateFight(){const f=currentFight();if(!f){$("fightState").textContent="AWAITING ANNOUNCEMENT";$("fightCountdown").textContent="TO BE ANNOUNCED";$("fightPromotion").textContent="NEXT FIGHT";$("fightEvent").textContent="NEW FIGHT TBA";$("fightOpponent").textContent="TBA";$("fightDate").textContent="TBA";$("fightVenue").textContent="TBA";$("fightButton").textContent="VIEW SCHEDULE →";$("fightButton").href="./schedule.html";$("fightSectionLink").textContent="SCHEDULE →";$("fightSectionLink").href="./schedule.html";return}$("fightPromotion").textContent=f.promotion||"TBA";$("fightEvent").textContent=f.event||"TBA";$("fightOpponent").textContent=f.opponent||"TBA";$("fightDate").textContent=f.dateDisplay||"TBA";$("fightVenue").textContent=f.venue||"TBA";const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),fd=dateObj(f.date),day=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate()),days=Math.ceil((day-today)/86400000);if(days===0){$("fightState").textContent="FIGHT DAY";$("fightCountdown").textContent="FIGHT DAY"}else if(days===1){$("fightState").textContent="FIGHT TOMORROW";$("fightCountdown").textContent="1 DAY TO GO"}else if(days>1&&days<=7){$("fightState").textContent="FIGHT WEEK";$("fightCountdown").textContent=days+" DAYS TO GO"}else if(days>7){$("fightState").textContent="NEXT FIGHT";$("fightCountdown").textContent=days+" DAYS TO GO"}else{$("fightState").textContent="FIGHT UPDATE";$("fightCountdown").textContent="CHECK SCHEDULE"}}
+  function updateFight(){const f=currentFight();if(!f){
+$("commandDays").textContent="--";$("commandHours").textContent="--";$("commandMinutes").textContent="--";
+$("fightState").textContent="AWAITING ANNOUNCEMENT";$("fightCountdown").textContent="TO BE ANNOUNCED";$("fightPromotion").textContent="NEXT FIGHT";$("fightEvent").textContent="NEW FIGHT TBA";$("fightOpponent").textContent="TBA";$("fightDate").textContent="TBA";$("fightVenue").textContent="TBA";$("fightButton").textContent="VIEW SCHEDULE →";$("fightButton").href="./schedule.html";$("fightSectionLink").textContent="SCHEDULE →";$("fightSectionLink").href="./schedule.html";return}$("fightPromotion").textContent=f.promotion||"TBA";$("fightEvent").textContent=f.event||"TBA";$("fightOpponent").textContent=f.opponent||"TBA";$("fightDate").textContent=f.dateDisplay||"TBA";$("fightVenue").textContent=f.venue||"TBA";const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),fd=dateObj(f.date),day=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate()),days=Math.ceil((day-today)/86400000);
+const fightMoment=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate(),12,0,0,0);
+const remaining=Math.max(0,fightMoment-now);
+const liveDays=Math.floor(remaining/86400000);
+const liveHours=Math.floor((remaining%86400000)/3600000);
+const liveMinutes=Math.floor((remaining%3600000)/60000);
+$("commandDays").textContent=String(liveDays).padStart(2,"0");
+$("commandHours").textContent=String(liveHours).padStart(2,"0");
+$("commandMinutes").textContent=String(liveMinutes).padStart(2,"0");
+if(days===0){$("fightState").textContent="FIGHT DAY";$("fightCountdown").textContent="FIGHT DAY"}else if(days===1){$("fightState").textContent="FIGHT TOMORROW";$("fightCountdown").textContent="1 DAY TO GO"}else if(days>1&&days<=7){$("fightState").textContent="FIGHT WEEK";$("fightCountdown").textContent=days+" DAYS TO GO"}else if(days>7){$("fightState").textContent="NEXT FIGHT";$("fightCountdown").textContent=days+" DAYS TO GO"}else{$("fightState").textContent="FIGHT UPDATE";$("fightCountdown").textContent="CHECK SCHEDULE"}}
   function updateRecord(){const r=typeof window.MRS_WOLFIE_GET_FIGHT_RECORD==="function"?window.MRS_WOLFIE_GET_FIGHT_RECORD():null;if(!r)return;$("recordTotal").textContent=r.total??0;$("recordWins").textContent=r.wins??0;$("recordLosses").textContent=r.losses??0;$("recordDraws").textContent=r.draws??0;$("journeyTitle").textContent=(r.total??0)+" FIGHTS • "+(r.wins??0)+" WIN"+((r.wins??0)===1?"":"S");}
   function updateSchedule(){const box=$("schedulePreview");const fights=typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS==="function"?window.MRS_WOLFIE_GET_UPCOMING_FIGHTS().slice(0,2):[];if(!fights.length){box.innerHTML='<div class="schedule-card"><div><div class="schedule-opponent">NO FIGHTS ANNOUNCED</div><div class="schedule-meta">CHECK BACK FOR THE NEXT ANNOUNCEMENT</div></div></div>';return}box.innerHTML=fights.map(f=>'<a class="schedule-card" href="./fight.html"><div class="schedule-date">'+esc(f.dateDisplay||"TBA")+'</div><div><div class="schedule-opponent">MRS WOLFIE vs '+esc(f.opponent||"TBA")+'</div><div class="schedule-meta">'+esc(f.promotion||"TBA")+' • '+esc(f.venue||"TBA")+'</div></div><div class="schedule-arrow">›</div></a>').join("")}
   function updateLatest(){const box=$("latestUpdate");const updates=typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES==="function"?window.MRS_WOLFIE_GET_ACTIVE_UPDATES():[];const u=updates[0];if(!u){box.innerHTML='<div class="update-card"><div class="no-updates">NO NEW UPDATES AT THE MOMENT</div></div>';return}const btn=u.buttonText&&u.link?'<a href="'+esc(u.link)+'" class="update-button">'+esc(u.buttonText)+' →</a>':"";box.innerHTML='<article class="update-card"><div class="update-top"><div class="update-type">'+esc(u.type||"NEWS")+'</div><div class="update-date">'+esc(u.dateDisplay||"")+'</div></div><div class="update-title">'+esc(u.title||"MRS WOLFIE UPDATE")+'</div><div class="update-message">'+esc(u.message||"")+'</div>'+btn+'</article>'}
