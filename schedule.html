@@ -2143,30 +2143,45 @@
       window.MRS_WOLFIE_FIGHTS || {};
 
 
-    const currentFight =
-      typeof window.MRS_WOLFIE_GET_NEXT_FIGHT === "function"
-        ? window.MRS_WOLFIE_GET_NEXT_FIGHT()
-        : (fightData.nextFight || null);
+    let currentFight = null;
+
+    let upcomingFights = [];
+
+    let fightHistory = [];
 
 
-    const upcomingFights =
-      typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function"
-        ? window.MRS_WOLFIE_GET_UPCOMING_FIGHTS()
-        : (
-            Array.isArray(fightData.upcoming)
-              ? fightData.upcoming
-              : []
-          );
+    /* =====================================================
+       REFRESH CENTRAL DATA
+    ====================================================== */
+
+    function refreshCentralFightData() {
+
+      currentFight =
+        typeof window.MRS_WOLFIE_GET_NEXT_FIGHT === "function"
+          ? window.MRS_WOLFIE_GET_NEXT_FIGHT()
+          : (fightData.nextFight || null);
 
 
-    const fightHistory =
-      typeof window.MRS_WOLFIE_GET_FIGHT_HISTORY === "function"
-        ? window.MRS_WOLFIE_GET_FIGHT_HISTORY()
-        : (
-            Array.isArray(fightData.history)
-              ? fightData.history
-              : []
-          );
+      upcomingFights =
+        typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function"
+          ? window.MRS_WOLFIE_GET_UPCOMING_FIGHTS()
+          : (
+              Array.isArray(fightData.upcoming)
+                ? fightData.upcoming
+                : []
+            );
+
+
+      fightHistory =
+        typeof window.MRS_WOLFIE_GET_FIGHT_HISTORY === "function"
+          ? window.MRS_WOLFIE_GET_FIGHT_HISTORY()
+          : (
+              Array.isArray(fightData.history)
+                ? fightData.history
+                : []
+            );
+
+    }
 
 
     const oneDay =
@@ -3196,17 +3211,51 @@
        START SCHEDULE
     ====================================================== */
 
-    loadNextFight();
+    function refreshSchedulePage() {
+
+      refreshCentralFightData();
+
+      loadNextFight();
+
+      renderUpcomingFights();
+
+      renderFightHistory();
+
+      updateFightStatus();
+
+    }
 
 
-    renderUpcomingFights();
+    /*
+      Draw immediately using the local fallback data.
+    */
+
+    refreshSchedulePage();
 
 
-    renderFightHistory();
+    /*
+      When Firebase supplies live Team Wolfpack fight data,
+      redraw the complete Schedule page automatically.
+    */
+
+    window.addEventListener(
+      "mrsWolfieFightDataUpdated",
+      function(event) {
+
+        console.log(
+          "Mrs Wolfie Schedule refreshed from:",
+          event.detail?.source || "UNKNOWN"
+        );
+
+        refreshSchedulePage();
+
+      }
+    );
 
 
-    updateFightStatus();
-
+    /*
+      Keep the next-fight countdown/status current.
+    */
 
     setInterval(
       updateFightStatus,
