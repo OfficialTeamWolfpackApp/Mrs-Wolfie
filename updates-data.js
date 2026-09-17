@@ -176,9 +176,7 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
 
             resultMessage +=
               " " +
-              eventParts.join(
-                " • "
-              ) +
+              eventParts.join(" • ") +
               ".";
 
           }
@@ -626,22 +624,24 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
 
     /* =====================================================
-       PUBLIC PUBLISHED-UPDATES QUERY
+       PUBLIC ACTIVE-UPDATES QUERY
 
-       The Admin Update Manager stores the publishing
-       state using:
+       VERIFIED FIRESTORE STRUCTURE:
 
-       published: true / false
+       active: true
 
-       The public Mrs Wolfie app therefore requests
-       ONLY documents where published == true.
+       Published updates are stored in Firestore using
+       active:true.
+
+       The public app therefore asks Firestore only for
+       active updates.
     ====================================================== */
 
-    const publishedUpdatesQuery =
+    const activeUpdatesQuery =
       query(
         updatesCollection,
         where(
-          "published",
+          "active",
           "==",
           true
         )
@@ -654,7 +654,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
     onSnapshot(
 
-      publishedUpdatesQuery,
+      activeUpdatesQuery,
 
 
       snapshot => {
@@ -730,17 +730,6 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
                 date
               );
 
-
-            /*
-              Every document returned by this query
-              has already passed:
-
-              published == true
-
-              The rest of the Mrs Wolfie app uses
-              active:true internally when deciding
-              what to display.
-            */
 
             firebaseUpdates.push({
 
@@ -819,7 +808,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
 
         console.log(
-          "Mrs Wolfie published updates loaded:",
+          "Mrs Wolfie active updates loaded:",
           firebaseUpdates.length
         );
 
@@ -859,7 +848,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       error => {
 
         console.error(
-          "Mrs Wolfie published updates listener failed:",
+          "Mrs Wolfie active updates listener failed:",
           error
         );
 
