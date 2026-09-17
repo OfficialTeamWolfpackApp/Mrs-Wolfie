@@ -17,42 +17,15 @@
 
   <title>Updates | Mrs Wolfie</title>
 
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./images/icon-192.png">
 
-  <!-- =====================================================
-       PWA
-  ====================================================== -->
-
-  <link
-    rel="manifest"
-    href="./manifest.json"
-  >
-
-  <link
-    rel="apple-touch-icon"
-    href="./images/icon-192.png"
-  >
-
-  <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
-  >
-
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
-  >
-
-  <meta
-    name="apple-mobile-web-app-title"
-    content="Mrs Wolfie"
-  >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mrs Wolfie">
 
 
   <style>
-
-    /* =========================================================
-       RESET
-    ========================================================= */
 
     * {
       margin: 0;
@@ -68,23 +41,19 @@
     body {
 
       min-height: 100vh;
-
       padding-bottom: 100px;
 
       background:
-
         radial-gradient(
           circle at 0% 25%,
           rgba(137,220,255,0.12),
           transparent 30%
         ),
-
         radial-gradient(
           circle at 100% 35%,
           rgba(255,143,211,0.12),
           transparent 32%
         ),
-
         #030506;
 
       color: #ffffff;
@@ -104,14 +73,17 @@
     }
 
 
-    /* =========================================================
-       THEME
-    ========================================================= */
-
     :root {
 
       --blue: #89dcff;
+      --blue2: #b9ecff;
+
       --pink: #ff8fd3;
+      --pink2: #ffb8e3;
+
+      --red: #ff667a;
+
+      --silver: #c7d0d8;
 
       --white: #ffffff;
 
@@ -136,7 +108,6 @@
       justify-content: center;
 
       position: sticky;
-
       top: 0;
 
       background:
@@ -146,8 +117,7 @@
         1px solid
         rgba(255,255,255,0.05);
 
-      backdrop-filter:
-        blur(16px);
+      backdrop-filter: blur(16px);
 
       z-index: 5000;
     }
@@ -176,7 +146,6 @@
         rgba(137,220,255,0.25);
 
       background:
-
         linear-gradient(
           135deg,
           rgba(137,220,255,0.10),
@@ -191,7 +160,6 @@
     .brand {
 
       text-align: center;
-
       text-transform: uppercase;
 
       font-weight: 900;
@@ -260,7 +228,6 @@
       overflow: hidden;
 
       background:
-
         linear-gradient(
           110deg,
           rgba(137,220,255,0.13),
@@ -286,8 +253,7 @@
       background:
         rgba(137,220,255,0.12);
 
-      filter:
-        blur(80px);
+      filter: blur(80px);
     }
 
     .page-hero::after {
@@ -307,8 +273,7 @@
       background:
         rgba(255,143,211,0.12);
 
-      filter:
-        blur(80px);
+      filter: blur(80px);
     }
 
     .hero-inner {
@@ -325,7 +290,8 @@
 
       margin: 0 auto;
 
-      padding: 70px 0 55px;
+      padding:
+        70px 0 55px;
     }
 
     .eyebrow {
@@ -394,7 +360,8 @@
 
       margin: 0 auto;
 
-      padding: 50px 0 80px;
+      padding:
+        50px 0 80px;
     }
 
 
@@ -405,6 +372,7 @@
     .section-heading {
 
       display: flex;
+
       align-items: center;
       justify-content: space-between;
 
@@ -439,7 +407,7 @@
 
 
     /* =========================================================
-       UPDATE CARDS
+       UPDATE LIST
     ========================================================= */
 
     .updates-list {
@@ -448,6 +416,11 @@
 
       gap: 16px;
     }
+
+
+    /* =========================================================
+       DEFAULT UPDATE CARD
+    ========================================================= */
 
     .update-card {
 
@@ -460,7 +433,6 @@
       border-radius: 22px;
 
       background:
-
         linear-gradient(
           110deg,
           rgba(137,220,255,0.10),
@@ -481,14 +453,362 @@
       box-shadow:
         0 15px 40px
         rgba(0,0,0,0.30);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
+    .update-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition:
+        opacity 0.2s ease;
+    }
+
+
+    /* =========================================================
+       NEWS — ICY BLUE
+    ========================================================= */
+
+    .update-card[data-type="NEWS"] {
+
+      border-left-color:
+        var(--blue);
+
+      border-right-color:
+        rgba(137,220,255,0.35);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.16),
+          rgba(8,12,17,0.98) 52%,
+          rgba(137,220,255,0.05)
+        );
+    }
+
+    .update-card[data-type="NEWS"] .update-type {
+
+      color: var(--blue);
+
+      border-color:
+        rgba(137,220,255,0.40);
+
+      background:
+        rgba(137,220,255,0.10);
+
+      box-shadow:
+        0 0 14px
+        rgba(137,220,255,0.08);
+    }
+
+
+    /* =========================================================
+       IMPORTANT — STRONG PINK
+    ========================================================= */
+
+    .update-card[data-type="IMPORTANT"] {
+
+      border-left-color:
+        var(--pink);
+
+      border-right-color:
+        var(--pink);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(255,143,211,0.17),
+          rgba(8,12,17,0.98) 50%,
+          rgba(255,143,211,0.13)
+        );
+
+      box-shadow:
+        0 15px 45px
+        rgba(255,143,211,0.07);
+    }
+
+    .update-card[data-type="IMPORTANT"] .update-type {
+
+      color: var(--pink2);
+
+      border-color:
+        rgba(255,143,211,0.55);
+
+      background:
+        rgba(255,143,211,0.12);
+
+      box-shadow:
+        0 0 18px
+        rgba(255,143,211,0.12);
+    }
+
+    .update-card[data-type="IMPORTANT"] .update-title {
+
+      color: var(--pink2);
+
+      text-shadow:
+        0 0 20px
+        rgba(255,143,211,0.16);
+    }
+
+
+    /* =========================================================
+       FIGHT — BLUE / PINK FIGHT NIGHT
+    ========================================================= */
+
+    .update-card[data-type="FIGHT"] {
+
+      border-left-color:
+        var(--blue);
+
+      border-right-color:
+        var(--pink);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.17),
+          rgba(8,12,17,0.99) 48%,
+          rgba(255,143,211,0.17)
+        );
+
+      box-shadow:
+        -8px 0 30px
+        rgba(137,220,255,0.04),
+        8px 0 30px
+        rgba(255,143,211,0.04);
+    }
+
+    .update-card[data-type="FIGHT"] .update-type {
+
+      color: var(--pink);
+
+      border-color:
+        rgba(255,143,211,0.40);
+
+      background:
+        rgba(255,143,211,0.10);
+    }
+
+    .update-card[data-type="FIGHT"] .update-type::before {
+
+      content: "🥊";
+
+      margin-right: 6px;
+
+      font-size: 10px;
+    }
+
+
+    /* =========================================================
+       TEAM — TEAM WOLFPACK STYLE
+    ========================================================= */
+
+    .update-card[data-type="TEAM"] {
+
+      border-left-color:
+        var(--blue);
+
+      border-right-color:
+        var(--pink);
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(137,220,255,0.12),
+          rgba(8,12,17,0.99) 45%,
+          rgba(255,143,211,0.12)
+        );
+    }
+
+    .update-card[data-type="TEAM"] .update-type {
+
+      color: #ffffff;
+
+      border-color:
+        rgba(255,255,255,0.20);
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(137,220,255,0.14),
+          rgba(255,143,211,0.14)
+        );
+    }
+
+
+    /* =========================================================
+       RESULT — BASE
+    ========================================================= */
+
+    .update-card[data-type="RESULT"] {
+
+      border-width: 1px;
+
+      border-left-width: 3px;
+
+      border-right-width: 3px;
+    }
+
+    .update-card[data-type="RESULT"] .update-type {
+
+      font-size: 8px;
+
+      padding:
+        7px 11px;
+    }
+
+
+    /* =========================================================
+       RESULT — WIN
+    ========================================================= */
+
+    .update-card[data-result="W"] {
+
+      border-left-color:
+        var(--blue);
+
+      border-right-color:
+        var(--blue);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(137,220,255,0.20),
+          rgba(7,12,17,0.99) 48%,
+          rgba(137,220,255,0.08)
+        );
+
+      box-shadow:
+        0 15px 45px
+        rgba(137,220,255,0.07);
+    }
+
+    .update-card[data-result="W"] .update-type {
+
+      color: var(--blue2);
+
+      border-color:
+        rgba(137,220,255,0.55);
+
+      background:
+        rgba(137,220,255,0.13);
+
+      box-shadow:
+        0 0 18px
+        rgba(137,220,255,0.12);
+    }
+
+    .update-card[data-result="W"] .update-title {
+
+      color: var(--blue2);
+
+      text-shadow:
+        0 0 20px
+        rgba(137,220,255,0.13);
+    }
+
+
+    /* =========================================================
+       RESULT — LOSS
+    ========================================================= */
+
+    .update-card[data-result="L"] {
+
+      border-left-color:
+        var(--red);
+
+      border-right-color:
+        var(--pink);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(255,102,122,0.14),
+          rgba(8,10,14,0.99) 50%,
+          rgba(255,143,211,0.11)
+        );
+    }
+
+    .update-card[data-result="L"] .update-type {
+
+      color: #ff9cab;
+
+      border-color:
+        rgba(255,102,122,0.45);
+
+      background:
+        rgba(255,102,122,0.10);
+    }
+
+    .update-card[data-result="L"] .update-title {
+
+      color: #ffb2bd;
+    }
+
+
+    /* =========================================================
+       RESULT — DRAW
+    ========================================================= */
+
+    .update-card[data-result="D"] {
+
+      border-left-color:
+        var(--silver);
+
+      border-right-color:
+        var(--silver);
+
+      background:
+        linear-gradient(
+          110deg,
+          rgba(199,208,216,0.12),
+          rgba(8,12,17,0.99) 50%,
+          rgba(199,208,216,0.07)
+        );
+    }
+
+    .update-card[data-result="D"] .update-type {
+
+      color: #e2e7eb;
+
+      border-color:
+        rgba(199,208,216,0.40);
+
+      background:
+        rgba(199,208,216,0.09);
+    }
+
+    .update-card[data-result="D"] .update-title {
+
+      color: #e2e7eb;
+    }
+
+
+    /* =========================================================
+       CARD CONTENT
+    ========================================================= */
+
     .update-top {
+
+      position: relative;
+
+      z-index: 2;
 
       display: flex;
 
       align-items: center;
-
       justify-content: space-between;
 
       gap: 15px;
@@ -501,10 +821,10 @@
       display: inline-flex;
 
       align-items: center;
-
       justify-content: center;
 
-      padding: 6px 10px;
+      padding:
+        6px 10px;
 
       border-radius: 6px;
 
@@ -526,19 +846,6 @@
       text-transform: uppercase;
     }
 
-    .update-card[data-type="FIGHT"] .update-type,
-    .update-card[data-type="RESULT"] .update-type,
-    .update-card[data-type="IMPORTANT"] .update-type {
-
-      color: var(--pink);
-
-      border-color:
-        rgba(255,143,211,0.25);
-
-      background:
-        rgba(255,143,211,0.07);
-    }
-
     .update-date {
 
       color: #74808b;
@@ -556,6 +863,10 @@
 
     .update-title {
 
+      position: relative;
+
+      z-index: 2;
+
       font-size:
         clamp(
           20px,
@@ -569,6 +880,10 @@
     }
 
     .update-message {
+
+      position: relative;
+
+      z-index: 2;
 
       max-width: 760px;
 
@@ -585,15 +900,19 @@
 
     .update-button {
 
+      position: relative;
+
+      z-index: 2;
+
       display: inline-flex;
 
       align-items: center;
-
       justify-content: center;
 
       margin-top: 20px;
 
-      padding: 11px 15px;
+      padding:
+        11px 15px;
 
       border-radius: 8px;
 
@@ -602,7 +921,6 @@
         rgba(137,220,255,0.30);
 
       background:
-
         linear-gradient(
           90deg,
           rgba(137,220,255,0.08),
@@ -620,6 +938,43 @@
       text-transform: uppercase;
     }
 
+    .update-card[data-type="IMPORTANT"] .update-button {
+
+      border-color:
+        rgba(255,143,211,0.40);
+
+      color: var(--pink2);
+    }
+
+    .update-card[data-result="W"] .update-button {
+
+      border-color:
+        rgba(137,220,255,0.45);
+
+      color: var(--blue2);
+    }
+
+    .update-card[data-result="L"] .update-button {
+
+      border-color:
+        rgba(255,102,122,0.40);
+
+      color: #ffb2bd;
+    }
+
+    .update-card[data-result="D"] .update-button {
+
+      border-color:
+        rgba(199,208,216,0.35);
+
+      color: #e2e7eb;
+    }
+
+
+    /* =========================================================
+       EMPTY
+    ========================================================= */
+
     .no-updates {
 
       padding: 30px;
@@ -632,7 +987,8 @@
         1px solid
         rgba(255,255,255,0.06);
 
-      background: var(--panel);
+      background:
+        var(--panel);
 
       color: #74808b;
 
@@ -663,7 +1019,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       text-align: center;
@@ -671,7 +1026,6 @@
       border-radius: 24px;
 
       background:
-
         linear-gradient(
           110deg,
           rgba(137,220,255,0.14),
@@ -771,7 +1125,6 @@
       flex-direction: column;
 
       align-items: center;
-
       justify-content: center;
 
       gap: 5px;
@@ -829,7 +1182,6 @@
         0 auto 14px;
 
       background:
-
         linear-gradient(
           90deg,
           transparent,
@@ -1237,15 +1589,6 @@
         }
 
 
-        /*
-          updates-data.js calculates this every
-          time the function is called.
-
-          That means once Firebase changes the
-          fight database, result updates can be
-          generated immediately.
-        */
-
         const updates =
 
           typeof
@@ -1325,12 +1668,58 @@
               "update-card";
 
 
-            card.dataset.type =
+            const updateType =
               String(
                 update.type ||
                 "NEWS"
               )
+                .trim()
                 .toUpperCase();
+
+
+            card.dataset.type =
+              updateType;
+
+
+
+            /* =================================================
+               RESULT STYLING
+
+               W = WIN
+               L = LOSS
+               D = DRAW
+            ================================================== */
+
+            if (
+              updateType ===
+              "RESULT"
+            ) {
+
+
+              const resultCode =
+                String(
+                  update.result ||
+                  ""
+                )
+                  .trim()
+                  .toUpperCase();
+
+
+              if (
+                resultCode === "W" ||
+                resultCode === "L" ||
+                resultCode === "D"
+              ) {
+
+
+                card.dataset.result =
+                  resultCode;
+
+
+              }
+
+
+            }
 
 
 
@@ -1358,9 +1747,14 @@
               "update-type";
 
 
+            /*
+              Keep the public category label simple.
+
+              Automatic result cards still say RESULT.
+            */
+
             type.textContent =
-              update.type ||
-              "NEWS";
+              updateType;
 
 
             const date =
@@ -1478,6 +1872,7 @@
                 button
               );
 
+
             }
 
 
@@ -1496,9 +1891,6 @@
 
       /* =====================================================
          INITIAL DISPLAY
-
-         This renders the local/manual updates immediately
-         while Firebase is connecting.
       ====================================================== */
 
       renderUpdates();
@@ -1506,14 +1898,9 @@
 
 
       /* =====================================================
-         FIREBASE LIVE REFRESH
+         FIGHT DATABASE LIVE REFRESH
 
-         fight-data.js dispatches this event whenever
-         Firestore supplies or changes the fight data.
-
-         When a fight becomes COMPLETED with W/L/D,
-         updates-data.js will generate the RESULT update
-         and this page will immediately redraw.
+         Keeps automatic fight-result updates working.
       ====================================================== */
 
       window.addEventListener(
@@ -1537,10 +1924,34 @@
 
 
       /* =====================================================
-         REFRESH WHEN APP RETURNS TO FOREGROUND
+         APP UPDATES DATABASE LIVE REFRESH
 
-         Useful on mobile/PWA when Admin was used in
-         another tab or the app was temporarily hidden.
+         updates-data.js fires this whenever the
+         mrsWolfieUpdates Firestore collection changes.
+      ====================================================== */
+
+      window.addEventListener(
+        "mrsWolfieUpdatesDataUpdated",
+        function(event) {
+
+
+          console.log(
+            "Mrs Wolfie Updates database refreshed from:",
+            event.detail?.source ||
+            "UNKNOWN"
+          );
+
+
+          renderUpdates();
+
+
+        }
+      );
+
+
+
+      /* =====================================================
+         REFRESH WHEN APP RETURNS TO FOREGROUND
       ====================================================== */
 
       document.addEventListener(
