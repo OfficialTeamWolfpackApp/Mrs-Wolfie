@@ -9,7 +9,7 @@
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v6";
+  "mrs-wolfie-boxing-v7";
 
 
 
