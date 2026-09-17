@@ -104,7 +104,6 @@
     }
 
 
-
     /* =========================================================
        THEME
     ========================================================= */
@@ -122,7 +121,6 @@
 
       --max: 1000px;
     }
-
 
 
     /* =========================================================
@@ -244,7 +242,6 @@
         0 0 8px var(--pink),
         0 0 16px rgba(255,143,211,0.75);
     }
-
 
 
     /* =========================================================
@@ -383,7 +380,6 @@
     }
 
 
-
     /* =========================================================
        MAIN
     ========================================================= */
@@ -400,7 +396,6 @@
 
       padding: 50px 0 80px;
     }
-
 
 
     /* =========================================================
@@ -441,7 +436,6 @@
 
       text-transform: uppercase;
     }
-
 
 
     /* =========================================================
@@ -652,7 +646,6 @@
     }
 
 
-
     /* =========================================================
        MOTTO
     ========================================================= */
@@ -719,7 +712,6 @@
     .motto-main span {
       color: var(--pink);
     }
-
 
 
     /* =========================================================
@@ -813,7 +805,6 @@
     }
 
 
-
     /* =========================================================
        FOOTER
     ========================================================= */
@@ -878,7 +869,6 @@
     }
 
 
-
     /* =========================================================
        MOBILE
     ========================================================= */
@@ -890,7 +880,6 @@
       }
 
       .page-hero {
-
         min-height: 280px;
       }
 
@@ -928,17 +917,14 @@
       }
 
       .update-message {
-
         font-size: 11px;
       }
 
       .motto {
-
         min-height: 145px;
       }
 
     }
-
 
 
     @media (max-width: 420px) {
@@ -1211,235 +1197,374 @@
 
 
 
- <!-- =======================================================
-     CENTRAL FIGHT + UPDATES DATABASES
-======================================================== -->
+  <!-- =======================================================
+       CENTRAL FIGHT + UPDATES DATABASES
+  ======================================================== -->
 
-<script src="./fight-data.js"></script>
+  <script src="./fight-data.js"></script>
 
-<script src="./updates-data.js"></script>
+  <script src="./updates-data.js"></script>
 
 
 
   <!-- =======================================================
-       RENDER UPDATES
+       LIVE UPDATES RENDERER
   ======================================================== -->
 
   <script>
 
-    const updatesList =
-      document.getElementById(
-        "updatesList"
-      );
+    (function () {
 
 
-    function renderUpdates() {
-
-
-      if (!updatesList) {
-
-        return;
-
-      }
-
-
-      const updates =
-        typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES ===
-        "function"
-          ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
-          : [];
-
-
-      updatesList.innerHTML = "";
-
-
-      if (
-        updates.length === 0
-      ) {
-
-
-        const emptyMessage =
-          document.createElement(
-            "div"
-          );
-
-
-        emptyMessage.className =
-          "no-updates";
-
-
-        emptyMessage.textContent =
-          "NO NEW UPDATES AT THE MOMENT";
-
-
-        updatesList.appendChild(
-          emptyMessage
+      const updatesList =
+        document.getElementById(
+          "updatesList"
         );
 
 
-        return;
 
-      }
+      /* =====================================================
+         RENDER ALL ACTIVE UPDATES
+      ====================================================== */
 
-
-
-      updates.forEach(
-        (update) => {
+      function renderUpdates() {
 
 
-          const card =
-            document.createElement(
-              "article"
-            );
+        if (!updatesList) {
+
+          return;
+
+        }
 
 
-          card.className =
-            "update-card";
+        /*
+          updates-data.js calculates this every
+          time the function is called.
+
+          That means once Firebase changes the
+          fight database, result updates can be
+          generated immediately.
+        */
+
+        const updates =
+
+          typeof
+          window.MRS_WOLFIE_GET_ACTIVE_UPDATES
+          === "function"
+
+            ?
+
+          window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
+
+            :
+
+          [];
 
 
-          card.dataset.type =
-            update.type ||
-            "NEWS";
+        updatesList.innerHTML =
+          "";
 
 
+        /* =================================================
+           NO UPDATES
+        ================================================== */
 
-          /* TYPE + DATE */
-
-          const top =
-            document.createElement(
-              "div"
-            );
-
-
-          top.className =
-            "update-top";
+        if (
+          !Array.isArray(updates) ||
+          updates.length === 0
+        ) {
 
 
-          const type =
-            document.createElement(
-              "div"
-            );
-
-
-          type.className =
-            "update-type";
-
-
-          type.textContent =
-            update.type ||
-            "NEWS";
-
-
-          const date =
-            document.createElement(
-              "div"
-            );
-
-
-          date.className =
-            "update-date";
-
-
-          date.textContent =
-            update.dateDisplay ||
-            "";
-
-
-          top.appendChild(type);
-          top.appendChild(date);
-
-
-
-          /* TITLE */
-
-          const title =
+          const emptyMessage =
             document.createElement(
               "div"
             );
 
 
-          title.className =
-            "update-title";
+          emptyMessage.className =
+            "no-updates";
 
 
-          title.textContent =
-            update.title ||
-            "MRS WOLFIE UPDATE";
+          emptyMessage.textContent =
+            "NO NEW UPDATES AT THE MOMENT";
 
 
-
-          /* MESSAGE */
-
-          const message =
-            document.createElement(
-              "div"
-            );
+          updatesList.appendChild(
+            emptyMessage
+          );
 
 
-          message.className =
-            "update-message";
+          return;
 
-
-          message.textContent =
-            update.message ||
-            "";
+        }
 
 
 
-          card.appendChild(top);
-          card.appendChild(title);
-          card.appendChild(message);
+        /* =================================================
+           CREATE UPDATE CARDS
+        ================================================== */
+
+        updates.forEach(
+          (update) => {
 
 
+            if (!update) {
 
-          /* OPTIONAL BUTTON */
+              return;
 
-          if (
-            update.buttonText &&
-            update.link
-          ) {
+            }
 
 
-            const button =
+            const card =
               document.createElement(
-                "a"
+                "article"
               );
 
 
-            button.className =
-              "update-button";
+            card.className =
+              "update-card";
 
 
-            button.href =
-              update.link;
+            card.dataset.type =
+              String(
+                update.type ||
+                "NEWS"
+              )
+                .toUpperCase();
 
 
-            button.textContent =
-              update.buttonText +
-              " →";
+
+            /* =============================================
+               TYPE + DATE
+            ============================================== */
+
+            const top =
+              document.createElement(
+                "div"
+              );
+
+
+            top.className =
+              "update-top";
+
+
+            const type =
+              document.createElement(
+                "div"
+              );
+
+
+            type.className =
+              "update-type";
+
+
+            type.textContent =
+              update.type ||
+              "NEWS";
+
+
+            const date =
+              document.createElement(
+                "div"
+              );
+
+
+            date.className =
+              "update-date";
+
+
+            date.textContent =
+              update.dateDisplay ||
+              "";
+
+
+            top.appendChild(
+              type
+            );
+
+
+            top.appendChild(
+              date
+            );
+
+
+
+            /* =============================================
+               TITLE
+            ============================================== */
+
+            const title =
+              document.createElement(
+                "div"
+              );
+
+
+            title.className =
+              "update-title";
+
+
+            title.textContent =
+              update.title ||
+              "MRS WOLFIE UPDATE";
+
+
+
+            /* =============================================
+               MESSAGE
+            ============================================== */
+
+            const message =
+              document.createElement(
+                "div"
+              );
+
+
+            message.className =
+              "update-message";
+
+
+            message.textContent =
+              update.message ||
+              "";
+
 
 
             card.appendChild(
-              button
+              top
+            );
+
+
+            card.appendChild(
+              title
+            );
+
+
+            card.appendChild(
+              message
+            );
+
+
+
+            /* =============================================
+               OPTIONAL BUTTON
+            ============================================== */
+
+            if (
+              update.buttonText &&
+              update.link
+            ) {
+
+
+              const button =
+                document.createElement(
+                  "a"
+                );
+
+
+              button.className =
+                "update-button";
+
+
+              button.href =
+                update.link;
+
+
+              button.textContent =
+                update.buttonText +
+                " →";
+
+
+              card.appendChild(
+                button
+              );
+
+            }
+
+
+            updatesList.appendChild(
+              card
             );
 
 
           }
+        );
 
 
-          updatesList.appendChild(
-            card
+      }
+
+
+
+      /* =====================================================
+         INITIAL DISPLAY
+
+         This renders the local/manual updates immediately
+         while Firebase is connecting.
+      ====================================================== */
+
+      renderUpdates();
+
+
+
+      /* =====================================================
+         FIREBASE LIVE REFRESH
+
+         fight-data.js dispatches this event whenever
+         Firestore supplies or changes the fight data.
+
+         When a fight becomes COMPLETED with W/L/D,
+         updates-data.js will generate the RESULT update
+         and this page will immediately redraw.
+      ====================================================== */
+
+      window.addEventListener(
+        "mrsWolfieFightDataUpdated",
+        function(event) {
+
+
+          console.log(
+            "Mrs Wolfie Updates refreshed from:",
+            event.detail?.source ||
+            "UNKNOWN"
           );
+
+
+          renderUpdates();
 
 
         }
       );
 
 
-    }
+
+      /* =====================================================
+         REFRESH WHEN APP RETURNS TO FOREGROUND
+
+         Useful on mobile/PWA when Admin was used in
+         another tab or the app was temporarily hidden.
+      ====================================================== */
+
+      document.addEventListener(
+        "visibilitychange",
+        function() {
 
 
-    renderUpdates();
+          if (
+            document.visibilityState ===
+            "visible"
+          ) {
+
+
+            renderUpdates();
+
+
+          }
+
+
+        }
+      );
+
+
+    })();
 
   </script>
 
@@ -1458,38 +1583,98 @@
 
       window.addEventListener(
         "load",
-        () => {
+        async () => {
 
 
-          navigator.serviceWorker
-            .register(
-              "./service-worker.js"
-            )
-
-            .then(
-              () => {
+          try {
 
 
-                console.log(
-                  "Mrs Wolfie App service worker registered."
+            const registration =
+              await navigator
+                .serviceWorker
+                .register(
+                  "./service-worker.js",
+                  {
+                    updateViaCache:
+                      "none"
+                  }
                 );
 
 
-              }
-            )
-
-            .catch(
-              (error) => {
+            await registration.update();
 
 
-                console.error(
-                  "Service worker registration failed:",
-                  error
-                );
-
-
-              }
+            console.log(
+              "Mrs Wolfie App service worker registered and checked for updates."
             );
+
+
+          }
+
+
+          catch (error) {
+
+
+            console.error(
+              "Service worker registration/update failed:",
+              error
+            );
+
+
+          }
+
+
+        }
+      );
+
+
+
+      document.addEventListener(
+        "visibilitychange",
+        async () => {
+
+
+          if (
+            document.visibilityState !==
+            "visible"
+          ) {
+
+            return;
+
+          }
+
+
+          try {
+
+
+            const registration =
+              await navigator
+                .serviceWorker
+                .getRegistration(
+                  "./"
+                );
+
+
+            if (registration) {
+
+              await registration.update();
+
+            }
+
+
+          }
+
+
+          catch (error) {
+
+
+            console.error(
+              "Mrs Wolfie background update check failed:",
+              error
+            );
+
+
+          }
 
 
         }
