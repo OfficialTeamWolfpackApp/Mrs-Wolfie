@@ -218,6 +218,78 @@ body:has(.closing-card) .motto{
   }
 }
 
+
+/* =========================================================
+   HOME V4 — HERO TEXT POSITION
+========================================================= */
+@media(min-width:761px){
+  .hero-inner{
+    display:flex;
+    justify-content:flex-end;
+  }
+
+  .hero-content{
+    width:min(500px,44vw);
+    margin-left:auto;
+    margin-right:2%;
+    text-align:left;
+  }
+
+  .hero-bg{
+    background-position:center 32%;
+  }
+
+  .hero-content:before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    width:620px;
+    height:430px;
+    right:4%;
+    top:50%;
+    transform:translateY(-50%);
+    background:radial-gradient(circle,rgba(3,6,9,.48),rgba(3,6,9,.18) 55%,transparent 75%);
+    pointer-events:none;
+  }
+}
+
+@media(max-width:760px){
+  .hero-inner{
+    display:flex;
+    justify-content:flex-end;
+  }
+
+  .hero-content{
+    width:min(82%,390px);
+    margin-left:auto;
+    text-align:right;
+  }
+
+  .eyebrow,
+  .hero-name,
+  .hero-sub{
+    text-align:right;
+  }
+
+  .hero-actions{
+    justify-content:flex-end;
+  }
+
+  .hero-title{
+    text-align:right;
+  }
+}
+
+@media(max-width:420px){
+  .hero-content{
+    width:78%;
+  }
+
+  .hero-title{
+    font-size:49px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -225,14 +297,29 @@ body:has(.closing-card) .motto{
 <section class="hero"><div class="hero-bg"></div><div class="hero-inner"><div class="hero-content"><div class="eyebrow">TEAM WOLFIE • BOXER</div><h1 class="hero-title"><span class="mrs">MRS</span><br><span class="wolfie">WOLFIE</span></h1><div class="hero-name">ZOEY “MRS WOLFIE” JAMES</div><div class="hero-sub">TEAM WOLFIE • REPRESENTING TEAM WOLFPACK</div><div class="hero-actions"><a href="#next-fight" class="hero-btn primary">NEXT FIGHT →</a><a href="./profile.html" class="hero-btn secondary">MY PROFILE →</a></div></div></div></section>
 <div class="nav-wrap"><nav class="app-nav"><a href="./index.html" class="nav-item active"><span class="nav-icon">⌂</span><span>HOME</span></a><a href="./fight.html" class="nav-item fight"><span class="nav-icon">🥊</span><span>FIGHT</span></a><a href="./profile.html" class="nav-item"><span class="nav-icon">♟</span><span>PROFILE</span></a><a href="./schedule.html" class="nav-item"><span class="nav-icon">▣</span><span>SCHEDULE</span></a></nav></div>
 <main>
-<section class="section" id="next-fight"><div class="section-heading"><h2>FIGHT COMMAND</h2><a href="./fight.html" class="section-link" id="fightSectionLink">FIGHT NIGHT →</a></div><article class="fight-card"><div class="fight-top"><div class="fight-state" id="fightState">LOADING FIGHT...</div><div class="count-pill" id="fightCountdown">CALCULATING...</div></div><h3 class="promotion" id="fightPromotion">LOADING...</h3><div class="event-name" id="fightEvent">LOADING...</div><div class="fighters"><div class="fighter left">MRS WOLFIE</div><div class="vs">VS</div><div class="fighter right" id="fightOpponent">TBA</div></div><div class="fight-info"><div class="info-box"><span class="info-label">DATE</span><span class="info-value" id="fightDate">TBA</span></div><div class="info-box"><span class="info-label">VENUE</span><span class="info-value" id="fightVenue">TBA</span></div></div><a href="./fight.html" class="action-btn" id="fightButton">VIEW FIGHT NIGHT →</a></article></section>
+<section class="section" id="next-fight"><div class="section-heading"><h2>FIGHT COMMAND</h2><a href="./fight.html" class="section-link" id="fightSectionLink">FIGHT NIGHT →</a></div><article class="fight-card"><div class="fight-top"><div class="fight-state" id="fightState">LOADING FIGHT...</div><div class="count-pill" id="fightCountdown">CALCULATING...</div></div>
+<div class="command-countdown" aria-label="Live fight countdown">
+  <div class="countdown-cell"><strong id="commandDays">--</strong><span>DAYS</span></div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-cell"><strong id="commandHours">--</strong><span>HOURS</span></div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-cell"><strong id="commandMinutes">--</strong><span>MINUTES</span></div>
+</div>
+<h3 class="promotion" id="fightPromotion">LOADING...</h3><div class="event-name" id="fightEvent">LOADING...</div><div class="fighters"><div class="fighter left">MRS WOLFIE</div><div class="vs">VS</div><div class="fighter right" id="fightOpponent">TBA</div></div><div class="fight-info"><div class="info-box"><span class="info-label">DATE</span><span class="info-value" id="fightDate">TBA</span></div><div class="info-box"><span class="info-label">VENUE</span><span class="info-value" id="fightVenue">TBA</span></div></div><a href="./fight.html" class="action-btn" id="fightButton">VIEW FIGHT NIGHT →</a></article></section>
 <section class="section"><div class="section-heading"><h2>MY FIGHT RECORD</h2><a href="./schedule.html#fight-history" class="section-link">FIGHT HISTORY →</a></div><div class="record-grid"><div class="record-card"><div class="record-number" id="recordTotal">—</div><div class="record-label">FIGHTS</div></div><div class="record-card"><div class="record-number" id="recordWins">—</div><div class="record-label">WINS</div></div><div class="record-card"><div class="record-number" id="recordLosses">—</div><div class="record-label">LOSSES</div></div><div class="record-card"><div class="record-number" id="recordDraws">—</div><div class="record-label">DRAWS</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>UPCOMING SCHEDULE</h2><a href="./schedule.html" class="section-link">FULL SCHEDULE →</a></div><div class="schedule-list" id="schedulePreview"><div class="schedule-card"><div class="schedule-meta">LOADING...</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>LATEST UPDATE</h2><a href="./updates.html" class="section-link">VIEW ALL →</a></div><div id="latestUpdate"><div class="update-card"><div class="no-updates">LOADING LATEST UPDATE...</div></div></div></section>
 <section class="section"><div class="section-heading"><h2>QUICK ACCESS</h2><span class="section-link">MRS WOLFIE</span></div><div class="quick-grid"><a href="./fight.html" class="quick-card"><div><div class="quick-icon">🥊</div><div class="quick-title">FIGHT NIGHT</div><div class="quick-text">Countdown and fight details</div></div><div class="quick-arrow">›</div></a><a href="./schedule.html" class="quick-card"><div><div class="quick-icon">▣</div><div class="quick-title">SCHEDULE</div><div class="quick-text">Upcoming events and dates</div></div><div class="quick-arrow">›</div></a><a href="./profile.html" class="quick-card"><div><div class="quick-icon">♟</div><div class="quick-title">PROFILE</div><div class="quick-text">Mrs Wolfie fighter profile</div></div><div class="quick-arrow">›</div></a><a href="./schedule.html#fight-history" class="quick-card"><div><div class="quick-icon">★</div><div class="quick-title">FIGHT HISTORY</div><div class="quick-text">Previous fights and results</div></div><div class="quick-arrow">›</div></a></div></section>
 <section class="section"><div class="section-heading"><h2>THE JOURNEY</h2><a href="./profile.html" class="section-link">MY STORY →</a></div><article class="journey-card"><div class="journey-content"><div class="journey-kicker">MRS WOLFIE • THE JOURNEY</div><div class="journey-title" id="journeyTitle">THE NEXT CHAPTER</div><p class="journey-text" id="journeyText">Boxer and Co-Founder of Team Wolfpack. Follow the fights, results and next chapter of the Mrs Wolfie journey.</p><a href="./schedule.html#fight-history" class="action-btn">VIEW THE JOURNEY →</a></div><div class="journey-image" role="img" aria-label="Mrs Wolfie"></div></article></section>
-<section class="section"><div class="team-card"><div class="team-small">TEAM WOLFIE</div><div class="team-main">REPRESENTING <span>TEAM WOLFPACK</span></div><div class="team-motto">ONE PACK • ONE PURPOSE • STRENGTH IN UNITY</div></div></section>
-<section class="motto"><div class="motto-small">TEAM WOLFIE</div><div class="motto-main">HUNT WITHOUT <span>FEAR</span></div></section>
+<section class="section closing-section">
+  <div class="team-card closing-card">
+    <div class="team-small">TEAM WOLFIE • REPRESENTING TEAM WOLFPACK</div>
+    <div class="closing-title">HUNT WITHOUT <span>FEAR</span></div>
+    <div class="team-motto">ONE PACK • ONE PURPOSE • STRENGTH IN UNITY</div>
+    <div class="closing-rule"></div>
+    <div class="closing-pack">MRS WOLFIE • TEAM WOLFPACK</div>
+  </div>
+</section>
 </main>
 <footer><div class="footer-line"></div><div class="footer-title">MRS WOLFIE</div><div class="copyright">© 2026 MRS WOLFIE • TEAM WOLFPACK</div></footer>
 <script src="./fight-data.js"></script>
@@ -243,7 +330,9 @@ body:has(.closing-card) .motto{
   const esc=v=>String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
   function currentFight(){return typeof window.MRS_WOLFIE_GET_NEXT_FIGHT==="function"?window.MRS_WOLFIE_GET_NEXT_FIGHT():(window.MRS_WOLFIE_FIGHTS?.nextFight||null)}
   function dateObj(s){return typeof window.MRS_WOLFIE_CREATE_DATE==="function"?window.MRS_WOLFIE_CREATE_DATE(s):new Date(s+"T12:00:00")}
-  function updateFight(){const f=currentFight();if(!f){$("fightState").textContent="AWAITING ANNOUNCEMENT";$("fightCountdown").textContent="TO BE ANNOUNCED";$("fightPromotion").textContent="NEXT FIGHT";$("fightEvent").textContent="NEW FIGHT TBA";$("fightOpponent").textContent="TBA";$("fightDate").textContent="TBA";$("fightVenue").textContent="TBA";$("fightButton").textContent="VIEW SCHEDULE →";$("fightButton").href="./schedule.html";$("fightSectionLink").textContent="SCHEDULE →";$("fightSectionLink").href="./schedule.html";return}$("fightPromotion").textContent=f.promotion||"TBA";$("fightEvent").textContent=f.event||"TBA";$("fightOpponent").textContent=f.opponent||"TBA";$("fightDate").textContent=f.dateDisplay||"TBA";$("fightVenue").textContent=f.venue||"TBA";const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),fd=dateObj(f.date),day=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate()),days=Math.ceil((day-today)/86400000);if(days===0){$("fightState").textContent="FIGHT DAY";$("fightCountdown").textContent="FIGHT DAY"}else if(days===1){$("fightState").textContent="FIGHT TOMORROW";$("fightCountdown").textContent="1 DAY TO GO"}else if(days>1&&days<=7){$("fightState").textContent="FIGHT WEEK";$("fightCountdown").textContent=days+" DAYS TO GO"}else if(days>7){$("fightState").textContent="NEXT FIGHT";$("fightCountdown").textContent=days+" DAYS TO GO"}else{$("fightState").textContent="FIGHT UPDATE";$("fightCountdown").textContent="CHECK SCHEDULE"}}
+  function updateFight(){const f=currentFight();if(!f){$("commandDays").textContent="--";$("commandHours").textContent="--";$("commandMinutes").textContent="--";$("fightState").textContent="AWAITING ANNOUNCEMENT";$("fightCountdown").textContent="TO BE ANNOUNCED";$("fightPromotion").textContent="NEXT FIGHT";$("fightEvent").textContent="NEW FIGHT TBA";$("fightOpponent").textContent="TBA";$("fightDate").textContent="TBA";$("fightVenue").textContent="TBA";$("fightButton").textContent="VIEW SCHEDULE →";$("fightButton").href="./schedule.html";$("fightSectionLink").textContent="SCHEDULE →";$("fightSectionLink").href="./schedule.html";return}$("fightPromotion").textContent=f.promotion||"TBA";$("fightEvent").textContent=f.event||"TBA";$("fightOpponent").textContent=f.opponent||"TBA";$("fightDate").textContent=f.dateDisplay||"TBA";$("fightVenue").textContent=f.venue||"TBA";const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),fd=dateObj(f.date),day=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate()),days=Math.ceil((day-today)/86400000);
+const fightMoment=new Date(fd.getFullYear(),fd.getMonth(),fd.getDate(),12,0,0,0),remaining=Math.max(0,fightMoment-now),liveDays=Math.floor(remaining/86400000),liveHours=Math.floor((remaining%86400000)/3600000),liveMinutes=Math.floor((remaining%3600000)/60000);
+$("commandDays").textContent=String(liveDays).padStart(2,"0");$("commandHours").textContent=String(liveHours).padStart(2,"0");$("commandMinutes").textContent=String(liveMinutes).padStart(2,"0");if(days===0){$("fightState").textContent="FIGHT DAY";$("fightCountdown").textContent="FIGHT DAY"}else if(days===1){$("fightState").textContent="FIGHT TOMORROW";$("fightCountdown").textContent="1 DAY TO GO"}else if(days>1&&days<=7){$("fightState").textContent="FIGHT WEEK";$("fightCountdown").textContent=days+" DAYS TO GO"}else if(days>7){$("fightState").textContent="NEXT FIGHT";$("fightCountdown").textContent=days+" DAYS TO GO"}else{$("fightState").textContent="FIGHT UPDATE";$("fightCountdown").textContent="CHECK SCHEDULE"}}
   function updateRecord(){const r=typeof window.MRS_WOLFIE_GET_FIGHT_RECORD==="function"?window.MRS_WOLFIE_GET_FIGHT_RECORD():null;if(!r)return;$("recordTotal").textContent=r.total??0;$("recordWins").textContent=r.wins??0;$("recordLosses").textContent=r.losses??0;$("recordDraws").textContent=r.draws??0;$("journeyTitle").textContent=(r.total??0)+" FIGHTS • "+(r.wins??0)+" WIN"+((r.wins??0)===1?"":"S");}
   function updateSchedule(){const box=$("schedulePreview");const fights=typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS==="function"?window.MRS_WOLFIE_GET_UPCOMING_FIGHTS().slice(0,2):[];if(!fights.length){box.innerHTML='<div class="schedule-card"><div><div class="schedule-opponent">NO FIGHTS ANNOUNCED</div><div class="schedule-meta">CHECK BACK FOR THE NEXT ANNOUNCEMENT</div></div></div>';return}box.innerHTML=fights.map(f=>'<a class="schedule-card" href="./fight.html"><div class="schedule-date">'+esc(f.dateDisplay||"TBA")+'</div><div><div class="schedule-opponent">MRS WOLFIE vs '+esc(f.opponent||"TBA")+'</div><div class="schedule-meta">'+esc(f.promotion||"TBA")+' • '+esc(f.venue||"TBA")+'</div></div><div class="schedule-arrow">›</div></a>').join("")}
   function updateLatest(){const box=$("latestUpdate");const updates=typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES==="function"?window.MRS_WOLFIE_GET_ACTIVE_UPDATES():[];const u=updates[0];if(!u){box.innerHTML='<div class="update-card"><div class="no-updates">NO NEW UPDATES AT THE MOMENT</div></div>';return}const btn=u.buttonText&&u.link?'<a href="'+esc(u.link)+'" class="update-button">'+esc(u.buttonText)+' →</a>':"";box.innerHTML='<article class="update-card"><div class="update-top"><div class="update-type">'+esc(u.type||"NEWS")+'</div><div class="update-date">'+esc(u.dateDisplay||"")+'</div></div><div class="update-title">'+esc(u.title||"MRS WOLFIE UPDATE")+'</div><div class="update-message">'+esc(u.message||"")+'</div>'+btn+'</article>'}
