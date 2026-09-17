@@ -22,10 +22,7 @@
      PWA
 ====================================================== -->
 
-<link
-  rel="manifest"
-  href="./manifest.json"
->
+<link rel="manifest" href="./manifest.json">
 
 <link
   rel="apple-touch-icon"
@@ -1165,6 +1162,37 @@ main {
 }
 
 
+.result.draw {
+  color: #ffffff;
+}
+
+
+.history-empty {
+
+  padding: 30px;
+
+  border-radius: 18px;
+
+  background: #080c11;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.06);
+
+  color: #77838e;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+}
+
+
 /* =========================================================
    MOTTO
 ========================================================= */
@@ -1569,16 +1597,13 @@ footer {
 
     <h1 class="hero-title">
 
-
       <span class="blue">
         MRS
       </span>
 
-
       <span class="pink">
         WOLFIE
       </span>
-
 
     </h1>
 
@@ -2009,10 +2034,13 @@ It is to keep moving forward.
 
 
 <!-- =====================================================
-     FIGHT HISTORY
+     LIVE FIGHT HISTORY
 ====================================================== -->
 
-<section class="history-section">
+<section
+  class="history-section"
+  id="fight-history"
+>
 
 
 <div class="section-heading">
@@ -2023,8 +2051,11 @@ FIGHT HISTORY
 </h2>
 
 
-<span class="section-label">
-2025 — 2026
+<span
+  class="section-label"
+  id="historyLabel"
+>
+LOADING
 </span>
 
 
@@ -2032,164 +2063,14 @@ FIGHT HISTORY
 
 
 
-<div class="history-list">
+<div
+  class="history-list"
+  id="historyList"
+>
 
-
-
-<!-- 25 MAY 2025 -->
-
-<div class="history-card">
-
-
-<div class="history-date">
-
-
-<div class="history-day">
-25
+<div class="history-empty">
+LOADING FIGHT HISTORY...
 </div>
-
-
-<div class="history-month">
-MAY 25
-</div>
-
-
-</div>
-
-
-
-<div class="history-info">
-
-
-<div class="history-promotion">
-EBO
-</div>
-
-
-<div class="history-fight">
-MRS WOLFIE VS DEMI WISE
-</div>
-
-
-<div class="history-venue">
-TRILOGY NIGHTCLUB
-</div>
-
-
-</div>
-
-
-<div class="result loss">
-L
-</div>
-
-
-</div>
-
-
-
-<!-- 05 JULY 2025 -->
-
-<div class="history-card">
-
-
-<div class="history-date">
-
-
-<div class="history-day">
-05
-</div>
-
-
-<div class="history-month">
-JUL 25
-</div>
-
-
-</div>
-
-
-
-<div class="history-info">
-
-
-<div class="history-promotion">
-EBO
-</div>
-
-
-<div class="history-fight">
-MRS WOLFIE VS BRY KELLY
-</div>
-
-
-<div class="history-venue">
-TRILOGY NIGHTCLUB
-</div>
-
-
-</div>
-
-
-<div class="result loss">
-L
-</div>
-
-
-</div>
-
-
-
-<!-- 14 MARCH 2026 -->
-
-<div class="history-card">
-
-
-<div class="history-date">
-
-
-<div class="history-day">
-14
-</div>
-
-
-<div class="history-month">
-MAR 26
-</div>
-
-
-</div>
-
-
-
-<div class="history-info">
-
-
-<div class="history-promotion">
-TRAIN 4 FIGHT PROMOTIONS
-</div>
-
-
-<div class="history-fight">
-MRS WOLFIE VS KATIE FAE THE BING
-</div>
-
-
-<div class="history-venue">
-EASTHOUSES MINERS CLUB
-</div>
-
-
-</div>
-
-
-<div class="result win">
-W
-</div>
-
-
-</div>
-
 
 </div>
 
@@ -2253,45 +2134,624 @@ MRS WOLFIE
 
 
 <!-- =======================================================
+     CENTRAL FIGHT DATA
+======================================================== -->
+
+<script src="./fight-data.js"></script>
+
+
+
+<!-- =======================================================
+     LIVE PROFILE FIGHT HISTORY
+======================================================== -->
+
+<script>
+
+(function(){
+
+
+  const historyList =
+    document.getElementById(
+      "historyList"
+    );
+
+
+  const historyLabel =
+    document.getElementById(
+      "historyLabel"
+    );
+
+
+  function esc(value){
+
+    return String(
+      value ?? ""
+    )
+    .replace(
+      /[&<>'"]/g,
+      character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+      }[character])
+    );
+
+  }
+
+
+  function createDate(dateString){
+
+    if (
+      typeof window.MRS_WOLFIE_CREATE_DATE ===
+      "function"
+    ){
+
+      return window.MRS_WOLFIE_CREATE_DATE(
+        dateString
+      );
+
+    }
+
+
+    if (!dateString){
+      return null;
+    }
+
+
+    const parts =
+      String(dateString)
+        .split("-")
+        .map(Number);
+
+
+    if (parts.length !== 3){
+      return null;
+    }
+
+
+    return new Date(
+      parts[0],
+      parts[1] - 1,
+      parts[2],
+      12,
+      0,
+      0,
+      0
+    );
+
+  }
+
+
+  function getHistory(){
+
+    /*
+      fight-data.js already combines:
+
+      - the permanent 2025 / 2026 fight history
+      - completed fights entered through the Admin Fight Manager
+
+      Prefer its dedicated history helper when available.
+    */
+
+    if (
+      typeof window.MRS_WOLFIE_GET_FIGHT_HISTORY ===
+      "function"
+    ){
+
+      const fights =
+        window.MRS_WOLFIE_GET_FIGHT_HISTORY();
+
+      return Array.isArray(fights)
+        ? fights
+        : [];
+
+    }
+
+
+    /*
+      Compatibility fallback for the current central
+      fight-data object if the helper has a different name.
+    */
+
+    if (
+      Array.isArray(
+        window.MRS_WOLFIE_FIGHTS?.history
+      )
+    ){
+
+      return [
+        ...window.MRS_WOLFIE_FIGHTS.history
+      ];
+
+    }
+
+
+    return [];
+
+  }
+
+
+  function resultClass(result){
+
+    const value =
+      String(
+        result || ""
+      ).toUpperCase();
+
+
+    if (value === "W"){
+      return "win";
+    }
+
+
+    if (value === "L"){
+      return "loss";
+    }
+
+
+    if (value === "D"){
+      return "draw";
+    }
+
+
+    return "";
+
+  }
+
+
+  function formatDateParts(fight){
+
+    const date =
+      createDate(
+        fight.date
+      );
+
+
+    if (
+      !date ||
+      Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      return {
+        day: "--",
+        month: "TBA"
+      };
+
+    }
+
+
+    const day =
+      String(
+        date.getDate()
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+    const month =
+      date
+        .toLocaleDateString(
+          "en-GB",
+          {
+            month: "short"
+          }
+        )
+        .toUpperCase();
+
+
+    const year =
+      String(
+        date.getFullYear()
+      )
+      .slice(-2);
+
+
+    return {
+      day,
+      month:
+        month +
+        " " +
+        year
+    };
+
+  }
+
+
+  function updateHistoryLabel(fights){
+
+    const validDates =
+      fights
+        .map(
+          fight =>
+            createDate(
+              fight.date
+            )
+        )
+        .filter(
+          date =>
+            date &&
+            !Number.isNaN(
+              date.getTime()
+            )
+        );
+
+
+    if (!validDates.length){
+
+      historyLabel.textContent =
+        "MRS WOLFIE";
+
+      return;
+
+    }
+
+
+    const years =
+      validDates
+        .map(
+          date =>
+            date.getFullYear()
+        );
+
+
+    const firstYear =
+      Math.min(...years);
+
+
+    const lastYear =
+      Math.max(...years);
+
+
+    historyLabel.textContent =
+      firstYear === lastYear
+        ?
+        String(firstYear)
+        :
+        firstYear +
+        " — " +
+        lastYear;
+
+  }
+
+
+  function renderHistory(){
+
+    let fights =
+      getHistory();
+
+
+    /*
+      Only completed fights with an actual
+      W / L / D result belong in Fight History.
+    */
+
+    fights =
+      fights
+        .filter(
+          fight => {
+
+            const result =
+              String(
+                fight.result || ""
+              ).toUpperCase();
+
+
+            return (
+              result === "W" ||
+              result === "L" ||
+              result === "D"
+            );
+
+          }
+        )
+        .sort(
+          (a,b) => {
+
+            const aDate =
+              createDate(
+                a.date
+              );
+
+
+            const bDate =
+              createDate(
+                b.date
+              );
+
+
+            const aTime =
+              aDate &&
+              !Number.isNaN(
+                aDate.getTime()
+              )
+                ?
+                aDate.getTime()
+                :
+                0;
+
+
+            const bTime =
+              bDate &&
+              !Number.isNaN(
+                bDate.getTime()
+              )
+                ?
+                bDate.getTime()
+                :
+                0;
+
+
+            /*
+              Keep the same chronological presentation
+              as the existing Profile page:
+              oldest fight first, newest fight last.
+            */
+
+            return aTime - bTime;
+
+          }
+        );
+
+
+    updateHistoryLabel(
+      fights
+    );
+
+
+    if (!fights.length){
+
+      historyList.innerHTML =
+
+        '<div class="history-empty">' +
+          'NO COMPLETED FIGHTS TO DISPLAY' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    historyList.innerHTML =
+
+      fights
+        .map(
+          fight => {
+
+            const date =
+              formatDateParts(
+                fight
+              );
+
+
+            const result =
+              String(
+                fight.result || ""
+              ).toUpperCase();
+
+
+            return (
+
+              '<div class="history-card">' +
+
+                '<div class="history-date">' +
+
+                  '<div class="history-day">' +
+                    esc(
+                      date.day
+                    ) +
+                  '</div>' +
+
+                  '<div class="history-month">' +
+                    esc(
+                      date.month
+                    ) +
+                  '</div>' +
+
+                '</div>' +
+
+
+                '<div class="history-info">' +
+
+                  '<div class="history-promotion">' +
+                    esc(
+                      fight.promotion ||
+                      "BOXING"
+                    ) +
+                  '</div>' +
+
+                  '<div class="history-fight">' +
+                    'MRS WOLFIE VS ' +
+                    esc(
+                      fight.opponent ||
+                      "TBA"
+                    ) +
+                  '</div>' +
+
+                  '<div class="history-venue">' +
+                    esc(
+                      fight.venue ||
+                      "VENUE TBA"
+                    ) +
+                  '</div>' +
+
+                '</div>' +
+
+
+                '<div class="result ' +
+                  resultClass(
+                    result
+                  ) +
+                '">' +
+                  esc(
+                    result
+                  ) +
+                '</div>' +
+
+              '</div>'
+
+            );
+
+          }
+        )
+        .join("");
+
+  }
+
+
+  /*
+    Initial render.
+
+    Permanent history from fight-data.js can display
+    immediately while Firebase connects.
+  */
+
+  renderHistory();
+
+
+  /*
+    Whenever Firebase sends new fight information,
+    redraw the history automatically.
+
+    This is what makes a completed Admin fight
+    appear here without another GitHub edit.
+  */
+
+  window.addEventListener(
+    "mrsWolfieFightDataUpdated",
+    function(event){
+
+      console.log(
+        "Mrs Wolfie Profile fight history refreshed from:",
+        event.detail?.source ||
+        "UNKNOWN"
+      );
+
+
+      renderHistory();
+
+    }
+  );
+
+
+  /*
+    Refresh again when returning to the app.
+  */
+
+  document.addEventListener(
+    "visibilitychange",
+    function(){
+
+      if (
+        document.visibilityState ===
+        "visible"
+      ){
+
+        renderHistory();
+
+      }
+
+    }
+  );
+
+
+})();
+
+</script>
+
+
+
+<!-- =======================================================
      SERVICE WORKER
 ======================================================== -->
 
 <script>
 
-if ("serviceWorker" in navigator) {
-
+if (
+  "serviceWorker" in navigator
+){
 
   window.addEventListener(
     "load",
-    () => {
+    async () => {
 
+      try{
 
-      navigator.serviceWorker
-        .register(
-          "./service-worker.js"
-        )
-
-        .then(() => {
-
-          console.log(
-            "Mrs Wolfie App service worker registered."
+        const registration =
+          await navigator.serviceWorker.register(
+            "./service-worker.js",
+            {
+              updateViaCache: "none"
+            }
           );
 
-        })
 
-        .catch((error) => {
+        await registration.update();
 
-          console.error(
-            "Service worker registration failed:",
-            error
-          );
 
-        });
+        console.log(
+          "Mrs Wolfie App service worker registered and checked for updates."
+        );
 
+      }
+
+      catch(error){
+
+        console.error(
+          "Service worker registration/update failed:",
+          error
+        );
+
+      }
 
     }
   );
 
+
+  document.addEventListener(
+    "visibilitychange",
+    async () => {
+
+      if (
+        document.visibilityState !==
+        "visible"
+      ){
+        return;
+      }
+
+
+      try{
+
+        const registration =
+          await navigator.serviceWorker.getRegistration(
+            "./"
+          );
+
+
+        if (registration){
+
+          await registration.update();
+
+        }
+
+      }
+
+      catch(error){
+
+        console.error(
+          "Mrs Wolfie background update check failed:",
+          error
+        );
+
+      }
+
+    }
+  );
 
 }
 
