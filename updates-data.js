@@ -65,12 +65,15 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
 
     }
 
+
     const completedFights =
       window.MRS_WOLFIE_GET_COMPLETED_ANNOUNCED_FIGHTS();
+
 
     if (!Array.isArray(completedFights)) {
       return [];
     }
+
 
     return completedFights
 
@@ -99,58 +102,87 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
               .trim()
               .toUpperCase();
 
+
           const resultWord =
             window.MRS_WOLFIE_GET_RESULT_WORD(
               resultCode
             );
 
+
           let resultMessage = "";
+
 
           if (resultCode === "W") {
 
             resultMessage =
               "Mrs Wolfie records a win against " +
-              (fight.opponent || "her opponent") +
+              (
+                fight.opponent ||
+                "her opponent"
+              ) +
               ".";
 
           }
+
 
           else if (resultCode === "L") {
 
             resultMessage =
               "Mrs Wolfie records a loss against " +
-              (fight.opponent || "her opponent") +
+              (
+                fight.opponent ||
+                "her opponent"
+              ) +
               ".";
 
           }
+
 
           else if (resultCode === "D") {
 
             resultMessage =
               "Mrs Wolfie's fight against " +
-              (fight.opponent || "her opponent") +
+              (
+                fight.opponent ||
+                "her opponent"
+              ) +
               " ends in a draw.";
 
           }
 
+
           const eventParts = [];
 
+
           if (fight.promotion) {
-            eventParts.push(fight.promotion);
+
+            eventParts.push(
+              fight.promotion
+            );
+
           }
 
+
           if (fight.event) {
-            eventParts.push(fight.event);
+
+            eventParts.push(
+              fight.event
+            );
+
           }
+
 
           if (eventParts.length > 0) {
 
             resultMessage +=
               " " +
-              eventParts.join(" • ") +
+              eventParts.join(
+                " • "
+              ) +
               ".";
 
           }
+
 
           return {
 
@@ -162,7 +194,8 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
                 "fight"
               ),
 
-            type: "RESULT",
+            type:
+              "RESULT",
 
             title:
               "FIGHT RESULT — " +
@@ -172,10 +205,12 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
               resultMessage,
 
             date:
-              fight.date || "",
+              fight.date ||
+              "",
 
             dateDisplay:
-              fight.dateDisplay || "",
+              fight.dateDisplay ||
+              "",
 
             buttonText:
               "VIEW FIGHT HISTORY",
@@ -183,19 +218,23 @@ window.MRS_WOLFIE_GET_RESULT_UPDATES =
             link:
               "./schedule.html#fight-history",
 
-            active: true,
+            active:
+              true,
 
             result:
               resultCode,
 
             opponent:
-              fight.opponent || "",
+              fight.opponent ||
+              "",
 
             promotion:
-              fight.promotion || "",
+              fight.promotion ||
+              "",
 
             event:
-              fight.event || ""
+              fight.event ||
+              ""
 
           };
 
@@ -221,6 +260,7 @@ window.MRS_WOLFIE_GET_ALL_UPDATES =
         :
         [];
 
+
     const resultUpdates =
       typeof window.MRS_WOLFIE_GET_RESULT_UPDATES ===
       "function"
@@ -229,15 +269,21 @@ window.MRS_WOLFIE_GET_ALL_UPDATES =
         :
         [];
 
+
     const combinedUpdates = [
+
       ...manualUpdates,
+
       ...resultUpdates
+
     ];
+
 
     const uniqueUpdates = [];
 
     const usedIds =
       new Set();
+
 
     combinedUpdates.forEach(
       update => {
@@ -246,26 +292,50 @@ window.MRS_WOLFIE_GET_ALL_UPDATES =
           return;
         }
 
+
         const updateId =
           update.id ||
           (
-            String(update.type || "UPDATE") +
+            String(
+              update.type ||
+              "UPDATE"
+            ) +
             "-" +
-            String(update.title || "") +
+            String(
+              update.title ||
+              ""
+            ) +
             "-" +
-            String(update.date || "")
+            String(
+              update.date ||
+              ""
+            )
           );
 
-        if (usedIds.has(updateId)) {
+
+        if (
+          usedIds.has(
+            updateId
+          )
+        ) {
+
           return;
+
         }
 
-        usedIds.add(updateId);
 
-        uniqueUpdates.push(update);
+        usedIds.add(
+          updateId
+        );
+
+
+        uniqueUpdates.push(
+          update
+        );
 
       }
     );
+
 
     return uniqueUpdates;
 
@@ -288,11 +358,13 @@ window.MRS_WOLFIE_GET_UPDATE_DATE =
 
     }
 
+
     const date =
       new Date(
         update.date +
         "T12:00:00"
       );
+
 
     if (
       Number.isNaN(
@@ -303,6 +375,7 @@ window.MRS_WOLFIE_GET_UPDATE_DATE =
       return 0;
 
     }
+
 
     return date.getTime();
 
@@ -319,20 +392,34 @@ window.MRS_WOLFIE_GET_ACTIVE_UPDATES =
     const updates =
       window.MRS_WOLFIE_GET_ALL_UPDATES();
 
+
     return updates
 
       .filter(
-        update =>
-          update.active === true
+        update => {
+
+          return (
+            update.active === true
+          );
+
+        }
       )
 
       .sort(
         (a,b) => {
 
           return (
-            window.MRS_WOLFIE_GET_UPDATE_DATE(b)
+
+            window.MRS_WOLFIE_GET_UPDATE_DATE(
+              b
+            )
+
             -
-            window.MRS_WOLFIE_GET_UPDATE_DATE(a)
+
+            window.MRS_WOLFIE_GET_UPDATE_DATE(
+              a
+            )
+
           );
 
         }
@@ -350,6 +437,7 @@ window.MRS_WOLFIE_GET_LATEST_UPDATE =
 
     const updates =
       window.MRS_WOLFIE_GET_ACTIVE_UPDATES();
+
 
     return (
       updates.length
@@ -377,7 +465,10 @@ window.MRS_WOLFIE_GET_ACTIVE_RESULT_UPDATES =
           update => {
 
             return (
-              String(update.type || "")
+              String(
+                update.type ||
+                ""
+              )
                 .toUpperCase()
               ===
               "RESULT"
@@ -402,11 +493,13 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       return "";
     }
 
+
     const date =
       new Date(
         dateString +
         "T12:00:00"
       );
+
 
     if (
       Number.isNaN(
@@ -417,6 +510,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       return "";
 
     }
+
 
     return date
       .toLocaleDateString(
@@ -440,6 +534,11 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
   try {
 
+
+    /* =====================================================
+       FIREBASE MODULES
+    ====================================================== */
+
     const {
       initializeApp,
       getApps,
@@ -448,6 +547,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       await import(
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js"
       );
+
 
     const {
       getFirestore,
@@ -495,7 +595,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
 
     /* =====================================================
-       FIREBASE APP
+       USE EXISTING FIREBASE APP
     ====================================================== */
 
     const firebaseApp =
@@ -507,6 +607,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
           firebaseConfig
         );
 
+
     const db =
       getFirestore(
         firebaseApp
@@ -514,7 +615,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
 
     /* =====================================================
-       PUBLIC PUBLISHED-UPDATES QUERY
+       MRS WOLFIE UPDATES COLLECTION
     ====================================================== */
 
     const updatesCollection =
@@ -523,22 +624,24 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
         "mrsWolfieUpdates"
       );
 
-    /*
-      IMPORTANT:
 
-      The public Mrs Wolfie app now asks Firestore only
-      for updates where active == true.
+    /* =====================================================
+       PUBLIC PUBLISHED-UPDATES QUERY
 
-      This prepares the app for the stricter Firestore
-      security rule that we will apply after this version
-      has been tested.
-    */
+       The Admin Update Manager stores the publishing
+       state using:
+
+       published: true / false
+
+       The public Mrs Wolfie app therefore requests
+       ONLY documents where published == true.
+    ====================================================== */
 
     const publishedUpdatesQuery =
       query(
         updatesCollection,
         where(
-          "active",
+          "published",
           "==",
           true
         )
@@ -553,9 +656,11 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
       publishedUpdatesQuery,
 
+
       snapshot => {
 
         const firebaseUpdates = [];
+
 
         snapshot.forEach(
           documentSnapshot => {
@@ -564,14 +669,23 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
               documentSnapshot.data() ||
               {};
 
+
             const date =
-              String(data.date || "")
+              String(
+                data.date ||
+                ""
+              )
                 .trim();
 
+
             const type =
-              String(data.type || "NEWS")
+              String(
+                data.type ||
+                "NEWS"
+              )
                 .trim()
                 .toUpperCase();
+
 
             const title =
               String(
@@ -580,25 +694,53 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
               )
                 .trim();
 
+
             const message =
-              String(data.message || "")
+              String(
+                data.message ||
+                ""
+              )
                 .trim();
+
 
             const buttonText =
-              String(data.buttonText || "")
+              String(
+                data.buttonText ||
+                ""
+              )
                 .trim();
+
 
             const link =
-              String(data.link || "")
+              String(
+                data.link ||
+                ""
+              )
                 .trim();
 
+
             const dateDisplay =
-              String(data.dateDisplay || "")
+              String(
+                data.dateDisplay ||
+                ""
+              )
                 .trim()
               ||
               window.MRS_WOLFIE_FORMAT_UPDATE_DATE(
                 date
               );
+
+
+            /*
+              Every document returned by this query
+              has already passed:
+
+              published == true
+
+              The rest of the Mrs Wolfie app uses
+              active:true internally when deciding
+              what to display.
+            */
 
             firebaseUpdates.push({
 
@@ -643,9 +785,17 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
           (a,b) => {
 
             return (
-              window.MRS_WOLFIE_GET_UPDATE_DATE(b)
+
+              window.MRS_WOLFIE_GET_UPDATE_DATE(
+                b
+              )
+
               -
-              window.MRS_WOLFIE_GET_UPDATE_DATE(a)
+
+              window.MRS_WOLFIE_GET_UPDATE_DATE(
+                a
+              )
+
             );
 
           }
@@ -653,14 +803,16 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
 
         /* =================================================
-           UPDATE PUBLIC DATABASE
+           REPLACE PUBLIC UPDATE DATABASE
         ================================================== */
 
         window.MRS_WOLFIE_UPDATES.updates =
           firebaseUpdates;
 
+
         window.MRS_WOLFIE_UPDATES.source =
           "FIREBASE";
+
 
         window.MRS_WOLFIE_UPDATES.firebaseLoaded =
           true;
@@ -700,6 +852,10 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       },
 
 
+      /* ===================================================
+         FIREBASE LISTENER ERROR
+      ==================================================== */
+
       error => {
 
         console.error(
@@ -707,11 +863,14 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
           error
         );
 
+
         window.MRS_WOLFIE_UPDATES.source =
           "LOCAL FALLBACK";
 
+
         window.MRS_WOLFIE_UPDATES.firebaseLoaded =
           false;
+
 
         window.dispatchEvent(
 
@@ -740,6 +899,11 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
   }
 
+
+  /* =======================================================
+     FIREBASE CONNECTION ERROR
+  ======================================================== */
+
   catch(error) {
 
     console.error(
@@ -747,11 +911,14 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
       error
     );
 
+
     window.MRS_WOLFIE_UPDATES.source =
       "LOCAL FALLBACK";
 
+
     window.MRS_WOLFIE_UPDATES.firebaseLoaded =
       false;
+
 
     window.dispatchEvent(
 
