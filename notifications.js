@@ -3,11 +3,6 @@
    PUSH NOTIFICATIONS
 ========================================================= */
 
-
-/* =========================================================
-   CONFIGURATION
-========================================================= */
-
 const MRS_WOLFIE_VAPID_KEY =
   "BFiQ3IfeNlorv_csTQPN0qD7MKDu-98GjjPzxL7x5AK3sJmxlZyA6dGpDD9uEUpkxWlNZv4jQ37QdnvRTQckRrg";
 
@@ -42,15 +37,19 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 /* =========================================================
-   NOTIFICATION SYSTEM
+   START NOTIFICATION SYSTEM
 ========================================================= */
 
 (async function () {
 
-  /*
-    Do nothing on browsers that cannot use the
-    required notification technologies.
-  */
+  console.log(
+    "Mrs Wolfie notification script loaded."
+  );
+
+
+  /* =======================================================
+     BASIC BROWSER SUPPORT
+  ======================================================== */
 
   if (
     !("Notification" in window) ||
@@ -58,7 +57,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
   ) {
 
     console.log(
-      "Mrs Wolfie notifications are not supported on this browser."
+      "Mrs Wolfie notifications are not supported by this browser."
     );
 
     return;
@@ -69,7 +68,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
   try {
 
     /* =====================================================
-       FIREBASE MODULES
+       LOAD FIREBASE
     ====================================================== */
 
     const firebaseAppModule =
@@ -100,25 +99,23 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     } = firebaseMessagingModule;
 
 
-
     /* =====================================================
        CHECK FIREBASE MESSAGING SUPPORT
     ====================================================== */
 
-    const supported =
+    const messagingSupported =
       await isSupported();
 
 
-    if (!supported) {
+    if (!messagingSupported) {
 
       console.log(
-        "Firebase Messaging is not supported on this browser."
+        "Firebase Cloud Messaging is not supported by this browser."
       );
 
       return;
 
     }
-
 
 
     /* =====================================================
@@ -137,27 +134,19 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       getMessaging(app);
 
 
-
     /* =====================================================
-       REGISTRATION CALLBACK
+       RECEIVE FIREBASE INSTALLATION ID
     ====================================================== */
 
     onRegistered(
       messaging,
-      (installationId) => {
+      function (installationId) {
 
         console.log(
           "Mrs Wolfie notification installation registered:",
           installationId
         );
 
-
-        /*
-          Store this locally for the moment.
-
-          Later we will securely connect the installation ID
-          to the Team Wolfpack notification sender.
-        */
 
         localStorage.setItem(
           "mrsWolfieFirebaseInstallationId",
@@ -170,7 +159,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             "mrsWolfieNotificationRegistered",
             {
               detail: {
-                installationId
+                installationId:
+                  installationId
               }
             }
           )
@@ -180,14 +170,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     );
 
 
-
     /* =====================================================
-       FOREGROUND MESSAGES
+       FOREGROUND NOTIFICATIONS
     ====================================================== */
 
     onMessage(
       messaging,
-      (payload) => {
+      function (payload) {
 
         console.log(
           "Mrs Wolfie foreground notification received:",
@@ -208,7 +197,6 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     );
 
 
-
     /* =====================================================
        ENABLE NOTIFICATIONS
     ====================================================== */
@@ -216,35 +204,34 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     window.MRS_WOLFIE_ENABLE_NOTIFICATIONS =
       async function () {
 
-
         try {
 
-          /*
-            Permission should be requested as the result
-            of a deliberate user action such as pressing
-            an Enable Notifications button.
-          */
+          console.log(
+            "Requesting Mrs Wolfie notification permission..."
+          );
+
 
           const permission =
             await Notification.requestPermission();
+
+
+          console.log(
+            "Mrs Wolfie notification permission:",
+            permission
+          );
 
 
           if (
             permission !== "granted"
           ) {
 
-            console.log(
-              "Mrs Wolfie notification permission:",
-              permission
-            );
-
-
             window.dispatchEvent(
               new CustomEvent(
                 "mrsWolfieNotificationPermission",
                 {
                   detail: {
-                    permission
+                    permission:
+                      permission
                   }
                 }
               )
@@ -253,32 +240,30 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
             return {
               success: false,
-              permission
+              permission:
+                permission
             };
 
           }
 
 
-
           /* =================================================
-             MESSAGING SERVICE WORKER
+             REGISTER FIREBASE MESSAGING SERVICE WORKER
           ================================================== */
 
-          const registration =
+          const messagingRegistration =
             await navigator.serviceWorker.register(
-              "./firebase-messaging-sw.js",
-              {
-                scope: "./"
-              }
+              "./firebase-messaging-sw.js"
             );
 
 
-          await navigator.serviceWorker.ready;
-
+          console.log(
+            "Mrs Wolfie Firebase Messaging worker registered."
+          );
 
 
           /* =================================================
-             REGISTER THIS APP INSTALLATION WITH FCM
+             REGISTER THIS INSTALLATION WITH FCM
           ================================================== */
 
           await register(
@@ -288,14 +273,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
                 MRS_WOLFIE_VAPID_KEY,
 
               serviceWorkerRegistration:
-                registration
+                messagingRegistration
             }
           );
 
 
-
           console.log(
-            "Mrs Wolfie push notifications enabled."
+            "Mrs Wolfie Firebase Messaging registration completed."
           );
 
 
@@ -304,7 +288,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
               "mrsWolfieNotificationPermission",
               {
                 detail: {
-                  permission: "granted"
+                  permission:
+                    "granted"
                 }
               }
             )
@@ -313,9 +298,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
           return {
             success: true,
-            permission: "granted"
+            permission:
+              "granted"
           };
-
 
         }
 
@@ -343,18 +328,17 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
           return {
             success: false,
-            error
+            error:
+              error
           };
 
         }
 
-
       };
 
 
-
     /* =====================================================
-       CURRENT STATUS
+       CURRENT NOTIFICATION STATUS
     ====================================================== */
 
     window.MRS_WOLFIE_NOTIFICATION_STATUS =
@@ -362,7 +346,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
         return {
 
-          supported: true,
+          supported:
+            true,
 
           permission:
             Notification.permission,
@@ -381,7 +366,6 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       "Mrs Wolfie notification system ready."
     );
 
-
   }
 
   catch (error) {
@@ -392,6 +376,5 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     );
 
   }
-
 
 })();
