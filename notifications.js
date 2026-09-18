@@ -3,6 +3,11 @@
    PUSH NOTIFICATIONS
 ========================================================= */
 
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
 const MRS_WOLFIE_VAPID_KEY =
   "BFiQ3IfeNlorv_csTQPN0qD7MKDu-98GjjPzxL7x5AK3sJmxlZyA6dGpDD9uEUpkxWlNZv4jQ37QdnvRTQckRrg";
 
@@ -92,10 +97,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
     const {
       getMessaging,
-      isSupported,
-      register,
-      onRegistered,
-      onMessage
+      getToken,
+      onMessage,
+      isSupported
     } = firebaseMessagingModule;
 
 
@@ -135,43 +139,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
     /* =====================================================
-       RECEIVE FIREBASE INSTALLATION ID
-    ====================================================== */
-
-    onRegistered(
-      messaging,
-      function (installationId) {
-
-        console.log(
-          "Mrs Wolfie notification installation registered:",
-          installationId
-        );
-
-
-        localStorage.setItem(
-          "mrsWolfieFirebaseInstallationId",
-          installationId
-        );
-
-
-        window.dispatchEvent(
-          new CustomEvent(
-            "mrsWolfieNotificationRegistered",
-            {
-              detail: {
-                installationId:
-                  installationId
-              }
-            }
-          )
-        );
-
-      }
-    );
-
-
-    /* =====================================================
-       FOREGROUND NOTIFICATIONS
+       FOREGROUND MESSAGES
     ====================================================== */
 
     onMessage(
@@ -263,23 +231,65 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
           /* =================================================
-             REGISTER THIS INSTALLATION WITH FCM
+             GET FIREBASE CLOUD MESSAGING TOKEN
           ================================================== */
 
-          await register(
-            messaging,
-            {
-              vapidKey:
-                MRS_WOLFIE_VAPID_KEY,
+          const token =
+            await getToken(
+              messaging,
+              {
+                vapidKey:
+                  MRS_WOLFIE_VAPID_KEY,
 
-              serviceWorkerRegistration:
-                messagingRegistration
-            }
+                serviceWorkerRegistration:
+                  messagingRegistration
+              }
+            );
+
+
+          if (!token) {
+
+            throw new Error(
+              "Firebase did not return a notification registration token."
+            );
+
+          }
+
+
+          /*
+            Save the token locally for this test.
+
+            Later we will connect registrations to the
+            secure Team Wolfpack notification backend.
+          */
+
+          localStorage.setItem(
+            "mrsWolfieFCMToken",
+            token
           );
 
 
           console.log(
-            "Mrs Wolfie Firebase Messaging registration completed."
+            "Mrs Wolfie FCM registration token:",
+            token
+          );
+
+
+          console.log(
+            "Mrs Wolfie push notifications enabled."
+          );
+
+
+          window.dispatchEvent(
+            new CustomEvent(
+              "mrsWolfieNotificationRegistered",
+              {
+                detail: {
+                  token:
+                    token
+                }
+              }
+            )
           );
 
 
@@ -299,7 +309,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           return {
             success: true,
             permission:
-              "granted"
+              "granted",
+            token:
+              token
           };
 
         }
@@ -338,7 +350,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
     /* =====================================================
-       CURRENT NOTIFICATION STATUS
+       CURRENT STATUS
     ====================================================== */
 
     window.MRS_WOLFIE_NOTIFICATION_STATUS =
@@ -352,9 +364,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           permission:
             Notification.permission,
 
-          installationId:
+          token:
             localStorage.getItem(
-              "mrsWolfieFirebaseInstallationId"
+              "mrsWolfieFCMToken"
             )
 
         };
