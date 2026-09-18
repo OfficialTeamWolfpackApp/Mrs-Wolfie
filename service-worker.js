@@ -1,7 +1,217 @@
 /* =========================================================
    MRS WOLFIE BOXING APP
    SERVICE WORKER
+   PWA CACHE + FIREBASE CLOUD MESSAGING
 ========================================================= */
+
+
+/* =========================================================
+   FIREBASE CLOUD MESSAGING
+========================================================= */
+
+importScripts(
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"
+);
+
+importScripts(
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-messaging-compat.js"
+);
+
+
+firebase.initializeApp({
+
+  apiKey:
+    "AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",
+
+  authDomain:
+    "team-wolfpack-app.firebaseapp.com",
+
+  databaseURL:
+    "https://team-wolfpack-app-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "team-wolfpack-app",
+
+  storageBucket:
+    "team-wolfpack-app.firebasestorage.app",
+
+  messagingSenderId:
+    "1070414578856",
+
+  appId:
+    "1:1070414578856:web:df14e7d387e658eeae2e9d",
+
+  measurementId:
+    "G-6JTCE2N9LZ"
+
+});
+
+
+const messaging =
+  firebase.messaging();
+
+
+
+/* =========================================================
+   FIREBASE BACKGROUND MESSAGES
+========================================================= */
+
+messaging.onBackgroundMessage(
+  (payload) => {
+
+    console.log(
+      "[Mrs Wolfie] Background notification received:",
+      payload
+    );
+
+
+    const data =
+      payload.data || {};
+
+
+    const notification =
+      payload.notification || {};
+
+
+    const title =
+      notification.title ||
+      data.title ||
+      "MRS WOLFIE";
+
+
+    const body =
+      notification.body ||
+      data.body ||
+      "A new Mrs Wolfie update is available.";
+
+
+    const targetURL =
+      data.url ||
+      "./updates.html";
+
+
+    /*
+      If Firebase supplied a notification payload,
+      browser notification handling may already occur.
+
+      For data-only messages, create the notification here.
+    */
+
+    if (
+      !payload.notification
+    ) {
+
+      return self.registration.showNotification(
+        title,
+        {
+          body: body,
+
+          icon:
+            "./images/icon-192.png",
+
+          badge:
+            "./images/icon-192.png",
+
+          tag:
+            data.tag ||
+            "mrs-wolfie-update",
+
+          renotify:
+            true,
+
+          data: {
+            url:
+              targetURL
+          }
+        }
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =========================================================
+   NOTIFICATION CLICK
+========================================================= */
+
+self.addEventListener(
+  "notificationclick",
+  (event) => {
+
+    event.notification.close();
+
+
+    const targetURL =
+      event.notification.data?.url ||
+      "./index.html";
+
+
+    const absoluteURL =
+      new URL(
+        targetURL,
+        self.registration.scope
+      ).href;
+
+
+    event.waitUntil(
+
+      clients
+        .matchAll({
+          type: "window",
+          includeUncontrolled: true
+        })
+
+        .then(
+          async (clientList) => {
+
+            for (
+              const client
+              of clientList
+            ) {
+
+              if (
+                "navigate" in client
+              ) {
+
+                await client.navigate(
+                  absoluteURL
+                );
+
+              }
+
+
+              if (
+                "focus" in client
+              ) {
+
+                return client.focus();
+
+              }
+
+            }
+
+
+            if (
+              clients.openWindow
+            ) {
+
+              return clients.openWindow(
+                absoluteURL
+              );
+
+            }
+
+          }
+        )
+
+    );
+
+  }
+);
+
 
 
 /* =========================================================
@@ -9,7 +219,7 @@
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v8";
+  "mrs-wolfie-boxing-v9";
 
 
 
@@ -35,6 +245,8 @@ const APP_FILES = [
 
   "./updates-data.js",
 
+  "./notifications.js",
+
   "./manifest.json",
 
   "./images/icon-192.png",
@@ -57,7 +269,6 @@ self.addEventListener(
   "install",
   (event) => {
 
-
     event.waitUntil(
 
       caches
@@ -78,14 +289,7 @@ self.addEventListener(
     );
 
 
-    /*
-      Do not leave the new service worker waiting.
-
-      Activate it as soon as installation succeeds.
-    */
-
     self.skipWaiting();
-
 
   }
 );
@@ -100,7 +304,6 @@ self.addEventListener(
   "activate",
   (event) => {
 
-
     event.waitUntil(
 
       caches
@@ -109,12 +312,10 @@ self.addEventListener(
         .then(
           (cacheNames) => {
 
-
             return Promise.all(
 
               cacheNames.map(
                 (cacheName) => {
-
 
                   if (
                     cacheName !==
@@ -130,12 +331,10 @@ self.addEventListener(
 
                   return Promise.resolve();
 
-
                 }
               )
 
             );
-
 
           }
         )
@@ -143,18 +342,12 @@ self.addEventListener(
         .then(
           () => {
 
-            /*
-              Immediately take control of existing
-              Mrs Wolfie app windows.
-            */
-
             return self.clients.claim();
 
           }
         )
 
     );
-
 
   }
 );
@@ -169,7 +362,6 @@ self.addEventListener(
   "fetch",
   (event) => {
 
-
     /*
       Only intercept GET requests.
     */
@@ -182,7 +374,6 @@ self.addEventListener(
       return;
 
     }
-
 
 
     const requestURL =
@@ -209,28 +400,15 @@ self.addEventListener(
       );
 
 
-
     if (
       isCentralDataFile
     ) {
-
 
       event.respondWith(
 
         (async () => {
 
-
           try {
-
-
-            /*
-              Add a unique query value to the NETWORK
-              request.
-
-              This helps prevent an intermediate browser,
-              PWA or hosting cache from returning an older
-              copy of the central database.
-            */
 
             const freshURL =
               new URL(
@@ -242,7 +420,6 @@ self.addEventListener(
               "_mrswolfie",
               Date.now().toString()
             );
-
 
 
             const networkResponse =
@@ -257,7 +434,6 @@ self.addEventListener(
               );
 
 
-
             if (
               !networkResponse ||
               !networkResponse.ok
@@ -269,20 +445,6 @@ self.addEventListener(
 
             }
 
-
-
-            /*
-              Save the newest response against the NORMAL
-              request URL.
-
-              This is important because offline requests
-              will still ask for:
-
-              fight-data.js
-              updates-data.js
-
-              without the temporary cache-busting value.
-            */
 
             const cache =
               await caches.open(
@@ -296,21 +458,12 @@ self.addEventListener(
             );
 
 
-
             return networkResponse;
-
 
           }
 
 
           catch (error) {
-
-
-            /*
-              Offline or network problem.
-
-              Use the most recently cached database.
-            */
 
             const cachedResponse =
               await caches.match(
@@ -327,7 +480,6 @@ self.addEventListener(
             }
 
 
-
             return new Response(
               "",
               {
@@ -336,9 +488,7 @@ self.addEventListener(
               }
             );
 
-
           }
-
 
         })()
 
@@ -346,7 +496,6 @@ self.addEventListener(
 
 
       return;
-
 
     }
 
@@ -361,21 +510,11 @@ self.addEventListener(
       "navigate"
     ) {
 
-
       event.respondWith(
 
         (async () => {
 
-
           try {
-
-
-            /*
-              Navigation is network-first.
-
-              cache: no-store helps installed PWAs request
-              the newest HTML when they are online.
-            */
 
             const networkResponse =
               await fetch(
@@ -386,12 +525,10 @@ self.addEventListener(
               );
 
 
-
             if (
               networkResponse &&
               networkResponse.ok
             ) {
-
 
               const cache =
                 await caches.open(
@@ -404,23 +541,15 @@ self.addEventListener(
                 networkResponse.clone()
               );
 
-
             }
 
 
-
             return networkResponse;
-
 
           }
 
 
           catch (error) {
-
-
-            /*
-              First try the exact requested page.
-            */
 
             const cachedPage =
               await caches.match(
@@ -437,11 +566,6 @@ self.addEventListener(
             }
 
 
-
-            /*
-              Final offline fallback = Home.
-            */
-
             const cachedHome =
               await caches.match(
                 "./index.html"
@@ -457,7 +581,6 @@ self.addEventListener(
             }
 
 
-
             return new Response(
               "Mrs Wolfie App is currently offline.",
               {
@@ -469,9 +592,7 @@ self.addEventListener(
               }
             );
 
-
           }
-
 
         })()
 
@@ -479,7 +600,6 @@ self.addEventListener(
 
 
       return;
-
 
     }
 
@@ -499,7 +619,6 @@ self.addEventListener(
         .then(
           (cachedResponse) => {
 
-
             if (
               cachedResponse
             ) {
@@ -509,14 +628,12 @@ self.addEventListener(
             }
 
 
-
             return fetch(
               event.request
             )
 
               .then(
                 async (networkResponse) => {
-
 
                   if (
                     !networkResponse ||
@@ -528,7 +645,6 @@ self.addEventListener(
                   }
 
 
-
                   /*
                     Only cache same-origin resources.
                   */
@@ -537,7 +653,6 @@ self.addEventListener(
                     requestURL.origin ===
                     self.location.origin
                   ) {
-
 
                     const cache =
                       await caches.open(
@@ -550,23 +665,18 @@ self.addEventListener(
                       networkResponse.clone()
                     );
 
-
                   }
-
 
 
                   return networkResponse;
 
-
                 }
               );
-
 
           }
         )
 
     );
-
 
   }
 );
