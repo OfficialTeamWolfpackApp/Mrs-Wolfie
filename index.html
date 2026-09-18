@@ -2531,6 +2531,261 @@ if ("serviceWorker" in navigator){
 
 </script>
 
+<!-- =======================================================
+     MRS WOLFIE PUSH NOTIFICATIONS
+======================================================== -->
 
+<script src="./notifications.js"></script>
+
+<style>
+
+.notification-enable{
+  position:fixed;
+  right:18px;
+  bottom:92px;
+  z-index:99998;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:11px 14px;
+
+  border-radius:999px;
+
+  border:1px solid rgba(137,220,255,.45);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.18),
+      rgba(255,143,211,.16)
+    ),
+    rgba(5,8,12,.96);
+
+  color:#fff;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.55),
+    0 0 18px rgba(137,220,255,.12);
+
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+
+  cursor:pointer;
+}
+
+.notification-enable.enabled{
+  border-color:rgba(137,220,255,.25);
+  color:#89dcff;
+}
+
+.notification-enable.denied{
+  border-color:rgba(255,143,211,.35);
+  color:#ff8fd3;
+}
+
+@media(min-width:761px){
+
+  .notification-enable{
+    bottom:22px;
+  }
+
+}
+
+</style>
+
+
+<button
+  type="button"
+  class="notification-enable"
+  id="notificationEnableButton"
+>
+  🔔 ENABLE NOTIFICATIONS
+</button>
+
+
+<script>
+
+(function(){
+
+  const button =
+    document.getElementById(
+      "notificationEnableButton"
+    );
+
+
+  if (!button){
+    return;
+  }
+
+
+  function updateNotificationButton(){
+
+    if (
+      !("Notification" in window)
+    ){
+
+      button.style.display =
+        "none";
+
+      return;
+    }
+
+
+    if (
+      Notification.permission ===
+      "granted"
+    ){
+
+      button.textContent =
+        "🔔 NOTIFICATIONS ON";
+
+      button.classList.add(
+        "enabled"
+      );
+
+      button.classList.remove(
+        "denied"
+      );
+
+      return;
+    }
+
+
+    if (
+      Notification.permission ===
+      "denied"
+    ){
+
+      button.textContent =
+        "🔕 NOTIFICATIONS BLOCKED";
+
+      button.classList.add(
+        "denied"
+      );
+
+      button.classList.remove(
+        "enabled"
+      );
+
+      return;
+    }
+
+
+    button.textContent =
+      "🔔 ENABLE NOTIFICATIONS";
+
+    button.classList.remove(
+      "enabled",
+      "denied"
+    );
+
+  }
+
+
+  updateNotificationButton();
+
+
+  button.addEventListener(
+    "click",
+    async function(){
+
+      if (
+        Notification.permission ===
+        "denied"
+      ){
+
+        alert(
+          "Notifications are currently blocked for the Mrs Wolfie app. Enable notifications for this site/app in your device settings and try again."
+        );
+
+        return;
+      }
+
+
+      if (
+        typeof window.MRS_WOLFIE_ENABLE_NOTIFICATIONS !==
+        "function"
+      ){
+
+        alert(
+          "The notification system is still loading. Please wait a moment and try again."
+        );
+
+        return;
+      }
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "🔔 CONNECTING...";
+
+
+      const result =
+        await window
+          .MRS_WOLFIE_ENABLE_NOTIFICATIONS();
+
+
+      button.disabled =
+        false;
+
+
+      updateNotificationButton();
+
+
+      if (
+        result?.success
+      ){
+
+        alert(
+          "Mrs Wolfie notifications are now enabled on this device."
+        );
+
+      }
+
+      else if (
+        result?.permission ===
+        "denied"
+      ){
+
+        alert(
+          "Notification permission was blocked. You can enable it later in your browser or app settings."
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "mrsWolfieNotificationPermission",
+    updateNotificationButton
+  );
+
+
+  window.addEventListener(
+    "mrsWolfieNotificationRegistered",
+    function(event){
+
+      console.log(
+        "Mrs Wolfie notification registration confirmed:",
+        event.detail?.installationId
+      );
+
+      updateNotificationButton();
+
+    }
+  );
+
+
+})();
+
+</script>
 </body>
 </html>
