@@ -1,6 +1,7 @@
 /* =========================================================
    MRS WOLFIE BOXING APP
    PUSH NOTIFICATIONS
+   UNIFIED PWA + FIREBASE MESSAGING
 ========================================================= */
 
 
@@ -39,6 +40,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     "G-6JTCE2N9LZ"
 
 };
+
 
 
 /* =========================================================
@@ -103,6 +105,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     } = firebaseMessagingModule;
 
 
+
     /* =====================================================
        CHECK FIREBASE MESSAGING SUPPORT
     ====================================================== */
@@ -111,7 +114,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       await isSupported();
 
 
-    if (!messagingSupported) {
+    if (
+      !messagingSupported
+    ) {
 
       console.log(
         "Firebase Cloud Messaging is not supported by this browser."
@@ -120,6 +125,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       return;
 
     }
+
 
 
     /* =====================================================
@@ -135,7 +141,10 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
     const messaging =
-      getMessaging(app);
+      getMessaging(
+        app
+      );
+
 
 
     /* =====================================================
@@ -156,13 +165,15 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           new CustomEvent(
             "mrsWolfieForegroundNotification",
             {
-              detail: payload
+              detail:
+                payload
             }
           )
         );
 
       }
     );
+
 
 
     /* =====================================================
@@ -189,6 +200,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           );
 
 
+
+          /* =================================================
+             PERMISSION NOT GRANTED
+          ================================================== */
+
           if (
             permission !== "granted"
           ) {
@@ -207,7 +223,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
             return {
-              success: false,
+              success:
+                false,
+
               permission:
                 permission
             };
@@ -215,19 +233,38 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           }
 
 
+
           /* =================================================
-             REGISTER FIREBASE MESSAGING SERVICE WORKER
+             REGISTER UNIFIED SERVICE WORKER
           ================================================== */
 
           const messagingRegistration =
             await navigator.serviceWorker.register(
-              "./firebase-messaging-sw.js"
+              "./service-worker.js",
+              {
+                updateViaCache:
+                  "none"
+              }
             );
 
 
           console.log(
-            "Mrs Wolfie Firebase Messaging worker registered."
+            "Mrs Wolfie unified PWA + Messaging worker registered."
           );
+
+
+
+          /* =================================================
+             WAIT FOR SERVICE WORKER
+          ================================================== */
+
+          await navigator.serviceWorker.ready;
+
+
+          console.log(
+            "Mrs Wolfie unified service worker ready."
+          );
+
 
 
           /* =================================================
@@ -247,7 +284,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             );
 
 
-          if (!token) {
+          if (
+            !token
+          ) {
 
             throw new Error(
               "Firebase did not return a notification registration token."
@@ -256,12 +295,10 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           }
 
 
-          /*
-            Save the token locally for this test.
 
-            Later we will connect registrations to the
-            secure Team Wolfpack notification backend.
-          */
+          /* =================================================
+             STORE TOKEN LOCALLY
+          ================================================== */
 
           localStorage.setItem(
             "mrsWolfieFCMToken",
@@ -280,6 +317,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           );
 
 
+
+          /* =================================================
+             REGISTRATION EVENT
+          ================================================== */
+
           window.dispatchEvent(
             new CustomEvent(
               "mrsWolfieNotificationRegistered",
@@ -292,6 +334,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             )
           );
 
+
+
+          /* =================================================
+             PERMISSION EVENT
+          ================================================== */
 
           window.dispatchEvent(
             new CustomEvent(
@@ -307,14 +354,20 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
           return {
-            success: true,
+
+            success:
+              true,
+
             permission:
               "granted",
+
             token:
               token
+
           };
 
         }
+
 
         catch (error) {
 
@@ -339,9 +392,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
           return {
-            success: false,
+
+            success:
+              false,
+
             error:
               error
+
           };
 
         }
@@ -349,8 +406,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       };
 
 
+
     /* =====================================================
-       CURRENT STATUS
+       CURRENT NOTIFICATION STATUS
     ====================================================== */
 
     window.MRS_WOLFIE_NOTIFICATION_STATUS =
@@ -374,11 +432,17 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       };
 
 
+
+    /* =====================================================
+       SYSTEM READY
+    ====================================================== */
+
     console.log(
       "Mrs Wolfie notification system ready."
     );
 
   }
+
 
   catch (error) {
 
