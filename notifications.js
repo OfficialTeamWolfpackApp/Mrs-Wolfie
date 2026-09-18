@@ -1,7 +1,7 @@
 /* =========================================================
    MRS WOLFIE BOXING APP
    PUSH NOTIFICATIONS
-   UNIFIED PWA + FIREBASE MESSAGING
+   FCM + APP CHECK + SECURE DEVICE REGISTRATION
 ========================================================= */
 
 
@@ -11,6 +11,14 @@
 
 const MRS_WOLFIE_VAPID_KEY =
   "BFiQ3IfeNlorv_csTQPN0qD7MKDu-98GjjPzxL7x5AK3sJmxlZyA6dGpDD9uEUpkxWlNZv4jQ37QdnvRTQckRrg";
+
+
+const MRS_WOLFIE_APP_CHECK_SITE_KEY =
+  "6LfYlcItAAAAAGQtEJFKYH6fyERwXiAfVeBqJhOR";
+
+
+const MRS_WOLFIE_REGISTER_DEVICE_URL =
+  "https://europe-west1-team-wolfpack-app.cloudfunctions.net/registerMrsWolfiePushDevice";
 
 
 const MRS_WOLFIE_FIREBASE_CONFIG = {
@@ -90,6 +98,12 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       );
 
 
+    const firebaseAppCheckModule =
+      await import(
+        "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-check.js"
+      );
+
+
     const {
       initializeApp,
       getApps,
@@ -103,6 +117,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       onMessage,
       isSupported
     } = firebaseMessagingModule;
+
+
+    const {
+      initializeAppCheck,
+      ReCaptchaEnterpriseProvider,
+      getToken: getAppCheckToken
+    } = firebaseAppCheckModule;
 
 
 
@@ -140,10 +161,137 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           );
 
 
+
+    /* =====================================================
+       FIREBASE APP CHECK
+    ====================================================== */
+
+    const appCheck =
+      initializeAppCheck(
+        app,
+        {
+          provider:
+            new ReCaptchaEnterpriseProvider(
+              MRS_WOLFIE_APP_CHECK_SITE_KEY
+            ),
+
+          isTokenAutoRefreshEnabled:
+            true
+        }
+      );
+
+
+    console.log(
+      "Mrs Wolfie Firebase App Check initialised."
+    );
+
+
+
+    /* =====================================================
+       FIREBASE MESSAGING
+    ====================================================== */
+
     const messaging =
       getMessaging(
         app
       );
+
+
+
+    /* =====================================================
+       REGISTER DEVICE WITH SECURE BACKEND
+    ====================================================== */
+
+    async function registerDeviceWithBackend(
+      fcmToken
+    ) {
+
+      const appCheckResult =
+        await getAppCheckToken(
+          appCheck,
+          false
+        );
+
+
+      if (
+        !appCheckResult ||
+        !appCheckResult.token
+      ) {
+
+        throw new Error(
+          "Firebase App Check did not return a token."
+        );
+
+      }
+
+
+      const response =
+        await fetch(
+          MRS_WOLFIE_REGISTER_DEVICE_URL,
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              "X-Firebase-AppCheck":
+                appCheckResult.token
+            },
+
+            body:
+              JSON.stringify(
+                {
+                  token:
+                    fcmToken
+                }
+              )
+          }
+        );
+
+
+      let result = {};
+
+
+      try {
+
+        result =
+          await response.json();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Mrs Wolfie backend returned an invalid response.",
+          error
+        );
+
+      }
+
+
+      if (
+        !response.ok ||
+        !result.success
+      ) {
+
+        throw new Error(
+          result.error ||
+          "Secure notification registration failed."
+        );
+
+      }
+
+
+      console.log(
+        "Mrs Wolfie device securely registered with backend."
+      );
+
+
+      return result;
+
+    }
 
 
 
@@ -156,8 +304,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       function (payload) {
 
         console.log(
-          "Mrs Wolfie foreground notification received:",
-          payload
+          "Mrs Wolfie foreground notification received."
         );
 
 
@@ -297,17 +444,21 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
           /* =================================================
+             REGISTER WITH PROTECTED CLOUD FUNCTION
+          ================================================== */
+
+          await registerDeviceWithBackend(
+            token
+          );
+
+
+
+          /* =================================================
              STORE TOKEN LOCALLY
           ================================================== */
 
           localStorage.setItem(
             "mrsWolfieFCMToken",
-            token
-          );
-
-
-          console.log(
-            "Mrs Wolfie FCM registration token:",
             token
           );
 
@@ -327,8 +478,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
               "mrsWolfieNotificationRegistered",
               {
                 detail: {
-                  token:
-                    token
+                  registered:
+                    true
                 }
               }
             )
@@ -361,8 +512,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             permission:
               "granted",
 
-            token:
-              token
+            registered:
+              true
 
           };
 
@@ -383,8 +534,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
               {
                 detail: {
                   message:
-                    error?.message ||
-                    "Notification registration failed."
+                    error && error.message
+                      ? error.message
+                      : "Notification registration failed."
                 }
               }
             )
@@ -422,9 +574,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           permission:
             Notification.permission,
 
-          token:
-            localStorage.getItem(
-              "mrsWolfieFCMToken"
+          registered:
+            Boolean(
+              localStorage.getItem(
+                "mrsWolfieFCMToken"
+              )
             )
 
         };
