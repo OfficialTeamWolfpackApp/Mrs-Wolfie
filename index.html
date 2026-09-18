@@ -2384,12 +2384,6 @@ footer{
 
   /* =======================================================
      LIVE APP UPDATE DATABASE REFRESH
-
-     updates-data.js dispatches this event whenever
-     mrsWolfieUpdates changes in Firestore.
-
-     This means the Latest Update panel changes without
-     needing another GitHub edit.
   ======================================================== */
 
   window.addEventListener(
@@ -2530,6 +2524,7 @@ if ("serviceWorker" in navigator){
 }
 
 </script>
+
 
 <!-- =======================================================
      MRS WOLFIE PUSH NOTIFICATIONS
@@ -2771,11 +2766,10 @@ if ("serviceWorker" in navigator){
 
   window.addEventListener(
     "mrsWolfieNotificationRegistered",
-    function(event){
+    function(){
 
       console.log(
-        "Mrs Wolfie notification registration confirmed:",
-        event.detail?.installationId
+        "Mrs Wolfie notification registration confirmed."
       );
 
       updateNotificationButton();
@@ -2787,5 +2781,6 @@ if ("serviceWorker" in navigator){
 })();
 
 </script>
+
 </body>
 </html>
