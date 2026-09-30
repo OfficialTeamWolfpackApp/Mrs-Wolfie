@@ -1,0 +1,3479 @@
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<!-- Google Analytics - Mrs Wolfie App -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M973P0B4F0"></script>
+
+<script>
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){
+  dataLayer.push(arguments);
+}
+
+gtag("js", new Date());
+gtag("config", "G-M973P0B4F0");
+
+window.addEventListener("load", function(){
+  gtag("event", "gallery_page_view", {
+    section:"Gallery"
+  });
+});
+</script>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#050505">
+
+<meta name="apple-mobile-web-app-title" content="MRS WOLFIE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>Mrs Wolfie Gallery</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="images/icon-192.png">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  min-height:100dvh;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(0,191,255,.13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255,0,128,.12),
+      transparent 30%
+    ),
+    #030405;
+
+  color:#fff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  overflow-x:hidden;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+button{
+  font:inherit;
+}
+
+
+/* ========================================
+   APP BAR
+======================================== */
+
+.app-bar{
+  position:sticky;
+  top:0;
+  z-index:500;
+
+  height:
+    calc(
+      66px +
+      env(safe-area-inset-top)
+    );
+
+  padding:
+    env(safe-area-inset-top)
+    15px
+    0;
+
+  display:grid;
+
+  grid-template-columns:
+    46px
+    1fr
+    46px;
+
+  align-items:center;
+
+  background:
+    rgba(4,4,4,.96);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.10);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,.32);
+}
+
+.menu-button{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  border:
+    1px solid
+    rgba(103,220,255,.22);
+
+  background:
+    rgba(0,150,210,.07);
+
+  color:#67dcff;
+
+  cursor:pointer;
+
+  font-size:24px;
+  line-height:1;
+}
+
+.app-bar-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:9px;
+  min-width:0;
+}
+
+.app-bar-logo{
+  width:34px;
+  height:34px;
+
+  object-fit:contain;
+
+  filter:
+    drop-shadow(
+      0 0 6px
+      rgba(103,220,255,.25)
+    );
+}
+
+.app-bar-title{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #67dcff,
+      #eafaff 48%,
+      #ff2f92
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.app-status{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.app-status-dot{
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#43f27b;
+
+  box-shadow:
+    0 0 9px
+    rgba(67,242,123,.75);
+}
+
+
+/* ========================================
+   MENU
+======================================== */
+
+.menu-backdrop{
+  position:fixed;
+  inset:0;
+
+  z-index:800;
+
+  visibility:hidden;
+  opacity:0;
+
+  background:
+    rgba(0,0,0,.72);
+
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+.menu-backdrop.show{
+  visibility:visible;
+  opacity:1;
+}
+
+.side-menu{
+  position:fixed;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  z-index:900;
+
+  width:min(84vw,340px);
+
+  transform:translateX(-105%);
+
+  transition:
+    transform .28s ease;
+
+  overflow-y:auto;
+
+  padding:
+    calc(
+      18px +
+      env(safe-area-inset-top)
+    )
+    15px
+    calc(
+      25px +
+      env(safe-area-inset-bottom)
+    );
+
+  background:
+    radial-gradient(
+      circle at 0% 10%,
+      rgba(0,190,255,.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255,0,128,.16),
+      transparent 34%
+    ),
+    #080808;
+
+  border-right:
+    1px solid
+    rgba(103,220,255,.20);
+
+  box-shadow:
+    20px 0 50px
+    rgba(0,0,0,.55);
+}
+
+.side-menu.show{
+  transform:translateX(0);
+}
+
+.menu-header{
+  position:relative;
+
+  padding:
+    10px
+    45px
+    21px
+    5px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.09);
+}
+
+.menu-logo{
+  width:72px;
+  height:72px;
+
+  object-fit:contain;
+
+  margin-bottom:10px;
+}
+
+.menu-brand{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #67dcff,
+      #ffffff 50%,
+      #ff2f92
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.menu-tagline{
+  margin-top:5px;
+
+  color:#999;
+
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.close-menu{
+  position:absolute;
+
+  right:0;
+  top:5px;
+
+  width:38px;
+  height:38px;
+
+  border-radius:10px;
+
+  border:
+    1px solid
+    rgba(255,47,146,.25);
+
+  background:
+    rgba(255,0,128,.07);
+
+  color:#ff2f92;
+
+  cursor:pointer;
+
+  font-size:21px;
+}
+
+.menu-section-label{
+  margin:
+    20px
+    8px
+    8px;
+
+  color:#666;
+
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.menu-nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.menu-link{
+  display:flex;
+  align-items:center;
+
+  min-height:48px;
+
+  padding:
+    9px
+    11px;
+
+  border-radius:10px;
+
+  text-decoration:none;
+
+  color:#d7d7d7;
+
+  border:
+    1px solid
+    transparent;
+
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.menu-link:active{
+  transform:scale(.985);
+}
+
+.menu-link.active{
+  color:#67dcff;
+
+  border-color:
+    rgba(103,220,255,.22);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,160,220,.12),
+      rgba(0,160,220,.03)
+    );
+}
+
+.menu-link.chat{
+  color:#fff;
+
+  border-color:
+    rgba(103,220,255,.15);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,160,220,.08),
+      rgba(255,0,128,.08)
+    );
+}
+
+.menu-icon{
+  width:34px;
+  flex:0 0 34px;
+
+  text-align:center;
+
+  color:#67dcff;
+
+  font-size:17px;
+}
+
+.menu-link.fire-link .menu-icon{
+  color:#ff2f92;
+}
+
+.menu-arrow{
+  margin-left:auto;
+
+  color:#666;
+
+  font-size:16px;
+}
+
+#adminMenuSection{
+  display:none;
+}
+
+.admin-menu-link{
+  color:#ff8fc8;
+
+  border-color:
+    rgba(255,47,146,.22);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,0,128,.09),
+      rgba(0,160,220,.05)
+    );
+}
+
+.admin-menu-link .menu-icon{
+  color:#ff2f92;
+}
+
+.menu-website{
+  display:block;
+
+  margin-top:19px;
+
+  padding:14px;
+
+  text-align:center;
+  text-decoration:none;
+
+  border-radius:10px;
+
+  border:
+    1px solid
+    rgba(103,220,255,.28);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,160,220,.09),
+      rgba(255,0,128,.09)
+    );
+
+  color:#fff;
+
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+
+/* ========================================
+   PAGE
+======================================== */
+
+.page{
+  width:min(1500px,100%);
+
+  margin:0 auto;
+
+  padding-bottom:40px;
+}
+
+
+/* ========================================
+   GALLERY BANNER
+======================================== */
+
+.gallery-banner{
+  width:100%;
+
+  overflow:hidden;
+
+  background:#000;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.70),
+    -20px 0 60px rgba(0,191,255,.08),
+    20px 0 60px rgba(255,0,128,.08);
+}
+
+.gallery-banner img{
+  display:block;
+
+  width:100%;
+  height:auto;
+}
+
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.main-content{
+  padding:24px 18px 0;
+}
+
+.gallery-section{
+  position:relative;
+
+  overflow:hidden;
+
+  margin-bottom:26px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.10);
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,191,255,.035),
+      rgba(0,0,0,.10) 40%,
+      rgba(255,0,128,.035)
+    ),
+    rgba(8,10,12,.90);
+
+  box-shadow:
+    0 24px 70px
+    rgba(0,0,0,.45);
+}
+
+.gallery-section::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.08),
+      transparent 24%,
+      transparent 76%,
+      rgba(255,0,128,.08)
+    );
+}
+
+.section-header{
+  position:relative;
+  z-index:2;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:20px 22px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.08),
+      rgba(0,0,0,.35),
+      rgba(255,0,128,.08)
+    );
+}
+
+.section-title-wrap{
+  min-width:0;
+}
+
+.section-kicker{
+  display:block;
+
+  margin-bottom:4px;
+
+  color:#71818a;
+
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+}
+
+.section-title{
+  margin:0;
+
+  font-size:27px;
+  line-height:1;
+
+  font-weight:1000;
+  letter-spacing:.5px;
+
+  text-transform:uppercase;
+}
+
+.section-title .ice{
+  color:#32ceff;
+}
+
+.section-title .fire{
+  color:#ff2f92;
+}
+
+.section-line{
+  width:95px;
+  height:3px;
+
+  border-radius:99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #00bfff,
+      rgba(255,255,255,.85),
+      #ff0080
+    );
+}
+
+
+/* ========================================
+   PHOTO CARDS
+======================================== */
+
+.photo-grid{
+  position:relative;
+  z-index:2;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:18px;
+
+  padding:18px;
+}
+
+.photo-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:265px;
+
+  cursor:pointer;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius:16px;
+
+  background-color:#020304;
+
+  background-image:
+    var(--card-image);
+
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  box-shadow:
+    0 14px 30px
+    rgba(0,0,0,.40);
+
+  transition:
+    transform .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease;
+
+  isolation:isolate;
+}
+
+.photo-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.48) 0%,
+      rgba(0,0,0,.08) 22%,
+      transparent 55%
+    );
+}
+
+.photo-card::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.05),
+      transparent 30%,
+      transparent 70%,
+      rgba(255,0,128,.05)
+    );
+}
+
+.photo-card:hover{
+  transform:
+    translateY(-7px)
+    scale(1.012);
+
+  border-color:
+    rgba(255,255,255,.28);
+
+  box-shadow:
+    -10px 0 34px rgba(0,191,255,.20),
+    10px 0 34px rgba(255,0,128,.20),
+    0 22px 45px rgba(0,0,0,.60);
+}
+
+.photo-action{
+  position:absolute;
+
+  z-index:3;
+
+  left:12px;
+  right:12px;
+  bottom:10px;
+
+  min-height:28px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:8px;
+
+  padding:6px 10px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.54),
+      rgba(0,0,0,.40),
+      rgba(0,0,0,.54)
+    );
+}
+
+.photo-action-text{
+  color:#fff;
+
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:1.2px;
+
+  text-transform:uppercase;
+}
+
+.photo-action-arrow{
+  color:#27cfff;
+
+  font-size:14px;
+  font-weight:900;
+}
+
+.photo-card.artwork-card .photo-action-arrow{
+  color:#ff2f92;
+}
+
+
+/* ========================================
+   VIDEO SECTION
+======================================== */
+
+.video-content{
+  position:relative;
+  z-index:2;
+
+  padding:18px;
+}
+
+.team-block{
+  padding:
+    18px 14px 14px;
+
+  margin-bottom:18px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  border-radius:16px;
+
+  background:
+    rgba(0,0,0,.18);
+}
+
+.team-block:last-child{
+  margin-bottom:0;
+}
+
+.team-heading{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:18px;
+
+  padding:
+    0 4px 16px;
+}
+
+.team-heading h3{
+  margin:0;
+
+  font-size:21px;
+  font-weight:1000;
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+}
+
+.team-heading .blue{
+  color:#29cfff;
+}
+
+.team-heading .orange{
+  color:#ff2f92;
+}
+
+.team-motto{
+  color:#66747d;
+
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+
+/* ========================================
+   VIDEO CARDS
+======================================== */
+
+.video-category-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(5,1fr);
+
+  gap:14px;
+}
+
+.video-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:180px;
+
+  cursor:pointer;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius:14px;
+
+  background-color:#020304;
+
+  background-image:
+    var(--video-image);
+
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  box-shadow:
+    0 12px 25px
+    rgba(0,0,0,.40);
+
+  isolation:isolate;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+.video-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.68) 0%,
+      rgba(0,0,0,.10) 28%,
+      transparent 58%
+    );
+}
+
+.video-card::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.06),
+      transparent 35%,
+      transparent 65%,
+      rgba(255,0,128,.06)
+    );
+}
+
+.video-card:hover{
+  transform:
+    translateY(-6px)
+    scale(1.015);
+
+  border-color:
+    rgba(255,255,255,.27);
+
+  box-shadow:
+    -8px 0 28px rgba(0,191,255,.17),
+    8px 0 28px rgba(255,0,128,.17),
+    0 20px 38px rgba(0,0,0,.55);
+}
+
+.video-action{
+  position:absolute;
+
+  z-index:3;
+
+  left:10px;
+  right:10px;
+  bottom:9px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:8px;
+
+  min-height:28px;
+
+  padding:6px 9px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.62),
+      rgba(0,0,0,.42),
+      rgba(0,0,0,.62)
+    );
+}
+
+.video-action-text{
+  color:#fff;
+
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:1.1px;
+
+  text-transform:uppercase;
+}
+
+.video-action-arrow{
+  color:#ff2f92;
+
+  font-size:13px;
+  font-weight:1000;
+}
+
+
+/* ========================================
+   OPENED GALLERY
+======================================== */
+
+.opened-gallery{
+  display:none;
+
+  margin-top:26px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.10);
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  background:#080a0c;
+
+  box-shadow:
+    0 25px 65px
+    rgba(0,0,0,.55);
+}
+
+.opened-gallery.show{
+  display:block;
+}
+
+.opened-header{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:17px 20px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.08),
+      rgba(0,0,0,.40),
+      rgba(255,0,128,.08)
+    );
+}
+
+.opened-title{
+  margin:0;
+
+  font-size:20px;
+  font-weight:1000;
+
+  text-transform:uppercase;
+}
+
+.close-gallery{
+  border:
+    1px solid
+    rgba(255,255,255,.14);
+
+  border-radius:8px;
+
+  padding:8px 11px;
+
+  background:#111519;
+
+  color:#fff;
+
+  cursor:pointer;
+
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+}
+
+.status-message{
+  padding:28px;
+
+  color:#aab4ba;
+
+  text-align:center;
+
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+
+/* ========================================
+   LOADED MEDIA
+======================================== */
+
+.media-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:14px;
+
+  padding:18px;
+}
+
+.media-item{
+  position:relative;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+
+  border-radius:12px;
+
+  background:#020304;
+
+  box-shadow:
+    0 10px 22px
+    rgba(0,0,0,.35);
+}
+
+.media-item img{
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:1 / 1;
+
+  object-fit:cover;
+
+  cursor:pointer;
+}
+
+.media-item video{
+  display:block;
+
+  width:100%;
+
+  aspect-ratio:16 / 9;
+
+  object-fit:contain;
+
+  background:#000;
+}
+
+
+/* ========================================
+   LIGHTBOX
+======================================== */
+
+.lightbox{
+  position:fixed;
+
+  inset:0;
+
+  z-index:9999;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:25px;
+
+  background:
+    rgba(0,0,0,.94);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+.lightbox.show{
+  display:flex;
+}
+
+.lightbox img{
+  max-width:96vw;
+  max-height:92vh;
+
+  object-fit:contain;
+
+  border:
+    1px solid
+    rgba(255,255,255,.14);
+
+  border-radius:12px;
+}
+
+.lightbox-close{
+  position:absolute;
+
+  top:18px;
+  right:20px;
+
+  width:42px;
+  height:42px;
+
+  display:grid;
+
+  place-items:center;
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
+  border-radius:50%;
+
+  background:
+    rgba(0,0,0,.70);
+
+  color:#fff;
+
+  cursor:pointer;
+
+  font-size:22px;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.site-footer{
+  padding:
+    25px 18px 12px;
+
+  text-align:center;
+}
+
+.footer-main{
+  color:#d8e0e4;
+
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+}
+
+.footer-motto{
+  margin-top:7px;
+
+  color:#59666d;
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+
+
+/* ========================================
+   LIVE FIREBASE GALLERY
+======================================== */
+
+.live-gallery-controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:18px 18px 0;
+}
+
+.live-filter{
+  min-height:38px;
+  padding:8px 12px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(0,0,0,.32);
+  color:#cfd8dc;
+  cursor:pointer;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+}
+
+.live-filter.active{
+  border-color:rgba(0,191,255,.45);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,191,255,.16),
+      rgba(255,0,128,.12)
+    );
+  color:#fff;
+}
+
+.live-gallery-grid{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  padding:18px;
+}
+
+.live-gallery-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:15px;
+  background:#020304;
+  box-shadow:0 14px 30px rgba(0,0,0,.40);
+}
+
+.live-gallery-image{
+  display:block;
+  width:100%;
+  aspect-ratio:4 / 3;
+  object-fit:cover;
+  cursor:pointer;
+  background:#000;
+}
+
+.live-gallery-info{
+  padding:12px;
+}
+
+.live-gallery-category{
+  margin:0 0 5px;
+  color:#fff;
+  font-size:12px;
+  font-weight:1000;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+.live-gallery-meta{
+  margin:0;
+  color:#75838a;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.live-gallery-caption{
+  margin:8px 0 0;
+  color:#d8e0e4;
+  font-size:11px;
+  line-height:1.45;
+}
+
+.live-featured{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:3;
+  padding:6px 9px;
+  border:1px solid rgba(255,47,146,.42);
+  border-radius:999px;
+  background:rgba(0,0,0,.72);
+  color:#ff5aad;
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:1px;
+}
+
+.live-gallery-empty{
+  grid-column:1 / -1;
+  padding:34px 18px;
+  border:1px dashed rgba(255,255,255,.12);
+  border-radius:14px;
+  color:#78868d;
+  text-align:center;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.7px;
+}
+
+.lightbox-details{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:18px;
+  max-width:760px;
+  margin:0 auto;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:rgba(0,0,0,.76);
+  color:#fff;
+  text-align:center;
+  font-size:11px;
+  line-height:1.5;
+}
+
+@media(max-width:850px){
+  .live-gallery-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:560px){
+  .live-gallery-controls{
+    padding:12px 12px 0;
+  }
+
+  .live-gallery-grid{
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media(max-width:1150px){
+
+  .video-category-grid{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .media-grid{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+}
+
+@media(max-width:850px){
+
+  .photo-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .video-category-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .media-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:560px){
+
+  .main-content{
+    padding:
+      14px 10px 0;
+  }
+
+  .section-header{
+    padding:
+      16px 15px;
+  }
+
+  .section-title{
+    font-size:21px;
+  }
+
+  .section-line{
+    width:50px;
+  }
+
+  .photo-grid{
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+
+  .photo-card{
+    min-height:215px;
+  }
+
+  .video-content{
+    padding:12px;
+  }
+
+  .team-block{
+    padding:
+      14px 10px 10px;
+  }
+
+  .team-heading{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .video-category-grid{
+    grid-template-columns:1fr;
+  }
+
+  .video-card{
+    min-height:210px;
+  }
+
+  .media-grid{
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  .side-menu,
+  .menu-backdrop{
+    transition:none;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- APP BAR -->
+
+<header class="app-bar">
+
+<button
+  id="menuButton"
+  class="menu-button"
+  type="button"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+>
+☰
+</button>
+
+<div class="app-bar-brand">
+
+<img
+  src="images/icon-192.png"
+  class="app-bar-logo"
+  alt=""
+>
+
+<div class="app-bar-title">
+MRS WOLFIE
+</div>
+
+</div>
+
+<div
+  class="app-status"
+  aria-label="App online"
+>
+<span class="app-status-dot"></span>
+</div>
+
+</header>
+
+
+<div
+  id="menuBackdrop"
+  class="menu-backdrop"
+></div>
+
+
+<!-- SIDE MENU -->
+
+<aside
+  id="sideMenu"
+  class="side-menu"
+  aria-label="Mrs Wolfie navigation"
+>
+
+<div class="menu-header">
+
+<img
+  src="images/icon-192.png"
+  class="menu-logo"
+  alt="Mrs Wolfie"
+>
+
+<div class="menu-brand">
+MRS WOLFIE
+</div>
+
+<div class="menu-tagline">
+HUNT WITHOUT FEAR
+</div>
+
+<button
+  id="closeMenuButton"
+  class="close-menu"
+  type="button"
+  aria-label="Close navigation menu"
+>
+×
+</button>
+
+</div>
+
+<div class="menu-section-label">
+MAIN
+</div>
+
+<nav class="menu-nav">
+
+<a class="menu-link" href="index.html">
+<span class="menu-icon">⌂</span>
+<span>HOME</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link fire-link" href="fight.html">
+<span class="menu-icon">♜</span>
+<span>FIGHT NIGHT</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="schedule.html">
+<span class="menu-icon">◫</span>
+<span>SCHEDULE &amp; RESULTS</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="profile.html">
+<span class="menu-icon">♟</span>
+<span>MRS WOLFIE</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="updates.html">
+<span class="menu-icon">●</span>
+<span>APP UPDATES</span>
+<span class="menu-arrow">›</span>
+</a>
+
+</nav>
+
+<div class="menu-section-label">
+EXPLORE
+</div>
+
+<nav class="menu-nav">
+
+<a class="menu-link active" href="gallery.html">
+<span class="menu-icon">▣</span>
+<span>GALLERY</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="sponsors.html">
+<span class="menu-icon">★</span>
+<span>SPONSORS &amp; PARTNERS</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="merch.html">
+<span class="menu-icon">◇</span>
+<span>MERCH</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="socials.html">
+<span class="menu-icon">◎</span>
+<span>SOCIALS</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="contact.html">
+<span class="menu-icon">✉</span>
+<span>CONTACT</span>
+<span class="menu-arrow">›</span>
+</a>
+
+<a class="menu-link" href="about.html">
+<span class="menu-icon">ⓘ</span>
+<span>ABOUT</span>
+<span class="menu-arrow">›</span>
+</a>
+
+</nav>
+
+<a
+  class="menu-website"
+  href="https://officialteamwolfpack.com/boxing"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+VISIT TEAM WOLFPACK WEBSITE
+</a>
+
+</aside>
+
+
+<!-- PAGE -->
+
+<div class="page">
+
+<header class="gallery-banner">
+
+<img
+  src="gallery/gallery-banner.png.png?v=3"
+  alt="Mrs Wolfie Gallery"
+>
+
+</header>
+
+
+<main class="main-content">
+
+
+<!-- ========================================
+     LIVE GALLERY
+======================================== -->
+
+<section class="gallery-section">
+
+<div class="section-header">
+
+<div class="section-title-wrap">
+
+<span class="section-kicker">
+LATEST FROM MRS WOLFIE
+</span>
+
+<h2 class="section-title">
+<span class="ice">LIVE</span>
+GALLERY
+</h2>
+
+</div>
+
+<div class="section-line"></div>
+
+</div>
+
+<div
+  id="liveGalleryFilters"
+  class="live-gallery-controls"
+>
+  <button class="live-filter active" type="button" data-filter="all">ALL</button>
+  <button class="live-filter" type="button" data-filter="fight-night">FIGHT NIGHT</button>
+  <button class="live-filter" type="button" data-filter="team-wolfie">TEAM WOLFIE</button>
+  <button class="live-filter" type="button" data-filter="training">TRAINING</button>
+  <button class="live-filter" type="button" data-filter="events">EVENTS</button>
+  </div>
+
+<div
+  id="liveGalleryGrid"
+  class="live-gallery-grid"
+>
+  <div class="live-gallery-empty">
+    Loading gallery photos...
+  </div>
+</div>
+
+</section>
+
+
+<!-- ========================================
+     PHOTO GALLERIES
+======================================== -->
+
+<section class="gallery-section">
+
+<div class="section-header">
+
+<div class="section-title-wrap">
+
+<span class="section-kicker">
+EXPLORE THE JOURNEY
+</span>
+
+<h2 class="section-title">
+<span class="ice">PHOTO</span>
+GALLERIES
+</h2>
+
+</div>
+
+<div class="section-line"></div>
+
+</div>
+
+
+<div class="photo-grid">
+
+
+<!-- KING CLOTHING -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/king-clothing.png');"
+  data-type="photos"
+  data-path="gallery/photos/king-clothing"
+  data-title="King Clothing"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- MAY 2025 -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/may-2025.jpg.png');"
+  data-type="photos"
+  data-path="gallery/photos/fight-nights/fight-may-2025"
+  data-title="May 2025"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- JULY 2025 -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/july-2025.png.png');"
+  data-type="photos"
+  data-path="gallery/photos/fight-nights/fight-july-2025"
+  data-title="July 2025"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- MARCH 2026 -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/march-2026.png.png');"
+  data-type="photos"
+  data-path="gallery/photos/fight-nights/fight-march-2026"
+  data-title="March 2026"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- JULY 2026 -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/july-2026.png.png');"
+  data-type="photos"
+  data-path="gallery/photos/fight-nights/fight-july-2026"
+  data-title="July 2026"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- OCTOBER 2026 -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/october-2026.png.png');"
+  data-type="photos"
+  data-path="gallery/photos/fight-nights/fight-october-2026"
+  data-title="October 2026"
+>
+<div class="photo-action">
+<span class="photo-action-text">VIEW PHOTOS</span>
+<span class="photo-action-arrow">→</span>
+</div>
+</article>
+
+
+<!-- TEAM WOLFIE TRAINING -->
+
+<article
+  class="photo-card"
+  style="--card-image:url('gallery/card-images/team-wolfie-training.png');"
+  data-type="photos"
+  data-path="gallery/photos/team-wolfie/training"
+  data-title="Team Wolfie — Training"
+>
+
+<div
+  style="
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    z-index:2;
+    padding:25px;
+  "
+>
+
+<div
+  style="
+    color:#67dcff;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:3px;
+    margin-bottom:8px;
+  "
+>
+TEAM WOLFIE
+</div>
+
+<div
+  style="
+    font-size:30px;
+    font-weight:1000;
+    letter-spacing:2px;
+    color:#ffffff;
+    text-shadow:
+      0 0 18px rgba(0,191,255,.45),
+      0 0 25px rgba(255,0,128,.25);
+  "
+>
+TRAINING
+</div>
+
+<div
+  style="
+    margin-top:10px;
+    color:#ff2f92;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:2px;
+  "
+>
+HUNT WITHOUT FEAR
+</div>
+
+</div>
+
+<div class="photo-action">
+<span class="photo-action-text">
+VIEW TRAINING PHOTOS
+</span>
+<span class="photo-action-arrow">→</span>
+</div>
+
+</article>
+
+</div>
+
+</section>
+  
+<!-- ========================================
+     VIDEO GALLERIES
+======================================== -->
+
+<section class="gallery-section">
+
+<div class="section-header">
+
+<div class="section-title-wrap">
+
+<span class="section-kicker">
+WATCH MRS WOLFIE
+</span>
+
+<h2 class="section-title">
+<span class="fire">VIDEO</span>
+GALLERIES
+</h2>
+
+</div>
+
+<div class="section-line"></div>
+
+</div>
+
+
+<div class="video-content">
+
+
+<!-- TEAM WOLFIE -->
+
+<section class="team-block">
+
+<div class="team-heading">
+
+<h3>
+MRS
+<span class="orange">WOLFIE</span>
+</h3>
+
+<span class="team-motto">
+HUNT WITHOUT FEAR
+</span>
+
+</div>
+
+
+<div class="video-category-grid">
+
+<article
+  class="video-card"
+  style="--video-image:url('gallery/video-card-images/team-wolfie/may-2025.png');"
+  data-type="videos"
+  data-path="gallery/videos/team-wolfie/fight-may-2025"
+  data-title="Team Wolfie — May 2025"
+>
+<div class="video-action">
+<span class="video-action-text">WATCH FIGHT VIDEOS</span>
+<span class="video-action-arrow">▶</span>
+</div>
+</article>
+
+
+<article
+  class="video-card"
+  style="--video-image:url('gallery/video-card-images/team-wolfie/july-2025.png');"
+  data-type="videos"
+  data-path="gallery/videos/team-wolfie/fight-july-2025"
+  data-title="Team Wolfie — July 2025"
+>
+<div class="video-action">
+<span class="video-action-text">WATCH FIGHT VIDEOS</span>
+<span class="video-action-arrow">▶</span>
+</div>
+</article>
+
+
+<article
+  class="video-card"
+  style="--video-image:url('gallery/video-card-images/team-wolfie/march-2026.png');"
+  data-type="videos"
+  data-path="gallery/videos/team-wolfie/fight-march-2026"
+  data-title="Team Wolfie — March 2026"
+>
+<div class="video-action">
+<span class="video-action-text">WATCH FIGHT VIDEOS</span>
+<span class="video-action-arrow">▶</span>
+</div>
+</article>
+
+
+<article
+  class="video-card"
+  style="--video-image:url('gallery/video-card-images/team-wolfie/July-2026.png');"
+  data-type="videos"
+  data-path="gallery/videos/team-wolfie/fight-july-2026"
+  data-title="Team Wolfie — July 2026"
+>
+<div class="video-action">
+<span class="video-action-text">WATCH FIGHT VIDEOS</span>
+<span class="video-action-arrow">▶</span>
+</div>
+</article>
+
+
+<article
+  class="video-card"
+  style="--video-image:url('gallery/video-card-images/team-wolfie/October-2026.png');"
+  data-type="videos"
+  data-path="gallery/videos/team-wolfie/fight-october-2026"
+  data-title="Team Wolfie — October 2026"
+>
+<div class="video-action">
+<span class="video-action-text">WATCH FIGHT VIDEOS</span>
+<span class="video-action-arrow">▶</span>
+</div>
+</article>
+
+</div>
+
+</section>
+
+
+<!-- OPENED GALLERY -->
+
+<section
+  id="openedGallery"
+  class="opened-gallery"
+>
+
+<div class="opened-header">
+
+<h2
+  id="openedTitle"
+  class="opened-title"
+>
+Gallery
+</h2>
+
+<button
+  id="closeGallery"
+  class="close-gallery"
+  type="button"
+>
+CLOSE
+</button>
+
+</div>
+
+<div id="galleryOutput"></div>
+
+</section>
+
+
+</main>
+
+
+<footer class="site-footer">
+
+<div class="footer-main">
+MRS WOLFIE • TEAM WOLFIE
+</div>
+
+<div class="footer-motto">
+HUNT WITHOUT FEAR
+</div>
+
+</footer>
+
+</div>
+
+
+<!-- LIGHTBOX -->
+
+<div
+  id="lightbox"
+  class="lightbox"
+>
+
+<button
+  id="lightboxClose"
+  class="lightbox-close"
+  type="button"
+  aria-label="Close image"
+>
+×
+</button>
+
+<img
+  id="lightboxImage"
+  src=""
+  alt=""
+>
+
+<div
+  id="lightboxDetails"
+  class="lightbox-details"
+  hidden
+></div>
+
+</div>
+
+
+<script>
+
+/* ========================================
+   GITHUB
+======================================== */
+
+const GITHUB_OWNER =
+  "OfficialTeamWolfpackApp";
+
+const GITHUB_REPO =
+  "Mrs-Wolfie";
+
+const GITHUB_BRANCH =
+  "main";
+
+
+/* ========================================
+   SIDE MENU
+======================================== */
+
+const menuButton =
+  document.getElementById(
+    "menuButton"
+  );
+
+const closeMenuButton =
+  document.getElementById(
+    "closeMenuButton"
+  );
+
+const sideMenu =
+  document.getElementById(
+    "sideMenu"
+  );
+
+const menuBackdrop =
+  document.getElementById(
+    "menuBackdrop"
+  );
+
+
+function openMenu(){
+
+  sideMenu.classList.add(
+    "show"
+  );
+
+  menuBackdrop.classList.add(
+    "show"
+  );
+
+  document.body.classList.add(
+    "menu-open"
+  );
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function closeMenu(){
+
+  sideMenu.classList.remove(
+    "show"
+  );
+
+  menuBackdrop.classList.remove(
+    "show"
+  );
+
+  document.body.classList.remove(
+    "menu-open"
+  );
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+menuButton.addEventListener(
+  "click",
+  openMenu
+);
+
+closeMenuButton.addEventListener(
+  "click",
+  closeMenu
+);
+
+menuBackdrop.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+document
+  .querySelectorAll(
+    ".menu-link"
+  )
+  .forEach(
+    function(link){
+
+      link.addEventListener(
+        "click",
+        closeMenu
+      );
+
+    }
+  );
+
+
+/* ========================================
+   GALLERY ELEMENTS
+======================================== */
+
+const openedGallery =
+  document.getElementById(
+    "openedGallery"
+  );
+
+const openedTitle =
+  document.getElementById(
+    "openedTitle"
+  );
+
+const galleryOutput =
+  document.getElementById(
+    "galleryOutput"
+  );
+
+const closeGallery =
+  document.getElementById(
+    "closeGallery"
+  );
+
+const lightbox =
+  document.getElementById(
+    "lightbox"
+  );
+
+const lightboxImage =
+  document.getElementById(
+    "lightboxImage"
+  );
+
+const lightboxClose =
+  document.getElementById(
+    "lightboxClose"
+  );
+
+
+/* ========================================
+   FILE TYPES
+======================================== */
+
+function isImageFile(filename){
+
+  return /\.(jpg|jpeg|png|webp|gif)$/i
+    .test(filename);
+
+}
+
+
+function isVideoFile(filename){
+
+  return /\.(mp4|webm|ogv|m4v|mov)$/i
+    .test(filename);
+
+}
+
+
+/* ========================================
+   NATURAL SORT
+======================================== */
+
+function naturalSort(a,b){
+
+  return a.name.localeCompare(
+    b.name,
+    undefined,
+    {
+      numeric:true,
+      sensitivity:"base"
+    }
+  );
+
+}
+
+
+/* ========================================
+   VIDEO THUMBNAILS
+======================================== */
+
+function getVideoThumbnail(
+  path,
+  videoIndex
+){
+
+  if(
+    path ===
+    "gallery/videos/team-wolfie/fight-march-2026"
+  ){
+
+    return (
+      "https://raw.githubusercontent.com/" +
+      GITHUB_OWNER +
+      "/" +
+      GITHUB_REPO +
+      "/" +
+      GITHUB_BRANCH +
+      "/" +
+      path +
+      "/thumbnails/Video%20" +
+      videoIndex +
+      ".png"
+    );
+
+  }
+
+  return "";
+
+}
+
+
+/* ========================================
+   OPEN A GALLERY
+======================================== */
+
+async function openGallery(card){
+
+  const path =
+    card.dataset.path;
+
+  const type =
+    card.dataset.type;
+
+  const title =
+    card.dataset.title ||
+    "Gallery";
+
+
+  openedTitle.textContent =
+    title;
+
+
+  galleryOutput.innerHTML =
+    '<div class="status-message">' +
+    'LOADING GALLERY...' +
+    '</div>';
+
+
+  openedGallery.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    function(){
+
+      openedGallery.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    },
+    100
+  );
+
+
+  try{
+
+    const apiUrl =
+      "https://api.github.com/repos/" +
+      GITHUB_OWNER +
+      "/" +
+      GITHUB_REPO +
+      "/contents/" +
+      path +
+      "?ref=" +
+      GITHUB_BRANCH;
+
+
+    const response =
+      await fetch(apiUrl);
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "GitHub API returned " +
+        response.status
+      );
+
+    }
+
+
+    const files =
+      await response.json();
+
+
+    if(!Array.isArray(files)){
+
+      throw new Error(
+        "Gallery path did not return a file list."
+      );
+
+    }
+
+
+    if(type === "photos"){
+
+      renderPhotos(files);
+
+    }else{
+
+      renderVideos(
+        files,
+        path
+      );
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    galleryOutput.innerHTML =
+      '<div class="status-message">' +
+      'Unable to load this gallery at the moment.' +
+      '</div>';
+
+  }
+
+}
+
+
+/* ========================================
+   RENDER PHOTOS
+======================================== */
+
+function renderPhotos(files){
+
+  const images =
+    files
+      .filter(
+        function(file){
+
+          return (
+            file.type === "file" &&
+            isImageFile(file.name)
+          );
+
+        }
+      )
+      .sort(naturalSort);
+
+
+  if(images.length === 0){
+
+    galleryOutput.innerHTML =
+      '<div class="status-message">' +
+      'No photos have been added yet.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const grid =
+    document.createElement(
+      "div"
+    );
+
+  grid.className =
+    "media-grid";
+
+
+  images.forEach(
+    function(file){
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "media-item";
+
+
+      const image =
+        document.createElement(
+          "img"
+        );
+
+      image.src =
+        file.download_url;
+
+      image.alt =
+        file.name;
+
+      image.loading =
+        "lazy";
+
+
+      image.addEventListener(
+        "click",
+        function(){
+
+          openLightbox(
+            file.download_url,
+            file.name
+          );
+
+        }
+      );
+
+
+      item.appendChild(
+        image
+      );
+
+      grid.appendChild(
+        item
+      );
+
+    }
+  );
+
+
+  galleryOutput.innerHTML =
+    "";
+
+  galleryOutput.appendChild(
+    grid
+  );
+
+}
+
+
+/* ========================================
+   RENDER VIDEOS
+======================================== */
+
+function renderVideos(
+  files,
+  path
+){
+
+  const videos =
+    files
+      .filter(
+        function(file){
+
+          return (
+            file.type === "file" &&
+            isVideoFile(file.name)
+          );
+
+        }
+      )
+      .sort(naturalSort);
+
+
+  if(videos.length === 0){
+
+    galleryOutput.innerHTML =
+      '<div class="status-message">' +
+      'No videos have been added yet.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const grid =
+    document.createElement(
+      "div"
+    );
+
+  grid.className =
+    "media-grid";
+
+
+  videos.forEach(
+    function(
+      file,
+      index
+    ){
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "media-item";
+
+
+      const video =
+        document.createElement(
+          "video"
+        );
+
+      video.controls =
+        true;
+
+      video.preload =
+        "metadata";
+
+      video.playsInline =
+        true;
+
+      video.src =
+        file.download_url;
+
+
+      const poster =
+        getVideoThumbnail(
+          path,
+          index + 1
+        );
+
+
+      if(poster){
+
+        video.poster =
+          poster;
+
+      }
+
+
+      video.addEventListener(
+        "play",
+        function(){
+
+          document
+            .querySelectorAll(
+              ".media-item video"
+            )
+            .forEach(
+              function(otherVideo){
+
+                if(
+                  otherVideo !==
+                  video
+                ){
+
+                  otherVideo.pause();
+
+                }
+
+              }
+            );
+
+        }
+      );
+
+
+      item.appendChild(
+        video
+      );
+
+      grid.appendChild(
+        item
+      );
+
+    }
+  );
+
+
+  galleryOutput.innerHTML =
+    "";
+
+  galleryOutput.appendChild(
+    grid
+  );
+
+}
+
+
+/* ========================================
+   CARD CLICKS
+======================================== */
+
+document
+  .querySelectorAll(
+    ".photo-card, .video-card"
+  )
+  .forEach(
+    function(card){
+
+      card.addEventListener(
+        "click",
+        function(){
+
+          openGallery(
+            card
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* ========================================
+   CLOSE GALLERY
+======================================== */
+
+closeGallery.addEventListener(
+  "click",
+  function(){
+
+    galleryOutput
+      .querySelectorAll(
+        "video"
+      )
+      .forEach(
+        function(video){
+
+          video.pause();
+
+        }
+      );
+
+
+    openedGallery
+      .classList
+      .remove(
+        "show"
+      );
+
+  }
+);
+
+
+/* ========================================
+   LIGHTBOX
+======================================== */
+
+function openLightbox(
+  src,
+  alt
+){
+
+  lightboxImage.src =
+    src;
+
+  lightboxImage.alt =
+    alt || "";
+
+  lightbox.classList.add(
+    "show"
+  );
+
+}
+
+
+function closeLightbox(){
+
+  lightbox.classList.remove(
+    "show"
+  );
+
+  lightboxImage.src =
+    "";
+
+}
+
+
+lightboxClose.addEventListener(
+  "click",
+  closeLightbox
+);
+
+
+lightbox.addEventListener(
+  "click",
+  function(event){
+
+    if(
+      event.target ===
+      lightbox
+    ){
+
+      closeLightbox();
+
+    }
+
+  }
+);
+
+
+/* ========================================
+   ESCAPE KEY
+======================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      if(
+        lightbox
+          .classList
+          .contains(
+            "show"
+          )
+      ){
+
+        closeLightbox();
+
+      }
+
+
+      if(
+        sideMenu
+          .classList
+          .contains(
+            "show"
+          )
+      ){
+
+        closeMenu();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* ========================================
+   SERVICE WORKER
+======================================== */
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    function(){
+
+      navigator
+        .serviceWorker
+        .register(
+          "service-worker.js"
+        )
+        .catch(
+          function(error){
+
+            console.log(
+              "Service worker registration failed:",
+              error
+            );
+
+          }
+        );
+
+    }
+  );
+
+}
+
+</script>
+
+
+<script type="module">
+
+/* ========================================
+   LIVE FIREBASE PHOTO GALLERY
+======================================== */
+
+import {
+  initializeApp
+} from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  onSnapshot
+} from
+  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+const liveFirebaseConfig = {
+  apiKey: "AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",
+  authDomain: "team-wolfpack-app.firebaseapp.com",
+  databaseURL: "https://team-wolfpack-app-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "team-wolfpack-app",
+  storageBucket: "team-wolfpack-app.firebasestorage.app",
+  messagingSenderId: "1070414578856",
+  appId: "1:1070414578856:web:df14e7d387e658eeae2e9d",
+  measurementId: "G-6JTCE2N9LZ"
+};
+
+const liveFirebaseApp =
+  initializeApp(
+    liveFirebaseConfig,
+    "mrsWolfieGallery"
+  );
+
+const liveDb =
+  getFirestore(
+    liveFirebaseApp
+  );
+
+const liveGalleryGrid =
+  document.getElementById(
+    "liveGalleryGrid"
+  );
+
+const liveGalleryFilters =
+  document.getElementById(
+    "liveGalleryFilters"
+  );
+
+const liveLightbox =
+  document.getElementById(
+    "lightbox"
+  );
+
+const liveLightboxImage =
+  document.getElementById(
+    "lightboxImage"
+  );
+
+const liveLightboxDetails =
+  document.getElementById(
+    "lightboxDetails"
+  );
+
+let liveGalleryItems = [];
+let activeGalleryFilter = "all";
+
+
+function liveEscapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function liveCategoryLabel(value){
+
+  const labels = {
+    "fight-night":"Fight Night",
+    "team-wolfie":"Team Wolfie",
+    "training":"Training",
+    "events":"Events",
+    "team":"Team Wolfie"
+  };
+
+  return labels[value] || "Gallery";
+
+}
+
+
+function liveSortValue(item){
+
+  if(
+    item.createdAt &&
+    typeof item.createdAt.toMillis === "function"
+  ){
+    return item.createdAt.toMillis();
+  }
+
+  if(item.date){
+    const parsed = Date.parse(item.date);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  return 0;
+
+}
+
+
+function renderLiveGallery(){
+
+  if(!liveGalleryGrid){
+    return;
+  }
+
+  const visibleItems =
+    liveGalleryItems
+      .filter(function(item){
+
+        const allowedCategories =
+          new Set([
+            "fight-night",
+            "team-wolfie",
+            "training",
+            "events"
+          ]);
+
+        return (
+          allowedCategories.has(item.category) &&
+          (
+            activeGalleryFilter === "all" ||
+            item.category === activeGalleryFilter
+          )
+        );
+
+      })
+      .sort(function(a,b){
+
+        if(Boolean(a.featured) !== Boolean(b.featured)){
+          return a.featured ? -1 : 1;
+        }
+
+        return liveSortValue(b) - liveSortValue(a);
+
+      });
+
+  if(visibleItems.length === 0){
+
+    liveGalleryGrid.innerHTML =
+      '<div class="live-gallery-empty">' +
+      'No published photos are available in this gallery yet.' +
+      '</div>';
+
+    return;
+
+  }
+
+  liveGalleryGrid.innerHTML =
+    visibleItems.map(function(item,index){
+
+      const eventText =
+        item.event
+          ? liveEscapeHTML(item.event)
+          : "";
+
+      const dateText =
+        item.date
+          ? liveEscapeHTML(item.date)
+          : "";
+
+      const metaParts =
+        [eventText,dateText]
+          .filter(Boolean);
+
+      const caption =
+        item.caption
+          ? '<p class="live-gallery-caption">' +
+            liveEscapeHTML(item.caption) +
+            '</p>'
+          : "";
+
+      const featured =
+        item.featured
+          ? '<span class="live-featured">FEATURED</span>'
+          : "";
+
+      return (
+        '<article class="live-gallery-card">' +
+
+          featured +
+
+          '<img ' +
+            'class="live-gallery-image" ' +
+            'src="' +
+            liveEscapeHTML(item.imageURL) +
+            '" ' +
+            'alt="' +
+            liveEscapeHTML(
+              item.caption ||
+              item.event ||
+              liveCategoryLabel(item.category)
+            ) +
+            '" ' +
+            'loading="lazy" ' +
+            'data-live-index="' +
+            index +
+            '">' +
+
+          '<div class="live-gallery-info">' +
+
+            '<h3 class="live-gallery-category">' +
+              liveEscapeHTML(
+                liveCategoryLabel(item.category)
+              ) +
+            '</h3>' +
+
+            (
+              metaParts.length
+                ? '<p class="live-gallery-meta">' +
+                  metaParts.join(" • ") +
+                  '</p>'
+                : ''
+            ) +
+
+            caption +
+
+          '</div>' +
+
+        '</article>'
+      );
+
+    }).join("");
+
+  liveGalleryGrid
+    .querySelectorAll(
+      "[data-live-index]"
+    )
+    .forEach(function(image){
+
+      image.addEventListener(
+        "click",
+        function(){
+
+          const item =
+            visibleItems[
+              Number(
+                image.dataset.liveIndex
+              )
+            ];
+
+          if(!item){
+            return;
+          }
+
+          liveLightboxImage.src =
+            item.imageURL;
+
+          liveLightboxImage.alt =
+            item.caption ||
+            item.event ||
+            liveCategoryLabel(item.category);
+
+          const details = [
+            liveCategoryLabel(item.category),
+            item.event || "",
+            item.date || "",
+            item.caption || ""
+          ].filter(Boolean);
+
+          if(details.length){
+
+            liveLightboxDetails.textContent =
+              details.join(" • ");
+
+            liveLightboxDetails.hidden =
+              false;
+
+          }else{
+
+            liveLightboxDetails.textContent =
+              "";
+
+            liveLightboxDetails.hidden =
+              true;
+
+          }
+
+          liveLightbox.classList.add(
+            "show"
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+if(liveGalleryFilters){
+
+  liveGalleryFilters.addEventListener(
+    "click",
+    function(event){
+
+      const button =
+        event.target.closest(
+          "[data-filter]"
+        );
+
+      if(!button){
+        return;
+      }
+
+      activeGalleryFilter =
+        button.dataset.filter;
+
+      liveGalleryFilters
+        .querySelectorAll(
+          "[data-filter]"
+        )
+        .forEach(function(filterButton){
+
+          filterButton.classList.toggle(
+            "active",
+            filterButton === button
+          );
+
+        });
+
+      renderLiveGallery();
+
+    }
+  );
+
+}
+
+
+const publishedGalleryQuery =
+  query(
+    collection(
+      liveDb,
+      "gallery"
+    ),
+    where(
+      "published",
+      "==",
+      true
+    )
+  );
+
+
+onSnapshot(
+  publishedGalleryQuery,
+  function(snapshot){
+
+    liveGalleryItems =
+      snapshot.docs.map(
+        function(documentSnapshot){
+
+          return {
+            id:documentSnapshot.id,
+            ...documentSnapshot.data()
+          };
+
+        }
+      );
+
+    renderLiveGallery();
+
+  },
+  function(error){
+
+    console.error(
+      "Live gallery load failed:",
+      error
+    );
+
+    liveGalleryGrid.innerHTML =
+      '<div class="live-gallery-empty">' +
+      'Unable to load the live gallery right now.' +
+      '</div>';
+
+  }
+);
+
+
+if(liveLightbox){
+
+  liveLightbox.addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === liveLightbox ||
+        event.target.id === "lightboxClose"
+      ){
+
+        liveLightboxDetails.hidden =
+          true;
+
+        liveLightboxDetails.textContent =
+          "";
+
+      }
+
+    }
+  );
+
+}
+
+</script>
+
+
+</body>
+</html>
+```
