@@ -2974,46 +2974,90 @@ if(
 
 <script type="module">
 
+<script>
+
 /* ========================================
-   LIVE FIREBASE PHOTO GALLERY
+   LIVE GITHUB PHOTO GALLERY
 ======================================== */
 
-import {
-  initializeApp
-} from
-  "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+const LIVE_GITHUB_OWNER =
+  "OfficialTeamWolfpackApp";
 
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  onSnapshot
-} from
-  "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+const LIVE_GITHUB_REPO =
+  "Mrs-Wolfie";
+
+const LIVE_GITHUB_BRANCH =
+  "main";
 
 
-const liveFirebaseConfig = {
-  apiKey: "AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",
-  authDomain: "team-wolfpack-app.firebaseapp.com",
-  databaseURL: "https://team-wolfpack-app-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "team-wolfpack-app",
-  storageBucket: "team-wolfpack-app.firebasestorage.app",
-  messagingSenderId: "1070414578856",
-  appId: "1:1070414578856:web:df14e7d387e658eeae2e9d",
-  measurementId: "G-6JTCE2N9LZ"
-};
+/* ========================================
+   GALLERY SOURCES
+======================================== */
 
-const liveFirebaseApp =
-  initializeApp(
-    liveFirebaseConfig,
-    "mrsWolfieGallery"
-  );
+const liveGallerySources = [
 
-const liveDb =
-  getFirestore(
-    liveFirebaseApp
-  );
+  {
+    path:
+      "gallery/photos/fight-nights/fight-may-2025",
+    category:"fight-night",
+    event:"May 2025",
+    date:"2025-05"
+  },
+
+  {
+    path:
+      "gallery/photos/fight-nights/fight-july-2025",
+    category:"fight-night",
+    event:"July 2025",
+    date:"2025-07"
+  },
+
+  {
+    path:
+      "gallery/photos/fight-nights/fight-march-2026",
+    category:"fight-night",
+    event:"March 2026",
+    date:"2026-03"
+  },
+
+  {
+    path:
+      "gallery/photos/fight-nights/fight-july-2026",
+    category:"fight-night",
+    event:"July 2026",
+    date:"2026-07"
+  },
+
+  {
+    path:
+      "gallery/photos/team-wolfie",
+    category:"team-wolfie",
+    event:"Team Wolfie",
+    date:""
+  },
+
+  {
+    path:
+      "gallery/photos/king-clothing",
+    category:"events",
+    event:"King Clothing",
+    date:""
+  },
+
+  {
+    path:
+      "gallery/photos/memorials",
+    category:"memorials",
+    event:"Memorials",
+    date:""
+  }
+
+];
+
+
+/* ========================================
+   ELEMENTS
+======================================== */
 
 const liveGalleryGrid =
   document.getElementById(
@@ -3040,9 +3084,16 @@ const liveLightboxDetails =
     "lightboxDetails"
   );
 
-let liveGalleryItems = [];
-let activeGalleryFilter = "all";
 
+let liveGalleryItems = [];
+
+let activeGalleryFilter =
+  "all";
+
+
+/* ========================================
+   HELPERS
+======================================== */
 
 function liveEscapeHTML(value){
 
@@ -3059,36 +3110,183 @@ function liveEscapeHTML(value){
 function liveCategoryLabel(value){
 
   const labels = {
-    "fight-night":"Fight Night",
-    "team-wolfie":"Team Wolfie",
-    "training":"Training",
-    "events":"Events",
-    "team":"Team Wolfie"
+
+    "fight-night":
+      "Fight Night",
+
+    "team-wolfie":
+      "Team Wolfie",
+
+    "training":
+      "Training",
+
+    "events":
+      "Events",
+
+    "memorials":
+      "Memorials"
+
   };
 
-  return labels[value] || "Gallery";
+  return labels[value] ||
+    "Gallery";
 
 }
 
 
-function liveSortValue(item){
+function liveIsImage(filename){
 
-  if(
-    item.createdAt &&
-    typeof item.createdAt.toMillis === "function"
-  ){
-    return item.createdAt.toMillis();
-  }
-
-  if(item.date){
-    const parsed = Date.parse(item.date);
-    return Number.isNaN(parsed) ? 0 : parsed;
-  }
-
-  return 0;
+  return /\.(jpg|jpeg|png|webp|gif)$/i
+    .test(filename);
 
 }
 
+
+/* ========================================
+   LOAD ONE GITHUB FOLDER
+======================================== */
+
+async function loadLiveGalleryFolder(
+  source
+){
+
+  const apiURL =
+    "https://api.github.com/repos/" +
+    LIVE_GITHUB_OWNER +
+    "/" +
+    LIVE_GITHUB_REPO +
+    "/contents/" +
+    source.path +
+    "?ref=" +
+    LIVE_GITHUB_BRANCH;
+
+
+  const response =
+    await fetch(apiURL);
+
+
+  if(!response.ok){
+
+    console.warn(
+      "Could not load:",
+      source.path,
+      response.status
+    );
+
+    return [];
+
+  }
+
+
+  const files =
+    await response.json();
+
+
+  if(!Array.isArray(files)){
+    return [];
+  }
+
+
+  return files
+
+    .filter(function(file){
+
+      return (
+        file.type === "file" &&
+        liveIsImage(file.name)
+      );
+
+    })
+
+    .map(function(file){
+
+      return {
+
+        id:
+          source.path +
+          "/" +
+          file.name,
+
+        imageURL:
+          file.download_url,
+
+        filename:
+          file.name,
+
+        category:
+          source.category,
+
+        event:
+          source.event,
+
+        date:
+          source.date,
+
+        path:
+          source.path
+
+      };
+
+    });
+
+}
+
+
+/* ========================================
+   LOAD ALL GALLERIES
+======================================== */
+
+async function loadLiveGallery(){
+
+  if(!liveGalleryGrid){
+    return;
+  }
+
+
+  liveGalleryGrid.innerHTML =
+    '<div class="live-gallery-empty">' +
+    'Loading gallery photos...' +
+    '</div>';
+
+
+  try{
+
+    const results =
+      await Promise.all(
+        liveGallerySources.map(
+          loadLiveGalleryFolder
+        )
+      );
+
+
+    liveGalleryItems =
+      results.flat();
+
+
+    renderLiveGallery();
+
+
+  }catch(error){
+
+    console.error(
+      "Live gallery load failed:",
+      error
+    );
+
+
+    liveGalleryGrid.innerHTML =
+      '<div class="live-gallery-empty">' +
+      'Unable to load the live gallery right now.' +
+      '</div>';
+
+  }
+
+}
+
+
+/* ========================================
+   RENDER LIVE GALLERY
+======================================== */
 
 function renderLiveGallery(){
 
@@ -3096,189 +3294,202 @@ function renderLiveGallery(){
     return;
   }
 
-  const visibleItems =
-    liveGalleryItems
-      .filter(function(item){
 
-        const allowedCategories =
-          new Set([
-            "fight-night",
-            "team-wolfie",
-            "training",
-            "events"
-          ]);
+  const visibleItems =
+    liveGalleryItems.filter(
+      function(item){
 
         return (
-          allowedCategories.has(item.category) &&
-          (
-            activeGalleryFilter === "all" ||
-            item.category === activeGalleryFilter
-          )
+          activeGalleryFilter === "all" ||
+          item.category ===
+            activeGalleryFilter
         );
 
-      })
-      .sort(function(a,b){
+      }
+    );
 
-        if(Boolean(a.featured) !== Boolean(b.featured)){
-          return a.featured ? -1 : 1;
-        }
-
-        return liveSortValue(b) - liveSortValue(a);
-
-      });
 
   if(visibleItems.length === 0){
 
     liveGalleryGrid.innerHTML =
       '<div class="live-gallery-empty">' +
-      'No published photos are available in this gallery yet.' +
+      'No photos are available in this gallery yet.' +
       '</div>';
 
     return;
 
   }
 
+
   liveGalleryGrid.innerHTML =
-    visibleItems.map(function(item,index){
+    visibleItems.map(
+      function(item,index){
 
-      const eventText =
-        item.event
-          ? liveEscapeHTML(item.event)
-          : "";
-
-      const dateText =
-        item.date
-          ? liveEscapeHTML(item.date)
-          : "";
-
-      const metaParts =
-        [eventText,dateText]
+        const metaParts =
+          [
+            item.event,
+            item.date
+          ]
           .filter(Boolean);
 
-      const caption =
-        item.caption
-          ? '<p class="live-gallery-caption">' +
-            liveEscapeHTML(item.caption) +
-            '</p>'
-          : "";
 
-      const featured =
-        item.featured
-          ? '<span class="live-featured">FEATURED</span>'
-          : "";
+        return (
 
-      return (
-        '<article class="live-gallery-card">' +
+          '<article class="live-gallery-card">' +
 
-          featured +
+            '<img ' +
 
-          '<img ' +
-            'class="live-gallery-image" ' +
-            'src="' +
-            liveEscapeHTML(item.imageURL) +
-            '" ' +
-            'alt="' +
-            liveEscapeHTML(
-              item.caption ||
-              item.event ||
-              liveCategoryLabel(item.category)
-            ) +
-            '" ' +
-            'loading="lazy" ' +
-            'data-live-index="' +
-            index +
-            '">' +
+              'class="live-gallery-image" ' +
 
-          '<div class="live-gallery-info">' +
-
-            '<h3 class="live-gallery-category">' +
+              'src="' +
               liveEscapeHTML(
-                liveCategoryLabel(item.category)
+                item.imageURL
               ) +
-            '</h3>' +
+              '" ' +
 
-            (
-              metaParts.length
-                ? '<p class="live-gallery-meta">' +
-                  metaParts.join(" • ") +
-                  '</p>'
-                : ''
-            ) +
+              'alt="' +
+              liveEscapeHTML(
+                item.event ||
+                liveCategoryLabel(
+                  item.category
+                )
+              ) +
+              '" ' +
 
-            caption +
+              'loading="lazy" ' +
 
-          '</div>' +
+              'data-live-index="' +
+              index +
+              '">' +
 
-        '</article>'
-      );
 
-    }).join("");
+            '<div class="live-gallery-info">' +
+
+              '<h3 class="live-gallery-category">' +
+
+                liveEscapeHTML(
+                  liveCategoryLabel(
+                    item.category
+                  )
+                ) +
+
+              '</h3>' +
+
+
+              (
+                metaParts.length
+
+                  ? '<p class="live-gallery-meta">' +
+                    metaParts
+                      .map(
+                        liveEscapeHTML
+                      )
+                      .join(" • ") +
+                    '</p>'
+
+                  : ''
+
+              ) +
+
+            '</div>' +
+
+          '</article>'
+
+        );
+
+      }
+
+    ).join("");
+
+
+  /* ========================================
+     IMAGE CLICKS
+  ======================================== */
 
   liveGalleryGrid
     .querySelectorAll(
       "[data-live-index]"
     )
-    .forEach(function(image){
+    .forEach(
+      function(image){
 
-      image.addEventListener(
-        "click",
-        function(){
+        image.addEventListener(
+          "click",
+          function(){
 
-          const item =
-            visibleItems[
-              Number(
-                image.dataset.liveIndex
-              )
-            ];
+            const item =
+              visibleItems[
+                Number(
+                  image.dataset
+                    .liveIndex
+                )
+              ];
 
-          if(!item){
-            return;
+
+            if(!item){
+              return;
+            }
+
+
+            if(
+              !liveLightbox ||
+              !liveLightboxImage
+            ){
+              return;
+            }
+
+
+            liveLightboxImage.src =
+              item.imageURL;
+
+
+            liveLightboxImage.alt =
+              item.event ||
+              liveCategoryLabel(
+                item.category
+              );
+
+
+            if(liveLightboxDetails){
+
+              const details =
+                [
+                  liveCategoryLabel(
+                    item.category
+                  ),
+                  item.event,
+                  item.date
+                ]
+                .filter(Boolean);
+
+
+              liveLightboxDetails
+                .textContent =
+                  details.join(" • ");
+
+
+              liveLightboxDetails.hidden =
+                details.length === 0;
+
+            }
+
+
+            liveLightbox.classList.add(
+              "show"
+            );
+
           }
+        );
 
-          liveLightboxImage.src =
-            item.imageURL;
-
-          liveLightboxImage.alt =
-            item.caption ||
-            item.event ||
-            liveCategoryLabel(item.category);
-
-          const details = [
-            liveCategoryLabel(item.category),
-            item.event || "",
-            item.date || "",
-            item.caption || ""
-          ].filter(Boolean);
-
-          if(details.length){
-
-            liveLightboxDetails.textContent =
-              details.join(" • ");
-
-            liveLightboxDetails.hidden =
-              false;
-
-          }else{
-
-            liveLightboxDetails.textContent =
-              "";
-
-            liveLightboxDetails.hidden =
-              true;
-
-          }
-
-          liveLightbox.classList.add(
-            "show"
-          );
-
-        }
-      );
-
-    });
+      }
+    );
 
 }
 
+
+/* ========================================
+   FILTER BUTTONS
+======================================== */
 
 if(liveGalleryFilters){
 
@@ -3291,25 +3502,34 @@ if(liveGalleryFilters){
           "[data-filter]"
         );
 
+
       if(!button){
         return;
       }
 
+
       activeGalleryFilter =
         button.dataset.filter;
+
 
       liveGalleryFilters
         .querySelectorAll(
           "[data-filter]"
         )
-        .forEach(function(filterButton){
+        .forEach(
+          function(filterButton){
 
-          filterButton.classList.toggle(
-            "active",
-            filterButton === button
-          );
+            filterButton
+              .classList
+              .toggle(
+                "active",
+                filterButton ===
+                  button
+              );
 
-        });
+          }
+        );
+
 
       renderLiveGallery();
 
@@ -3319,54 +3539,9 @@ if(liveGalleryFilters){
 }
 
 
-const publishedGalleryQuery =
-  query(
-    collection(
-      liveDb,
-      "gallery"
-    ),
-    where(
-      "published",
-      "==",
-      true
-    )
-  );
-
-
-onSnapshot(
-  publishedGalleryQuery,
-  function(snapshot){
-
-    liveGalleryItems =
-      snapshot.docs.map(
-        function(documentSnapshot){
-
-          return {
-            id:documentSnapshot.id,
-            ...documentSnapshot.data()
-          };
-
-        }
-      );
-
-    renderLiveGallery();
-
-  },
-  function(error){
-
-    console.error(
-      "Live gallery load failed:",
-      error
-    );
-
-    liveGalleryGrid.innerHTML =
-      '<div class="live-gallery-empty">' +
-      'Unable to load the live gallery right now.' +
-      '</div>';
-
-  }
-);
-
+/* ========================================
+   LIGHTBOX
+======================================== */
 
 if(liveLightbox){
 
@@ -3375,15 +3550,23 @@ if(liveLightbox){
     function(event){
 
       if(
-        event.target === liveLightbox ||
-        event.target.id === "lightboxClose"
+        event.target ===
+          liveLightbox ||
+
+        event.target.id ===
+          "lightboxClose"
       ){
 
-        liveLightboxDetails.hidden =
-          true;
+        if(liveLightboxDetails){
 
-        liveLightboxDetails.textContent =
-          "";
+          liveLightboxDetails.hidden =
+            true;
+
+          liveLightboxDetails
+            .textContent =
+              "";
+
+        }
 
       }
 
@@ -3392,8 +3575,14 @@ if(liveLightbox){
 
 }
 
-</script>
 
+/* ========================================
+   START LIVE GALLERY
+======================================== */
+
+loadLiveGallery();
+
+</script>
 
 </body>
 </html>
