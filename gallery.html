@@ -951,21 +951,14 @@ button{
    VIDEO CARDS
 ======================================== */
 
-.video-category-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(5,1fr);
-
-  gap:14px;
-}
-
 .video-card{
   position:relative;
 
   overflow:hidden;
 
-  min-height:180px;
+  width:100%;
+  aspect-ratio:16 / 9;
+  min-height:0;
 
   cursor:pointer;
 
@@ -980,7 +973,7 @@ button{
   background-image:
     var(--video-image);
 
-  background-size:contain;
+  background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
 
@@ -995,112 +988,6 @@ button{
     box-shadow .22s ease,
     border-color .22s ease;
 }
-
-.video-card::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  z-index:0;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.68) 0%,
-      rgba(0,0,0,.10) 28%,
-      transparent 58%
-    );
-}
-
-.video-card::after{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  z-index:0;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,191,255,.06),
-      transparent 35%,
-      transparent 65%,
-      rgba(255,0,128,.06)
-    );
-}
-
-.video-card:hover{
-  transform:
-    translateY(-6px)
-    scale(1.015);
-
-  border-color:
-    rgba(255,255,255,.27);
-
-  box-shadow:
-    -8px 0 28px rgba(0,191,255,.17),
-    8px 0 28px rgba(255,0,128,.17),
-    0 20px 38px rgba(0,0,0,.55);
-}
-
-.video-action{
-  position:absolute;
-
-  z-index:3;
-
-  left:10px;
-  right:10px;
-  bottom:9px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:space-between;
-
-  gap:8px;
-
-  min-height:28px;
-
-  padding:6px 9px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.12);
-
-  border-radius:8px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.62),
-      rgba(0,0,0,.42),
-      rgba(0,0,0,.62)
-    );
-}
-
-.video-action-text{
-  color:#fff;
-
-  font-size:8px;
-  font-weight:1000;
-  letter-spacing:1.1px;
-
-  text-transform:uppercase;
-}
-
-.video-action-arrow{
-  color:#ff2f92;
-
-  font-size:13px;
-  font-weight:1000;
-}
-
 
 /* ========================================
    OPENED GALLERY
