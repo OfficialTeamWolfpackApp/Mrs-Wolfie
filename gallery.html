@@ -1401,9 +1401,24 @@ button{
 }
 
 /* ========================================
-   RESPONSIVE
+   VIDEO GALLERY GRID
 ======================================== */
 
+.video-category-grid{
+  display:grid !important;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr)) !important;
+
+  gap:14px;
+
+  width:100%;
+}
+    
+/* ========================================
+   RESPONSIVE
+======================================== */
+  
 @media(max-width:1150px){
 
   .video-category-grid{
