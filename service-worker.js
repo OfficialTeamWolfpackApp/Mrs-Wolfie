@@ -219,7 +219,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v9";
+  "mrs-wolfie-boxing-v10";
 
 
 
