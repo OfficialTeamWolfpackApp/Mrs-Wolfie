@@ -605,78 +605,97 @@ self.addEventListener(
 
 
 
-    /* =====================================================
-       OTHER STATIC APP FILES
-    ====================================================== */
+  /* =====================================================
+   OTHER STATIC APP FILES
+   NETWORK FIRST
+====================================================== */
 
-    event.respondWith(
+event.respondWith(
 
-      caches
-        .match(
-          event.request
-        )
+  (async () => {
 
-        .then(
-          (cachedResponse) => {
+    try {
 
-            if (
-              cachedResponse
-            ) {
-
-              return cachedResponse;
-
-            }
-
-
-            return fetch(
-              event.request
-            )
-
-              .then(
-                async (networkResponse) => {
-
-                  if (
-                    !networkResponse ||
-                    networkResponse.status !== 200
-                  ) {
-
-                    return networkResponse;
-
-                  }
-
-
-                  /*
-                    Only cache same-origin resources.
-                  */
-
-                  if (
-                    requestURL.origin ===
-                    self.location.origin
-                  ) {
-
-                    const cache =
-                      await caches.open(
-                        CACHE_NAME
-                      );
-
-
-                    await cache.put(
-                      event.request,
-                      networkResponse.clone()
-                    );
-
-                  }
-
-
-                  return networkResponse;
-
-                }
-              );
-
+      const networkResponse =
+        await fetch(
+          event.request,
+          {
+            cache: "no-store"
           }
-        )
+        );
 
-    );
+
+      if (
+        networkResponse &&
+        networkResponse.status === 200
+      ) {
+
+        /*
+          Cache same-origin resources
+          for offline use.
+        */
+
+        if (
+          requestURL.origin ===
+          self.location.origin
+        ) {
+
+          const cache =
+            await caches.open(
+              CACHE_NAME
+            );
+
+
+          await cache.put(
+            event.request,
+            networkResponse.clone()
+          );
+
+        }
+
+      }
+
+
+      return networkResponse;
+
+    }
+
+
+    catch (error) {
+
+      /*
+        If network is unavailable,
+        fall back to cached version.
+      */
+
+      const cachedResponse =
+        await caches.match(
+          event.request
+        );
+
+
+      if (
+        cachedResponse
+      ) {
+
+        return cachedResponse;
+
+      }
+
+
+      return new Response(
+        "",
+        {
+          status: 503,
+          statusText: "Offline"
+        }
+      );
+
+    }
+
+  })()
+
+);
 
   }
 );
