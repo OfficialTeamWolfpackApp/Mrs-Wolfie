@@ -1489,12 +1489,16 @@ button{
     gap:6px;
   }
 
-  .video-category-grid{
-    grid-template-columns:
-      repeat(2, minmax(0,1fr));
+.video-category-grid{
+  display:grid;
 
-    gap:8px;
-  }
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap:8px;
+
+  width:100%;
+}
 
   .video-card{
     width:100%;
