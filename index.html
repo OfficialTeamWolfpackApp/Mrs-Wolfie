@@ -3126,26 +3126,29 @@ footer{
     min-height:125px;
   }
 
-  .journey-card{
-    grid-template-columns:
-      1fr;
-  }
+.journey-image{
+  height:220px;
+  min-height:0;
 
-  .journey-image{
-    min-height:240px;
+  order:-1;
+}
 
-    order:-1;
-  }
+.journey-image img{
+  width:100%;
+  height:100%;
 
-  .journey-image::after{
-    background:
-      linear-gradient(
-        0deg,
-        #080c11,
-        transparent 70%
-      );
-  }
+  object-fit:cover;
+  object-position:center 35%;
+}
 
+.journey-image::after{
+  background:
+    linear-gradient(
+      0deg,
+      #080c11 0%,
+      rgba(8,12,17,.35) 35%,
+      transparent 70%
+    );
 }
 
 
