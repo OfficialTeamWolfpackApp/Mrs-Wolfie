@@ -408,113 +408,111 @@
 }
 
     
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
+ /* =========================================================
+   FIGHT PAGE NAVIGATION
+========================================================= */
 
-    .nav-wrap {
+.nav-wrap{
+  position:relative;
+  z-index:20;
 
-      position: relative;
+  width:100%;
 
-      z-index: 20;
+  padding:
+    14px
+    16px;
 
-      margin-top: -28px;
+  background:
+    rgba(3,6,9,.96);
 
-      padding: 0 20px;
-    }
-
-
-    .app-nav {
-
-      width:
-        min(
-          620px,
-          100%
-        );
-
-      margin: auto;
-
-      background:
-        rgba(7,11,16,0.96);
-
-      border:
-        1px solid
-        rgba(255,255,255,0.08);
-
-      border-radius: 17px;
-
-      padding: 7px;
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(4,1fr);
-
-      box-shadow:
-        0 15px 40px
-        rgba(0,0,0,0.6);
-
-      backdrop-filter:
-        blur(16px);
-    }
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
+}
 
 
-    .nav-item {
+.app-nav{
+  width:
+    min(
+      760px,
+      100%
+    );
 
-      min-height: 58px;
+  margin:0 auto;
 
-      border-radius: 12px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
 
-      display: flex;
+  gap:6px;
 
-      flex-direction: column;
+  padding:5px;
 
-      align-items: center;
+  border-radius:12px;
 
-      justify-content: center;
+  border:
+    1px solid rgba(255,255,255,.07);
 
-      gap: 5px;
-
-      color: #77828d;
-
-      font-size: 8px;
-
-      letter-spacing: 1.5px;
-
-      font-weight: 900;
-
-      text-transform: uppercase;
-
-      transition: 0.25s ease;
-    }
+  background:
+    rgba(8,12,17,.92);
+}
 
 
-    .nav-icon {
-      font-size: 15px;
-    }
+.nav-item{
+  min-height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:6px;
+
+  padding:
+    7px
+    6px;
+
+  border-radius:8px;
+
+  color:#78838d;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+  transition:
+    color .18s ease,
+    background .18s ease,
+    border-color .18s ease;
+}
 
 
-    .nav-item:hover {
-
-      color: var(--white);
-
-      background:
-        rgba(255,255,255,0.04);
-    }
+.nav-icon{
+  font-size:12px;
+}
 
 
-    .nav-item.active {
+.nav-item:hover{
+  color:#fff;
 
-      color: var(--pink);
+  background:
+    rgba(255,255,255,.04);
+}
 
-      background:
 
-        linear-gradient(
-          135deg,
-          rgba(137,220,255,0.08),
-          rgba(255,143,211,0.10)
-        );
-    }
+.nav-item.active{
+  color:var(--pink);
+
+  border:
+    1px solid rgba(255,47,146,.18);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      rgba(255,47,146,.09)
+    );
+}
 
 
 
@@ -522,743 +520,990 @@
        MAIN CONTENT
     ========================================================= */
 
-    main {
+  main{
+  width:100%;
+  max-width:760px;
 
-      width:
-        min(
-          var(--max-width),
-          calc(100% - 40px)
-        );
+  margin:0 auto;
 
-      margin: auto;
+  padding:
+    22px
+    16px
+    calc(55px + env(safe-area-inset-bottom));
+}
 
-      padding:
-        70px 0 180px;
-    }
 
+  .section-header{
+  display:flex;
 
-    .section-header {
+  align-items:center;
+  justify-content:space-between;
 
-      display: flex;
+  gap:15px;
 
-      align-items: center;
+  margin-bottom:13px;
 
-      justify-content: space-between;
+  padding:0 2px;
+}
 
-      margin-bottom: 18px;
-    }
 
+.section-title{
+  display:flex;
+  align-items:center;
 
-    .section-title {
+  flex:1;
 
-      font-size: 12px;
+  gap:12px;
 
-      letter-spacing: 4px;
+  color:var(--blue);
 
-      text-transform: uppercase;
+  font-size:18px;
+  font-weight:900;
 
-      font-weight: 900;
-    }
+  letter-spacing:.5px;
 
+  text-transform:uppercase;
+}
 
-    .section-tag {
 
-      color: var(--pink);
+.section-title::after{
+  content:"";
 
-      font-size: 9px;
+  flex:1;
 
-      letter-spacing: 2px;
+  height:1px;
 
-      text-transform: uppercase;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.30),
+      rgba(255,143,211,.18),
+      transparent
+    );
+}
 
-      font-weight: 900;
-    }
 
+.section-tag{
+  color:var(--pink);
 
+  font-size:7px;
+  font-weight:900;
 
-    /* =========================================================
-       MAIN FIGHT CARD
-    ========================================================= */
+  letter-spacing:1.5px;
 
-    .fight-card {
+  text-transform:uppercase;
+}
 
-      position: relative;
+/* =========================================================
+   MAIN FIGHT CARD — TEAM WOLFPACK STYLE
+========================================================= */
 
-      overflow: hidden;
+.fight-card{
+  position:relative;
 
-      border-radius: 28px;
+  overflow:hidden;
 
-      border-left:
-        2px solid
-        var(--blue);
+  margin-bottom:24px;
 
-      border-right:
-        2px solid
-        var(--pink);
+  border-radius:17px;
 
-      background:
+  border:
+    1px solid rgba(255,255,255,.08);
 
-        linear-gradient(
-          100deg,
-          rgba(14,45,60,0.92),
-          rgba(7,10,15,0.97) 48%,
-          rgba(50,19,39,0.92)
-        );
+  border-left:
+    2px solid var(--blue);
 
-      box-shadow:
-        0 30px 70px
-        rgba(0,0,0,0.55);
+  border-right:
+    2px solid var(--pink);
 
-      margin-bottom: 65px;
-    }
+  background:#070a0e;
 
+  box-shadow:
+    0 14px 35px rgba(0,0,0,.42);
+}
 
-    .fight-card::before {
 
-      content: "";
+.fight-card::before{
+  content:"";
 
-      position: absolute;
+  position:absolute;
+  inset:0;
 
-      inset: 0;
+  pointer-events:none;
 
-      background-image:
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.12),
+      transparent 35%
+    );
+}
 
-        linear-gradient(
-          rgba(255,255,255,0.025) 1px,
-          transparent 1px
-        ),
 
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.025) 1px,
-          transparent 1px
-        );
+/* EVENT HEADER */
 
-      background-size:
-        40px 40px;
+.fight-card-top{
+  position:relative;
 
-      opacity: 0.35;
+  z-index:3;
 
-      pointer-events: none;
-    }
+  padding:
+    18px
+    16px
+    8px;
 
+  text-align:center;
+}
 
-    .fight-card-top {
 
-      position: relative;
+.fight-card-top .label{
+  display:inline-flex;
 
-      z-index: 2;
+  align-items:center;
+  justify-content:center;
 
-      padding:
-        34px 38px 18px;
+  min-height:22px;
 
-      text-align: center;
-    }
+  margin-bottom:8px;
 
+  padding:
+    5px
+    10px;
 
-    .fight-card-top .label {
+  border-radius:999px;
 
-      color: var(--pink);
+  border:
+    1px solid rgba(255,143,211,.24);
 
-      font-size: 9px;
+  background:
+    rgba(255,143,211,.08);
 
-      letter-spacing: 4px;
+  color:var(--pink);
 
-      text-transform: uppercase;
+  font-size:7px;
+  font-weight:900;
 
-      font-weight: 900;
+  letter-spacing:1.3px;
 
-      margin-bottom: 10px;
-    }
+  text-transform:uppercase;
+}
 
 
-    .promotion {
+.promotion{
+  margin:0;
 
-      font-size:
-        clamp(
-          30px,
-          5vw,
-          56px
-        );
+  color:#fff;
 
-      text-transform: uppercase;
+  font-size:
+    clamp(
+      19px,
+      3vw,
+      27px
+    );
 
-      font-weight: 1000;
+  line-height:1.05;
 
-      line-height: 1;
-    }
+  font-weight:1000;
 
+  letter-spacing:.3px;
 
-    .event-name {
+  text-transform:uppercase;
+}
 
-      margin-top: 8px;
 
-      color: var(--blue);
+.event-name{
+  margin-top:6px;
 
-      text-transform: uppercase;
+  color:var(--blue);
 
-      letter-spacing: 3px;
+  font-size:7px;
+  font-weight:900;
 
-      font-size: 10px;
+  letter-spacing:1.4px;
 
-      font-weight: 900;
-    }
+  text-transform:uppercase;
+}
 
 
-    .fighters {
+/* FIGHTERS */
 
-      position: relative;
+.fighters{
+  position:relative;
 
-      z-index: 2;
+  z-index:2;
 
-      display: grid;
+  display:grid;
 
-      grid-template-columns:
-        1fr 150px 1fr;
+  grid-template-columns:
+    minmax(0,1fr)
+    86px
+    minmax(0,1fr);
 
-      align-items: center;
+  align-items:center;
 
-      gap: 20px;
+  gap:8px;
 
-      padding:
-        35px 38px 45px;
-    }
+  min-height:230px;
 
+  padding:
+    14px
+    16px
+    18px;
+}
 
-    .fighter {
-      text-align: center;
-    }
 
+.fighter{
+  min-width:0;
 
-    .fighter-photo {
+  text-align:center;
+}
 
-      width: 170px;
 
-      height: 170px;
+.fighter-photo,
+.opponent-circle{
+  width:112px;
+  height:112px;
 
-      margin:
-        0 auto 20px;
+  margin:
+    0 auto
+    12px;
 
-      border-radius: 50%;
+  border-radius:12px;
+}
 
-      object-fit: cover;
 
-      object-position:
-        center 25%;
+/* MRS WOLFIE */
 
-      border:
-        2px solid
-        var(--blue);
+.fighter-photo{
+  object-fit:cover;
 
-      box-shadow:
-        0 0 0 7px
-        rgba(137,220,255,0.05),
-        0 0 30px
-        rgba(137,220,255,0.15);
-    }
+  object-position:center 25%;
 
+  border:
+    1px solid rgba(137,220,255,.48);
 
-    .fighter-label {
+  box-shadow:
+    0 0 22px rgba(137,220,255,.12);
+}
 
-      text-transform: uppercase;
 
-      letter-spacing: 2px;
+/* OPPONENT */
 
-      font-size: 8px;
+.opponent-circle{
+  display:flex;
 
-      font-weight: 900;
+  align-items:center;
+  justify-content:center;
 
-      color: var(--grey);
+  border:
+    1px solid rgba(255,143,211,.48);
 
-      margin-bottom: 7px;
-    }
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,143,211,.13),
+      rgba(255,143,211,.025)
+    );
 
+  color:
+    rgba(255,143,211,.65);
 
-    .fighter-name {
+  font-size:36px;
+  font-weight:1000;
 
-      font-size:
-        clamp(
-          20px,
-          3vw,
-          32px
-        );
+  box-shadow:
+    0 0 22px rgba(255,143,211,.10);
+}
 
-      text-transform: uppercase;
 
-      font-weight: 1000;
-    }
+/* FIGHTER TEXT */
 
+.fighter-label{
+  margin-bottom:4px;
 
-    .mrs-name {
-      color: var(--blue);
-    }
+  color:#7d8792;
 
+  font-size:6px;
+  font-weight:900;
 
-    .opponent-name {
-      color: var(--pink);
-    }
+  letter-spacing:1.2px;
 
+  text-transform:uppercase;
+}
 
-    .opponent-circle {
 
-      width: 170px;
+.fighter-name{
+  font-size:
+    clamp(
+      14px,
+      2.4vw,
+      20px
+    );
 
-      height: 170px;
+  line-height:1.05;
 
-      margin:
-        0 auto 20px;
+  font-weight:1000;
 
-      border-radius: 50%;
+  text-transform:uppercase;
+}
 
-      display: flex;
 
-      align-items: center;
+.mrs-name{
+  color:var(--blue);
+}
 
-      justify-content: center;
 
-      font-size: 72px;
+.opponent-name{
+  color:var(--pink);
+}
 
-      font-weight: 1000;
 
-      color:
-        rgba(255,143,211,0.35);
+/* VS CENTRE */
 
-      border:
-        2px solid
-        var(--pink);
+.versus{
+  position:relative;
 
-      background:
+  text-align:center;
+}
 
-        radial-gradient(
-          circle,
-          rgba(255,143,211,0.13),
-          rgba(255,143,211,0.02)
-        );
 
-      box-shadow:
-        0 0 0 7px
-        rgba(255,143,211,0.04),
-        0 0 30px
-        rgba(255,143,211,0.14);
-    }
+.vs{
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #fff 48%,
+      var(--pink)
+    );
 
+  -webkit-background-clip:text;
+  background-clip:text;
 
-    .versus {
-      text-align: center;
-    }
+  color:transparent;
 
+  font-size:
+    clamp(
+      30px,
+      5vw,
+      46px
+    );
 
-    .vs {
+  line-height:.9;
 
-      font-size: 64px;
+  font-weight:1000;
 
-      font-weight: 1000;
+  font-style:italic;
 
-      font-style: italic;
+  letter-spacing:-3px;
+}
 
-      line-height: 1;
 
-      color: var(--white);
-    }
+.fight-date{
+  margin-top:10px;
 
+  color:#fff;
 
-    .fight-date {
+  font-size:6px;
+  font-weight:900;
 
-      margin-top: 18px;
+  line-height:1.35;
 
-      color: var(--pink);
+  letter-spacing:1px;
 
-      text-transform: uppercase;
+  text-transform:uppercase;
+}
+ 
 
-      letter-spacing: 2px;
+/* =========================================================
+   EVENT INFORMATION — COMPACT FIGHT DETAILS
+========================================================= */
 
-      font-size: 10px;
+.event-info{
+  position:relative;
+  z-index:3;
 
-      font-weight: 900;
-    }
+  display:grid;
 
+  grid-template-columns:
+    repeat(3,1fr);
 
+  gap:7px;
 
-    /* =========================================================
-       EVENT INFORMATION
-    ========================================================= */
+  padding:
+    0
+    16px
+    16px;
+}
 
-    .event-info {
 
-      display: grid;
+.info-box{
+  min-width:0;
 
-      grid-template-columns:
-        repeat(3,1fr);
+  padding:
+    11px
+    10px;
 
-      gap: 12px;
+  border-radius:9px;
 
-      padding:
-        0 38px 38px;
+  border:
+    1px solid rgba(255,255,255,.07);
 
-      position: relative;
+  background:
+    rgba(0,0,0,.28);
 
-      z-index: 2;
-    }
+  text-align:center;
+}
 
 
-    .info-box {
+/* BLUE ACCENT — DATE */
 
-      background:
-        rgba(0,0,0,0.35);
+.info-box:first-child{
+  border-color:
+    rgba(137,220,255,.18);
 
-      border:
-        1px solid
-        rgba(255,255,255,0.06);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,.07),
+      rgba(0,0,0,.28)
+    );
+}
 
-      border-radius: 14px;
 
-      padding: 18px;
-    }
+/* PINK ACCENT — EVENT */
 
+.info-box:last-child{
+  border-color:
+    rgba(255,143,211,.18);
 
-    .info-label {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,0,0,.28),
+      rgba(255,143,211,.07)
+    );
+}
 
-      color: var(--grey);
 
-      font-size: 8px;
+.info-label{
+  margin-bottom:5px;
 
-      letter-spacing: 2px;
+  color:#727d88;
 
-      text-transform: uppercase;
+  font-size:6px;
+  font-weight:900;
 
-      font-weight: 900;
+  letter-spacing:1.2px;
 
-      margin-bottom: 7px;
-    }
+  text-transform:uppercase;
+}
 
 
-    .info-value {
+.info-value{
+  color:#fff;
 
-      color: var(--white);
+  font-size:9px;
+  font-weight:900;
 
-      font-size: 13px;
+  line-height:1.3;
 
-      font-weight: 900;
+  letter-spacing:.3px;
 
-      text-transform: uppercase;
-    }
+  text-transform:uppercase;
 
+  overflow-wrap:anywhere;
+}
 
 
-    /* =========================================================
-       COUNTDOWN
-    ========================================================= */
+/* DATE VALUE */
 
-    .countdown-card {
+.info-box:first-child .info-value{
+  color:var(--blue);
+}
 
-      margin-bottom: 65px;
 
-      padding: 38px;
+/* EVENT VALUE */
 
-      border-radius: 24px;
+.info-box:last-child .info-value{
+  color:var(--pink);
+}
 
-      border:
-        1px solid
-        rgba(255,255,255,0.07);
 
-      background:
 
-        linear-gradient(
-          110deg,
-          rgba(137,220,255,0.10),
-          rgba(7,10,15,0.95) 50%,
-          rgba(255,143,211,0.10)
-        );
+  /* =========================================================
+   LIVE FIGHT COUNTDOWN
+========================================================= */
 
-      text-align: center;
-    }
+.countdown-card{
+  position:relative;
 
+  overflow:hidden;
 
-    .countdown-title {
+  margin-bottom:30px;
 
-      color: var(--blue);
+  padding:
+    22px
+    18px;
 
-      font-size: 9px;
+  border-radius:16px;
 
-      letter-spacing: 4px;
+  border:
+    1px solid rgba(255,255,255,.07);
 
-      text-transform: uppercase;
+  border-left:
+    2px solid var(--blue);
 
-      font-weight: 900;
+  border-right:
+    2px solid var(--pink);
 
-      margin-bottom: 25px;
-    }
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.08),
+      rgba(6,9,13,.97) 48%,
+      rgba(255,143,211,.08)
+    );
 
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.30);
 
-    .countdown {
+  text-align:center;
+}
 
-      display: grid;
 
-      grid-template-columns:
-        repeat(4,1fr);
+/* SUBTLE BRAND GLOW */
 
-      gap: 12px;
+.countdown-card::before{
+  content:"";
 
-      max-width: 650px;
+  position:absolute;
+  inset:0;
 
-      margin: auto;
-    }
+  pointer-events:none;
 
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.09),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.09),
+      transparent 30%
+    );
+}
 
-    .count-box {
 
-      background:
-        rgba(0,0,0,0.30);
+.countdown-title{
+  position:relative;
+  z-index:2;
 
-      border:
-        1px solid
-        rgba(255,255,255,0.06);
+  margin-bottom:15px;
 
-      border-radius: 15px;
+  color:#fff;
 
-      padding:
-        20px 8px;
-    }
+  font-size:8px;
+  font-weight:900;
 
+  letter-spacing:2px;
 
-    .count-number {
+  text-transform:uppercase;
+}
 
-      display: block;
 
-      font-size:
-        clamp(
-          28px,
-          5vw,
-          48px
-        );
+/* COUNTDOWN GRID */
 
-      font-weight: 1000;
-    }
+.countdown{
+  position:relative;
+  z-index:2;
 
+  display:grid;
 
-    .count-label {
+  grid-template-columns:
+    repeat(4,1fr);
 
-      display: block;
+  gap:7px;
 
-      margin-top: 5px;
+  width:100%;
+  max-width:500px;
 
-      color: var(--grey);
+  margin:0 auto;
+}
 
-      text-transform: uppercase;
 
-      font-size: 7px;
+.count-box{
+  min-width:0;
 
-      letter-spacing: 2px;
+  padding:
+    13px
+    5px;
 
-      font-weight: 900;
-    }
+  border-radius:10px;
 
+  border:
+    1px solid rgba(255,255,255,.07);
 
+  background:
+    rgba(0,0,0,.30);
+}
 
-    /* =========================================================
-       FIGHT DETAILS
-    ========================================================= */
 
-    .details-card {
+/* DAYS — BLUE */
 
-      display: grid;
+.count-box:first-child{
+  border-color:
+    rgba(137,220,255,.20);
 
-      grid-template-columns:
-        0.8fr 1.2fr;
+  background:
+    rgba(137,220,255,.055);
+}
 
-      overflow: hidden;
 
-      border-radius: 25px;
+/* SECONDS — PINK */
 
-      border-left:
-        2px solid
-        var(--blue);
+.count-box:last-child{
+  border-color:
+    rgba(255,143,211,.20);
 
-      border-right:
-        2px solid
-        var(--pink);
+  background:
+    rgba(255,143,211,.055);
+}
 
-      background: var(--panel);
 
-      margin-bottom: 65px;
-    }
+.count-number{
+  display:block;
 
+  color:#fff;
 
-    .details-image {
+  font-size:
+    clamp(
+      22px,
+      4vw,
+      34px
+    );
 
-      min-height: 440px;
+  line-height:1;
 
-      background-image:
+  font-weight:1000;
 
-        linear-gradient(
-          0deg,
-          rgba(3,6,9,0.35),
-          transparent
-        ),
+  letter-spacing:-1px;
+}
 
-        url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
-      background-size: cover;
+.count-box:first-child .count-number{
+  color:var(--blue);
+}
 
-      background-position: center;
-    }
 
+.count-box:last-child .count-number{
+  color:var(--pink);
+}
 
-    .details-content {
 
-      padding: 55px;
+.count-label{
+  display:block;
 
-      display: flex;
+  margin-top:5px;
 
-      flex-direction: column;
+  color:#727d88;
 
-      justify-content: center;
-    }
+  font-size:5px;
+  font-weight:900;
 
+  letter-spacing:1px;
 
-    .details-small {
+  text-transform:uppercase;
+}
 
-      color: var(--pink);
 
-      font-size: 9px;
 
-      text-transform: uppercase;
+   /* =========================================================
+   THE FIGHTER — MRS WOLFIE
+========================================================= */
 
-      letter-spacing: 3px;
+.details-card{
+  position:relative;
 
-      font-weight: 900;
+  display:grid;
+  grid-template-columns:
+    minmax(220px,.85fr)
+    minmax(0,1.15fr);
 
-      margin-bottom: 15px;
-    }
+  overflow:hidden;
 
+  margin-bottom:30px;
 
-    .details-content h2 {
+  border-radius:17px;
 
-      font-size:
-        clamp(
-          28px,
-          4vw,
-          48px
-        );
+  border:
+    1px solid rgba(255,255,255,.07);
 
-      line-height: 1.05;
+  border-left:
+    2px solid var(--blue);
 
-      margin-bottom: 18px;
-    }
+  border-right:
+    2px solid var(--pink);
 
+  background:#080c11;
 
-    .details-content p {
+  box-shadow:
+    0 14px 35px rgba(0,0,0,.32);
+}
 
-      color: var(--grey);
 
-      line-height: 1.8;
+/* MRS WOLFIE IMAGE */
 
-      font-size: 14px;
+.details-image{
+  min-height:300px;
 
-      max-width: 560px;
-    }
+  background-image:
+    linear-gradient(
+      0deg,
+      rgba(3,6,9,.38),
+      transparent 55%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      transparent 55%
+    ),
+    url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
+  background-size:cover;
 
-    .representing {
+  background-position:
+    center 24%;
 
-      display: inline-block;
+  background-repeat:no-repeat;
+}
 
-      width: fit-content;
 
-      margin-top: 20px;
+/* FIGHTER INFORMATION */
 
-      padding:
-        8px 13px;
+.details-content{
+  position:relative;
 
-      border-radius: 8px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 
-      border:
-        1px solid
-        rgba(137,220,255,0.25);
+  padding:
+    30px
+    28px;
 
-      color: var(--blue);
+  background:
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.07),
+      transparent 50%
+    );
+}
 
-      font-size: 8px;
 
-      letter-spacing: 2px;
+.details-small{
+  margin-bottom:8px;
 
-      text-transform: uppercase;
+  color:var(--pink);
 
-      font-weight: 900;
-    }
+  font-size:7px;
+  font-weight:900;
 
+  letter-spacing:1.8px;
 
+  text-transform:uppercase;
+}
 
-    /* =========================================================
-       MOTTO
-    ========================================================= */
 
-    .motto {
+.details-content h2{
+  margin:0 0 12px;
 
-      min-height: 180px;
+  color:#fff;
 
-      border-radius: 25px;
+  font-size:
+    clamp(
+      23px,
+      3.5vw,
+      34px
+    );
 
-      display: flex;
+  line-height:1.05;
 
-      align-items: center;
+  font-weight:1000;
+}
 
-      justify-content: center;
 
-      flex-direction: column;
+.details-content p{
+  max-width:500px;
 
-      text-align: center;
+  margin:0;
 
-      background:
+  color:#909aa5;
 
-        linear-gradient(
-          110deg,
-          rgba(137,220,255,0.16),
-          rgba(8,12,17,0.95) 48%,
-          rgba(255,143,211,0.16)
-        );
+  font-size:11px;
 
-      border:
-        1px solid
-        rgba(255,255,255,0.05);
-    }
+  line-height:1.65;
+}
 
 
-    .motto-small {
+/* TEAM WOLFPACK BADGE */
 
-      color: var(--blue);
+.representing{
+  display:inline-flex;
 
-      font-size: 9px;
+  align-items:center;
 
-      text-transform: uppercase;
+  width:fit-content;
 
-      letter-spacing: 4px;
+  margin-top:17px;
 
-      font-weight: 900;
+  padding:
+    7px
+    10px;
 
-      margin-bottom: 14px;
-    }
+  border-radius:7px;
 
+  border:
+    1px solid rgba(137,220,255,.20);
 
-    .motto h2 {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      rgba(255,143,211,.05)
+    );
 
-      font-size:
-        clamp(
-          30px,
-          5vw,
-          55px
-        );
+  color:var(--blue);
 
-      text-transform: uppercase;
+  font-size:6px;
+  font-weight:900;
 
-      font-weight: 1000;
-    }
+  letter-spacing:1.3px;
 
+  text-transform:uppercase;
+}
 
-    .motto h2 span {
-      color: var(--pink);
-    }
 
+  /* =========================================================
+   TEAM WOLFIE MOTTO
+========================================================= */
+
+.motto{
+  position:relative;
+
+  min-height:120px;
+
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  padding:
+    24px
+    18px;
+
+  border-radius:16px;
+
+  border:
+    1px solid rgba(255,255,255,.07);
+
+  border-left:
+    2px solid var(--blue);
+
+  border-right:
+    2px solid var(--pink);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.09),
+      rgba(6,9,13,.97) 48%,
+      rgba(255,143,211,.09)
+    );
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.28);
+
+  text-align:center;
+}
+
+
+/* BLUE / PINK GLOW */
+
+.motto::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.12),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.12),
+      transparent 32%
+    );
+}
+
+
+.motto-small{
+  position:relative;
+  z-index:2;
+
+  margin-bottom:8px;
+
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+
+.motto h2{
+  position:relative;
+  z-index:2;
+
+  margin:0;
+
+  color:#fff;
+
+  font-size:
+    clamp(
+      24px,
+      4vw,
+      38px
+    );
+
+  line-height:1;
+
+  font-weight:1000;
+
+  letter-spacing:.3px;
+
+  text-transform:uppercase;
+}
+
+
+.motto h2 span{
+  color:var(--pink);
+}
 
 
     /* =========================================================
@@ -1313,184 +1558,478 @@
 
     @media (max-width: 760px) {
 
-      body {
-        padding-bottom: 90px;
-      }
+  body{
+    padding-bottom:
+      calc(
+        76px +
+        env(safe-area-inset-bottom)
+      );
+  }
 
 
-      .topbar {
-        height: 55px;
-      }
+  /* HEADER */
 
+  .topbar{
+    height:55px;
+  }
 
-      .home-button {
+  .home-button{
+    width:38px;
+    height:38px;
 
-        width: 40px;
+    left:12px;
 
-        height: 40px;
+    border-radius:9px;
+  }
 
-        left: 16px;
-      }
+  .brand{
+    font-size:8px;
+    letter-spacing:3px;
+  }
 
+  .status-dot{
+    right:18px;
+  }
 
-      .fight-hero {
-        min-height: 430px;
-      }
 
+  /* FIGHT BANNER */
 
-      .fight-hero::before {
-        background-position:
-          35% center;
-      }
+  .fight-hero::before{
+    aspect-ratio:16 / 7;
 
+    background-position:
+      center 28%;
+  }
 
-      .hero-content {
+  .hero-content{
+    bottom:13px;
 
-        text-align: left;
+    width:
+      calc(100% - 24px);
+  }
 
-        padding-bottom: 65px;
-      }
+  .eyebrow{
+    margin-bottom:4px;
 
+    font-size:5px;
 
-      .hero-content h1 {
-        font-size: 52px;
-      }
+    letter-spacing:1.5px;
+  }
 
+  .hero-content h1{
+    font-size:
+      clamp(
+        22px,
+        7vw,
+        30px
+      );
 
-      main {
+    letter-spacing:0;
+  }
 
-        width:
-          min(
-            calc(100% - 26px),
-            var(--max-width)
-          );
+  .hero-subtitle{
+    margin-top:5px;
 
-        padding-top: 50px;
-      }
+    font-size:5px;
 
+    letter-spacing:1.3px;
+  }
 
-      .fighters {
 
-        grid-template-columns: 1fr;
+  /* NAVIGATION */
 
-        padding:
-          25px 22px 35px;
-      }
+  .nav-wrap{
+    position:relative;
 
+    height:auto;
 
-      .versus {
-        padding:
-          5px 0;
-      }
+    margin:0;
 
+    padding:
+      9px
+      10px;
 
-      .vs {
-        font-size: 45px;
-      }
+    background:
+      rgba(3,6,9,.97);
+  }
 
+  .app-nav{
+    position:relative;
 
-      .fighter-photo,
-      .opponent-circle {
+    left:auto;
+    bottom:auto;
 
-        width: 140px;
+    transform:none;
 
-        height: 140px;
-      }
+    width:100%;
 
+    padding:4px;
 
-      .opponent-circle {
-        font-size: 55px;
-      }
+    gap:4px;
 
+    border-radius:10px;
 
-      .event-info {
+    box-shadow:none;
+  }
 
-        grid-template-columns: 1fr;
+  .nav-item{
+    min-height:38px;
 
-        padding:
-          0 22px 25px;
-      }
+    padding:
+      6px
+      3px;
 
+    gap:4px;
 
-      .countdown-card {
-        padding:
-          28px 15px;
-      }
+    font-size:6px;
 
+    letter-spacing:.7px;
+  }
 
-      .countdown {
-        gap: 6px;
-      }
+  .nav-icon{
+    font-size:10px;
+  }
 
 
-      .count-box {
-        padding:
-          16px 4px;
-      }
+  /* MAIN CONTENT */
 
+  main{
+    width:100%;
+    max-width:none;
 
-      .count-number {
-        font-size: 25px;
-      }
+    padding:
+      18px
+      10px
+      35px;
+  }
 
 
-      .details-card {
-        grid-template-columns: 1fr;
-      }
+  /* SECTION HEADINGS */
 
+  .section-header{
+    gap:8px;
 
-      .details-image {
+    margin-bottom:10px;
+  }
 
-        min-height: 400px;
+  .section-title{
+    gap:8px;
 
-        background-position:
-          center top;
-      }
+    font-size:14px;
+  }
 
+  .section-tag{
+    font-size:5px;
 
-      .details-content {
-        padding:
-          30px 25px;
-      }
+    letter-spacing:1px;
+  }
 
 
-      .app-nav {
+  /* MAIN FIGHT CARD */
 
-        position: fixed;
+  .fight-card{
+    margin-bottom:18px;
 
-        bottom:
-          calc(
-            12px +
-            env(safe-area-inset-bottom)
-          );
+    border-radius:14px;
+  }
 
-        left: 50%;
+  .fight-card-top{
+    padding:
+      14px
+      10px
+      5px;
+  }
 
-        transform:
-          translateX(-50%);
+  .fight-card-top .label{
+    min-height:19px;
 
-        width:
-          calc(100% - 24px);
+    margin-bottom:6px;
 
-        z-index: 9999;
+    padding:
+      4px
+      8px;
 
-        box-shadow:
-          0 10px 40px
-          rgba(0,0,0,0.85);
-      }
+    font-size:5px;
 
+    letter-spacing:1px;
+  }
 
-      .nav-wrap {
+  .promotion{
+    font-size:
+      clamp(
+        17px,
+        5vw,
+        22px
+      );
+  }
 
-        height: 0;
+  .event-name{
+    margin-top:5px;
 
-        margin: 0;
+    font-size:5px;
 
-        padding: 0;
-      }
+    letter-spacing:1px;
+  }
 
-    }
 
+  /* KEEP THE FIGHTERS SIDE-BY-SIDE */
+
+  .fighters{
+    grid-template-columns:
+      minmax(0,1fr)
+      52px
+      minmax(0,1fr);
+
+    gap:4px;
+
+    min-height:185px;
+
+    padding:
+      12px
+      7px
+      14px;
+  }
+
+  .fighter-photo,
+  .opponent-circle{
+    width:
+      clamp(
+        72px,
+        24vw,
+        98px
+      );
+
+    height:
+      clamp(
+        72px,
+        24vw,
+        98px
+      );
+
+    margin:
+      0 auto
+      9px;
+
+    border-radius:10px;
+  }
+
+  .opponent-circle{
+    font-size:
+      clamp(
+        24px,
+        8vw,
+        32px
+      );
+  }
+
+  .fighter-label{
+    margin-bottom:3px;
+
+    font-size:5px;
+
+    letter-spacing:.8px;
+  }
+
+  .fighter-name{
+    font-size:
+      clamp(
+        11px,
+        3.5vw,
+        15px
+      );
+
+    overflow-wrap:anywhere;
+  }
+
+  .vs{
+    font-size:
+      clamp(
+        25px,
+        8vw,
+        34px
+      );
+
+    letter-spacing:-2px;
+  }
+
+  .fight-date{
+    margin-top:7px;
+
+    font-size:5px;
+
+    letter-spacing:.5px;
+  }
+
+
+  /* EVENT INFORMATION */
+
+  .event-info{
+    grid-template-columns:
+      repeat(3,1fr);
+
+    gap:4px;
+
+    padding:
+      0
+      7px
+      12px;
+  }
+
+  .info-box{
+    padding:
+      8px
+      5px;
+
+    border-radius:7px;
+  }
+
+  .info-label{
+    margin-bottom:4px;
+
+    font-size:5px;
+
+    letter-spacing:.7px;
+  }
+
+  .info-value{
+    font-size:7px;
+
+    line-height:1.25;
+  }
+
+
+  /* COUNTDOWN */
+
+  .countdown-card{
+    margin-bottom:22px;
+
+    padding:
+      17px
+      9px;
+
+    border-radius:14px;
+  }
+
+  .countdown-title{
+    margin-bottom:11px;
+
+    font-size:6px;
+
+    letter-spacing:1.4px;
+  }
+
+  .countdown{
+    gap:4px;
+  }
+
+  .count-box{
+    padding:
+      11px
+      3px;
+
+    border-radius:8px;
+  }
+
+  .count-number{
+    font-size:
+      clamp(
+        19px,
+        7vw,
+        27px
+      );
+  }
+
+  .count-label{
+    margin-top:4px;
+
+    font-size:4px;
+
+    letter-spacing:.6px;
+  }
+
+
+  /* THE FIGHTER */
+
+  .details-card{
+    grid-template-columns:1fr;
+
+    margin-bottom:22px;
+
+    border-radius:14px;
+  }
+
+  .details-image{
+    min-height:285px;
+
+    background-position:
+      center 22%;
+  }
+
+  .details-content{
+    padding:
+      22px
+      18px;
+  }
+
+  .details-small{
+    margin-bottom:7px;
+
+    font-size:6px;
+
+    letter-spacing:1.3px;
+  }
+
+  .details-content h2{
+    margin-bottom:10px;
+
+    font-size:23px;
+  }
+
+  .details-content p{
+    font-size:10px;
+
+    line-height:1.6;
+  }
+
+  .representing{
+    margin-top:14px;
+
+    font-size:5px;
+
+    letter-spacing:1px;
+  }
+
+
+  /* MOTTO */
+
+  .motto{
+    min-height:100px;
+
+    padding:
+      20px
+      12px;
+
+    border-radius:14px;
+  }
+
+  .motto-small{
+    margin-bottom:7px;
+
+    font-size:6px;
+
+    letter-spacing:1.5px;
+  }
+
+  .motto h2{
+    font-size:
+      clamp(
+        22px,
+        7vw,
+        30px
+      );
+  }
+
+}
 
 
     @media (max-width: 420px) {
