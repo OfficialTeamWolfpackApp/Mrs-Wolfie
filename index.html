@@ -724,13 +724,13 @@ button{
 
 
 /* =========================================================
-   NEXT FIGHT
+   NEXT FIGHT — TEAM WOLFPACK STYLE / MRS WOLFIE COLOURS
 ========================================================= */
 
 .next-fight{
   position:relative;
 
-  min-height:370px;
+  min-height:340px;
 
   display:flex;
   align-items:center;
@@ -738,9 +738,9 @@ button{
 
   overflow:hidden;
 
-  margin-bottom:28px;
+  margin-bottom:34px;
 
-  border-radius:25px;
+  border-radius:20px;
 
   border:
     1px solid rgba(255,255,255,.08);
@@ -748,19 +748,51 @@ button{
   background:
     radial-gradient(
       circle at 0% 50%,
-      rgba(137,220,255,.18),
-      transparent 40%
+      rgba(137,220,255,.20),
+      transparent 42%
     ),
     radial-gradient(
       circle at 100% 50%,
-      rgba(255,47,146,.18),
-      transparent 40%
+      rgba(255,47,146,.20),
+      transparent 42%
     ),
-    #06090d;
+    #05080c;
 
   box-shadow:
-    0 20px 55px rgba(0,0,0,.42);
+    0 18px 45px rgba(0,0,0,.42);
 }
+
+
+/* TOP ICE / PINK ACCENT */
+
+.next-fight::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:2px;
+
+  z-index:8;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.65),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.75;
+}
+
+
+/* CENTRE DIVIDER */
 
 .next-fight::before{
   content:"";
@@ -776,12 +808,15 @@ button{
   background:
     linear-gradient(
       transparent,
-      rgba(255,255,255,.20),
+      rgba(255,255,255,.18),
       transparent
     );
 
   opacity:.55;
 }
+
+
+/* FIGHTER IMAGE SIDES */
 
 .fighter-side{
   position:absolute;
@@ -789,18 +824,21 @@ button{
   top:0;
   bottom:0;
 
-  width:43%;
+  width:44%;
 
   overflow:hidden;
 }
+
 
 .fighter-side.left{
   left:0;
 }
 
+
 .fighter-side.right{
   right:0;
 }
+
 
 .fighter-photo{
   width:100%;
@@ -809,12 +847,13 @@ button{
   object-fit:cover;
   object-position:center;
 
-  opacity:.56;
+  opacity:.68;
 
   filter:
     contrast(1.08)
-    saturate(.90);
+    saturate(.95);
 }
+
 
 .fighter-side.left::after,
 .fighter-side.right::after{
@@ -824,25 +863,30 @@ button{
   inset:0;
 }
 
+
 .fighter-side.left::after{
   background:
     linear-gradient(
       90deg,
-      rgba(137,220,255,.15),
-      rgba(5,8,12,.12) 55%,
-      #06090d 100%
+      rgba(137,220,255,.18),
+      rgba(5,8,12,.10) 48%,
+      #05080c 100%
     );
 }
+
 
 .fighter-side.right::after{
   background:
     linear-gradient(
       270deg,
-      rgba(255,47,146,.15),
-      rgba(5,8,12,.12) 55%,
-      #06090d 100%
+      rgba(255,47,146,.18),
+      rgba(5,8,12,.10) 48%,
+      #05080c 100%
     );
 }
+
+
+/* TBA OPPONENT */
 
 .opponent-placeholder{
   width:100%;
@@ -855,55 +899,79 @@ button{
   background:
     radial-gradient(
       circle,
-      rgba(255,47,146,.13),
-      transparent 55%
+      rgba(255,47,146,.15),
+      transparent 58%
     );
 }
 
-.opponent-placeholder span{
-  color:rgba(255,255,255,.12);
 
-  font-size:110px;
+.opponent-placeholder span{
+  color:rgba(255,255,255,.11);
+
+  font-size:100px;
   font-weight:1000;
 }
+
+
+/* CENTRE FIGHT INFORMATION */
 
 .fight-centre{
   position:relative;
 
   z-index:4;
 
-  width:min(430px,58%);
+  width:min(420px,58%);
 
-  padding:30px 20px;
+  padding:
+    26px
+    18px;
 
   text-align:center;
 }
 
+
 .next-label{
+  display:inline-flex;
+
+  padding:
+    6px
+    10px;
+
+  border-radius:20px;
+
+  border:
+    1px solid rgba(255,47,146,.22);
+
+  background:rgba(255,47,146,.06);
+
   color:var(--pink);
 
-  font-size:8px;
+  font-size:7px;
   font-weight:1000;
 
-  letter-spacing:3px;
+  letter-spacing:2.5px;
 
   text-transform:uppercase;
 }
 
+
 .promotion{
-  margin-top:13px;
+  margin-top:12px;
 
   font-size:
     clamp(
-      20px,
+      19px,
       4vw,
-      31px
+      29px
     );
 
   font-weight:1000;
 
+  letter-spacing:.2px;
+
   text-transform:uppercase;
 }
+
 
 .promotion-small{
   display:block;
@@ -912,60 +980,70 @@ button{
 
   color:var(--blue);
 
-  font-size:9px;
+  font-size:8px;
   font-weight:900;
 
-  letter-spacing:1.7px;
+  letter-spacing:1.6px;
 }
+
+
+/* VS */
 
 .vs{
   margin:
-    18px
+    14px
     0;
 
   color:#fff;
 
-  font-size:44px;
+  font-size:38px;
   font-weight:1000;
 
   line-height:1;
 
   text-shadow:
-    -5px 0 20px rgba(137,220,255,.35),
-    5px 0 20px rgba(255,47,146,.35);
+    -5px 0 18px rgba(137,220,255,.42),
+    5px 0 18px rgba(255,47,146,.42);
 }
+
+
+/* FIGHT DETAILS */
 
 .fight-details{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
 
-  gap:7px;
+  gap:6px;
 
-  margin-bottom:18px;
+  margin-bottom:15px;
 }
+
 
 .fight-detail{
   padding:
-    7px
-    10px;
+    6px
+    9px;
 
   border-radius:6px;
 
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.045);
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
-  color:#aab3bb;
+  color:#9ba6af;
 
   font-size:7px;
   font-weight:900;
 
-  letter-spacing:1px;
+  letter-spacing:.9px;
 
   text-transform:uppercase;
 }
+
+
+/* BUTTONS */
 
 .fight-button,
 .home-ticket-button{
@@ -973,17 +1051,17 @@ button{
   align-items:center;
   justify-content:center;
 
-  min-height:40px;
+  min-height:38px;
 
   margin:
-    4px
-    3px;
+    3px
+    2px;
 
   padding:
     0
-    15px;
+    14px;
 
-  border-radius:8px;
+  border-radius:7px;
 
   font-size:7px;
   font-weight:1000;
@@ -991,7 +1069,13 @@ button{
   letter-spacing:1px;
 
   text-transform:uppercase;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
 }
+
 
 .fight-button{
   border:
@@ -1003,6 +1087,7 @@ button{
   color:var(--blue2);
 }
 
+
 .home-ticket-button{
   border:
     1px solid rgba(255,47,146,.40);
@@ -1013,51 +1098,83 @@ button{
   color:var(--pink2);
 }
 
+
+.fight-button:hover,
+.home-ticket-button:hover{
+  transform:translateY(-1px);
+}
+
+
+.fight-button:hover{
+  border-color:rgba(137,220,255,.60);
+
+  background:rgba(137,220,255,.13);
+}
+
+
+.home-ticket-button:hover{
+  border-color:rgba(255,47,146,.65);
+
+  background:rgba(255,47,146,.15);
+}
+
+
 .home-ticket-button[hidden]{
   display:none;
 }
+
+
+/* FIGHTER NAMES */
 
 .fighter-name{
   position:absolute;
 
   z-index:5;
 
-  bottom:20px;
+  bottom:18px;
 
   width:31%;
 
   text-transform:uppercase;
 }
 
+
 .fighter-name.left{
-  left:20px;
+  left:18px;
+
   text-align:left;
 }
 
+
 .fighter-name.right{
-  right:20px;
+  right:18px;
+
   text-align:right;
 }
 
+
 .fighter-name strong{
   display:block;
+
+  color:#fff;
 
   font-size:
     clamp(
       13px,
       2.2vw,
-      20px
+      19px
     );
 
   font-weight:1000;
 }
+
 
 .fighter-name span{
   display:block;
 
   margin-top:4px;
 
-  color:#8b96a0;
+  color:#7f8b95;
 
   font-size:7px;
   font-weight:900;
