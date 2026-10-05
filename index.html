@@ -555,6 +555,8 @@ button{
 ========================================================= */
 
 .notification-panel{
+  position:relative;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -563,12 +565,14 @@ button{
 
   margin-bottom:24px;
 
-  padding:22px;
+  padding:18px 20px;
 
-  border-radius:18px;
+  overflow:hidden;
+
+  border-radius:16px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
   border-left:
     2px solid var(--blue);
@@ -578,15 +582,49 @@ button{
 
   background:
     linear-gradient(
-      110deg,
-      rgba(137,220,255,.10),
-      rgba(8,12,17,.98) 50%,
-      rgba(255,47,146,.10)
+      105deg,
+      rgba(137,220,255,.09),
+      rgba(8,12,17,.98) 48%,
+      rgba(255,47,146,.09)
     );
 
   box-shadow:
-    0 16px 42px rgba(0,0,0,.26);
+    0 14px 34px rgba(0,0,0,.34);
 }
+
+
+/* subtle Team Wolfpack-style top glow */
+
+.notification-panel::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(137,220,255,.65),
+      rgba(255,255,255,.25),
+      rgba(255,47,146,.65),
+      transparent
+    );
+}
+
+
+.notification-info{
+  position:relative;
+  z-index:2;
+
+  min-width:0;
+}
+
 
 .notification-label{
   color:var(--pink);
@@ -599,52 +637,63 @@ button{
   text-transform:uppercase;
 }
 
-.notification-title{
-  margin-top:6px;
 
-  font-size:18px;
+.notification-title{
+  margin-top:5px;
+
+  color:#fff;
+
+  font-size:16px;
   font-weight:1000;
 
-  letter-spacing:.5px;
+  letter-spacing:.4px;
 
   text-transform:uppercase;
 }
 
+
 .notification-text{
-  margin-top:6px;
+  max-width:650px;
 
-  color:#8c98a3;
+  margin-top:5px;
 
-  font-size:10px;
+  color:#84909a;
+
+  font-size:9px;
   font-weight:700;
 
   line-height:1.5;
 }
 
+
 .notification-button{
+  position:relative;
+  z-index:2;
+
   flex:0 0 auto;
 
   min-width:92px;
+  min-height:38px;
 
   padding:
-    12px
-    15px;
+    0
+    14px;
 
-  border-radius:9px;
+  border-radius:8px;
 
   border:
-    1px solid rgba(255,47,146,.40);
+    1px solid rgba(255,47,146,.32);
 
   background:
     linear-gradient(
       90deg,
-      rgba(137,220,255,.12),
-      rgba(255,47,146,.15)
+      rgba(137,220,255,.08),
+      rgba(255,47,146,.12)
     );
 
   color:#fff;
 
-  font-size:8px;
+  font-size:7px;
   font-weight:1000;
 
   letter-spacing:1.2px;
@@ -652,6 +701,25 @@ button{
   text-transform:uppercase;
 
   cursor:pointer;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
+}
+
+
+.notification-button:hover{
+  transform:translateY(-1px);
+
+  border-color:rgba(255,47,146,.60);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.13),
+      rgba(255,47,146,.18)
+    );
 }
 
 
