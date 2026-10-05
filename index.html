@@ -1183,20 +1183,211 @@ button{
 }
 
 /* =========================================================
-   SECTION HEADINGS
+   SECTION HEADINGS — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .section-heading{
+  position:relative;
+
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
 
-  gap:15px;
+  gap:18px;
 
-  margin-bottom:16px;
+  margin-bottom:13px;
+
+  padding:
+    0
+    2px
+    10px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
 }
 
+
+/* BLUE → PINK ACCENT UNDER HEADING */
+
+.section-heading::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:-1px;
+
+  width:95px;
+  height:2px;
+
+  border-radius:3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--pink)
+    );
+
+  box-shadow:
+    0 0 10px rgba(137,220,255,.16);
+}
+
+
+/* SMALL UPPER LABEL */
+
 .section-kicker{
+  color:var(--pink);
+
+  font-size:7px;
+  font-weight:1000;
+
+  letter-spacing:2px;
+
+  line-height:1;
+
+  text-transform:uppercase;
+}
+
+
+/* MAIN SECTION TITLE */
+
+.section-title{
+  margin-top:5px;
+
+  color:#fff;
+
+  font-size:
+    clamp(
+      20px,
+      3vw,
+      26px
+    );
+
+  font-weight:1000;
+
+  letter-spacing:.25px;
+
+  line-height:1;
+
+  text-transform:uppercase;
+}
+
+
+/* RIGHT-SIDE LINK */
+
+.section-link{
+  flex:0 0 auto;
+
+  display:inline-flex;
+  align-items:center;
+
+  min-height:28px;
+
+  padding:
+    0
+    9px;
+
+  border-radius:6px;
+
+  border:
+    1px solid rgba(137,220,255,.16);
+
+  background:
+    rgba(137,220,255,.035);
+
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:1000;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+  transition:
+    transform .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    background .18s ease;
+}
+
+
+.section-link:hover{
+  transform:translateX(2px);
+
+  color:#fff;
+
+  border-color:
+    rgba(255,47,146,.32);
+
+  background:
+    rgba(255,47,146,.06);
+}
+
+/* =========================================================
+   QUICK ACCESS — TEAM WOLFPACK STYLE
+========================================================= */
+
+.quick-access-card{
+  position:relative;
+
+  margin-bottom:34px;
+
+  padding:20px;
+
+  overflow:hidden;
+
+  border-radius:18px;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(137,220,255,.07),
+      rgba(7,11,15,.98) 48%,
+      rgba(255,47,146,.07)
+    );
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.28);
+}
+
+
+/* TOP BLUE / PINK ACCENT */
+
+.quick-access-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.30),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.65;
+}
+
+
+/* SMALL LABEL */
+
+.quick-access-label{
+  position:relative;
+
   color:var(--pink);
 
   font-size:7px;
@@ -1207,8 +1398,15 @@ button{
   text-transform:uppercase;
 }
 
-.section-title{
-  margin-top:5px;
+
+/* MAIN HEADING */
+
+.quick-access-title{
+  position:relative;
+
+  margin-top:4px;
+
+  color:#fff;
 
   font-size:20px;
   font-weight:1000;
@@ -1218,74 +1416,30 @@ button{
   text-transform:uppercase;
 }
 
-.section-link{
-  color:var(--blue);
 
-  font-size:7px;
-  font-weight:1000;
-
-  letter-spacing:1px;
-
-  text-transform:uppercase;
-}
-
-
-/* =========================================================
-   QUICK ACCESS
-========================================================= */
-
-.quick-access-card{
-  margin-bottom:34px;
-
-  padding:23px;
-
-  border-radius:21px;
-
-  border:
-    1px solid rgba(255,255,255,.07);
-
-  background:
-    linear-gradient(
-      125deg,
-      rgba(137,220,255,.07),
-      rgba(8,12,17,.98) 50%,
-      rgba(255,47,146,.07)
-    );
-}
-
-.quick-access-label{
-  color:var(--blue);
-
-  font-size:7px;
-  font-weight:1000;
-
-  letter-spacing:2px;
-
-  text-transform:uppercase;
-}
-
-.quick-access-title{
-  margin-top:5px;
-
-  font-size:22px;
-  font-weight:1000;
-
-  text-transform:uppercase;
-}
+/* LINK GRID */
 
 .quick-access-grid{
+  position:relative;
+
   display:grid;
 
   grid-template-columns:
-    repeat(4,1fr);
+    repeat(4,minmax(0,1fr));
 
-  gap:9px;
+  gap:8px;
 
-  margin-top:18px;
+  margin-top:16px;
 }
 
+
+/* INDIVIDUAL LINK */
+
 .quick-access-link{
-  min-height:68px;
+  position:relative;
+
+  min-width:0;
+  min-height:62px;
 
   display:flex;
   align-items:center;
@@ -1295,16 +1449,24 @@ button{
 
   padding:
     0
-    14px;
+    13px;
 
-  border-radius:11px;
+  overflow:hidden;
+
+  border-radius:10px;
 
   border:
     1px solid rgba(255,255,255,.07);
 
-  background:rgba(255,255,255,.025);
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.035),
+      rgba(255,255,255,.025) 50%,
+      rgba(255,47,146,.035)
+    );
 
-  color:#c3cbd2;
+  color:#c5cdd4;
 
   font-size:8px;
   font-weight:1000;
@@ -1315,74 +1477,216 @@ button{
 
   transition:
     transform .18s ease,
-    border-color .18s ease;
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
 }
+
+
+/* SMALL LEFT ACCENT */
+
+.quick-access-link::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:12px;
+  bottom:12px;
+
+  width:2px;
+
+  border-radius:3px;
+
+  background:var(--blue);
+
+  opacity:.55;
+}
+
+
+/* ALTERNATE PINK ACCENT */
+
+.quick-access-link:nth-child(even)::before{
+  background:var(--pink);
+}
+
+
+/* HOVER */
 
 .quick-access-link:hover{
   transform:translateY(-2px);
 
   border-color:
-    rgba(255,47,146,.35);
+    rgba(255,255,255,.14);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.08),
+      rgba(255,255,255,.035) 50%,
+      rgba(255,47,146,.08)
+    );
+
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.28);
 }
+
+
+/* ARROWS */
 
 .quick-access-link span:last-child{
+  flex:0 0 auto;
+
   color:var(--pink);
 
-  font-size:17px;
+  font-size:16px;
+  font-weight:700;
+
+  transition:
+    transform .18s ease,
+    color .18s ease;
 }
 
 
+.quick-access-link:nth-child(odd) span:last-child{
+  color:var(--blue);
+}
+
+
+.quick-access-link:hover span:last-child{
+  transform:translateX(3px);
+}
+
 /* =========================================================
-   FIGHT RECORD
+   FIGHT RECORD — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .record-section{
   margin-bottom:34px;
 }
 
+
+/* MAIN RECORD CARD */
+
 .record-card{
+  position:relative;
+
   display:grid;
 
   grid-template-columns:
-    1.2fr
+    1.25fr
     repeat(4,1fr);
 
   overflow:hidden;
 
-  border-radius:19px;
+  border-radius:18px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
-  background:#080c11;
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.07),
+      rgba(7,11,15,.98) 45%,
+      rgba(255,47,146,.07)
+    );
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.28);
 }
+
+
+/* TOP ACCENT */
+
+.record-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  z-index:3;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.30),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.65;
+}
+
+
+/* ALL CELLS */
 
 .record-intro,
 .record-stat{
-  min-height:110px;
+  position:relative;
+
+  min-height:105px;
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 
-  padding:16px;
+  padding:15px;
 
   text-align:center;
 }
 
+
+/* LEFT INTRO PANEL */
+
 .record-intro{
   align-items:flex-start;
 
+  padding-left:20px;
+
   text-align:left;
+
+  border-right:
+    1px solid rgba(255,255,255,.07);
 
   background:
     linear-gradient(
       135deg,
       rgba(137,220,255,.11),
-      rgba(255,47,146,.08)
+      rgba(255,47,146,.055)
     );
 }
+
+
+/* BLUE LEFT EDGE */
+
+.record-intro::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:18px;
+  bottom:18px;
+
+  width:2px;
+
+  border-radius:3px;
+
+  background:var(--blue);
+
+  box-shadow:
+    0 0 12px rgba(137,220,255,.35);
+}
+
 
 .record-intro-small{
   color:var(--pink);
@@ -1395,130 +1699,262 @@ button{
   text-transform:uppercase;
 }
 
+
 .record-intro-title{
   margin-top:5px;
+
+  color:#fff;
 
   font-size:17px;
   font-weight:1000;
 
+  letter-spacing:.2px;
+
   text-transform:uppercase;
 }
 
+
+/* STAT CELLS */
+
 .record-stat{
   border-left:
-    1px solid rgba(255,255,255,.06);
+    1px solid rgba(255,255,255,.055);
+
+  transition:
+    background .18s ease;
 }
+
+
+.record-stat:hover{
+  background:
+    rgba(255,255,255,.025);
+}
+
+
+/* NUMBERS */
 
 .record-number{
   color:#fff;
 
-  font-size:30px;
+  font-size:29px;
   font-weight:1000;
+
+  line-height:1;
 }
+
+
+/* WINS — BLUE */
 
 .record-stat:nth-child(2) .record-number{
   color:var(--blue);
+
+  text-shadow:
+    0 0 15px rgba(137,220,255,.22);
 }
+
+
+/* DRAWS — WHITE */
+
+.record-stat:nth-child(3) .record-number{
+  color:#fff;
+}
+
+
+/* LOSSES — PINK */
 
 .record-stat:nth-child(4) .record-number{
   color:var(--pink2);
+
+  text-shadow:
+    0 0 15px rgba(255,47,146,.20);
 }
 
-.record-label{
-  margin-top:5px;
 
-  color:#727e89;
+/* TOTAL FIGHTS */
+
+.record-stat:nth-child(5) .record-number{
+  color:#fff;
+}
+
+
+/* LABELS */
+
+.record-label{
+  margin-top:6px;
+
+  color:#747f89;
 
   font-size:7px;
   font-weight:1000;
 
-  letter-spacing:1px;
+  letter-spacing:1.2px;
 
   text-transform:uppercase;
 }
 
 
 /* =========================================================
-   UPCOMING
+   UPCOMING / NEXT UP — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .upcoming-section{
   margin-bottom:34px;
 }
 
+
+/* FIGHT LIST */
+
 .next-list{
   display:grid;
-  gap:10px;
+
+  gap:9px;
 }
 
+
+/* INDIVIDUAL FIGHT */
+
 .next-item{
-  min-height:92px;
+  position:relative;
+
+  min-height:88px;
 
   display:grid;
 
   grid-template-columns:
-    70px
+    66px
     1fr
     30px;
 
   align-items:center;
 
-  gap:15px;
+  gap:14px;
 
   padding:
-    12px
-    17px;
+    11px
+    16px;
 
-  border-radius:15px;
+  overflow:hidden;
+
+  border-radius:14px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
   background:
     linear-gradient(
-      100deg,
+      105deg,
       rgba(137,220,255,.07),
-      rgba(8,12,17,.98) 52%,
+      rgba(7,11,15,.98) 50%,
       rgba(255,47,146,.07)
     );
 
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.22);
+
   transition:
     transform .18s ease,
-    border-color .18s ease;
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
+
+
+/* TOP ACCENT */
+
+.next-item::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(137,220,255,.50),
+      rgba(255,255,255,.18),
+      rgba(255,47,146,.50),
+      transparent
+    );
+
+  opacity:.55;
+}
+
 
 .next-item:hover{
   transform:translateY(-2px);
 
   border-color:
-    rgba(137,220,255,.25);
+    rgba(137,220,255,.24);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.30);
 }
 
+
+/* DATE BOX */
+
 .date-box{
-  min-height:63px;
+  position:relative;
+
+  min-height:62px;
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 
-  border-radius:10px;
+  overflow:hidden;
+
+  border-radius:9px;
 
   border:
     1px solid rgba(137,220,255,.20);
 
   background:
-    rgba(137,220,255,.06);
+    linear-gradient(
+      145deg,
+      rgba(137,220,255,.10),
+      rgba(255,47,146,.04)
+    );
 }
+
+
+.date-box::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--pink)
+    );
+
+  opacity:.65;
+}
+
 
 .date-number{
   color:#fff;
 
-  font-size:24px;
+  font-size:23px;
   font-weight:1000;
 
   line-height:1;
 }
+
 
 .date-month{
   margin-top:5px;
@@ -1529,7 +1965,12 @@ button{
   font-weight:1000;
 
   letter-spacing:1.3px;
+
+  text-transform:uppercase;
 }
+
+
+/* FIGHT INFORMATION */
 
 .next-fight-label{
   color:var(--blue);
@@ -1542,14 +1983,20 @@ button{
   text-transform:uppercase;
 }
 
+
 .next-name{
   margin-top:4px;
 
-  font-size:15px;
+  color:#fff;
+
+  font-size:14px;
   font-weight:1000;
+
+  letter-spacing:.15px;
 
   text-transform:uppercase;
 }
+
 
 .versus{
   color:var(--pink);
@@ -1557,43 +2004,78 @@ button{
   padding:
     0
     5px;
+
+  font-size:.82em;
 }
+
+
+/* META INFORMATION */
 
 .next-meta,
 .next-event{
   margin-top:4px;
 
-  color:#78848f;
+  color:#77838e;
 
   font-size:7px;
   font-weight:900;
 
-  letter-spacing:.9px;
+  letter-spacing:.85px;
+
+  line-height:1.4;
 
   text-transform:uppercase;
 }
 
+
+/* RIGHT ARROW */
+
 .next-arrow{
   color:var(--pink);
 
-  font-size:25px;
+  font-size:23px;
+  font-weight:700;
 
   text-align:right;
+
+  transition:
+    transform .18s ease,
+    color .18s ease;
 }
 
-.empty-card{
-  padding:25px;
 
-  border-radius:15px;
+.next-item:hover .next-arrow{
+  transform:translateX(3px);
+
+  color:var(--pink2);
+}
+
+
+/* EMPTY / LOADING STATE */
+
+.empty-card{
+  position:relative;
+
+  padding:23px;
+
+  overflow:hidden;
+
+  border-radius:14px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
-  background:#080c11;
+  background:
+    linear-gradient(
+      105deg,
+      rgba(137,220,255,.05),
+      rgba(8,12,17,.98) 50%,
+      rgba(255,47,146,.05)
+    );
 
-  color:#7d8994;
+  color:#78848f;
 
-  font-size:9px;
+  font-size:8px;
   font-weight:900;
 
   letter-spacing:1px;
@@ -1604,27 +2086,56 @@ button{
 }
 
 
+.empty-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:20%;
+  right:20%;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.45;
+}
+
+
 /* =========================================================
-   LATEST UPDATE
+   LATEST UPDATE — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .latest-section{
   margin-bottom:34px;
 }
 
+
+/* MAIN UPDATE CARD */
+
 .latest-card{
   position:relative;
 
   overflow:hidden;
 
-  min-height:190px;
+  min-height:175px;
 
-  padding:27px;
+  padding:
+    24px
+    25px;
 
-  border-radius:20px;
+  border-radius:18px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
   border-left:
     2px solid var(--blue);
@@ -1635,20 +2146,104 @@ button{
   background:
     linear-gradient(
       110deg,
-      rgba(137,220,255,.11),
-      rgba(8,12,17,.98) 50%,
-      rgba(255,47,146,.11)
+      rgba(137,220,255,.09),
+      rgba(7,11,15,.98) 48%,
+      rgba(255,47,146,.09)
     );
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.28);
 }
 
+
+/* TOP BLUE / PINK GLOW */
+
+.latest-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.35),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.70;
+}
+
+
+/* SUBTLE BACKGROUND GLOW */
+
+.latest-card::after{
+  content:"";
+
+  position:absolute;
+
+  width:220px;
+  height:220px;
+
+  right:-90px;
+  bottom:-120px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,47,146,.10),
+      transparent 68%
+    );
+
+  pointer-events:none;
+}
+
+
+/* TOP ROW */
+
 .latest-top{
+  position:relative;
+
+  z-index:2;
+
   display:flex;
+  align-items:center;
   justify-content:space-between;
 
   gap:15px;
 }
 
+
+/* UPDATE TYPE */
+
 .latest-type{
+  display:inline-flex;
+  align-items:center;
+
+  min-height:24px;
+
+  padding:
+    0
+    9px;
+
+  border-radius:20px;
+
+  border:
+    1px solid rgba(255,47,146,.20);
+
+  background:
+    rgba(255,47,146,.06);
+
   color:var(--pink);
 
   font-size:7px;
@@ -1659,8 +2254,11 @@ button{
   text-transform:uppercase;
 }
 
+
+/* DATE */
+
 .latest-date{
-  color:#717c87;
+  color:#707b85;
 
   font-size:7px;
   font-weight:900;
@@ -1670,49 +2268,83 @@ button{
   text-transform:uppercase;
 }
 
-.latest-title{
-  margin-top:18px;
 
-  max-width:720px;
+/* UPDATE TITLE */
+
+.latest-title{
+  position:relative;
+
+  z-index:2;
+
+  max-width:760px;
+
+  margin-top:15px;
+
+  color:#fff;
 
   font-size:
     clamp(
-      22px,
+      20px,
       4vw,
-      32px
+      29px
     );
 
   font-weight:1000;
 
+  letter-spacing:.2px;
+
+  line-height:1.1;
+
   text-transform:uppercase;
 }
 
+
+/* MESSAGE */
+
 .latest-message{
+  position:relative;
+
+  z-index:2;
+
   max-width:760px;
 
-  margin-top:10px;
+  margin-top:9px;
 
-  color:#929da7;
+  color:#8c98a2;
 
-  font-size:12px;
+  font-size:10px;
   font-weight:700;
 
-  line-height:1.65;
+  line-height:1.6;
 }
 
-.latest-button{
-  display:inline-flex;
 
-  margin-top:19px;
+/* VIEW BUTTON */
+
+.latest-button{
+  position:relative;
+
+  z-index:2;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:35px;
+
+  margin-top:17px;
 
   padding:
-    10px
-    13px;
+    0
+    12px;
 
   border-radius:7px;
 
   border:
     1px solid rgba(137,220,255,.28);
+
+  background:
+    rgba(137,220,255,.055);
 
   color:var(--blue);
 
@@ -1722,30 +2354,52 @@ button{
   letter-spacing:1px;
 
   text-transform:uppercase;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
 }
 
 
+.latest-button:hover{
+  transform:translateY(-1px);
+
+  border-color:
+    rgba(137,220,255,.55);
+
+  background:
+    rgba(137,220,255,.10);
+}
+
 /* =========================================================
-   EXPLORE
+   EXPLORE — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .explore-section{
   margin-bottom:34px;
 }
 
+
+/* CARD GRID */
+
 .explore-grid{
   display:grid;
 
   grid-template-columns:
-    repeat(3,1fr);
+    repeat(3,minmax(0,1fr));
 
-  gap:12px;
+  gap:10px;
 }
+
+
+/* INDIVIDUAL CARD */
 
 .explore-card{
   position:relative;
 
-  min-height:160px;
+  min-width:0;
+  min-height:145px;
 
   display:flex;
   flex-direction:column;
@@ -1753,35 +2407,137 @@ button{
 
   overflow:hidden;
 
-  padding:20px;
+  padding:18px;
 
-  border-radius:17px;
+  border-radius:15px;
 
   border:
-    1px solid rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.08);
 
   background:
     linear-gradient(
-      140deg,
-      rgba(137,220,255,.10),
-      #080c11 50%,
-      rgba(255,47,146,.10)
+      135deg,
+      rgba(137,220,255,.07),
+      rgba(7,11,15,.98) 50%,
+      rgba(255,47,146,.07)
     );
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.24);
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
+
+
+/* TOP ACCENT */
+
+.explore-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.22),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.55;
+}
+
+
+/* SIDE ACCENT */
+
+.explore-card::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:18px;
+  bottom:18px;
+
+  width:2px;
+
+  border-radius:3px;
+
+  background:var(--blue);
+
+  opacity:.55;
+}
+
+
+/* ALTERNATE CARD ACCENTS */
+
+.explore-card:nth-child(even)::after{
+  left:auto;
+  right:0;
+
+  background:var(--pink);
+}
+
+
+/* HOVER */
+
+.explore-card:hover{
+  transform:translateY(-3px);
+
+  border-color:
+    rgba(255,255,255,.14);
+
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.32);
+}
+
+
+/* LARGE BACKGROUND ICON */
 
 .explore-icon{
   position:absolute;
 
-  right:16px;
-  top:13px;
+  right:15px;
+  top:12px;
 
-  color:rgba(255,255,255,.13);
+  color:rgba(255,255,255,.10);
 
-  font-size:42px;
+  font-size:38px;
   font-weight:1000;
+
+  line-height:1;
+
+  transition:
+    transform .20s ease,
+    color .20s ease;
 }
 
+
+.explore-card:hover .explore-icon{
+  transform:scale(1.08);
+
+  color:rgba(255,255,255,.15);
+}
+
+
+/* SMALL CATEGORY TEXT */
+
 .explore-small{
+  position:relative;
+
+  z-index:2;
+
   color:var(--pink);
 
   font-size:7px;
@@ -1792,19 +2548,42 @@ button{
   text-transform:uppercase;
 }
 
-.explore-title{
-  margin-top:6px;
 
-  font-size:18px;
+.explore-card:nth-child(odd) .explore-small{
+  color:var(--blue);
+}
+
+
+/* CARD TITLE */
+
+.explore-title{
+  position:relative;
+
+  z-index:2;
+
+  margin-top:5px;
+
+  color:#fff;
+
+  font-size:17px;
   font-weight:1000;
+
+  letter-spacing:.2px;
 
   text-transform:uppercase;
 }
 
-.explore-text{
-  margin-top:7px;
 
-  color:#7f8b95;
+/* CARD DESCRIPTION */
+
+.explore-text{
+  position:relative;
+
+  z-index:2;
+
+  margin-top:6px;
+
+  color:#7d8993;
 
   font-size:9px;
   font-weight:700;
@@ -1812,29 +2591,31 @@ button{
   line-height:1.5;
 }
 
-
 /* =========================================================
-   JOURNEY
+   JOURNEY — TEAM WOLFPACK STYLE
 ========================================================= */
 
 .journey-section{
   margin-bottom:34px;
 }
 
+
+/* JOURNEY CARD */
+
 .journey-card{
   position:relative;
-
-  min-height:280px;
 
   display:grid;
 
   grid-template-columns:
-    1.2fr
-    .8fr;
+    minmax(0,1.05fr)
+    minmax(0,.95fr);
+
+  min-height:250px;
 
   overflow:hidden;
 
-  border-radius:22px;
+  border-radius:18px;
 
   border:
     1px solid rgba(255,255,255,.08);
@@ -1842,11 +2623,46 @@ button{
   background:
     linear-gradient(
       110deg,
-      rgba(137,220,255,.12),
-      #080c11 48%,
-      rgba(255,47,146,.11)
+      rgba(137,220,255,.08),
+      rgba(7,11,15,.98) 48%,
+      rgba(255,47,146,.08)
     );
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.30);
 }
+
+
+/* TOP BLUE / PINK ACCENT */
+
+.journey-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:1px;
+
+  z-index:5;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.35),
+      var(--pink),
+      transparent
+    );
+
+  opacity:.70;
+}
+
+
+/* CONTENT SIDE */
 
 .journey-content{
   position:relative;
@@ -1858,12 +2674,18 @@ button{
   justify-content:center;
 
   padding:
-    34px
+    28px
     30px;
+
+  border-left:
+    2px solid var(--blue);
 }
 
-.journey-kicker{
-  color:var(--blue);
+
+/* SMALL LABEL */
+
+.journey-small{
+  color:var(--pink);
 
   font-size:7px;
   font-weight:1000;
@@ -1873,52 +2695,75 @@ button{
   text-transform:uppercase;
 }
 
+
+/* MAIN TITLE */
+
 .journey-title{
-  margin-top:9px;
+  max-width:520px;
+
+  margin-top:7px;
+
+  color:#fff;
 
   font-size:
     clamp(
-      27px,
-      5vw,
-      42px
+      23px,
+      4vw,
+      34px
     );
 
   font-weight:1000;
 
+  letter-spacing:.2px;
+
+  line-height:1.05;
+
   text-transform:uppercase;
 }
+
+
+/* DESCRIPTION */
 
 .journey-text{
   max-width:560px;
 
   margin-top:11px;
 
-  color:#909ba5;
+  color:#87939d;
 
-  font-size:11px;
+  font-size:10px;
   font-weight:700;
 
   line-height:1.65;
 }
 
-.action-btn{
+
+/* JOURNEY BUTTON */
+
+.journey-button{
   align-self:flex-start;
 
-  margin-top:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:36px;
+
+  margin-top:18px;
 
   padding:
-    11px
-    14px;
+    0
+    13px;
 
-  border-radius:8px;
+  border-radius:7px;
 
   border:
-    1px solid rgba(255,47,146,.35);
+    1px solid rgba(137,220,255,.30);
 
   background:
-    rgba(255,47,146,.07);
+    rgba(137,220,255,.06);
 
-  color:var(--pink2);
+  color:var(--blue);
 
   font-size:7px;
   font-weight:1000;
@@ -1926,66 +2771,222 @@ button{
   letter-spacing:1px;
 
   text-transform:uppercase;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease;
 }
+
+
+.journey-button:hover{
+  transform:translateY(-1px);
+
+  border-color:
+    rgba(137,220,255,.60);
+
+  background:
+    rgba(137,220,255,.11);
+}
+
+
+/* IMAGE SIDE */
 
 .journey-image{
   position:relative;
 
-  min-height:280px;
+  min-height:250px;
+
+  overflow:hidden;
+
+  border-right:
+    2px solid var(--pink);
+}
+
+
+.journey-image img{
+  width:100%;
+  height:100%;
+
+  display:block;
+
+  object-fit:cover;
+  object-position:center;
+
+  opacity:.82;
+
+  filter:
+    contrast(1.05)
+    saturate(.95);
+
+  transition:
+    transform .30s ease,
+    opacity .30s ease;
+}
+
+
+/* IMAGE BLEND INTO CARD */
+
+.journey-image::before{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  z-index:2;
 
   background:
     linear-gradient(
       90deg,
-      #080c11 0%,
-      rgba(8,12,17,.12) 48%,
-      rgba(255,47,146,.08) 100%
-    ),
-    url("./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png")
-    center/cover
-    no-repeat;
+      rgba(7,11,15,.92),
+      rgba(7,11,15,.28) 38%,
+      rgba(255,47,146,.08)
+    );
+
+  pointer-events:none;
 }
+
+
+/* PINK GLOW */
 
 .journey-image::after{
   content:"";
 
   position:absolute;
+
   inset:0;
+
+  z-index:3;
+
+  background:
+    radial-gradient(
+      circle at 85% 50%,
+      rgba(255,47,146,.15),
+      transparent 55%
+    );
+
+  pointer-events:none;
+}
+
+
+.journey-card:hover .journey-image img{
+  transform:scale(1.025);
+
+  opacity:.90;
+}
+
+/* =========================================================
+   BOTTOM BANNER — TEAM WOLFPACK STYLE
+========================================================= */
+
+.bottom-banner{
+  position:relative;
+
+  width:100%;
+
+  margin-top:34px;
+
+  overflow:hidden;
+
+  border-radius:18px;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-left:
+    2px solid var(--blue);
+
+  border-right:
+    2px solid var(--pink);
+
+  background:#05080c;
+
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.30);
+}
+
+
+/* TOP BLUE / PINK ACCENT */
+
+.bottom-banner::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:2px;
+
+  z-index:3;
 
   background:
     linear-gradient(
       90deg,
-      #080c11,
-      transparent 60%
+      transparent,
+      var(--blue),
+      rgba(255,255,255,.45),
+      var(--pink),
+      transparent
     );
+
+  opacity:.75;
 }
 
 
-/* =========================================================
-   BOTTOM BANNER
-========================================================= */
+/* BANNER IMAGE */
 
-.homepage-banner-section{
-  margin-top:10px;
-}
-
-.homepage-bottom-banner{
+.bottom-banner img{
   display:block;
 
   width:100%;
   height:auto;
 
-  max-height:320px;
+  max-height:260px;
 
   object-fit:cover;
   object-position:center;
 
-  border-radius:20px;
+  opacity:.92;
 
-  border:
-    1px solid rgba(255,255,255,.07);
+  transition:
+    transform .30s ease,
+    opacity .30s ease;
+}
 
-  box-shadow:
-    0 18px 45px rgba(0,0,0,.35);
+
+/* SUBTLE IMAGE OVERLAY */
+
+.bottom-banner::after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  z-index:2;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      transparent 35%,
+      transparent 65%,
+      rgba(255,47,146,.07)
+    );
+}
+
+
+/* HOVER */
+
+.bottom-banner:hover img{
+  transform:scale(1.01);
+
+  opacity:1;
 }
 
 
