@@ -3231,7 +3231,12 @@ footer{
 /* BOTTOM BANNER MOBILE */
 
 .bottom-banner{
+  width:100%;
+  height:auto;
+
   margin-top:24px;
+
+  overflow:hidden;
 }
 
 .bottom-banner img{
@@ -3243,8 +3248,13 @@ footer{
 
   object-fit:contain;
   object-position:center;
+
+  transform:none;
 }
 
+.bottom-banner:hover img{
+  transform:none;
+}
 }  
 @media(max-width:520px){
 
