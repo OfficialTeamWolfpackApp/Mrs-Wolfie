@@ -1423,9 +1423,13 @@ footer {
 @media (max-width: 760px) {
 
 
-  body {
-    padding-bottom: 90px;
-  }
+body{
+  padding-bottom:
+    calc(
+      105px +
+      env(safe-area-inset-bottom)
+    );
+}
 
 
   .topbar {
