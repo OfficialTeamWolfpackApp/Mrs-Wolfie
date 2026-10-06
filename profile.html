@@ -1054,186 +1054,188 @@ main {
 
 
 /* =========================================================
-   FIGHT HISTORY
+   FIGHT HISTORY — TEAM WOLFPACK STYLE
 ========================================================= */
 
-.history-section {
-  margin-top: 55px;
+.history-section{
+  margin-top:30px;
 }
 
-
-.history-list {
-
-  display: grid;
-
-  gap: 12px;
+.history-list{
+  display:grid;
+  gap:8px;
 }
 
+.history-card{
+  position:relative;
 
-.history-card {
+  min-height:82px;
 
-  min-height: 105px;
-
-  display: grid;
-
+  display:grid;
   grid-template-columns:
-    105px 1fr 65px;
+    82px
+    minmax(0,1fr)
+    55px;
 
-  align-items: center;
+  align-items:center;
 
-  overflow: hidden;
+  overflow:hidden;
 
-  border-radius: 18px;
-
-  background:
-
-    linear-gradient(
-      90deg,
-      rgba(137,220,255,0.10),
-      #080c11 42%,
-      rgba(255,143,211,0.10)
-    );
-
-  border-left:
-    2px solid
-    rgba(137,220,255,0.65);
-
-  border-right:
-    2px solid
-    rgba(255,143,211,0.55);
-}
-
-
-.history-date {
-
-  height: 100%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  border-right:
-    1px solid
-    rgba(255,255,255,0.06);
-}
-
-
-.history-day {
-
-  font-size: 23px;
-
-  font-weight: 1000;
-}
-
-
-.history-month {
-
-  color: var(--blue);
-
-  font-size: 8px;
-
-  font-weight: 900;
-
-  letter-spacing: 2px;
-
-  margin-top: 4px;
-}
-
-
-.history-info {
-  padding: 18px 22px;
-}
-
-
-.history-promotion {
-
-  color: var(--pink);
-
-  font-size: 8px;
-
-  font-weight: 900;
-
-  letter-spacing: 1.5px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 7px;
-}
-
-
-.history-fight {
-
-  font-size: 13px;
-
-  font-weight: 1000;
-
-  text-transform: uppercase;
-}
-
-
-.history-venue {
-
-  margin-top: 6px;
-
-  color: #74808b;
-
-  font-size: 8px;
-
-  text-transform: uppercase;
-}
-
-
-.result {
-
-  font-size: 18px;
-
-  font-weight: 1000;
-
-  text-align: center;
-}
-
-
-.result.win {
-  color: var(--blue);
-}
-
-
-.result.loss {
-  color: var(--pink);
-}
-
-
-.result.draw {
-  color: #ffffff;
-}
-
-
-.history-empty {
-
-  padding: 30px;
-
-  border-radius: 18px;
-
-  background: #080c11;
+  border-radius:13px;
 
   border:
-    1px solid
-    rgba(255,255,255,0.06);
+    1px solid rgba(255,255,255,.07);
 
-  color: #77838e;
+  border-left:
+    2px solid var(--blue);
 
-  font-size: 9px;
+  border-right:
+    2px solid var(--pink);
 
-  font-weight: 900;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      #080c11 42%,
+      rgba(255,143,211,.07)
+    );
 
-  letter-spacing: 1.5px;
+  box-shadow:
+    0 9px 22px rgba(0,0,0,.20);
+}
 
-  text-align: center;
+.history-date{
+  height:100%;
 
-  text-transform: uppercase;
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  border-right:
+    1px solid rgba(255,255,255,.06);
+
+  background:
+    rgba(137,220,255,.025);
+}
+
+.history-day{
+  color:#fff;
+
+  font-size:20px;
+  line-height:1;
+  font-weight:1000;
+}
+
+.history-month{
+  margin-top:5px;
+
+  color:var(--blue);
+
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:1.2px;
+
+  text-transform:uppercase;
+}
+
+.history-info{
+  min-width:0;
+
+  padding:
+    13px
+    17px;
+}
+
+.history-promotion{
+  margin-bottom:5px;
+
+  color:var(--pink);
+
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:1.1px;
+
+  text-transform:uppercase;
+}
+
+.history-fight{
+  color:#fff;
+
+  font-size:11px;
+  line-height:1.2;
+  font-weight:1000;
+
+  text-transform:uppercase;
+}
+
+.history-venue{
+  margin-top:5px;
+
+  color:#74808b;
+
+  font-size:6px;
+  font-weight:800;
+  letter-spacing:.5px;
+
+  text-transform:uppercase;
+}
+
+.result{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  height:100%;
+
+  border-left:
+    1px solid rgba(255,255,255,.05);
+
+  font-size:17px;
+  font-weight:1000;
+
+  text-align:center;
+}
+
+.result.win{
+  color:var(--blue);
+
+  text-shadow:
+    0 0 12px rgba(137,220,255,.20);
+}
+
+.result.loss{
+  color:var(--pink);
+
+  text-shadow:
+    0 0 12px rgba(255,143,211,.20);
+}
+
+.result.draw{
+  color:#fff;
+}
+
+.history-empty{
+  padding:
+    24px
+    20px;
+
+  border-radius:13px;
+
+  border:
+    1px solid rgba(255,255,255,.07);
+
+  background:#080c11;
+
+  color:#77838e;
+
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1.2px;
+
+  text-align:center;
+  text-transform:uppercase;
 }
 
 
