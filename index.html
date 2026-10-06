@@ -852,7 +852,19 @@ button{
     contrast(1.08)
     saturate(.95);
 }
+.opponent-photo{
+  object-fit:contain;
+  object-position:center bottom;
 
+  padding-top:18px;
+
+  opacity:.82;
+
+  filter:
+    contrast(1.08)
+    saturate(.95)
+    drop-shadow(0 0 18px rgba(255,47,146,.28));
+}
 
 .fighter-side.left::after,
 .fighter-side.right::after{
@@ -3594,13 +3606,15 @@ footer{
   </div>
 
 
-  <div class="fighter-side right">
+<div class="fighter-side right">
 
-    <div class="opponent-placeholder">
-      <span>?</span>
-    </div>
+  <img
+    src="./images/g-kayleighx-gibson.png"
+    class="fighter-photo opponent-photo"
+    alt="G-Kayleighx Gibson"
+  >
 
-  </div>
+</div>
 
 
   <div class="fight-centre">
