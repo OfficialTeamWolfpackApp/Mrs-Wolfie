@@ -736,86 +736,117 @@ main {
 
 
 /* =========================================================
-   ABOUT
+   ABOUT MRS WOLFIE — TEAM WOLFPACK STYLE
 ========================================================= */
 
-.about-section {
-  margin-top: 55px;
+.about-section{
+  margin-top:30px;
 }
 
+.about-card{
+  position:relative;
+  overflow:hidden;
 
-.about-card {
+  padding:
+    32px
+    30px;
 
-  padding: 50px;
+  border-radius:17px;
 
-  border-radius: 24px;
-
-  background:
-
-    linear-gradient(
-      110deg,
-      rgba(137,220,255,0.11),
-      rgba(8,12,17,0.98) 45%,
-      rgba(255,143,211,0.11)
-    );
+  border:
+    1px solid rgba(255,255,255,.07);
 
   border-left:
-    2px solid
-    rgba(137,220,255,0.55);
+    2px solid var(--blue);
 
   border-right:
-    2px solid
-    rgba(255,143,211,0.55);
+    2px solid var(--pink);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.07),
+      rgba(8,12,17,.98) 45%,
+      rgba(255,143,211,.07)
+    );
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.26);
 }
 
+.about-card::before{
+  content:"";
 
-.about-kicker {
+  position:absolute;
+  inset:0;
 
-  color: var(--blue);
+  pointer-events:none;
 
-  font-size: 9px;
-
-  font-weight: 900;
-
-  letter-spacing: 3px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 15px;
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.07),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.07),
+      transparent 34%
+    );
 }
 
+.about-kicker{
+  position:relative;
+  z-index:2;
 
-.about-title {
+  margin-bottom:9px;
+
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1.8px;
+
+  text-transform:uppercase;
+}
+
+.about-title{
+  position:relative;
+  z-index:2;
+
+  margin:0 0 18px;
+
+  color:#fff;
 
   font-size:
     clamp(
-      28px,
-      4vw,
-      42px
+      23px,
+      3.5vw,
+      34px
     );
 
-  font-weight: 1000;
-
-  margin-bottom: 25px;
+  line-height:1.05;
+  font-weight:1000;
 }
 
+.about-text{
+  position:relative;
+  z-index:2;
 
-.about-text {
+  max-width:900px;
 
-  color: #9ba5ae;
+  margin:0;
 
-  font-size: 15px;
+  color:#909aa5;
 
-  line-height: 1.9;
-
-  max-width: 900px;
+  font-size:11px;
+  line-height:1.7;
 }
 
-
-.about-text strong {
-  color: #ffffff;
+.about-text strong{
+  color:#fff;
+  font-weight:900;
 }
-
 
 /* =========================================================
    IDENTITY
