@@ -680,6 +680,59 @@ main{
   margin-top:24px;
 }
 
+.fighter-side-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+
+  min-width:0;
+}
+
+.schedule-fighter-photo{
+  width:145px;
+  height:145px;
+
+  margin:0 auto 12px;
+
+  object-fit:cover;
+  object-position:center 20%;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(137,220,255,.42);
+
+  background:
+    rgba(137,220,255,.04);
+
+  opacity:.78;
+
+  filter:
+    contrast(1.08)
+    saturate(.88)
+    brightness(.88)
+    drop-shadow(0 0 15px rgba(137,220,255,.18));
+}
+
+.opponent-side{
+  align-items:center;
+}
+
+.schedule-opponent-photo{
+  border-color:
+    rgba(255,143,211,.42);
+
+  background:
+    rgba(255,143,211,.04);
+
+  filter:
+    contrast(1.08)
+    saturate(.85)
+    brightness(.88)
+    drop-shadow(0 0 15px rgba(255,143,211,.20));
+}
+    
 .fighter{
   color:#fff;
 
@@ -1531,6 +1584,21 @@ a.schedule-card:hover{
     text-align:center;
   }
 
+  .fighter-side-card{
+  width:100%;
+}
+
+.schedule-fighter-photo{
+  width:120px;
+  height:120px;
+
+  margin-bottom:9px;
+}
+
+.opponent-side{
+  align-items:center;
+}
+  
   .fighter{
     font-size:20px;
   }
@@ -1868,9 +1936,19 @@ a.schedule-card:hover{
           <div class="matchup">
 
 
-            <div class="fighter mrs">
-              MRS WOLFIE
-            </div>
+           <div class="fighter-side-card mrs-side">
+
+  <img
+    src="./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
+    class="schedule-fighter-photo"
+    alt="Mrs Wolfie"
+  >
+
+  <div class="fighter mrs">
+    MRS WOLFIE
+  </div>
+
+</div>
 
 
             <div class="vs">
@@ -1878,10 +1956,19 @@ a.schedule-card:hover{
             </div>
 
 
-            <div class="fighter opponent">
-              COLLEEN LEYDEN
-            </div>
+            <div class="fighter-side-card opponent-side">
 
+  <img
+    src="./images/g-kayleighx-gibson.png"
+    class="schedule-fighter-photo schedule-opponent-photo"
+    alt="G-Kayleighx Gibson"
+  >
+
+  <div class="fighter opponent">
+    G-KAYLEIGHX GIBSON
+  </div>
+
+</div>
 
           </div>
 
