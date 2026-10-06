@@ -964,55 +964,92 @@ main {
 }
 
 /* =========================================================
-   BOXING JOURNEY
+   BOXING JOURNEY — TEAM WOLFPACK STYLE
 ========================================================= */
 
-.journey-section {
-  margin-top: 55px;
+.journey-section{
+  margin-top:30px;
 }
 
+.journey-card{
+  position:relative;
+  overflow:hidden;
 
-.journey-card {
+  padding:
+    30px
+    28px;
 
-  padding: 50px;
+  border-radius:17px;
 
-  border-radius: 24px;
-
-  background: #080c11;
+  border:
+    1px solid rgba(255,255,255,.07);
 
   border-left:
-    2px solid
-    rgba(137,220,255,0.65);
+    2px solid var(--blue);
 
   border-right:
-    2px solid
-    rgba(255,143,211,0.65);
+    2px solid var(--pink);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.055),
+      #080c11 45%,
+      rgba(255,143,211,.045)
+    );
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.24);
 }
 
+.journey-card::before{
+  content:"";
 
-.journey-title {
+  position:absolute;
+  inset:0;
 
-  color: var(--pink);
+  pointer-events:none;
 
-  font-size: 10px;
-
-  font-weight: 900;
-
-  letter-spacing: 3px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 20px;
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.06),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.06),
+      transparent 32%
+    );
 }
 
+.journey-title{
+  position:relative;
+  z-index:2;
 
-.journey-text {
+  margin-bottom:12px;
 
-  color: #9ba5ae;
+  color:var(--pink);
 
-  font-size: 15px;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1.8px;
 
-  line-height: 1.9;
+  text-transform:uppercase;
+}
+
+.journey-text{
+  position:relative;
+  z-index:2;
+
+  max-width:900px;
+
+  margin:0;
+
+  color:#909aa5;
+
+  font-size:11px;
+  line-height:1.7;
 }
 
 
