@@ -849,94 +849,119 @@ main {
 }
 
 /* =========================================================
-   IDENTITY
+   FIGHTER IDENTITY — TEAM WOLFPACK STYLE
 ========================================================= */
 
-.identity-section {
-  margin-top: 55px;
+.identity-section{
+  margin-top:30px;
 }
 
-
-.identity-grid {
-
-  display: grid;
-
+.identity-grid{
+  display:grid;
   grid-template-columns:
     repeat(3,1fr);
 
-  gap: 15px;
+  gap:10px;
 }
 
+.identity-card{
+  position:relative;
+  overflow:hidden;
 
-.identity-card {
+  min-height:110px;
 
-  min-height: 150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 
-  padding: 30px;
+  padding:
+    22px
+    20px;
 
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  border-radius: 20px;
-
-  background: #080c11;
+  border-radius:14px;
 
   border:
-    1px solid
-    rgba(255,255,255,0.06);
+    1px solid rgba(255,255,255,.07);
+
+  background:#080c11;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.20);
 }
 
-
-.identity-card:nth-child(1) {
-
+.identity-card:nth-child(1){
   border-top:
-    2px solid
-    var(--blue);
+    2px solid var(--blue);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,.055),
+      #080c11 55%
+    );
 }
 
-
-.identity-card:nth-child(2) {
-
+.identity-card:nth-child(2){
   border-top:
-    2px solid
-    var(--pink);
+    2px solid var(--pink);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,143,211,.045),
+      #080c11 55%
+    );
 }
 
-
-.identity-card:nth-child(3) {
-
+.identity-card:nth-child(3){
   border-top:
-    2px solid
-    var(--blue);
+    2px solid var(--blue);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,.045),
+      #080c11 55%
+    );
 }
 
+.identity-label{
+  margin-bottom:7px;
 
-.identity-label {
+  color:#77838e;
 
-  color: #77838e;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:1.3px;
 
-  font-size: 8px;
-
-  font-weight: 900;
-
-  letter-spacing: 2px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 10px;
+  text-transform:uppercase;
 }
 
+.identity-value{
+  color:#fff;
 
-.identity-value {
+  font-size:
+    clamp(
+      14px,
+      2vw,
+      18px
+    );
 
-  font-size: 20px;
-
-  font-weight: 1000;
+  line-height:1.2;
+  font-weight:1000;
 }
 
+.identity-card:nth-child(1) .identity-label{
+  color:var(--blue);
+}
+
+.identity-card:nth-child(2) .identity-label{
+  color:var(--pink);
+}
+
+.identity-card:nth-child(3) .identity-label{
+  color:var(--blue);
+}
 
 /* =========================================================
    BOXING JOURNEY
