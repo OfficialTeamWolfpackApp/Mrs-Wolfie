@@ -819,8 +819,28 @@ background-image:
   box-shadow:
     0 0 22px rgba(255,143,211,.10);
 }
+.opponent-photo{
+  object-fit:contain;
+  object-position:center bottom;
 
+  padding:6px 4px 0;
 
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,143,211,.13),
+      rgba(255,143,211,.025)
+    );
+
+  opacity:.78;
+
+  filter:
+    contrast(1.08)
+    saturate(.85)
+    brightness(.88)
+    drop-shadow(0 0 14px rgba(255,143,211,.20));
+}
+    
 /* FIGHTER TEXT */
 
 .fighter-label{
@@ -2353,12 +2373,11 @@ background-image:
 
           <div class="fighter">
 
-            <div
-              class="opponent-circle"
-              id="opponentInitials"
-            >
-              --
-            </div>
+           <img
+  src="./images/g-kayleighx-gibson.png"
+  class="opponent-circle opponent-photo"
+  alt="G-Kayleighx Gibson"
+>
 
 
             <div class="fighter-label">
