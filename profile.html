@@ -402,117 +402,102 @@ a {
 
 
 /* =========================================================
-   NAVIGATION
+   PROFILE PAGE NAVIGATION — MATCH FIGHT PAGE
 ========================================================= */
 
-.nav-wrap {
+.nav-wrap{
+  position:relative;
+  z-index:20;
 
-  position: relative;
+  width:100%;
 
-  z-index: 9999;
+  padding:
+    14px
+    16px;
 
-  margin-top: -32px;
+  background:
+    rgba(3,6,9,.96);
 
-  padding: 0 20px;
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
 }
 
-
-.app-nav {
-
+.app-nav{
   width:
     min(
-      620px,
+      760px,
       100%
     );
 
-  margin: auto;
+  margin:0 auto;
 
-  display: grid;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
 
-  grid-template-columns:
-    repeat(4,1fr);
+  gap:6px;
+  padding:5px;
 
-  padding: 7px;
-
-  border-radius: 17px;
-
-  background:
-    rgba(7,11,16,0.98);
+  border-radius:12px;
 
   border:
-    1px solid
-    rgba(255,255,255,0.09);
+    1px solid rgba(255,255,255,.07);
 
-  box-shadow:
-    0 15px 45px
-    rgba(0,0,0,0.75);
-
-  position: relative;
-
-  z-index: 10000;
+  background:
+    rgba(8,12,17,.92);
 }
 
+.nav-item{
+  min-height:42px;
 
-.nav-item {
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  min-height: 62px;
+  gap:6px;
 
-  display: flex;
+  padding:
+    7px
+    6px;
 
-  flex-direction: column;
+  border-radius:8px;
 
-  align-items: center;
-  justify-content: center;
+  color:#78838d;
 
-  gap: 5px;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1px;
 
-  border-radius: 12px;
-
-  color: #77828d;
-
-  font-size: 8px;
-
-  font-weight: 900;
-
-  letter-spacing: 1.4px;
-
-  text-transform: uppercase;
-
-  position: relative;
-
-  z-index: 10001;
+  text-transform:uppercase;
 
   transition:
-    color 0.2s ease,
-    background 0.2s ease;
+    color .18s ease,
+    background .18s ease,
+    border-color .18s ease;
 }
 
-
-.nav-item:hover {
-
-  color: white;
-
-  background:
-    rgba(255,255,255,0.05);
+.nav-icon{
+  font-size:12px;
 }
 
-
-.nav-item.active {
-
-  color: var(--pink);
+.nav-item:hover{
+  color:#fff;
 
   background:
+    rgba(255,255,255,.04);
+}
 
+.nav-item.active{
+  color:var(--pink);
+
+  border:
+    1px solid rgba(255,47,146,.18);
+
+  background:
     linear-gradient(
-      135deg,
-      rgba(137,220,255,0.07),
-      rgba(255,143,211,0.12)
+      90deg,
+      rgba(137,220,255,.07),
+      rgba(255,47,146,.09)
     );
-}
-
-
-.nav-icon {
-  font-size: 16px;
 }
 
 
