@@ -1490,38 +1490,50 @@ footer {
   }
 
 
-  .app-nav {
+ .app-nav{
+  position:fixed;
 
-    position: fixed;
+  left:50%;
 
-    left: 50%;
+  bottom:
+    calc(
+      8px +
+      env(safe-area-inset-bottom)
+    );
 
-    bottom:
-      calc(
-        12px +
-        env(safe-area-inset-bottom)
-      );
+  transform:translateX(-50%);
 
-    transform:
-      translateX(-50%);
+  width:
+    calc(100% - 24px);
 
-    width:
-      calc(100% - 24px);
+  padding:4px;
 
-    z-index: 99999;
+  gap:4px;
 
-    box-shadow:
-      0 15px 50px
-      rgba(0,0,0,0.90);
-  }
+  border-radius:12px;
 
+  z-index:99999;
 
-  .nav-item {
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.88);
+}
 
-    min-height: 57px;
+ .nav-item{
+  min-height:44px;
 
-    font-size: 7px;
-  }
+  padding:
+    6px
+    3px;
+
+  gap:4px;
+
+  font-size:6px;
+  letter-spacing:.7px;
+}
+
+.nav-icon{
+  font-size:10px;
+}
 
 
   main {
