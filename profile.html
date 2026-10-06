@@ -562,177 +562,176 @@ main {
 
 
 /* =========================================================
-   MAIN PROFILE
+   MAIN PROFILE — TEAM WOLFPACK STYLE
 ========================================================= */
 
-.profile-card {
+.profile-card{
+  position:relative;
 
-  display: grid;
-
+  display:grid;
   grid-template-columns:
-    420px 1fr;
+    minmax(260px,.82fr)
+    minmax(0,1.18fr);
 
-  overflow: hidden;
+  overflow:hidden;
 
-  min-height: 520px;
+  min-height:360px;
 
-  border-radius: 26px;
+  border-radius:17px;
 
-  background: #080c11;
+  border:
+    1px solid rgba(255,255,255,.07);
 
   border-left:
-    2px solid
-    rgba(137,220,255,0.70);
+    2px solid var(--blue);
 
   border-right:
-    2px solid
-    rgba(255,143,211,0.70);
+    2px solid var(--pink);
+
+  background:#080c11;
 
   box-shadow:
-    0 25px 70px
-    rgba(0,0,0,0.55);
+    0 14px 35px rgba(0,0,0,.32);
 }
 
-
-.profile-photo {
-
-  min-height: 520px;
+.profile-photo{
+  min-height:360px;
 
   background-image:
-
     linear-gradient(
-      to bottom,
-      transparent 55%,
-      rgba(3,5,6,0.30)
+      0deg,
+      rgba(3,6,9,.30),
+      transparent 55%
     ),
-
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.07),
+      transparent 55%
+    ),
     url("images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png");
 
-  background-size: cover;
+  background-size:cover;
 
-  background-position: center;
+  background-position:
+    center 24%;
+
+  background-repeat:no-repeat;
 }
 
+.profile-info{
+  position:relative;
 
-.profile-info {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 
-  padding: 65px;
+  padding:
+    36px
+    34px;
 
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
+  background:
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.07),
+      transparent 50%
+    );
 }
 
+.profile-label{
+  margin-bottom:8px;
 
-.profile-label {
+  color:var(--pink);
 
-  color: var(--pink);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1.8px;
 
-  font-size: 9px;
-
-  font-weight: 900;
-
-  letter-spacing: 3px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 15px;
+  text-transform:uppercase;
 }
 
+.profile-name{
+  margin:0 0 8px;
 
-.profile-name {
+  color:#fff;
 
   font-size:
     clamp(
-      34px,
-      5vw,
-      52px
+      27px,
+      4vw,
+      38px
     );
 
-  font-weight: 1000;
-
-  line-height: 1;
-
-  margin-bottom: 15px;
+  line-height:1.05;
+  font-weight:1000;
 }
 
+.real-name{
+  margin-bottom:17px;
 
-.real-name {
+  color:var(--blue);
 
-  color: var(--blue);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.1px;
 
-  font-size: 12px;
-
-  font-weight: 900;
-
-  letter-spacing: 1px;
-
-  text-transform: uppercase;
-
-  margin-bottom: 24px;
+  text-transform:uppercase;
 }
 
+.profile-description{
+  max-width:540px;
 
-.profile-description {
+  margin:0;
 
-  color: #929da7;
+  color:#909aa5;
 
-  font-size: 14px;
-
-  line-height: 1.8;
-
-  max-width: 620px;
+  font-size:11px;
+  line-height:1.65;
 }
 
+.profile-tags{
+  display:flex;
+  flex-wrap:wrap;
 
-.profile-tags {
+  gap:7px;
 
-  margin-top: 26px;
-
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 10px;
+  margin-top:17px;
 }
 
-
-.profile-tag {
+.profile-tag{
+  display:inline-flex;
+  align-items:center;
 
   padding:
-    9px 12px;
+    6px
+    9px;
 
-  border-radius: 8px;
+  border-radius:7px;
 
-  font-size: 8px;
+  font-size:6px;
+  font-weight:900;
+  letter-spacing:1px;
 
-  font-weight: 900;
-
-  letter-spacing: 1.5px;
-
-  text-transform: uppercase;
+  text-transform:uppercase;
 }
 
-
-.profile-tag.blue {
-
-  color: var(--blue);
+.profile-tag.blue{
+  color:var(--blue);
 
   border:
-    1px solid
-    rgba(137,220,255,0.30);
+    1px solid rgba(137,220,255,.20);
+
+  background:
+    rgba(137,220,255,.035);
 }
 
-
-.profile-tag.pink {
-
-  color: var(--pink);
+.profile-tag.pink{
+  color:var(--pink);
 
   border:
-    1px solid
-    rgba(255,143,211,0.30);
+    1px solid rgba(255,143,211,.20);
+
+  background:
+    rgba(255,143,211,.035);
 }
 
 
