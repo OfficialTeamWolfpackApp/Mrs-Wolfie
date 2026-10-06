@@ -1575,41 +1575,49 @@ a.schedule-card:hover{
     font-size:25px;
   }
 
-  .matchup{
-    grid-template-columns:1fr;
+.matchup{
+  grid-template-columns:
+    minmax(0,1fr)
+    auto
+    minmax(0,1fr);
 
-    gap:9px;
-    margin-top:20px;
+  align-items:center;
 
-    text-align:center;
-  }
+  gap:8px;
+  margin-top:20px;
+
+  text-align:center;
+}
 
   .fighter-side-card{
   width:100%;
 }
 
 .schedule-fighter-photo{
-  width:120px;
-  height:120px;
+  width:105px;
+  height:105px;
 
-  margin-bottom:9px;
+  margin-bottom:8px;
 }
 
 .opponent-side{
   align-items:center;
 }
   
-  .fighter{
-    font-size:20px;
-  }
+ .fighter{
+  font-size:13px;
+  line-height:1.15;
+  text-align:center;
+}
 
   .fighter.opponent{
     text-align:center;
   }
 
-  .vs{
-    font-size:16px;
-  }
+ .vs{
+  font-size:14px;
+  margin:0 2px;
+}
 
   .next-info{
     grid-template-columns:1fr;
