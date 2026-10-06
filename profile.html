@@ -1442,33 +1442,42 @@ footer {
   }
 
 
-  .hero {
-    min-height: 470px;
-  }
+.hero{
+  min-height:0;
+}
+
+.hero-background{
+  aspect-ratio:16 / 7;
+  background-position:center 28%;
+}
 
 
-  .hero-background {
-    background-position:
-      47% center;
-  }
+.hero-inner{
+  position:absolute;
+  left:50%;
+  bottom:13px;
 
+  width:
+    calc(100% - 24px);
 
-  .hero-inner {
+  transform:translateX(-50%);
 
-    width:
-      calc(100% - 30px);
+  margin:0;
+  padding:0;
 
-    padding:
-      80px 0;
-  }
+  text-align:center;
+}
 
+.hero-title{
+  font-size:
+    clamp(
+      22px,
+      7vw,
+      30px
+    );
 
-  .hero-title {
-
-    font-size: 54px;
-
-    letter-spacing: -2px;
-  }
+  letter-spacing:0;
+}
 
 
   .nav-wrap {
