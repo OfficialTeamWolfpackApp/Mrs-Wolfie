@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#05070a">
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="MRS WOLFIE"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black"
+>
+
+<title>Socials | Mrs Wolfie</title>
+
+<link
+  rel="manifest"
+  href="manifest.json"
+>
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+:root{
+  --blue:#89dcff;
+  --blue-bright:#aeeaff;
+
+  --pink:#ff8fd3;
+  --pink-bright:#ffb2e1;
+
+  --black:#030507;
+  --panel:#080c11;
+
+  --text:#ffffff;
+  --muted:#8d98a2;
+}
+
+body{
+  min-height:100vh;
+  min-height:100dvh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--text);
+
+  overflow-x:hidden;
+
+  background:
+    radial-gradient(
+      circle at 0% 18%,
+      rgba(137,220,255,.14),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 100% 65%,
+      rgba(255,143,211,.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      115deg,
+      #02080c 0%,
+      #05070a 50%,
+      #11050d 100%
+    );
+}
+
+a{
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+}
+
+/* =========================================
+   APP BAR
+========================================= */
+
+.app-bar{
+  position:fixed;
+
+  top:0;
+  left:0;
+  right:0;
+
+  z-index:500;
+
+  height:
+    calc(66px + env(safe-area-inset-top));
+
+  padding:
+    env(safe-area-inset-top)
+    15px
+    0;
+
+  display:grid;
+
+  grid-template-columns:
+    46px
+    1fr
+    46px;
+
+  align-items:center;
+
+  background:
+    rgba(4,6,8,.97);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.38);
+}
+
+.menu-button{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(137,220,255,.24);
+
+  background:
+    rgba(137,220,255,.07);
+
+  color:var(--blue);
+
+  cursor:pointer;
+
+  font-size:24px;
+}
+
+.app-bar-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.app-bar-title{
+  font-size:11px;
+  font-weight:900;
+
+  letter-spacing:1.8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #ffffff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+
+.app-status{
+  width:42px;
+  height:42px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.app-status-dot{
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#43f27b;
+
+  box-shadow:
+    0 0 9px rgba(67,242,123,.75);
+}
+
+/* =========================================
+   MENU BACKDROP
+========================================= */
+
+.menu-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:800;
+
+  visibility:hidden;
+  opacity:0;
+
+  background:rgba(0,0,0,.72);
+
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+.menu-backdrop.show{
+  visibility:visible;
+  opacity:1;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+
+/* =========================================
+   SIDE MENU
+========================================= */
+
+.side-menu{
+  position:fixed;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  z-index:900;
+
+  width:min(84vw,340px);
+
+  transform:translateX(-105%);
+
+  transition:transform .28s ease;
+
+  overflow-y:auto;
+
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    15px
+    calc(25px + env(safe-area-inset-bottom));
+
+  background:
+    radial-gradient(
+      circle at 0% 10%,
+      rgba(137,220,255,.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255,143,211,.16),
+      transparent 34%
+    ),
+    #07090c;
+
+  border-right:
+    1px solid rgba(137,220,255,.20);
+
+  box-shadow:
+    20px 0 50px rgba(0,0,0,.55);
+}
+
+.side-menu.show{
+  transform:translateX(0);
+}
+
+.menu-header{
+  position:relative;
+
+  padding:
+    10px
+    45px
+    21px
+    5px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+}
+
+.menu-brand{
+  font-size:18px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #ffffff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+
+.menu-tagline{
+  margin-top:5px;
+
+  color:#999;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:2px;
+}
+
+.close-menu{
+  position:absolute;
+
+  right:0;
+  top:5px;
+
+  width:38px;
+  height:38px;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(255,143,211,.25);
+
+  background:
+    rgba(255,143,211,.07);
+
+  color:var(--pink);
+
+  cursor:pointer;
+
+  font-size:21px;
+}
+
+.menu-section-label{
+  margin:
+    20px
+    8px
+    8px;
+
+  color:#666;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+}
+
+.menu-nav{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:4px;
+}
+
+.menu-link{
+  display:flex;
+
+  align-items:center;
+
+  min-height:48px;
+
+  padding:9px 11px;
+
+  border-radius:10px;
+
+  text-decoration:none;
+
+  color:#d7d7d7;
+
+  border:
+    1px solid transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  letter-spacing:.5px;
+}
+
+.menu-link:active{
+  transform:scale(.985);
+}
+
+.menu-link.active{
+  color:var(--blue);
+
+  border-color:
+    rgba(137,220,255,.22);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.12),
+      rgba(255,143,211,.08)
+    );
+}
+
+.menu-icon{
+  width:34px;
+
+  flex:0 0 34px;
+
+  text-align:center;
+
+  color:var(--blue);
+
+  font-size:17px;
+}
+
+.menu-link.active .menu-icon{
+  color:var(--pink);
+}
+
+.menu-arrow{
+  margin-left:auto;
+
+  color:#666;
+
+  font-size:16px;
+}
+/* =========================================
+   SOCIALS MAIN
+========================================= */
+
+.socials-main{
+  width:100%;
+  max-width:1000px;
+
+  margin:
+    calc(66px + env(safe-area-inset-top))
+    auto
+    0;
+
+  padding:
+    42px
+    16px
+    calc(55px + env(safe-area-inset-bottom));
+}
+
+
+/* =========================================
+   SOCIALS HEADING
+========================================= */
+
+.socials-heading{
+  position:relative;
+
+  margin-bottom:30px;
+
+  padding:
+    30px
+    24px;
+
+  text-align:center;
+
+  overflow:hidden;
+
+  border-radius:20px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgba(137,220,255,.18),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(255,143,211,.18),
+      transparent 38%
+    ),
+    rgba(7,10,13,.96);
+
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.34);
+}
+
+.socials-label{
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2.2px;
+
+  text-transform:uppercase;
+}
+
+.socials-heading h1{
+  margin-top:8px;
+
+  font-size:
+    clamp(28px,5vw,48px);
+
+  font-weight:900;
+
+  line-height:1;
+
+  text-transform:uppercase;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #ffffff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+
+.socials-heading p{
+  max-width:600px;
+
+  margin:
+    13px
+    auto
+    0;
+
+  color:#aeb6bc;
+
+  font-size:10px;
+
+  line-height:1.7;
+}
+
+
+/* =========================================
+   SOCIAL GRID
+========================================= */
+
+.social-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:16px;
+}
+
+
+/* =========================================
+   SOCIAL CARD
+========================================= */
+
+.social-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:270px;
+
+  padding:
+    28px
+    20px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  border-radius:18px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,.10),
+      rgba(7,9,12,.98) 50%,
+      rgba(255,143,211,.10)
+    );
+
+  box-shadow:
+    0 14px 35px rgba(0,0,0,.32);
+}
+
+.social-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:var(--blue);
+
+  box-shadow:
+    0 0 15px rgba(137,220,255,.60);
+}
+
+.social-card::after{
+  content:"";
+
+  position:absolute;
+
+  right:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:var(--pink);
+
+  box-shadow:
+    0 0 15px rgba(255,143,211,.60);
+}
+
+.social-icon{
+  width:66px;
+  height:66px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:17px;
+
+  border-radius:50%;
+
+  border:
+    1px solid rgba(255,255,255,.16);
+
+  color:#fff;
+
+  font-size:30px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(137,220,255,.18),
+      rgba(255,143,211,.18)
+    );
+
+  box-shadow:
+    -10px 0 24px rgba(137,220,255,.14),
+    10px 0 24px rgba(255,143,211,.14);
+}
+
+.social-platform{
+  color:var(--blue);
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:2px;
+}
+
+.social-name{
+  margin-top:6px;
+
+  color:#fff;
+
+  font-size:20px;
+  font-weight:900;
+
+  text-transform:uppercase;
+}
+
+.social-card p{
+  max-width:250px;
+
+  margin-top:10px;
+
+  color:#949da5;
+
+  font-size:9px;
+
+  line-height:1.65;
+}
+
+
+/* =========================================
+   SOCIALS RESPONSIVE
+========================================= */
+
+@media(max-width:750px){
+
+  .social-grid{
+    grid-template-columns:1fr;
+  }
+
+  .social-card{
+    min-height:220px;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .socials-main{
+    padding:
+      24px
+      12px
+      calc(44px + env(safe-area-inset-bottom));
+  }
+
+  .socials-heading{
+    padding:
+      25px
+      16px;
+  }
+
+  .socials-heading h1{
+    font-size:30px;
+  }
+
+}
+  
+</style>
+
+</head>
+
+<body>
+<!-- =========================================
+     APP BAR
+========================================= -->
+
+<header class="app-bar">
+
+  <button
+    id="menuButton"
+    class="menu-button"
+    type="button"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
+
+  <div class="app-bar-brand">
+
+    <div class="app-bar-title">
+      MRS WOLFIE
+    </div>
+
+  </div>
+
+  <div
+    class="app-status"
+    aria-label="App online"
+  >
+    <span class="app-status-dot"></span>
+  </div>
+
+</header>
+<!-- =========================================
+     MENU BACKDROP
+========================================= -->
+
+<div
+  id="menuBackdrop"
+  class="menu-backdrop"
+></div>
+
+
+<!-- =========================================
+     SIDE MENU
+========================================= -->
+
+<aside
+  id="sideMenu"
+  class="side-menu"
+  aria-label="Mrs Wolfie navigation"
+>
+
+  <div class="menu-header">
+
+    <div class="menu-brand">
+      MRS WOLFIE
+    </div>
+
+    <div class="menu-tagline">
+      HUNT WITHOUT FEAR
+    </div>
+
+    <button
+      id="closeMenuButton"
+      class="close-menu"
+      type="button"
+      aria-label="Close navigation menu"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <div class="menu-section-label">
+    MAIN
+  </div>
+
+  <nav class="menu-nav">
+
+    <a class="menu-link" href="index.html">
+      <span class="menu-icon">⌂</span>
+      <span>HOME</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="fight.html">
+      <span class="menu-icon">♜</span>
+      <span>FIGHT</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="profile.html">
+      <span class="menu-icon">♟</span>
+      <span>PROFILE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="schedule.html">
+      <span class="menu-icon">◆</span>
+      <span>SCHEDULE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+  <div class="menu-section-label">
+    EXPLORE
+  </div>
+
+  <nav class="menu-nav">
+
+    <a class="menu-link" href="merch.html">
+      <span class="menu-icon">◆</span>
+      <span>MERCH</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="sponsors.html">
+      <span class="menu-icon">★</span>
+      <span>SPONSORS &amp; PARTNERS</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link active" href="socials.html">
+      <span class="menu-icon">●</span>
+      <span>SOCIALS</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="gallery.html">
+      <span class="menu-icon">▣</span>
+      <span>GALLERY</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+</aside>
+<!-- =========================================
+     SOCIALS MAIN
+========================================= -->
+
+<main class="socials-main">
+
+  <section class="socials-heading">
+
+    <div class="socials-label">
+      MRS WOLFIE • TEAM WOLFPACK
+    </div>
+
+    <h1>
+      FOLLOW MRS WOLFIE
+    </h1>
+
+    <p>
+      Follow the journey across social media for
+      fight announcements, training, behind-the-scenes
+      content and Team Wolfpack updates.
+    </p>
+
+  </section>
+
+
+  <section class="social-grid">
+
+    <article class="social-card">
+
+      <div class="social-icon">
+        ♪
+      </div>
+
+      <div class="social-platform">
+        TIKTOK
+      </div>
+
+      <div class="social-name">
+        MRS WOLFIE
+      </div>
+
+      <p>
+        Follow Mrs Wolfie on TikTok for boxing,
+        training and behind-the-scenes content.
+      </p>
+
+    </article>
+
+
+    <article class="social-card">
+
+      <div class="social-icon">
+        ◎
+      </div>
+
+      <div class="social-platform">
+        INSTAGRAM
+      </div>
+
+      <div class="social-name">
+        MRS WOLFIE
+      </div>
+
+      <p>
+        Follow the latest photos, fight updates
+        and Team Wolfpack content on Instagram.
+      </p>
+
+    </article>
+
+
+    <article class="social-card">
+
+      <div class="social-icon">
+        f
+      </div>
+
+      <div class="social-platform">
+        FACEBOOK
+      </div>
+
+      <div class="social-name">
+        MRS WOLFIE
+      </div>
+
+      <p>
+        Keep up with Mrs Wolfie's boxing journey,
+        announcements and upcoming events.
+      </p>
+
+    </article>
+
+  </section>
+
+</main>
+  
+<!-- =========================================
+     MENU SCRIPT
+========================================= -->
+
+<script>
+
+const menuButton =
+  document.getElementById("menuButton");
+
+const closeMenuButton =
+  document.getElementById("closeMenuButton");
+
+const sideMenu =
+  document.getElementById("sideMenu");
+
+const menuBackdrop =
+  document.getElementById("menuBackdrop");
+
+
+function openMenu(){
+
+  sideMenu.classList.add("show");
+
+  menuBackdrop.classList.add("show");
+
+  document.body.classList.add("menu-open");
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function closeMenu(){
+
+  sideMenu.classList.remove("show");
+
+  menuBackdrop.classList.remove("show");
+
+  document.body.classList.remove("menu-open");
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+menuButton.addEventListener(
+  "click",
+  openMenu
+);
+
+
+closeMenuButton.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+menuBackdrop.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Escape"){
+      closeMenu();
+    }
+
+  }
+);
+
+</script>
+</body>
+
+</html>
