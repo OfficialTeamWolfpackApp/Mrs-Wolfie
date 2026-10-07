@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#05070a">
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="MRS WOLFIE"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black"
+>
+
+<title>
+Sponsors &amp; Partners | Mrs Wolfie
+</title>
+
+<link
+  rel="manifest"
+  href="manifest.json"
+>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+:root{
+  --blue:#89dcff;
+  --blue-bright:#aeeaff;
+
+  --pink:#ff8fd3;
+  --pink-bright:#ffb2e1;
+
+  --black:#030507;
+  --panel:#080c11;
+
+  --text:#ffffff;
+  --muted:#8d98a2;
+}
+
+body{
+  min-height:100vh;
+  min-height:100dvh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--text);
+
+  overflow-x:hidden;
+
+  background:
+    radial-gradient(
+      circle at 0% 18%,
+      rgba(137,220,255,.14),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 100% 65%,
+      rgba(255,143,211,.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      115deg,
+      #02080c 0%,
+      #05070a 50%,
+      #11050d 100%
+    );
+}
+
+a{
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+}
+/* =========================================
+   APP BAR
+========================================= */
+
+.app-bar{
+  position:fixed;
+
+  top:0;
+  left:0;
+  right:0;
+
+  z-index:500;
+
+  height:
+    calc(66px + env(safe-area-inset-top));
+
+  padding:
+    env(safe-area-inset-top)
+    15px
+    0;
+
+  display:grid;
+
+  grid-template-columns:
+    46px
+    1fr
+    46px;
+
+  align-items:center;
+
+  background:
+    rgba(4,6,8,.97);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.38);
+}
+
+.menu-button{
+  width:42px;
+  height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(137,220,255,.24);
+
+  background:
+    rgba(137,220,255,.07);
+
+  color:var(--blue);
+
+  cursor:pointer;
+
+  font-size:24px;
+}
+
+.app-bar-brand{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:9px;
+
+  min-width:0;
+}
+
+.app-bar-logo{
+  width:34px;
+  height:34px;
+
+  object-fit:contain;
+}
+
+.app-bar-title{
+  overflow:hidden;
+
+  white-space:nowrap;
+  text-overflow:ellipsis;
+
+  font-size:11px;
+  font-weight:900;
+
+  letter-spacing:1.8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #ffffff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+
+.app-status{
+  width:42px;
+  height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+}
+
+.app-status-dot{
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#43f27b;
+
+  box-shadow:
+    0 0 9px rgba(67,242,123,.75);
+}
+ /* =========================================
+   MENU BACKDROP
+========================================= */
+
+.menu-backdrop{
+  position:fixed;
+
+  inset:0;
+
+  z-index:800;
+
+  visibility:hidden;
+  opacity:0;
+
+  background:
+    rgba(0,0,0,.72);
+
+  backdrop-filter:
+    blur(3px);
+
+  -webkit-backdrop-filter:
+    blur(3px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+.menu-backdrop.show{
+  visibility:visible;
+  opacity:1;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+/* =========================================
+   SIDE MENU
+========================================= */
+
+.side-menu{
+  position:fixed;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  z-index:900;
+
+  width:min(84vw,340px);
+
+  transform:translateX(-105%);
+
+  transition:transform .28s ease;
+
+  overflow-y:auto;
+
+  overscroll-behavior:contain;
+
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    15px
+    calc(25px + env(safe-area-inset-bottom));
+
+  background:
+    radial-gradient(
+      circle at 0% 10%,
+      rgba(137,220,255,.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255,143,211,.16),
+      transparent 34%
+    ),
+    #07090c;
+
+  border-right:
+    1px solid rgba(137,220,255,.20);
+
+  box-shadow:
+    20px 0 50px rgba(0,0,0,.55);
+}
+
+.side-menu.show{
+  transform:translateX(0);
+}
+
+.menu-header{
+  position:relative;
+
+  padding:
+    10px
+    45px
+    21px
+    5px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+}
+
+.menu-logo{
+  width:72px;
+  height:72px;
+
+  object-fit:contain;
+
+  margin-bottom:10px;
+}
+
+.menu-brand{
+  font-size:18px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #ffffff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+
+.menu-tagline{
+  margin-top:5px;
+
+  color:#999;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:2px;
+}
+
+.close-menu{
+  position:absolute;
+
+  right:0;
+  top:5px;
+
+  width:38px;
+  height:38px;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(255,143,211,.25);
+
+  background:
+    rgba(255,143,211,.07);
+
+  color:var(--pink);
+
+  cursor:pointer;
+
+  font-size:21px;
+}
+
+.menu-section-label{
+  margin:
+    20px
+    8px
+    8px;
+
+  color:#666;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+}
+
+.menu-nav{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:4px;
+}
+
+.menu-link{
+  display:flex;
+
+  align-items:center;
+
+  min-height:48px;
+
+  padding:9px 11px;
+
+  border-radius:10px;
+
+  text-decoration:none;
+
+  color:#d7d7d7;
+
+  border:
+    1px solid transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  letter-spacing:.5px;
+}
+
+.menu-link:active{
+  transform:scale(.985);
+}
+
+.menu-link.active{
+  color:var(--blue);
+
+  border-color:
+    rgba(137,220,255,.22);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.12),
+      rgba(255,143,211,.08)
+    );
+}
+
+.menu-icon{
+  width:34px;
+
+  flex:0 0 34px;
+
+  text-align:center;
+
+  color:var(--blue);
+
+  font-size:17px;
+}
+
+.menu-link.active .menu-icon{
+  color:var(--pink);
+}
+
+.menu-arrow{
+  margin-left:auto;
+
+  color:#666;
+
+  font-size:16px;
+}
+ /* =========================================
+   MAIN SPONSORS BANNER
+========================================= */
+
+.main-banner{
+  position:relative;
+
+  width:100%;
+
+  margin-top:
+    calc(66px + env(safe-area-inset-top));
+
+  overflow:hidden;
+
+  background:#020202;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.38);
+}
+
+.main-banner img{
+  display:block;
+
+  width:100%;
+  height:auto;
+
+  max-height:430px;
+
+  object-fit:cover;
+  object-position:center;
+}
+ /* =========================================
+   MAIN CONTENT
+========================================= */
+
+.content{
+  width:100%;
+  max-width:920px;
+
+  margin:0 auto;
+
+  padding:
+    27px
+    16px
+    calc(50px + env(safe-area-inset-bottom));
+}
+
+
+/* =========================================
+   PAGE HEADING
+========================================= */
+
+.content-heading{
+  position:relative;
+
+  margin-bottom:23px;
+  padding-bottom:17px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+}
+
+.content-heading::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:-1px;
+
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      rgba(255,255,255,.08) 50%,
+      var(--pink)
+    );
+}
+
+.content-label{
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+.content-heading h1{
+  margin-top:6px;
+
+  font-size:20px;
+  font-weight:900;
+
+  letter-spacing:.4px;
+
+  text-transform:uppercase;
+}
+
+.content-heading p{
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+
+/* =========================================
+   INTRO CARD
+========================================= */
+
+.intro{
+  margin-bottom:31px;
+
+  padding:20px;
+
+  border-radius:16px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.13),
+      rgba(8,10,13,.96) 50%,
+      rgba(255,143,211,.13)
+    );
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.28);
+}
+
+.intro p{
+  color:#d0d4d8;
+
+  font-size:11px;
+
+  line-height:1.75;
+}
+/* =========================================
+   MRS WOLFIE SPONSORS SECTION
+========================================= */
+
+.sponsors-section{
+  margin-top:32px;
+}
+
+.section-heading{
+  display:flex;
+
+  align-items:flex-end;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin:
+    0
+    2px
+    15px;
+}
+
+.section-heading-left{
+  min-width:0;
+}
+
+.section-label{
+  color:#888;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+.section-title{
+  margin-top:5px;
+
+  color:var(--blue);
+
+  font-size:19px;
+  font-weight:900;
+
+  text-transform:uppercase;
+}
+
+.sponsor-count{
+  flex:0 0 auto;
+
+  padding:
+    6px
+    9px;
+
+  border-radius:20px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  color:#aaa;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  background:
+    rgba(255,255,255,.03);
+}
+ /* =========================================
+   SPONSOR GRID
+========================================= */
+
+.sponsor-grid{
+  display:grid;
+
+  grid-template-columns:1fr;
+
+  gap:15px;
+}
+
+
+/* =========================================
+   SPONSOR CARD
+========================================= */
+
+.sponsor-card{
+  position:relative;
+
+  overflow:hidden;
+
+  padding:17px;
+
+  border-radius:17px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.14),
+      rgba(8,10,13,.97) 50%,
+      rgba(255,143,211,.14)
+    );
+
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.30);
+}
+
+.sponsor-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:var(--blue);
+
+  box-shadow:
+    0 0 12px rgba(137,220,255,.50);
+}
+
+.sponsor-card::after{
+  content:"";
+
+  position:absolute;
+
+  right:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:var(--pink);
+
+  box-shadow:
+    0 0 12px rgba(255,143,211,.50);
+}
+/* =========================================
+   SPONSOR LOGO
+========================================= */
+
+.sponsor-logo-box{
+  width:100%;
+  height:215px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:18px;
+
+  border-radius:13px;
+
+  background:#fff;
+
+  overflow:hidden;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.07);
+}
+
+.sponsor-logo-box img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+
+  padding:12px;
+}
+
+
+/* =========================================
+   SPONSOR INFORMATION
+========================================= */
+
+.sponsor-name{
+  font-size:18px;
+  font-weight:900;
+
+  line-height:1.2;
+
+  text-transform:uppercase;
+}
+
+.sponsor-type{
+  margin-top:6px;
+
+  color:var(--blue);
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:1.2px;
+
+  text-transform:uppercase;
+}
+
+.sponsor-info{
+  margin-top:10px;
+
+  color:#aaa;
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.representing{
+  display:block;
+
+  margin-top:10px;
+
+  color:var(--pink);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:.7px;
+
+  text-transform:uppercase;
+}
+/* =========================================
+   SPONSOR BUTTONS
+========================================= */
+
+.social-links{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+
+  margin-top:16px;
+}
+
+.social-button{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:46px;
+
+  padding:12px;
+
+  border:
+    1px solid rgba(137,220,255,.38);
+
+  border-radius:10px;
+
+  text-align:center;
+  text-decoration:none;
+
+  color:#fff;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.11),
+      rgba(255,143,211,.11)
+    );
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease;
+}
+
+.social-button:hover{
+  border-color:
+    rgba(255,143,211,.55);
+}
+
+.social-button:active{
+  transform:scale(.985);
+}
+/* =========================================
+   SPONSORSHIP CTA
+========================================= */
+
+.cta{
+  position:relative;
+
+  overflow:hidden;
+
+  margin-top:34px;
+
+  padding:
+    25px
+    21px;
+
+  text-align:center;
+
+  border-radius:17px;
+
+  border:
+    1px solid rgba(137,220,255,.25);
+
+  background:
+    radial-gradient(
+      circle at 0% 40%,
+      rgba(137,220,255,.14),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 100% 60%,
+      rgba(255,143,211,.14),
+      transparent 38%
+    ),
+    rgba(8,10,13,.96);
+
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.30);
+}
+
+.cta-label{
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+}
+
+.cta h2{
+  margin-top:7px;
+
+  font-size:22px;
+  font-weight:900;
+
+  text-transform:uppercase;
+}
+
+.ice{
+  color:var(--blue);
+}
+
+.pink{
+  color:var(--pink);
+}
+
+.cta p{
+  max-width:540px;
+
+  margin:
+    10px
+    auto
+    0;
+
+  color:#aaa;
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.cta-button{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:49px;
+
+  margin-top:18px;
+
+  padding:13px;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(137,220,255,.42);
+
+  text-decoration:none;
+
+  color:#fff;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.15),
+      rgba(255,143,211,.15)
+    );
+}
+
+.cta-button:active{
+  transform:scale(.985);
+}
+/* =========================================
+   FOOTER
+========================================= */
+
+.app-footer{
+  margin-top:30px;
+
+  padding-top:20px;
+
+  border-top:
+    1px solid rgba(255,255,255,.07);
+
+  text-align:center;
+
+  color:#666;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:1.3px;
+}
+
+.copyright{
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:12px;
+
+  width:100%;
+  max-width:560px;
+
+  margin:
+    17px
+    auto
+    0;
+
+  padding-top:15px;
+
+  border-top:
+    1px solid rgba(255,255,255,.04);
+}
+
+.copyright::before,
+.copyright::after{
+  content:"";
+
+  flex:1;
+
+  max-width:110px;
+  min-width:20px;
+
+  height:2px;
+
+  border-radius:10px;
+}
+
+.copyright::before{
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--blue)
+    );
+
+  box-shadow:
+    0 0 12px rgba(137,220,255,.55);
+}
+
+.copyright::after{
+  background:
+    linear-gradient(
+      90deg,
+      var(--pink),
+      transparent
+    );
+
+  box-shadow:
+    0 0 12px rgba(255,143,211,.55);
+}
+
+.copyright-text{
+  flex:0 1 auto;
+
+  color:#d8d8d8;
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:1.2px;
+
+  white-space:nowrap;
+}
+
+.copyright-year{
+  color:#fff;
+}
+
+.copyright-team{
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      #fff 50%,
+      var(--pink)
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  background-clip:text;
+}
+/* =========================================
+   TABLET / DESKTOP
+========================================= */
+
+@media(min-width:720px){
+
+  .sponsor-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .sponsor-logo-box{
+    height:230px;
+  }
+
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media(max-width:430px){
+
+  .main-banner img{
+    min-height:155px;
+    max-height:205px;
+
+    object-fit:cover;
+  }
+
+  .content{
+    padding:
+      22px
+      12px
+      calc(42px + env(safe-area-inset-bottom));
+  }
+
+  .sponsor-logo-box{
+    height:190px;
+  }
+
+  .sponsor-name{
+    font-size:17px;
+  }
+
+  .copyright{
+    gap:7px;
+  }
+
+  .copyright::before,
+  .copyright::after{
+    min-width:14px;
+  }
+
+  .copyright-text{
+    font-size:6px;
+    letter-spacing:.45px;
+    white-space:normal;
+  }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  .side-menu,
+  .menu-backdrop{
+    transition:none;
+  }
+
+}
+
+</style>
+
+</head>
+<body>
+<!-- =========================================
+     APP BAR
+========================================= -->
+
+<header class="app-bar">
+
+  <button
+    id="menuButton"
+    class="menu-button"
+    type="button"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
+
+  <div class="app-bar-brand">
+
+    <img
+      src="icon-192.png"
+      class="app-bar-logo"
+      alt=""
+    >
+
+    <div class="app-bar-title">
+      MRS WOLFIE
+    </div>
+
+  </div>
+
+  <div
+    class="app-status"
+    aria-label="App online"
+  >
+    <span class="app-status-dot"></span>
+  </div>
+
+</header>
+
+
+<!-- MENU BACKDROP -->
+
+<div
+  id="menuBackdrop"
+  class="menu-backdrop"
+></div>  
+<!-- =========================================
+     SIDE MENU
+========================================= -->
+
+<aside
+  id="sideMenu"
+  class="side-menu"
+  aria-label="Mrs Wolfie navigation"
+>
+
+  <div class="menu-header">
+
+    <img
+      src="icon-192.png"
+      class="menu-logo"
+      alt="Mrs Wolfie"
+    >
+
+    <div class="menu-brand">
+      MRS WOLFIE
+    </div>
+
+    <div class="menu-tagline">
+      HUNT WITHOUT FEAR
+    </div>
+
+    <button
+      id="closeMenuButton"
+      class="close-menu"
+      type="button"
+      aria-label="Close navigation menu"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div class="menu-section-label">
+    MAIN
+  </div>
+
+  <nav class="menu-nav">
+
+    <a class="menu-link" href="index.html">
+      <span class="menu-icon">⌂</span>
+      <span>HOME</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="fight.html">
+      <span class="menu-icon">♜</span>
+      <span>FIGHT</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="profile.html">
+      <span class="menu-icon">♟</span>
+      <span>PROFILE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="schedule.html">
+      <span class="menu-icon">◆</span>
+      <span>SCHEDULE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+
+  <div class="menu-section-label">
+    EXPLORE
+  </div>
+
+  <nav class="menu-nav">
+
+    <a
+      class="menu-link active"
+      href="sponsors.html"
+    >
+      <span class="menu-icon">★</span>
+      <span>SPONSORS &amp; PARTNERS</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="gallery.html">
+      <span class="menu-icon">▣</span>
+      <span>GALLERY</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+</aside>
+<!-- =========================================
+     SPONSORS & PARTNERS BANNER
+========================================= -->
+
+<section class="main-banner">
+
+  <img
+    src="images/mrs-wolfie-sponsors-banner.png"
+    alt="Mrs Wolfie Sponsors and Partners"
+  >
+
+</section>
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="content">
+
+  <div class="content-heading">
+
+    <div class="content-label">
+      MRS WOLFIE • TEAM WOLFPACK
+    </div>
+
+    <h1>
+      SPONSORS &amp; PARTNERS
+    </h1>
+
+    <p>
+      Proudly supported by the businesses and partners
+      backing Mrs Wolfie on her boxing journey.
+    </p>
+
+  </div>
+
+
+  <!-- INTRO -->
+
+  <section class="intro">
+
+    <p>
+      Every sponsor and partner plays an important part
+      in supporting Mrs Wolfie in and out of the ring.
+      Their backing helps with training, preparation,
+      fight nights and the continued growth of
+      Team Wolfpack.
+    </p>
+
+  </section>
+ <!-- =========================================
+     MRS WOLFIE SPONSORS
+========================================= -->
+
+<section class="sponsors-section">
+
+  <div class="section-heading">
+
+    <div class="section-heading-left">
+
+      <div class="section-label">
+        PROUDLY BACKED BY
+      </div>
+
+      <div class="section-title">
+        MRS WOLFIE SPONSORS
+      </div>
+
+    </div>
+
+    <div class="sponsor-count">
+      2 SPONSORS
+    </div>
+
+  </div>
+
+
+  <div class="sponsor-grid">
+  <!-- LUKE MORGAN ELECTRICAL -->
+
+<article class="sponsor-card">
+
+  <div class="sponsor-logo-box">
+
+    <img
+      src="luke-morgan-electrical.jpg"
+      alt="Luke Morgan Electrical"
+    >
+
+  </div>
+
+  <div class="sponsor-name">
+    LUKE MORGAN ELECTRICAL
+  </div>
+
+  <div class="sponsor-type">
+    OFFICIAL MRS WOLFIE SPONSOR
+  </div>
+
+  <p class="sponsor-info">
+    Proudly supporting Mrs Wolfie and her boxing journey
+    as part of Team Wolfpack.
+  </p>
+
+  <span class="representing">
+    SUPPORTING MRS WOLFIE • TEAM WOLFPACK
+  </span>
+
+  <div class="social-links">
+
+    <a
+      class="social-button"
+      href="https://www.facebook.com/LukeMorganElectrical/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      VISIT FACEBOOK
+    </a>
+
+  </div>
+
+</article>
+<!-- KING CLOTHING -->
+
+<article class="sponsor-card">
+
+  <div class="sponsor-logo-box">
+
+    <img
+      src="king-clothing.png"
+      alt="King Clothing"
+    >
+
+  </div>
+
+  <div class="sponsor-name">
+    KING CLOTHING
+  </div>
+
+  <div class="sponsor-type">
+    OFFICIAL MRS WOLFIE SPONSOR
+  </div>
+
+  <p class="sponsor-info">
+    Proudly supporting Mrs Wolfie and her boxing journey
+    as part of Team Wolfpack.
+  </p>
+
+  <span class="representing">
+    SUPPORTING MRS WOLFIE • TEAM WOLFPACK
+  </span>
+
+  <div class="social-links">
+
+    <a
+      class="social-button"
+      href="https://www.facebook.com/Kingclothing0115"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      VISIT FACEBOOK
+    </a>
+
+    <a
+      class="social-button"
+      href="https://www.instagram.com/kingclothing0115"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      VISIT INSTAGRAM
+    </a>
+
+    <a
+      class="social-button"
+      href="https://www.tiktok.com/@king.clothing.0115"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      VISIT TIKTOK
+    </a>
+
+  </div>
+
+</article>
+  </div>
+
+</section> 
+<!-- =========================================
+     SPONSORSHIP OPPORTUNITY
+========================================= -->
+
+<section class="cta">
+
+  <div class="cta-label">
+    JOIN THE JOURNEY
+  </div>
+
+  <h2>
+    SPONSOR <span class="ice">MRS</span>
+    <span class="pink">WOLFIE</span>
+  </h2>
+
+  <p>
+    Become part of Team Wolfpack and support Mrs Wolfie
+    throughout her boxing journey. Sponsorship packages
+    are available for businesses and brands looking to
+    become part of the team.
+  </p>
+
+</section>
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="app-footer">
+
+  <div>
+    MRS WOLFIE • HUNT WITHOUT FEAR
+  </div>
+
+  <div class="copyright">
+
+    <div class="copyright-text">
+      © <span class="copyright-year">2026</span>
+      <span class="copyright-team">MRS WOLFIE</span>
+      • TEAM WOLFPACK
+    </div>
+
+  </div>
+
+</footer>
+
+</main>
+<script>
+
+/* =========================================
+   SIDE MENU
+========================================= */
+
+const menuButton =
+  document.getElementById("menuButton");
+
+const closeMenuButton =
+  document.getElementById("closeMenuButton");
+
+const sideMenu =
+  document.getElementById("sideMenu");
+
+const menuBackdrop =
+  document.getElementById("menuBackdrop");
+
+
+function openMenu(){
+
+  sideMenu.classList.add("show");
+
+  menuBackdrop.classList.add("show");
+
+  document.body.classList.add("menu-open");
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function closeMenu(){
+
+  sideMenu.classList.remove("show");
+
+  menuBackdrop.classList.remove("show");
+
+  document.body.classList.remove("menu-open");
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+menuButton.addEventListener(
+  "click",
+  openMenu
+);
+
+
+closeMenuButton.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+menuBackdrop.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Escape"){
+      closeMenu();
+    }
+
+  }
+);
+
+</script>
+<script>
+
+/* =========================================
+   SERVICE WORKER
+========================================= */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener(
+    "load",
+    function(){
+
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .catch(function(error){
+
+          console.error(
+            "Service worker error:",
+            error
+          );
+
+        });
+
+    }
+  );
+
+}
+
+</script>
+
+</body>
+</html>
