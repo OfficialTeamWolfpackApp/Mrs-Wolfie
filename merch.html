@@ -483,16 +483,47 @@ body.menu-open{
   font-size:16px;
 }
 
+/* =========================================
+   MERCH BANNER
+========================================= */
 
+.merch-banner{
+  position:relative;
+
+  width:100%;
+
+  margin-top:
+    calc(66px + env(safe-area-inset-top));
+
+  overflow:hidden;
+
+  background:#020202;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.09);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.38);
+}
+
+.merch-banner img{
+  display:block;
+
+  width:100%;
+  height:auto;
+
+  object-fit:contain;
+  object-position:center;
+
+  background:#020202;
+}
+  
 /* =========================================
    HERO
 ========================================= */
 
 .merch-hero{
   position:relative;
-
-  margin-top:
-    calc(66px + env(safe-area-inset-top));
 
   min-height:310px;
 
@@ -1632,7 +1663,18 @@ body.menu-open{
 <!-- =========================================
      MERCH HERO
 ========================================= -->
+<!-- =========================================
+     MERCH BANNER
+========================================= -->
 
+<section class="merch-banner">
+
+  <img
+    src="images/mrs-wolfie-merch-banner.png"
+    alt="Mrs Wolfie Official Merch"
+  >
+
+</section>
 <section class="merch-hero">
 
   <div class="hero-content">
