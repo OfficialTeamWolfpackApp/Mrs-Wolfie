@@ -764,6 +764,62 @@ body.menu-open{
   }
 
 }
+
+/* =========================================
+   SOCIAL FOLLOW BUTTON
+========================================= */
+
+.social-link{
+  color:inherit;
+  text-decoration:none;
+  cursor:pointer;
+
+  transition:
+    transform .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease;
+}
+
+.social-link:hover{
+  transform:translateY(-4px);
+
+  border-color:
+    rgba(137,220,255,.28);
+
+  box-shadow:
+    -8px 0 28px rgba(137,220,255,.12),
+    8px 0 28px rgba(255,143,211,.12),
+    0 18px 40px rgba(0,0,0,.40);
+}
+
+.social-button{
+  width:100%;
+
+  margin-top:18px;
+
+  padding:
+    11px
+    14px;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(137,220,255,.28);
+
+  color:#fff;
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:1.2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.12),
+      rgba(255,143,211,.12)
+    );
+}
   
 </style>
 
@@ -933,72 +989,91 @@ body.menu-open{
   </section>
 
 
-  <section class="social-grid">
+ <a
+  class="social-card social-link"
+  href="https://www.tiktok.com/@mrswolfie2410?is_from_webapp=1&sender_device=pc"
+  target="_blank"
+  rel="noopener noreferrer"
+>
 
-    <article class="social-card">
+  <div class="social-icon">
+    ♪
+  </div>
 
-      <div class="social-icon">
-        ♪
-      </div>
+  <div class="social-platform">
+    TIKTOK
+  </div>
 
-      <div class="social-platform">
-        TIKTOK
-      </div>
+  <div class="social-name">
+    MRS WOLFIE
+  </div>
 
-      <div class="social-name">
-        MRS WOLFIE
-      </div>
+  <div class="social-button">
+  FOLLOW ON TIKTOK →
+</div>
 
-      <p>
-        Follow Mrs Wolfie on TikTok for boxing,
-        training and behind-the-scenes content.
-      </p>
-
-    </article>
-
-
-    <article class="social-card">
-
-      <div class="social-icon">
-        ◎
-      </div>
-
-      <div class="social-platform">
-        INSTAGRAM
-      </div>
-
-      <div class="social-name">
-        MRS WOLFIE
-      </div>
-
-      <p>
-        Follow the latest photos, fight updates
-        and Team Wolfpack content on Instagram.
-      </p>
-
-    </article>
+</a>
 
 
-    <article class="social-card">
+  <a
+  class="social-card social-link"
+  href="https://www.instagram.com/teamwolfpack2410/"
+  target="_blank"
+  rel="noopener noreferrer"
+>
 
-      <div class="social-icon">
-        f
-      </div>
+  <div class="social-icon">
+    ◎
+  </div>
 
-      <div class="social-platform">
-        FACEBOOK
-      </div>
+  <div class="social-platform">
+    INSTAGRAM
+  </div>
 
-      <div class="social-name">
-        MRS WOLFIE
-      </div>
+  <div class="social-name">
+    TEAM WOLFPACK
+  </div>
 
-      <p>
-        Keep up with Mrs Wolfie's boxing journey,
-        announcements and upcoming events.
-      </p>
+  <p>
+    Follow Team Wolfpack on Instagram for
+    Mrs Wolfie fight updates, photos and
+    behind-the-scenes content.
+  </p>
 
-    </article>
+  <div class="social-button">
+    FOLLOW ON INSTAGRAM →
+  </div>
+
+</a>
+<a
+  class="social-card social-link"
+  href="https://www.facebook.com/mrswolfie2410"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+
+  <div class="social-icon">
+    f
+  </div>
+
+  <div class="social-platform">
+    FACEBOOK
+  </div>
+
+  <div class="social-name">
+    MRS WOLFIE
+  </div>
+
+  <p>
+    Follow Mrs Wolfie on Facebook for boxing
+    updates, fight announcements and upcoming events.
+  </p>
+
+  <div class="social-button">
+    FOLLOW ON FACEBOOK →
+  </div>
+
+</a>
 
   </section>
 
