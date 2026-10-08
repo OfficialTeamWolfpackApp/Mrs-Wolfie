@@ -82,31 +82,72 @@ body{
 
 /* SIDE MENU */
 
+/* =========================================
+   MENU BACKDROP
+========================================= */
+
 .menu-backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.75);
   z-index:1001;
-  display:none;
+
+  visibility:hidden;
+  opacity:0;
+
+  background:rgba(0,0,0,.72);
+
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
 }
 
 .menu-backdrop.open{
-  display:block;
+  visibility:visible;
+  opacity:1;
 }
-
 .side-menu{
   position:fixed;
-  top:0;
+
   left:0;
+  top:0;
   bottom:0;
-  width:min(300px,85vw);
-  padding:30px 20px;
-  background:#090d15;
-  border-right:1px solid rgba(137,220,255,.2);
+
   z-index:1002;
+
+  width:min(84vw,340px);
+
   transform:translateX(-105%);
-  transition:transform .25s ease;
+
+  transition:transform .28s ease;
+
   overflow-y:auto;
+
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    15px
+    calc(25px + env(safe-area-inset-bottom));
+
+  background:
+    radial-gradient(
+      circle at 0% 10%,
+      rgba(137,220,255,.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255,143,211,.16),
+      transparent 34%
+    ),
+    #07090c;
+
+  border-right:
+    1px solid rgba(137,220,255,.20);
+
+  box-shadow:
+    20px 0 50px rgba(0,0,0,.55);
 }
 
 .side-menu.open{
@@ -114,40 +155,138 @@ body{
 }
 
 .menu-close{
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:38px;
+  height:38px;
+
   margin-left:auto;
-  background:none;
-  border:0;
-  color:#fff;
-  font-size:30px;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(255,143,211,.25);
+
+  background:
+    rgba(255,143,211,.07);
+
+  color:var(--pink);
+
   cursor:pointer;
+
+  font-size:21px;
 }
+
+/* =========================================
+   MENU SECTION HEADINGS
+========================================= */
 
 .menu-heading{
-  margin:20px 0;
-  color:var(--blue);
+  margin:20px 8px 8px;
+
+  color:#777;
+
+  font-size:9px;
   font-weight:900;
+
   letter-spacing:2px;
+
+  text-transform:uppercase;
 }
+
+/* =========================================
+   MENU NAVIGATION BUTTONS
+========================================= */
 
 .side-menu a{
-  display:block;
-  padding:14px;
-  margin-bottom:7px;
-  color:#ddd;
-  text-decoration:none;
+  display:flex;
+  align-items:center;
+
+  min-height:48px;
+
+  padding:9px 11px;
+  margin-bottom:4px;
+
   border-radius:10px;
-  background:rgba(255,255,255,.035);
-  font-size:13px;
-  font-weight:700;
+
+  text-decoration:none;
+
+  color:#d7d7d7;
+
+  border:1px solid transparent;
+
+  background:transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  letter-spacing:.5px;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
 }
+
+.side-menu a:hover{
+  background:rgba(137,220,255,.08);
+  border-color:rgba(137,220,255,.18);
+}
+
+.side-menu a:active{
+  transform:scale(.985);
+}
+/* =========================================
+   ACTIVE MENU PAGE
+========================================= */
 
 .side-menu a.active{
-  background:linear-gradient(90deg,rgba(137,220,255,.18),rgba(255,143,211,.18));
-  color:#fff;
-  border:1px solid rgba(137,220,255,.3);
+  color:var(--blue);
+
+  border-color:
+    rgba(137,220,255,.22);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.12),
+      rgba(255,143,211,.08)
+    );
+}
+  
+/* =========================================
+   MENU ICONS
+========================================= */
+
+.menu-icon{
+  width:34px;
+  flex:0 0 34px;
+
+  text-align:center;
+
+  color:var(--blue);
+
+  font-size:17px;
 }
 
+/* ACTIVE PAGE ICON */
+
+.side-menu a.active .menu-icon{
+  color:var(--pink);
+}
+
+/* MENU ARROWS */
+
+.menu-arrow{
+  margin-left:auto;
+
+  color:#666;
+
+  font-size:16px;
+}
+  
 /* CONTACT BANNER */
 
 .contact-banner{
@@ -446,20 +585,67 @@ body{
 
   <div class="menu-heading">MAIN</div>
 
-<a href="index.html">⌂ HOME</a>
-<a href="fight.html">♜ FIGHT NIGHT</a>
-<a href="profile.html">♟ MRS WOLFIE</a>
-<a href="schedule.html">◆ FIGHT SCHEDULE</a>
-<a href="updates.html">● APP UPDATES</a>
+<a href="index.html">
+  <span class="menu-icon">⌂</span>
+  <span>HOME</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="fight.html">
+  <span class="menu-icon">♜</span>
+  <span>FIGHT NIGHT</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="profile.html">
+  <span class="menu-icon">♟</span>
+  <span>MRS WOLFIE</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="schedule.html">
+  <span class="menu-icon">◫</span>
+  <span>FIGHT SCHEDULE</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="updates.html">
+  <span class="menu-icon">●</span>
+  <span>APP UPDATES</span>
+  <span class="menu-arrow">›</span>
+</a>
 
 <div class="menu-heading">EXPLORE</div>
 
-<a href="sponsors.html">★ SPONSORS &amp; PARTNERS</a>
-<a href="gallery.html">▣ GALLERY</a>
-<a href="merch.html">◇ MERCH</a>
-<a href="socials.html">◎ SOCIALS</a>
-<a href="contact.html" class="active">✉ CONTACT</a>
+<a href="sponsors.html">
+  <span class="menu-icon">★</span>
+  <span>SPONSORS &amp; PARTNERS</span>
+  <span class="menu-arrow">›</span>
+</a>
 
+<a href="gallery.html">
+  <span class="menu-icon">▣</span>
+  <span>GALLERY</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="merch.html">
+  <span class="menu-icon">◇</span>
+  <span>MERCH</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="socials.html">
+  <span class="menu-icon">◎</span>
+  <span>SOCIALS</span>
+  <span class="menu-arrow">›</span>
+</a>
+
+<a href="contact.html" class="active" aria-current="page">
+  <span class="menu-icon">✉</span>
+  <span>CONTACT</span>
+  <span class="menu-arrow">›</span>
+</a>
 <div class="menu-heading">OFFICIAL TEAM APP</div>
 
 <a
@@ -467,10 +653,13 @@ body{
   target="_blank"
   rel="noopener noreferrer"
 >
-  🐺 TEAM WOLFPACK OFFICIAL MOBILE APP ↗
+  <span class="menu-icon">🐺</span>
+  <span>TEAM WOLFPACK OFFICIAL MOBILE APP</span>
+  <span class="menu-arrow">↗</span>
 </a>
   
 </aside>
+  
 <!-- =========================================
      MRS WOLFIE CONTACT BANNER
 ========================================= -->
