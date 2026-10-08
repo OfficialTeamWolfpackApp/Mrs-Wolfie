@@ -492,6 +492,57 @@ body.menu-open{
 
   font-size:16px;
 }
+/* =========================================
+   TEAM WOLFPACK MOBILE APP BUTTON
+========================================= */
+
+.menu-website{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:100%;
+  min-height:50px;
+
+  margin-top:25px;
+  padding:14px 12px;
+
+  border-radius:12px;
+  border:1px solid rgba(137,220,255,.35);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(137,220,255,.16),
+      rgba(255,143,211,.16)
+    );
+
+  color:#ffffff;
+
+  text-align:center;
+  text-decoration:none;
+
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+  line-height:1.5;
+
+  box-shadow:
+    0 0 18px rgba(137,220,255,.10);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+.menu-website:hover{
+  border-color:var(--pink);
+}
+
+.menu-website:active{
+  transform:scale(.98);
+}
+  
  /* =========================================
    MAIN SPONSORS BANNER
 ========================================= */
@@ -1335,59 +1386,93 @@ body.menu-open{
     MAIN
   </div>
 
-  <nav class="menu-nav">
+ <nav class="menu-nav">
 
-    <a class="menu-link" href="index.html">
-      <span class="menu-icon">⌂</span>
-      <span>HOME</span>
-      <span class="menu-arrow">›</span>
-    </a>
+  <a class="menu-link" href="./index.html">
+    <span class="menu-icon">⌂</span>
+    <span>HOME</span>
+    <span class="menu-arrow">›</span>
+  </a>
 
-    <a class="menu-link" href="fight.html">
-      <span class="menu-icon">♜</span>
-      <span>FIGHT</span>
-      <span class="menu-arrow">›</span>
-    </a>
+  <a class="menu-link" href="./fight.html">
+    <span class="menu-icon">🥊</span>
+    <span>FIGHT NIGHT</span>
+    <span class="menu-arrow">›</span>
+  </a>
 
-    <a class="menu-link" href="profile.html">
-      <span class="menu-icon">♟</span>
-      <span>PROFILE</span>
-      <span class="menu-arrow">›</span>
-    </a>
+  <a class="menu-link" href="./profile.html">
+    <span class="menu-icon">♟</span>
+    <span>MRS WOLFIE</span>
+    <span class="menu-arrow">›</span>
+  </a>
 
-    <a class="menu-link" href="schedule.html">
-      <span class="menu-icon">◆</span>
-      <span>SCHEDULE</span>
-      <span class="menu-arrow">›</span>
-    </a>
+  <a class="menu-link" href="./schedule.html">
+    <span class="menu-icon">▣</span>
+    <span>FIGHT SCHEDULE</span>
+    <span class="menu-arrow">›</span>
+  </a>
+  <a class="menu-link" href="./updates.html">
+    <span class="menu-icon">●</span>
+    <span>APP UPDATES</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
+</nav>
+
+<!-- =========================================
+     EXPLORE
+========================================= -->
+
+<div class="menu-section-label">
+  EXPLORE
+</div>
+
+<nav class="menu-nav">
+
+  <a class="menu-link active" href="./sponsors.html" aria-current="page">
+    <span class="menu-icon">★</span>
+    <span>SPONSORS &amp; PARTNERS</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a class="menu-link" href="./gallery.html">
+    <span class="menu-icon">▣</span>
+    <span>GALLERY</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a class="menu-link" href="./merch.html">
+    <span class="menu-icon">◇</span>
+    <span>MERCH</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a class="menu-link" href="./socials.html">
+    <span class="menu-icon">◎</span>
+    <span>SOCIALS</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a class="menu-link" href="./contact.html">
+    <span class="menu-icon">✉</span>
+    <span>CONTACT</span>
+    <span class="menu-arrow">›</span>
+  </a>
 
   </nav>
 
-
-  <div class="menu-section-label">
-    EXPLORE
-  </div>
-
-  <nav class="menu-nav">
-
-    <a
-      class="menu-link active"
-      href="sponsors.html"
-    >
-      <span class="menu-icon">★</span>
-      <span>SPONSORS &amp; PARTNERS</span>
-      <span class="menu-arrow">›</span>
-    </a>
-
-    <a class="menu-link" href="gallery.html">
-      <span class="menu-icon">▣</span>
-      <span>GALLERY</span>
-      <span class="menu-arrow">›</span>
-    </a>
-
-  </nav>
+  <!-- TEAM WOLFPACK MOBILE APP -->
+  <a
+    class="menu-website"
+    href="https://app.officialteamwolfpack.com/index.html"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    TEAM WOLFPACK OFFICIAL MOBILE APP
+  </a>
 
 </aside>
+  
 <!-- =========================================
      SPONSORS & PARTNERS BANNER
 ========================================= -->
