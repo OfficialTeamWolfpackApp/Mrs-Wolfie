@@ -147,7 +147,16 @@ body.menu-open {
   font-size: 21px;
   cursor: pointer;
 }
+    
+/* FIX HAMBURGER MENU POSITION */
 
+.topbar .menu-button {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
 .menu-backdrop {
   position: fixed;
   inset: 0;
@@ -317,7 +326,6 @@ body.menu-open {
     ========================================================= */
 
     .topbar {
-
       height: 64px;
 
       background:
