@@ -978,6 +978,68 @@ body.menu-open{
   }
 
 }
+
+/* =========================================
+   TEAM WOLFPACK SOCIALS BANNER
+========================================= */
+
+.wolfpack-socials-section{
+  width:100%;
+  margin-top:35px;
+  padding:0;
+}
+
+.wolfpack-socials-link{
+  display:block;
+  width:100%;
+  overflow:hidden;
+
+  border-radius:18px;
+
+  border:1px solid rgba(137,220,255,.25);
+
+  background:#020202;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.45),
+    0 0 20px rgba(0,191,255,.10),
+    0 0 20px rgba(255,0,128,.10);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.wolfpack-socials-link img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.wolfpack-socials-link:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.5),
+    0 0 25px rgba(0,191,255,.25),
+    0 0 25px rgba(255,0,128,.25);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
+
+  .wolfpack-socials-section{
+    margin-top:22px;
+  }
+
+  .wolfpack-socials-link{
+    border-radius:12px;
+  }
+
+}
   
 </style>
 
@@ -1241,6 +1303,30 @@ body.menu-open{
 </a>
 
   </section>
+
+<!-- =========================================
+     TEAM WOLFPACK SOCIALS BANNER
+========================================= -->
+
+<section class="wolfpack-socials-section">
+
+  <a
+    class="wolfpack-socials-link"
+    href="https://www.instagram.com/teamwolfpack2410/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Follow Team Wolfpack on Instagram"
+  >
+
+    <img
+      src="images/team-wolfpack-socials-banner.png"
+      alt="Team Wolfpack - One Pack One Purpose"
+      loading="lazy"
+    >
+
+  </a>
+
+</section>
 
 </main>
   
