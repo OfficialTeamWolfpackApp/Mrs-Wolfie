@@ -534,8 +534,24 @@ body{
     <h2>SEND AN ENQUIRY</h2>
     <p>Complete the form below to prepare your enquiry.</p>
 
-    <form id="contactForm">
+   <form
+  id="contactForm"
+  action="https://formsubmit.co/teamwolfpack2026@hotmail.com"
+  method="POST"
+>
 
+     <input
+  type="hidden"
+  name="_subject"
+  value="New Mrs Wolfie Contact Enquiry"
+>
+
+<input
+  type="hidden"
+  name="_template"
+  value="table"
+>
+     
       <div class="form-grid">
 
         <div class="form-group">
@@ -586,9 +602,18 @@ body{
         SEND ENQUIRY →
       </button>
 
-      <div class="form-notice" id="formNotice" role="status" aria-live="polite">
-        Message delivery is not configured yet.
-      </div>
+     <!-- =========================================
+     CONTACT FORM STATUS MESSAGE
+========================================= -->
+
+<div
+  class="form-notice"
+  id="formNotice"
+  role="status"
+  aria-live="polite"
+>
+  Complete the form below to contact Mrs Wolfie.
+</div>
 
     </form>
   </section>
@@ -621,11 +646,15 @@ function selectEnquiry(type){
     .scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-document.getElementById("contactForm").addEventListener("submit",function(event){
-  event.preventDefault();
+/* =========================================
+   MRS WOLFIE CONTACT FORM
+========================================= */
+
+document.getElementById("contactForm").addEventListener("submit", function(){
 
   document.getElementById("formNotice").textContent =
-    "Your enquiry has not been sent yet. Message delivery needs to be configured.";
+    "Submitting your enquiry. Please wait...";
+
 });
 </script>
 
