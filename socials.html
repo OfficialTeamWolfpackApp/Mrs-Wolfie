@@ -884,6 +884,65 @@ body.menu-open{
   }
 
 }
+
+/* =========================================
+   SOCIAL MEDIA CARDS — DESKTOP LAYOUT
+========================================= */
+
+.socials-main{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:35px 20px 60px;
+}
+
+.social-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  width:100%;
+  align-items:stretch;
+}
+
+.social-grid > .social-card{
+  width:100%;
+  min-width:0;
+  min-height:340px;
+  box-sizing:border-box;
+}
+
+/* =========================================
+   TABLET LAYOUT
+========================================= */
+
+@media(max-width:900px){
+
+  .social-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+}
+
+/* =========================================
+   MOBILE LAYOUT
+========================================= */
+
+@media(max-width:600px){
+
+  .socials-main{
+    padding:20px 14px 40px;
+  }
+
+  .social-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .social-grid > .social-card{
+    min-height:250px;
+  }
+
+}
   
 </style>
 
@@ -1047,26 +1106,7 @@ body.menu-open{
 
 <main class="socials-main">
 
-  <section class="socials-heading">
-
-    <div class="socials-label">
-      MRS WOLFIE • TEAM WOLFPACK
-    </div>
-
-    <h1>
-      FOLLOW MRS WOLFIE
-    </h1>
-
-    <p>
-      Follow the journey across social media for
-      fight announcements, training, behind-the-scenes
-      content and Team Wolfpack updates.
-    </p>
-
-  </section>
-
-
- <a
+   <a
   class="social-card social-link"
   href="https://www.tiktok.com/@mrswolfie2410?is_from_webapp=1&sender_device=pc"
   target="_blank"
