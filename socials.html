@@ -1040,6 +1040,76 @@ body.menu-open{
   }
 
 }
+
+/* =========================================
+   SOCIAL CARDS — FINAL CLEAN DESIGN
+========================================= */
+
+.social-grid .social-card{
+  min-height:0;
+  height:auto;
+  padding:16px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+
+  gap:10px;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+/* SOCIAL CARD IMAGES */
+
+.social-grid .social-card-image{
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9;
+
+  object-fit:contain;
+
+  margin:0;
+  border-radius:10px;
+}
+
+/* SOCIAL PLATFORM LABEL */
+
+.social-grid .social-platform{
+  margin:4px 0 0;
+}
+
+/* SOCIAL MEDIA NAME */
+
+.social-grid .social-name{
+  margin:0;
+  text-align:center;
+}
+
+/* SOCIAL DESCRIPTION */
+
+.social-grid .social-card p{
+  margin:0;
+  text-align:center;
+  line-height:1.5;
+}
+
+/* DESKTOP HOVER */
+
+@media(hover:hover){
+
+  .social-grid .social-card:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+      0 16px 40px rgba(0,0,0,.5),
+      0 0 20px rgba(0,191,255,.15),
+      0 0 20px rgba(255,0,128,.15);
+  }
+
+}
   
 </style>
 
@@ -1229,11 +1299,7 @@ body.menu-open{
     MRS WOLFIE
   </div>
 
-  <div class="social-button">
-  FOLLOW ON TIKTOK →
-</div>
-
-</a>
+ </a>
 
 
   <a
@@ -1264,11 +1330,7 @@ body.menu-open{
     behind-the-scenes content.
   </p>
 
-  <div class="social-button">
-    FOLLOW ON INSTAGRAM →
-  </div>
-
-</a>
+  </a>
 <a
   class="social-card social-link"
   href="https://www.facebook.com/mrswolfie2410"
@@ -1296,11 +1358,7 @@ body.menu-open{
     updates, fight announcements and upcoming events.
   </p>
 
-  <div class="social-button">
-    FOLLOW ON FACEBOOK →
-  </div>
-
-</a>
+  </a>
 
   </section>
 
