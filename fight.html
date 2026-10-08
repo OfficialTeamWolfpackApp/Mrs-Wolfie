@@ -125,7 +125,192 @@
       max-width: 100%;
     }
 
+/* =========================================
+   HOMEPAGE MENU — FIGHT NIGHT
+========================================= */
 
+body.menu-open {
+  overflow: hidden;
+}
+
+.menu-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  border: 1px solid rgba(137,220,255,.25);
+  background: linear-gradient(
+    135deg,
+    rgba(137,220,255,.10),
+    rgba(255,47,146,.08)
+  );
+  color: #89dcff;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+  z-index: 6000;
+}
+
+.menu-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(360px,88vw);
+  padding: max(22px,env(safe-area-inset-top)) 20px
+           max(28px,env(safe-area-inset-bottom));
+  background: linear-gradient(
+    145deg,
+    #071019,
+    #05070a 48%,
+    #120712
+  );
+  border-right: 1px solid rgba(255,255,255,.09);
+  box-shadow: 25px 0 60px rgba(0,0,0,.65);
+  overflow-y: auto;
+  transform: translateX(-105%);
+  transition: transform .28s ease;
+  z-index: 7000;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+
+.menu-header {
+  position: relative;
+  padding: 8px 50px 24px 4px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.menu-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  margin-bottom: 13px;
+}
+
+.menu-brand {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.menu-tagline {
+  margin-top: 6px;
+  color: #ff2f92;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.close-menu {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,47,146,.28);
+  background: rgba(255,47,146,.07);
+  color: #ff8fd3;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.menu-section-label {
+  margin: 26px 8px 9px;
+  color: #66717b;
+  font-size: 7px;
+  font-weight: 1000;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.menu-nav {
+  display: grid;
+  gap: 5px;
+}
+
+.menu-link {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 28px 1fr 20px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  border-radius: 11px;
+  color: #b4bdc5;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background .18s ease, color .18s ease;
+}
+
+.menu-link:hover,
+.menu-link.active {
+  color: #fff;
+  background: linear-gradient(
+    90deg,
+    rgba(137,220,255,.10),
+    rgba(255,47,146,.09)
+  );
+}
+
+.menu-link.active {
+  border-left: 2px solid #89dcff;
+  border-right: 2px solid #ff2f92;
+}
+
+.menu-icon {
+  color: #89dcff;
+  font-size: 15px;
+  text-align: center;
+}
+
+.menu-arrow {
+  color: #ff2f92;
+  font-size: 19px;
+  text-align: right;
+}
+
+.menu-website {
+  min-height: 47px;
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(137,220,255,.20);
+  background: linear-gradient(
+    90deg,
+    rgba(137,220,255,.07),
+    rgba(255,47,146,.07)
+  );
+  color: #fff;
+  font-size: 8px;
+  font-weight: 1000;
+  letter-spacing: 1.4px;
+  text-align: center;
+  text-transform: uppercase;
+}
 
     /* =========================================================
        TOP HEADER
@@ -2150,13 +2335,16 @@ background-image:
 
   <header class="topbar">
 
-    <a
-      href="./index.html"
-      class="home-button"
-      aria-label="Mrs Wolfie Home"
-    >
-      ⌂
-    </a>
+   <button
+  class="menu-button"
+  id="openMenu"
+  type="button"
+  aria-label="Open navigation menu"
+  aria-controls="sideMenu"
+  aria-expanded="false"
+>
+  ☰
+</button>
 
 
     <div class="brand">
@@ -2175,7 +2363,117 @@ background-image:
     <div class="status-dot"></div>
 
   </header>
+<!-- =========================================
+     MENU BACKDROP
+========================================= -->
 
+<div class="menu-backdrop" id="menuBackdrop"></div>
+
+<!-- =========================================
+     SIDE NAVIGATION MENU
+========================================= -->
+
+<aside class="side-menu" id="sideMenu" aria-label="Main navigation">
+
+  <div class="menu-header">
+
+    <div class="menu-brand">MRS WOLFIE</div>
+
+    <div class="menu-tagline">HUNT WITHOUT FEAR</div>
+
+    <button
+      class="close-menu"
+      id="closeMenu"
+      type="button"
+      aria-label="Close navigation menu"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <div class="menu-section-label">MAIN</div>
+
+  <nav class="menu-nav">
+
+    <a class="menu-link" href="./index.html">
+      <span class="menu-icon">⌂</span>
+      <span>HOME</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link active" href="./fight.html" aria-current="page">
+      <span class="menu-icon">🥊</span>
+      <span>FIGHT NIGHT</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./profile.html">
+      <span class="menu-icon">♟</span>
+      <span>MRS WOLFIE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./schedule.html">
+      <span class="menu-icon">▣</span>
+      <span>FIGHT SCHEDULE</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./updates.html">
+      <span class="menu-icon">●</span>
+      <span>APP UPDATES</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+  <div class="menu-section-label">EXPLORE</div>
+
+  <nav class="menu-nav">
+
+    <a class="menu-link" href="./sponsors.html">
+      <span class="menu-icon">★</span>
+      <span>SPONSORS &amp; PARTNERS</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./gallery.html">
+      <span class="menu-icon">▣</span>
+      <span>GALLERY</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./merch.html">
+      <span class="menu-icon">◇</span>
+      <span>MERCH</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./socials.html">
+      <span class="menu-icon">◎</span>
+      <span>SOCIALS</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+    <a class="menu-link" href="./contact.html">
+      <span class="menu-icon">✉</span>
+      <span>CONTACT</span>
+      <span class="menu-arrow">›</span>
+    </a>
+
+  </nav>
+
+  <a
+    class="menu-website"
+    href="https://app.officialteamwolfpack.com/index.html"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    TEAM WOLFPACK OFFICIAL MOBILE APP
+  </a>
+
+</aside>
 
 
   <!-- =======================================================
@@ -2187,77 +2485,6 @@ background-image:
        </div>
 
   </section>
-
-
-
-  <!-- =======================================================
-       NAVIGATION
-  ======================================================== -->
-
-  <div class="nav-wrap">
-
-    <nav class="app-nav">
-
-      <a
-        href="./index.html"
-        class="nav-item"
-      >
-
-        <span class="nav-icon">
-          ⌂
-        </span>
-
-        HOME
-
-      </a>
-
-
-      <a
-        href="./fight.html"
-        class="nav-item active"
-      >
-
-        <span class="nav-icon">
-          🥊
-        </span>
-
-        FIGHT
-
-      </a>
-
-
-      <a
-        href="./profile.html"
-        class="nav-item"
-      >
-
-        <span class="nav-icon">
-          ♟
-        </span>
-
-        PROFILE
-
-      </a>
-
-
-      <a
-        href="./schedule.html"
-        class="nav-item"
-      >
-
-        <span class="nav-icon">
-          ▣
-        </span>
-
-        SCHEDULE
-
-      </a>
-
-    </nav>
-
-  </div>
-
-
 
   <!-- =======================================================
        MAIN
@@ -3784,7 +4011,45 @@ background-image:
 
   </script>
 
+<!-- =========================================
+     SIDE MENU CONTROLS
+========================================= -->
 
+<script>
+(function () {
+
+  const openButton = document.getElementById("openMenu");
+  const closeButton = document.getElementById("closeMenu");
+  const sideMenu = document.getElementById("sideMenu");
+  const backdrop = document.getElementById("menuBackdrop");
+
+  function openNavigation() {
+    sideMenu.classList.add("open");
+    backdrop.classList.add("open");
+    document.body.classList.add("menu-open");
+    openButton.setAttribute("aria-expanded", "true");
+  }
+
+  function closeNavigation() {
+    sideMenu.classList.remove("open");
+    backdrop.classList.remove("open");
+    document.body.classList.remove("menu-open");
+    openButton.setAttribute("aria-expanded", "false");
+  }
+
+  openButton.addEventListener("click", openNavigation);
+  closeButton.addEventListener("click", closeNavigation);
+  backdrop.addEventListener("click", closeNavigation);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeNavigation();
+    }
+  });
+
+})();
+</script>
+  
 </body>
 
 </html>
