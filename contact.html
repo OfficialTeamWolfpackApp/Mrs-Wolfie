@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070c">
+
+<title>Contact Mrs Wolfie | Team Wolfpack</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --blue:#89dcff;
+  --pink:#ff8fd3;
+  --dark:#05070c;
+  --panel:#0c1019;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 10% 35%,rgba(0,191,255,.10),transparent 50%),
+    radial-gradient(ellipse at 90% 65%,rgba(255,0,128,.10),transparent 50%),
+    var(--dark);
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
+
+/* APP HEADER */
+
+.appbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:66px;
+  padding-top:env(safe-area-inset-top);
+  height:calc(66px + env(safe-area-inset-top));
+  background:rgba(3,5,9,.96);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+.app-title{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.menu-toggle{
+  position:absolute;
+  left:12px;
+  top:calc(13px + env(safe-area-inset-top));
+  width:40px;
+  height:40px;
+  border:1px solid rgba(137,220,255,.25);
+  border-radius:10px;
+  background:#0c141c;
+  color:var(--blue);
+  font-size:23px;
+  cursor:pointer;
+}
+
+.status-dot{
+  position:absolute;
+  right:22px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#28ff88;
+  box-shadow:0 0 12px #28ff88;
+}
+
+/* SIDE MENU */
+
+.menu-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:1001;
+  display:none;
+}
+
+.menu-backdrop.open{
+  display:block;
+}
+
+.side-menu{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:min(300px,85vw);
+  padding:30px 20px;
+  background:#090d15;
+  border-right:1px solid rgba(137,220,255,.2);
+  z-index:1002;
+  transform:translateX(-105%);
+  transition:transform .25s ease;
+  overflow-y:auto;
+}
+
+.side-menu.open{
+  transform:translateX(0);
+}
+
+.menu-close{
+  display:block;
+  margin-left:auto;
+  background:none;
+  border:0;
+  color:#fff;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.menu-heading{
+  margin:20px 0;
+  color:var(--blue);
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.side-menu a{
+  display:block;
+  padding:14px;
+  margin-bottom:7px;
+  color:#ddd;
+  text-decoration:none;
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+  font-size:13px;
+  font-weight:700;
+}
+
+.side-menu a.active{
+  background:linear-gradient(90deg,rgba(137,220,255,.18),rgba(255,143,211,.18));
+  color:#fff;
+  border:1px solid rgba(137,220,255,.3);
+}
+
+/* CONTACT BANNER */
+
+.contact-banner{
+  margin-top:calc(66px + env(safe-area-inset-top));
+  min-height:250px;
+  padding:65px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+    linear-gradient(110deg,rgba(0,191,255,.20),transparent 45%,rgba(255,0,128,.20)),
+    #080b12;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.contact-banner h1{
+  margin:0 0 15px;
+  font-size:clamp(30px,5vw,60px);
+  font-weight:900;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,var(--blue),#fff,var(--pink));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.contact-banner p{
+  margin:0;
+  font-size:12px;
+  letter-spacing:2px;
+  color:#ddd;
+}
+
+/* MAIN CONTENT */
+
+.contact-main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:35px 20px 70px;
+}
+
+.contact-intro{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.contact-intro h2{
+  font-size:25px;
+  margin-bottom:12px;
+}
+
+.contact-intro p{
+  color:#bfc5d0;
+  line-height:1.7;
+}
+
+/* CONTACT CARDS */
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.contact-card{
+  min-width:0;
+  padding:28px 20px;
+  border-radius:18px;
+  border:1px solid rgba(137,220,255,.22);
+  background:
+    linear-gradient(135deg,rgba(137,220,255,.08),rgba(10,12,18,.97) 50%,rgba(255,143,211,.08));
+  box-shadow:0 15px 35px rgba(0,0,0,.35);
+  text-align:center;
+}
+
+.contact-icon{
+  font-size:35px;
+  margin-bottom:15px;
+}
+
+.contact-card h3{
+  font-size:18px;
+  margin:0 0 14px;
+  color:#fff;
+}
+
+.contact-card p{
+  color:#bfc5d0;
+  font-size:13px;
+  line-height:1.7;
+  min-height:90px;
+}
+
+.contact-button{
+  display:block;
+  width:100%;
+  padding:13px 10px;
+  margin-top:18px;
+  border:1px solid rgba(137,220,255,.35);
+  border-radius:10px;
+  background:linear-gradient(90deg,rgba(137,220,255,.15),rgba(255,143,211,.15));
+  color:#fff;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+/* CONTACT FORM */
+
+.form-section{
+  margin-top:35px;
+  padding:30px;
+  border-radius:18px;
+  border:1px solid rgba(255,143,211,.25);
+  background:linear-gradient(135deg,rgba(137,220,255,.07),#0b0d14 50%,rgba(255,143,211,.07));
+}
+
+.form-section h2{
+  margin:0 0 12px;
+  text-align:center;
+  font-size:25px;
+}
+
+.form-section > p{
+  text-align:center;
+  color:#bfc5d0;
+  font-size:13px;
+  margin-bottom:25px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.form-group{
+  margin-bottom:16px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:8px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--blue);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid rgba(137,220,255,.22);
+  background:#080c13;
+  color:#fff;
+  font:inherit;
+  font-size:14px;
+}
+
+.form-group textarea{
+  min-height:140px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+}
+
+.form-submit{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:10px;
+  background:linear-gradient(90deg,var(--blue),var(--pink));
+  color:#05070c;
+  font-weight:900;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.form-notice{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cbd0d9;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contact-card p{
+    min-height:0;
+  }
+}
+
+@media(max-width:600px){
+  .contact-banner{
+    min-height:200px;
+    padding:45px 15px;
+  }
+
+  .contact-main{
+    padding:22px 14px 45px;
+  }
+
+  .form-section{
+    padding:20px 15px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="appbar">
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+  <div class="app-title">MRS WOLFIE</div>
+  <span class="status-dot"></span>
+</header>
+
+<div class="menu-backdrop" id="menuBackdrop"></div>
+
+<aside class="side-menu" id="sideMenu">
+  <button class="menu-close" id="menuClose" aria-label="Close menu">×</button>
+
+  <div class="menu-heading">MRS WOLFIE</div>
+
+  <a href="index.html">HOME</a>
+  <a href="fight.html">NEXT FIGHT</a>
+  <a href="profile.html">PROFILE</a>
+  <a href="schedule.html">SCHEDULE</a>
+  <a href="merch.html">MERCH</a>
+  <a href="sponsors.html">SPONSORS</a>
+  <a href="socials.html">SOCIALS</a>
+  <a href="gallery.html">GALLERY</a>
+  <a href="contact.html" class="active">CONTACT</a>
+</aside>
+
+<!-- CONTACT BANNER -->
+
+<section class="contact-banner">
+  <div>
+    <h1>CONTACT MRS WOLFIE</h1>
+    <p>TEAM WOLFPACK • ONE PACK • ONE PURPOSE</p>
+  </div>
+</section>
+
+<main class="contact-main">
+
+  <section class="contact-intro">
+    <h2>GET IN TOUCH</h2>
+    <p>
+      Have a question, sponsorship opportunity or fight booking enquiry?
+      Get in touch with Mrs Wolfie and Team Wolfpack.
+    </p>
+  </section>
+
+  <!-- CONTACT OPTIONS -->
+
+  <section class="contact-grid">
+
+    <article class="contact-card">
+      <div class="contact-icon">✉</div>
+      <h3>GENERAL ENQUIRIES</h3>
+      <p>
+        Contact Mrs Wolfie and Team Wolfpack with general questions,
+        media enquiries or other information requests.
+      </p>
+      <button class="contact-button" type="button"
+        onclick="selectEnquiry('General Enquiry')">
+        CONTACT MRS WOLFIE →
+      </button>
+    </article>
+
+    <article class="contact-card">
+      <div class="contact-icon">★</div>
+      <h3>SPONSORSHIP ENQUIRIES</h3>
+      <p>
+        Interested in sponsoring Mrs Wolfie?
+        Get in touch to discuss sponsorship opportunities,
+        promotional partnerships and available packages.
+      </p>
+      <button class="contact-button" type="button"
+        onclick="selectEnquiry('Sponsorship Enquiry')">
+        SPONSORSHIP ENQUIRY →
+      </button>
+    </article>
+
+    <article class="contact-card">
+      <div class="contact-icon">🥊</div>
+      <h3>FIGHT BOOKINGS & EVENTS</h3>
+      <p>
+        For fight opportunities, event invitations,
+        promoter enquiries and boxing bookings,
+        contact the Team Wolfpack management team.
+      </p>
+      <button class="contact-button" type="button"
+        onclick="selectEnquiry('Fight Booking')">
+        FIGHT BOOKING ENQUIRY →
+      </button>
+    </article>
+
+  </section>
+
+  <!-- ENQUIRY FORM -->
+
+  <section class="form-section" id="enquiryForm">
+    <h2>SEND AN ENQUIRY</h2>
+    <p>Complete the form below to prepare your enquiry.</p>
+
+    <form id="contactForm">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="contactName">YOUR NAME</label>
+          <input
+            id="contactName"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="contactEmail">EMAIL ADDRESS</label>
+          <input
+            id="contactEmail"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label for="contactType">ENQUIRY TYPE</label>
+        <select id="contactType" name="enquiry_type" required>
+          <option value="">SELECT AN ENQUIRY</option>
+          <option value="General Enquiry">General Enquiry</option>
+          <option value="Sponsorship Enquiry">Sponsorship Enquiry</option>
+          <option value="Fight Booking">Fight Booking & Events</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="contactMessage">YOUR MESSAGE</label>
+        <textarea
+          id="contactMessage"
+          name="message"
+          placeholder="Tell us about your enquiry..."
+          required
+        ></textarea>
+      </div>
+
+      <button class="form-submit" type="submit">
+        SEND ENQUIRY →
+      </button>
+
+      <div class="form-notice" id="formNotice" role="status" aria-live="polite">
+        Message delivery is not configured yet.
+      </div>
+
+    </form>
+  </section>
+
+</main>
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const menuClose = document.getElementById("menuClose");
+const sideMenu = document.getElementById("sideMenu");
+const menuBackdrop = document.getElementById("menuBackdrop");
+
+function openMenu(){
+  sideMenu.classList.add("open");
+  menuBackdrop.classList.add("open");
+}
+
+function closeMenu(){
+  sideMenu.classList.remove("open");
+  menuBackdrop.classList.remove("open");
+}
+
+menuToggle.addEventListener("click",openMenu);
+menuClose.addEventListener("click",closeMenu);
+menuBackdrop.addEventListener("click",closeMenu);
+
+function selectEnquiry(type){
+  document.getElementById("contactType").value=type;
+  document.getElementById("enquiryForm")
+    .scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("contactForm").addEventListener("submit",function(event){
+  event.preventDefault();
+
+  document.getElementById("formNotice").textContent =
+    "Your enquiry has not been sent yet. Message delivery needs to be configured.";
+});
+</script>
+
+</body>
+</html>
