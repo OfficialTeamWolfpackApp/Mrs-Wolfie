@@ -374,6 +374,60 @@ body{
     gap:0;
   }
 }
+
+/* =========================================
+   MRS WOLFIE CONTACT BANNER
+   FULL-WIDTH DESIGN
+========================================= */
+
+.contact-banner{
+  display:block;
+
+  width:100%;
+  min-height:0;
+
+  margin-top:calc(66px + env(safe-area-inset-top));
+  padding:0;
+
+  overflow:hidden;
+
+  background:#020202;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.12);
+}
+
+.contact-banner-image{
+  display:block;
+
+  width:100%;
+  height:auto;
+
+  object-fit:contain;
+  object-position:center;
+
+  margin:0 auto;
+}
+
+/* =========================================
+   MOBILE BANNER
+========================================= */
+
+@media(max-width:600px){
+
+  .contact-banner{
+    min-height:0;
+    padding:0;
+  }
+
+  .contact-banner-image{
+    width:100%;
+    height:auto;
+    object-fit:contain;
+  }
+
+}
+  
 </style>
 </head>
 
@@ -403,13 +457,18 @@ body{
   <a href="contact.html" class="active">CONTACT</a>
 </aside>
 
-<!-- CONTACT BANNER -->
+<!-- =========================================
+     MRS WOLFIE CONTACT BANNER
+========================================= -->
 
 <section class="contact-banner">
-  <div>
-    <h1>CONTACT MRS WOLFIE</h1>
-    <p>TEAM WOLFPACK • ONE PACK • ONE PURPOSE</p>
-  </div>
+
+  <img
+    src="images/mrs-wolfie-contact-banner.png"
+    alt="Contact Mrs Wolfie - General Enquiries, Sponsorship and Fight Bookings"
+    class="contact-banner-image"
+  >
+
 </section>
 
 <main class="contact-main">
