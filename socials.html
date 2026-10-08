@@ -827,6 +827,63 @@ body.menu-open{
       rgba(255,143,211,.12)
     );
 }
+
+/* =========================================
+   MRS WOLFIE SOCIALS BANNER
+========================================= */
+
+.socials-banner{
+  position:relative;
+  width:100%;
+
+  margin-top:
+    calc(66px + env(safe-area-inset-top));
+
+  overflow:hidden;
+
+  background:#020202;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.10);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.38);
+}
+
+.socials-banner img{
+  display:block;
+
+  width:100%;
+  height:auto;
+
+  object-fit:contain;
+  object-position:center;
+}
+
+/* =========================================
+   ADJUST SOCIALS CONTENT POSITION
+========================================= */
+
+.socials-banner + .socials-main{
+  margin-top:0;
+}
+
+/* =========================================
+   MOBILE BANNER
+========================================= */
+
+@media(max-width:600px){
+
+  .socials-banner img{
+    width:100%;
+    height:auto;
+  }
+
+  .socials-banner + .socials-main{
+    padding-top:20px;
+  }
+
+}
   
 </style>
 
@@ -971,6 +1028,19 @@ body.menu-open{
   </nav>
 
 </aside>
+<!-- =========================================
+     MRS WOLFIE SOCIALS BANNER
+========================================= -->
+
+<section class="socials-banner">
+
+  <img
+    src="images/mrs-wolfie-socials-banner.png"
+    alt="Mrs Wolfie - Follow the Journey"
+  >
+
+</section>
+  
 <!-- =========================================
      SOCIALS MAIN
 ========================================= -->
