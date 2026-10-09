@@ -5809,8 +5809,27 @@ if (imageRatio === "full") {
 latestImage.style.objectPosition =
   (latest.imagePositionX ?? 50) + "% " +
   (latest.imagePositionY ?? 50) + "%";
-  
+
 }
+
+/* =========================================
+   MRS WOLFIE IMAGE ZOOM
+========================================= */
+
+const imageZoom = Math.max(
+  100,
+  Math.min(
+    200,
+    Number(latest.imageZoom ?? 100)
+  )
+);
+
+latestImage.style.transform =
+  `scale(${imageZoom / 100})`;
+
+latestImage.style.transformOrigin =
+  (latest.imagePositionX ?? 50) + "% " +
+  (latest.imagePositionY ?? 50) + "%";
 
   }else{
 
