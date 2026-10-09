@@ -1579,6 +1579,26 @@ body.menu-open {
   .update-expanded { padding: 0 12px 15px; }
 }
 
+
+/* OPTION C — compact expanded poster + full-screen viewer */
+.update-expanded-image { max-width:450px; margin:16px auto 0; }
+.update-expanded-image img { width:100%; height:auto; }
+.update-full-image-button {
+  display:block; width:max-content; max-width:100%; margin:12px auto 0;
+  padding:11px 18px; border:1px solid rgba(137,220,255,.45);
+  border-radius:9px; background:linear-gradient(110deg,rgba(137,220,255,.12),rgba(255,143,211,.12));
+  color:#fff; font-size:11px; font-weight:900; letter-spacing:1px; cursor:pointer;
+}
+.update-image-viewer[hidden] { display:none !important; }
+.update-image-viewer { position:fixed; inset:0; z-index:100000; display:flex; align-items:center; justify-content:center;
+  padding:64px 16px 24px; background:rgba(0,0,0,.96); overflow:auto; }
+.update-image-viewer img { display:block; max-width:100%; max-height:calc(100dvh - 100px); width:auto; height:auto; object-fit:contain; }
+.update-image-viewer-close { position:fixed; top:16px; right:18px; z-index:1; width:44px; height:44px;
+  border:1px solid rgba(255,143,211,.5); border-radius:12px; background:#17121b; color:white;
+  font-size:27px; cursor:pointer; }
+body.update-image-viewer-open { overflow:hidden; }
+@media(max-width:600px) { .update-expanded-image { max-width:100%; } }
+
   </style>
 
 </head>
@@ -1892,6 +1912,47 @@ body.menu-open {
          RENDER ALL ACTIVE UPDATES
       ====================================================== */
 
+      // Reusable full-screen image viewer; close via X, backdrop or Escape.
+      const imageViewer = document.createElement("div");
+      imageViewer.className = "update-image-viewer";
+      imageViewer.hidden = true;
+      imageViewer.setAttribute("role", "dialog");
+      imageViewer.setAttribute("aria-modal", "true");
+      imageViewer.setAttribute("aria-label", "Full announcement image");
+      const viewerClose = document.createElement("button");
+      viewerClose.type = "button";
+      viewerClose.className = "update-image-viewer-close";
+      viewerClose.textContent = "×";
+      viewerClose.setAttribute("aria-label", "Close full image");
+      const viewerImage = document.createElement("img");
+      imageViewer.append(viewerClose, viewerImage);
+      document.body.appendChild(imageViewer);
+      let previousFocus = null;
+      function closeFullImage() {
+        if (imageViewer.hidden) return;
+        imageViewer.hidden = true;
+        viewerImage.removeAttribute("src");
+        document.body.classList.remove("update-image-viewer-open");
+        if (previousFocus && previousFocus.isConnected) previousFocus.focus();
+      }
+      function openFullImage(url, alt) {
+        previousFocus = document.activeElement;
+        viewerImage.src = url;
+        viewerImage.alt = alt;
+        imageViewer.hidden = false;
+        document.body.classList.add("update-image-viewer-open");
+        viewerClose.focus();
+      }
+      viewerClose.addEventListener("click", closeFullImage);
+      imageViewer.addEventListener("click", event => {
+        if (event.target === imageViewer) closeFullImage();
+      });
+      document.addEventListener("keydown", event => {
+        if (imageViewer.hidden) return;
+        if (event.key === "Escape") { event.preventDefault(); closeFullImage(); }
+        if (event.key === "Tab") { event.preventDefault(); viewerClose.focus(); }
+      });
+
       function renderUpdates() {
         if (!updatesList) return;
 
@@ -1993,6 +2054,12 @@ body.menu-open {
             image.loading = "lazy";
             frame.appendChild(image);
             expanded.appendChild(frame);
+            const fullImageButton = document.createElement("button");
+            fullImageButton.type = "button";
+            fullImageButton.className = "update-full-image-button";
+            fullImageButton.textContent = "VIEW FULL IMAGE ↗";
+            fullImageButton.addEventListener("click", () => openFullImage(update.imageUrl, image.alt));
+            expanded.appendChild(fullImageButton);
           }
           if (update.buttonText && update.link) {
             const button = document.createElement("a");
