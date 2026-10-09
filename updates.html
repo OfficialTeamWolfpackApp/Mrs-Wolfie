@@ -1531,6 +1531,54 @@ body.menu-open {
 
     }
 
+
+/* =========================================
+   COMPACT EXPANDABLE LIVE UPDATES
+========================================= */
+.updates-list { gap: 12px; }
+.update-card { padding: 0; border-radius: 14px; }
+.update-card:hover { box-shadow: 0 12px 35px rgba(137,220,255,.08); }
+.update-summary {
+  display: grid; grid-template-columns: 96px minmax(0,1fr) 22px;
+  gap: 15px; align-items: center; padding: 14px 16px;
+  cursor: pointer; list-style: none; outline-offset: -3px;
+}
+.update-summary:focus-visible { outline: 2px solid var(--blue); }
+.update-thumb {
+  width: 96px; height: 96px; border-radius: 9px; overflow: hidden;
+  background: linear-gradient(135deg,rgba(137,220,255,.13),rgba(255,143,211,.13));
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,.09);
+}
+.update-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.update-thumb-placeholder { font-size: 26px; color: var(--blue); }
+.update-summary-content { min-width:0; }
+.update-summary .update-top { margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+.update-summary .update-title { font-size: clamp(13px,2.3vw,17px); line-height:1.3; }
+.update-preview {
+  margin-top: 5px; font-size: 11px; line-height: 1.5; color: #a3aeb8;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; overflow-wrap: anywhere;
+}
+.update-expand-icon { font-size: 19px; color: var(--pink); text-align:center; transition: transform .2s; }
+.update-card.is-open .update-expand-icon { transform:rotate(180deg); }
+.update-expanded { padding: 0 16px 18px; border-top: 1px solid rgba(255,255,255,.08); }
+.update-expanded[hidden] { display:none !important; }
+.update-expanded .update-message { margin-top: 14px; max-width:none; white-space: pre-wrap; overflow-wrap:anywhere; }
+.update-expanded .update-button { margin-top: 14px; }
+.update-expanded-image { margin-top: 15px; width:100%; border-radius: 12px; overflow:hidden; background:#070b10; }
+.update-expanded-image img { width:100%; height:auto; display:block; object-fit:contain; }
+.update-expanded-image a { display:block; }
+@media(max-width:600px) {
+  .update-summary { grid-template-columns: 74px minmax(0,1fr) 18px; padding: 11px; gap:10px; }
+  .update-thumb { width:74px; height:74px; }
+  .update-summary .update-top { flex-direction:row; align-items:center; gap:5px; }
+  .update-summary .update-date { text-align:left; font-size:6px; }
+  .update-summary .update-title { font-size: 13px; }
+  .update-preview { font-size: 10px; }
+  .update-expanded { padding: 0 12px 15px; }
+}
+
   </style>
 
 </head>
@@ -1845,364 +1893,133 @@ body.menu-open {
       ====================================================== */
 
       function renderUpdates() {
-
-
-        if (!updatesList) {
-
-          return;
-
-        }
-
-
-        const updates =
-
-          typeof
-          window.MRS_WOLFIE_GET_ACTIVE_UPDATES
-          === "function"
-
-            ?
-
-          window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
-
-            :
-
-          [];
-
-
-        updatesList.innerHTML =
-          "";
-
-
-        /* =================================================
-           NO UPDATES
-        ================================================== */
-
-        if (
-          !Array.isArray(updates) ||
-          updates.length === 0
-        ) {
-
-
-          const emptyMessage =
-            document.createElement(
-              "div"
-            );
-
-
-          emptyMessage.className =
-            "no-updates";
-
-
-          emptyMessage.textContent =
-            "NO NEW UPDATES AT THE MOMENT";
-
-
-          updatesList.appendChild(
-            emptyMessage
-          );
-
-
-          return;
-
-        }
-
-
-
-        /* =================================================
-           CREATE UPDATE CARDS
-        ================================================== */
-
-        updates.forEach(
-          (update) => {
-
-
-            if (!update) {
-
-              return;
-
-            }
-
-
-            const card =
-              document.createElement(
-                "article"
-              );
-
-
-            card.className =
-              "update-card";
-
-
-            const updateType =
-              String(
-                update.type ||
-                "NEWS"
-              )
-                .trim()
-                .toUpperCase();
-
-
-            card.dataset.type =
-              updateType;
-
-
-
-            /* =================================================
-               RESULT STYLING
-
-               W = WIN
-               L = LOSS
-               D = DRAW
-            ================================================== */
-
-            if (
-              updateType ===
-              "RESULT"
-            ) {
-
-
-              const resultCode =
-                String(
-                  update.result ||
-                  ""
-                )
-                  .trim()
-                  .toUpperCase();
-
-
-              if (
-                resultCode === "W" ||
-                resultCode === "L" ||
-                resultCode === "D"
-              ) {
-
-
-                card.dataset.result =
-                  resultCode;
-
-
-              }
-
-
-            }
-
-
-
-            /* =============================================
-               TYPE + DATE
-            ============================================== */
-
-            const top =
-              document.createElement(
-                "div"
-              );
-
-
-            top.className =
-              "update-top";
-
-
-            const type =
-              document.createElement(
-                "div"
-              );
-
-
-            type.className =
-              "update-type";
-
-
-            /*
-              Keep the public category label simple.
-
-              Automatic result cards still say RESULT.
-            */
-
-            type.textContent =
-              updateType;
-
-
-            const date =
-              document.createElement(
-                "div"
-              );
-
-
-            date.className =
-              "update-date";
-
-
-            date.textContent =
-              update.dateDisplay ||
-              "";
-
-
-            top.appendChild(
-              type
-            );
-
-
-            top.appendChild(
-              date
-            );
-
-
-
-            /* =============================================
-               TITLE
-            ============================================== */
-
-            const title =
-              document.createElement(
-                "div"
-              );
-
-
-            title.className =
-              "update-title";
-
-
-            title.textContent =
-              update.title ||
-              "MRS WOLFIE UPDATE";
-
-
-
-            /* =============================================
-               MESSAGE
-            ============================================== */
-
-            const message =
-              document.createElement(
-                "div"
-              );
-
-
-            message.className =
-              "update-message";
-
-
-            message.textContent =
-              update.message ||
-              "";
-
-
-
-            card.appendChild(
-              top
-            );
-
-
-            card.appendChild(
-              title
-            );
-
-
-            card.appendChild(
-              message
-            );
-
-/* =============================================
-   UPDATE IMAGE — FRAME, POSITION AND ZOOM
-============================================= */
-
-if (update.imageUrl) {
-  const allowedRatios = ["16:9", "4:5", "1:1", "9:16"];
-  const imageRatio = allowedRatios.includes(update.imageRatio)
-    ? update.imageRatio
-    : "full";
-
-  const imageFrame = document.createElement("div");
-  imageFrame.style.width = "100%";
-  imageFrame.style.marginTop = "15px";
-  imageFrame.style.borderRadius = "12px";
-  imageFrame.style.overflow = "hidden";
-  imageFrame.style.position = "relative";
-
-  const updateImage = document.createElement("img");
-  updateImage.src = update.imageUrl;
-  updateImage.alt = update.title || "Mrs Wolfie Update";
-  updateImage.loading = "lazy";
-  updateImage.style.display = "block";
-  updateImage.style.width = "100%";
-
-  const x = Math.max(0, Math.min(100, Number(update.imagePositionX ?? 50)));
-  const y = Math.max(0, Math.min(100, Number(update.imagePositionY ?? 50)));
-  const zoom = Math.max(100, Math.min(200, Number(update.imageZoom ?? 100)));
-
-  if (imageRatio === "full") {
-    imageFrame.style.aspectRatio = "auto";
-    updateImage.style.height = "auto";
-    updateImage.style.objectFit = "contain";
-  } else {
-    imageFrame.style.aspectRatio = imageRatio.replace(":", " / ");
-    updateImage.style.position = "absolute";
-    updateImage.style.inset = "0";
-    updateImage.style.height = "100%";
-    updateImage.style.objectFit = "cover";
-    updateImage.style.objectPosition = `${x}% ${y}%`;
-  }
-
-  updateImage.style.transform = `scale(${zoom / 100})`;
-  updateImage.style.transformOrigin = `${x}% ${y}%`;
-
-  imageFrame.appendChild(updateImage);
-  card.appendChild(imageFrame);
-}
-
-            /* =============================================
-               OPTIONAL BUTTON
-            ============================================== */
-
-            if (
-              update.buttonText &&
-              update.link
-            ) {
-
-
-              const button =
-                document.createElement(
-                  "a"
-                );
-
-
-              button.className =
-                "update-button";
-
-
-              button.href =
-                update.link;
-
-
-              button.textContent =
-                update.buttonText +
-                " →";
-
-
-              card.appendChild(
-                button
-              );
-
-
-            }
-
-
-            updatesList.appendChild(
-              card
-            );
-
-
-          }
+        if (!updatesList) return;
+
+        const updates = typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES === "function"
+          ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
+          : [];
+
+        // Preserve open cards when live Firebase data refreshes.
+        const openIds = new Set(
+          Array.from(updatesList.querySelectorAll(".update-card.is-open"))
+            .map(card => card.dataset.updateId)
         );
+        updatesList.replaceChildren();
 
+        if (!Array.isArray(updates) || updates.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "no-updates";
+          empty.textContent = "NO NEW UPDATES AT THE MOMENT";
+          updatesList.appendChild(empty);
+          return;
+        }
 
+        updates.forEach((update, index) => {
+          if (!update) return;
+          const updateId = String(update.id || `update-${index}`);
+          const updateType = String(update.type || "NEWS").trim().toUpperCase();
+          const card = document.createElement("article");
+          card.className = "update-card";
+          card.dataset.updateId = updateId;
+          card.dataset.type = updateType;
+          if (updateType === "RESULT" && ["W", "L", "D"].includes(update.result)) {
+            card.dataset.result = update.result;
+          }
+
+          const summary = document.createElement("div");
+          summary.className = "update-summary";
+          summary.tabIndex = 0;
+          summary.setAttribute("role", "button");
+          summary.setAttribute("aria-expanded", "false");
+          const detailsId = `update-details-${index}`;
+          summary.setAttribute("aria-controls", detailsId);
+
+          const thumb = document.createElement("div");
+          thumb.className = "update-thumb";
+          if (update.imageUrl) {
+            const img = document.createElement("img");
+            img.src = update.imageUrl;
+            img.alt = "";
+            img.loading = "lazy";
+            img.onerror = () => { img.remove(); thumb.textContent = "🥊"; };
+            thumb.appendChild(img);
+          } else {
+            const placeholder = document.createElement("span");
+            placeholder.className = "update-thumb-placeholder";
+            placeholder.textContent = updateType === "RESULT" ? "🏆" : "🥊";
+            thumb.appendChild(placeholder);
+          }
+
+          const summaryContent = document.createElement("div");
+          summaryContent.className = "update-summary-content";
+          const top = document.createElement("div");
+          top.className = "update-top";
+          const type = document.createElement("span");
+          type.className = "update-type";
+          type.textContent = updateType;
+          const date = document.createElement("span");
+          date.className = "update-date";
+          date.textContent = update.dateDisplay || "";
+          top.append(type, date);
+          const title = document.createElement("div");
+          title.className = "update-title";
+          title.textContent = update.title || "MRS WOLFIE UPDATE";
+          const preview = document.createElement("div");
+          preview.className = "update-preview";
+          preview.textContent = update.message || "Tap to view the full announcement";
+          summaryContent.append(top, title, preview);
+          const chevron = document.createElement("span");
+          chevron.className = "update-expand-icon";
+          chevron.textContent = "⌄";
+          chevron.setAttribute("aria-hidden", "true");
+          summary.append(thumb, summaryContent, chevron);
+
+          const expanded = document.createElement("div");
+          expanded.className = "update-expanded";
+          expanded.id = detailsId;
+          expanded.hidden = true;
+          const message = document.createElement("div");
+          message.className = "update-message";
+          message.textContent = update.message || "";
+          expanded.appendChild(message);
+
+          // Expanded view always shows the complete poster at its natural ratio.
+          if (update.imageUrl) {
+            const frame = document.createElement("div");
+            frame.className = "update-expanded-image";
+            const image = document.createElement("img");
+            image.src = update.imageUrl;
+            image.alt = update.title || "Mrs Wolfie update image";
+            image.loading = "lazy";
+            frame.appendChild(image);
+            expanded.appendChild(frame);
+          }
+          if (update.buttonText && update.link) {
+            const button = document.createElement("a");
+            button.className = "update-button";
+            button.href = update.link;
+            button.textContent = update.buttonText + " →";
+            expanded.appendChild(button);
+          }
+
+          function setOpen(open) {
+            card.classList.toggle("is-open", open);
+            summary.setAttribute("aria-expanded", String(open));
+            expanded.hidden = !open;
+          }
+          summary.addEventListener("click", () => setOpen(expanded.hidden));
+          summary.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setOpen(expanded.hidden);
+            }
+          });
+          card.append(summary, expanded);
+          updatesList.appendChild(card);
+          if (openIds.has(updateId)) setOpen(true);
+        });
       }
 
-
-
-      /* =====================================================
-         INITIAL DISPLAY
-      ====================================================== */
 
       renderUpdates();
 
