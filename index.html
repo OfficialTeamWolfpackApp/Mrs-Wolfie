@@ -1432,7 +1432,9 @@ padding:
 }
 
 
-/* LINK GRID */
+/* =========================================
+   QUICK ACCESS — TWO BUTTON LAYOUT
+========================================= */
 
 .quick-access-grid{
   position:relative;
@@ -1440,9 +1442,9 @@ padding:
   display:grid;
 
   grid-template-columns:
-    repeat(4,minmax(0,1fr));
+    repeat(2,minmax(0,1fr));
 
-  gap:8px;
+  gap:12px;
 
   margin-top:16px;
 }
@@ -3753,56 +3755,7 @@ footer{
     QUICK ACCESS
   </div>
 
-
   <div class="quick-access-grid">
-
-    <a
-      href="./profile.html"
-      class="quick-access-link"
-    >
-      <span>PROFILE</span>
-      <span>→</span>
-    </a>
-
-    <a
-      href="./schedule.html"
-      class="quick-access-link"
-    >
-      <span>FIGHTS</span>
-      <span>→</span>
-    </a>
-
-    <a
-      href="./updates.html"
-      class="quick-access-link"
-    >
-      <span>UPDATES</span>
-      <span>→</span>
-    </a>
-
-    <a
-      href="./gallery.html"
-      class="quick-access-link"
-    >
-      <span>GALLERY</span>
-      <span>→</span>
-    </a>
-
-    <a
-      href="./sponsors.html"
-      class="quick-access-link"
-    >
-      <span>SPONSORS</span>
-      <span>→</span>
-    </a>
-
-    <a
-      href="./merch.html"
-      class="quick-access-link"
-    >
-      <span>MERCH</span>
-      <span>→</span>
-    </a>
 
     <a
       href="./socials.html"
@@ -3936,51 +3889,6 @@ footer{
   </div>
 
 </section>
-
-
-<!-- =======================================================
-     UPCOMING FIGHTS
-======================================================== -->
-
-<section class="upcoming-section">
-
-  <div class="section-heading">
-
-    <div>
-
-      <div class="section-kicker">
-        FIGHT SCHEDULE
-      </div>
-
-      <div class="section-title">
-        NEXT UP
-      </div>
-
-    </div>
-
-    <a
-      href="./schedule.html"
-      class="section-link"
-    >
-      VIEW SCHEDULE →
-    </a>
-
-  </div>
-
-
-  <div
-    id="nextUpList"
-    class="next-list"
-  >
-
-    <div class="empty-card">
-      LOADING UPCOMING FIGHTS...
-    </div>
-
-  </div>
-
-</section>
-
 
 <!-- =======================================================
      LATEST UPDATE
@@ -5103,14 +5011,17 @@ footer{
      UPCOMING
   ====================================================== */
 
-  function renderUpcoming(){
+function renderUpcoming(){
 
-    const list =
-      $("nextUpList");
+  const list =
+    $("nextUpList");
 
+  if(!list){
+    return;
+  }
 
-    let fights =
-      getUpcomingFights();
+  let fights =
+    getUpcomingFights();
 
 
     const nextFight =
@@ -5402,18 +5313,15 @@ footer{
      RENDER EVERYTHING
   ====================================================== */
 
-  function renderHome(){
+function renderHome(){
 
-    renderNextFight();
+  renderNextFight();
 
-    renderRecord();
+  renderRecord();
 
-    renderUpcoming();
+  renderLatestUpdate();
 
-    renderLatestUpdate();
-
-  }
-
+}
 
   renderHome();
 
