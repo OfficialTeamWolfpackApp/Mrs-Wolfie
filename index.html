@@ -4165,6 +4165,22 @@ footer{
       Connecting to the Mrs Wolfie updates database.
     </div>
 
+    <!-- LATEST UPDATE IMAGE -->
+
+<img
+  id="latestUpdateImage"
+  alt="Mrs Wolfie Latest Update"
+  loading="lazy"
+  style="
+    display:none;
+    width:100%;
+    max-height:350px;
+    object-fit:contain;
+    margin-top:15px;
+    margin-bottom:15px;
+    border-radius:12px;
+  "
+>
 
     <a
       href="./updates.html"
@@ -5662,11 +5678,28 @@ function renderUpcoming(){
       $("latestTitle").textContent =
         "NO NEW UPDATES";
 
-      $("latestMessage").textContent =
-        "New Mrs Wolfie updates will appear here automatically.";
+     $("latestMessage").textContent =
+  "New Mrs Wolfie updates will appear here automatically.";
 
-      return;
+const latestImage =
+  document.getElementById(
+    "latestUpdateImage"
+  );
 
+if(
+  latestImage
+){
+
+  latestImage.removeAttribute(
+    "src"
+  );
+
+  latestImage.style.display =
+    "none";
+
+}
+
+return;
     }
 
 
@@ -5697,6 +5730,41 @@ function renderUpcoming(){
 
   }
 
+  /* =============================================
+   LATEST UPDATE IMAGE
+============================================= */
+
+const latestImage =
+  document.getElementById(
+    "latestUpdateImage"
+  );
+
+if(
+  latestImage
+){
+
+  if(
+    latest.imageUrl
+  ){
+
+    latestImage.src =
+      latest.imageUrl;
+
+    latestImage.style.display =
+      "block";
+
+  }else{
+
+    latestImage.removeAttribute(
+      "src"
+    );
+
+    latestImage.style.display =
+      "none";
+
+  }
+
+}
 
   /* =====================================================
      RENDER EVERYTHING
