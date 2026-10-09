@@ -5651,277 +5651,69 @@ function renderUpcoming(){
      LATEST UPDATE
   ====================================================== */
 
-  function renderLatestUpdate(){
+  function renderLatestUpdate() {
+  const updates = typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES === "function"
+    ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
+    : [];
+  const latest = Array.isArray(updates) ? updates[0] : null;
+  const latestImage = document.getElementById("latestUpdateImage");
+  const latestImageFrame = document.getElementById("latestUpdateImageFrame");
 
-    const updates =
-
-      typeof
-      window.MRS_WOLFIE_GET_ACTIVE_UPDATES
-      ===
-      "function"
-
-        ?
-
-      window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
-
-        :
-
-      [];
-
-
-    const latest =
-      Array.isArray(updates)
-        ?
-        updates[0]
-        :
-        null;
-
-
-    if(
-      !latest
-    ){
-
-      $("latestType").textContent =
-        "MRS WOLFIE";
-
-      $("latestDate").textContent =
-        "";
-
-      $("latestTitle").textContent =
-        "NO NEW UPDATES";
-
-     $("latestMessage").textContent =
-  "New Mrs Wolfie updates will appear here automatically.";
-
-const latestImage =
-  document.getElementById(
-    "latestUpdateImage"
-  );
-
-if(
-  latestImage
-){
-
-  latestImage.removeAttribute(
-    "src"
-  );
-
-  latestImage.style.display =
-    "none";
-
-}
-
-return;
-    }
-
-
-    $("latestType").textContent =
-      text(
-        latest.type,
-        "NEWS"
-      );
-
-
-    $("latestDate").textContent =
-      text(
-        latest.dateDisplay
-      );
-
-
-    $("latestTitle").textContent =
-      text(
-        latest.title,
-        "MRS WOLFIE UPDATE"
-      );
-
-
+  if (!latest) {
+    $("latestType").textContent = "MRS WOLFIE";
+    $("latestDate").textContent = "";
+    $("latestTitle").textContent = "NO NEW UPDATES";
     $("latestMessage").textContent =
-      text(
-        latest.message
-      );
-
+      "New Mrs Wolfie updates will appear here automatically.";
+  } else {
+    $("latestType").textContent = text(latest.type, "NEWS");
+    $("latestDate").textContent = text(latest.dateDisplay);
+    $("latestTitle").textContent = text(latest.title, "MRS WOLFIE UPDATE");
+    $("latestMessage").textContent = text(latest.message);
   }
 
-  /* =============================================
-   LATEST UPDATE IMAGE
-============================================= */
+  if (!latestImage || !latestImageFrame) return;
 
-const latestImage =
-  document.getElementById(
-    "latestUpdateImage"
-  );
+  if (!latest || !latest.imageUrl) {
+    latestImage.removeAttribute("src");
+    latestImage.style.display = "none";
+    latestImage.style.transform = "none";
+    latestImage.style.transformOrigin = "center center";
+    latestImage.style.objectPosition = "50% 50%";
+    latestImageFrame.style.display = "none";
+    latestImageFrame.style.aspectRatio = "auto";
+    return;
+  }
 
-if(
-  latestImage
-){
-
-  if(
-    latest.imageUrl
-  ){
-
-    latestImage.src =
-  latest.imageUrl;
-
-latestImage.style.display =
-  "block";
-
-/* =========================================
-   LATEST UPDATE IMAGE FRAME
-========================================= */
-
-const allowedRatios = [
-  "16:9",
-  "4:5",
-  "1:1",
-  "9:16"
-];
-
-const imageRatio =
-  allowedRatios.includes(latest.imageRatio)
+  const allowedRatios = ["16:9", "4:5", "1:1", "9:16"];
+  const imageRatio = allowedRatios.includes(latest.imageRatio)
     ? latest.imageRatio
     : "full";
-    
-    /* =========================================
-   MRS WOLFIE HOMEPAGE IMAGE FRAME
-========================================= */
+  const fullImage = imageRatio === "full";
+  const x = Math.max(0, Math.min(100, Number(latest.imagePositionX ?? 50)));
+  const y = Math.max(0, Math.min(100, Number(latest.imagePositionY ?? 50)));
+  const zoom = Math.max(100, Math.min(200, Number(latest.imageZoom ?? 100))) / 100;
 
-const latestImageFrame =
-  document.getElementById(
-    "latestUpdateImageFrame"
-  );
+  latestImageFrame.style.display = "block";
+  latestImageFrame.style.position = "relative";
+  latestImageFrame.style.overflow = "hidden";
+  latestImageFrame.style.aspectRatio = fullImage
+    ? "auto"
+    : imageRatio.replace(":", " / ");
 
-if (latestImageFrame) {
-
-  /* Show frame when image exists */
-
-  latestImageFrame.style.display =
-    "block";
-
-  /* Apply selected image ratio */
-
-  if (imageRatio === "full") {
-
-    latestImageFrame.style.aspectRatio =
-      "auto";
-
-  } else {
-
-    latestImageFrame.style.aspectRatio =
-      imageRatio.replace(":", " / ");
-
-  }
-
-}
-    
-latestImage.style.width =
-  "100%";
-
-latestImage.style.display =
-  "block";
-
-if (imageRatio === "full") {
-
-  latestImage.style.aspectRatio =
-    "auto";
-
-  latestImage.style.height =
-    "auto";
-
-  latestImage.style.maxHeight =
-    "none";
-
-  latestImage.style.objectFit =
-    "contain";
-
-} else {
-
-  latestImage.style.aspectRatio =
-    imageRatio.replace(":", " / ");
-
-  latestImage.style.height =
-    "auto";
-
-  latestImage.style.maxHeight =
-    "none";
-
-  latestImage.style.objectFit =
-    "cover";
-  /* =========================================
-   FIT IMAGE INSIDE SELECTED FRAME
-========================================= */
-
-latestImage.style.height =
-  "100%";
-
-latestImage.style.maxHeight =
-  "none";
-  
-}
-
-/* =========================================
-   MRS WOLFIE IMAGE POSITION
-========================================= */
-
-latestImage.style.objectPosition =
-  (latest.imagePositionX ?? 50) + "% " +
-  (latest.imagePositionY ?? 50) + "%";
-    
-/* =========================================
-   MRS WOLFIE IMAGE ZOOM
-========================================= */
-
-const imageZoom = Math.max(
-  100,
-  Math.min(
-    200,
-    Number(latest.imageZoom ?? 100)
-  )
-);
-
-latestImage.style.transform =
-  `scale(${imageZoom / 100})`;
-
-latestImage.style.transformOrigin =
-  (latest.imagePositionX ?? 50) + "% " +
-  (latest.imagePositionY ?? 50) + "%";
-
-}else{
-
-  /* =========================================
-     HIDE IMAGE WHEN NO IMAGE IS ATTACHED
-  ========================================= */
-
-  latestImage.removeAttribute(
-    "src"
-  );
-
-  latestImage.style.display =
-    "none";
-/* =========================================
-   RESET IMAGE ZOOM AND POSITION
-========================================= */
-
-latestImage.style.transform =
-  "scale(1)";
-
-latestImage.style.transformOrigin =
-  "center center";
-
-latestImage.style.objectPosition =
-  "50% 50%";
-    
-  const latestImageFrame =
-    document.getElementById(
-      "latestUpdateImageFrame"
-    );
-
-  if (latestImageFrame) {
-
-    latestImageFrame.style.display =
-      "none";
-    
- }
-
+  latestImage.style.display = "block";
+  latestImage.style.width = "100%";
+  latestImage.style.maxHeight = "none";
+  latestImage.style.borderRadius = "0";
+  latestImage.style.position = fullImage ? "static" : "absolute";
+  latestImage.style.inset = fullImage ? "auto" : "0";
+  latestImage.style.height = fullImage ? "auto" : "100%";
+  latestImage.style.aspectRatio = "auto";
+  latestImage.style.objectFit = fullImage ? "contain" : "cover";
+  latestImage.style.objectPosition = `${x}% ${y}%`;
+  latestImage.style.transform = `scale(${zoom})`;
+  latestImage.style.transformOrigin = `${x}% ${y}%`;
+  latestImage.src = latest.imageUrl;
 }
 
   /* =====================================================
