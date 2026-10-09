@@ -2102,7 +2102,47 @@ body.menu-open {
               message
             );
 
+/* =============================================
+   UPDATE IMAGE
+============================================= */
 
+if (update.imageUrl) {
+
+  const updateImage =
+    document.createElement("img");
+
+  updateImage.src =
+    update.imageUrl;
+
+  updateImage.alt =
+    update.title || "Mrs Wolfie Update";
+
+  updateImage.loading =
+    "lazy";
+
+  updateImage.style.width =
+    "100%";
+
+  updateImage.style.maxHeight =
+    "350px";
+
+  updateImage.style.objectFit =
+    "contain";
+
+  updateImage.style.display =
+    "block";
+
+  updateImage.style.marginTop =
+    "15px";
+
+  updateImage.style.borderRadius =
+    "12px";
+
+  card.appendChild(
+    updateImage
+  );
+
+}
 
             /* =============================================
                OPTIONAL BUTTON
