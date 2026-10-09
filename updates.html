@@ -1596,6 +1596,24 @@ body.menu-open {
 .update-image-viewer-close { position:fixed; top:16px; right:18px; z-index:1; width:44px; height:44px;
   border:1px solid rgba(255,143,211,.5); border-radius:12px; background:#17121b; color:white;
   font-size:27px; cursor:pointer; }
+/* Ice-blue left / neon-pink right glow around the full-image viewer */
+.update-image-viewer img {
+  border:2px solid transparent;
+  border-radius:12px;
+  background:linear-gradient(#06090e,#06090e) padding-box,
+             linear-gradient(100deg,#36cfff 0%,#86eaff 38%,#ff65bf 70%,#ff2f92 100%) border-box;
+  box-shadow:-15px 0 40px rgba(0,191,255,.36),
+              15px 0 40px rgba(255,47,146,.34),
+              0 0 18px rgba(255,255,255,.12);
+}
+.update-image-viewer-close{
+  border-color:rgba(255,143,211,.7);
+  box-shadow:-4px 0 15px rgba(0,191,255,.35),4px 0 15px rgba(255,47,146,.38);
+}
+@media(prefers-reduced-motion:no-preference){
+  .update-image-viewer img{animation:wolfieGlowAppear .22s ease-out both}
+  @keyframes wolfieGlowAppear{from{opacity:.65;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+}
 body.update-image-viewer-open { overflow:hidden; }
 @media(max-width:600px) { .update-expanded-image { max-width:100%; } }
 
