@@ -819,9 +819,9 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
         window.dispatchEvent(
 
-          new CustomEvent(
-         mrsWolfieUpdatesDataUpdated
-            {
+         new CustomEvent(
+  "mrsWolfieUpdatesDataUpdated",
+  {
 
               detail: {
 
@@ -863,9 +863,9 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
         window.dispatchEvent(
 
-          new CustomEvent(
-          mrsWolfieUpdatesDataUpdated
-            {
+         new CustomEvent(
+  "mrsWolfieUpdatesDataUpdated",
+  {
 
               detail: {
 
@@ -911,9 +911,9 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
 
     window.dispatchEvent(
 
-      new CustomEvent(
-       mrsWolfieUpdatesDataUpdated
-        {
+   new CustomEvent(
+  "mrsWolfieUpdatesDataUpdated",
+  {
 
           detail: {
 
