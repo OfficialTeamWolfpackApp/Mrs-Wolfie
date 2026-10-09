@@ -3538,11 +3538,39 @@ background-image:
         }
 
 
-        if (eventInfoName) {
+               if (eventInfoName) {
 
           eventInfoName.textContent =
             currentFight.event ||
             "TBA";
+
+        }
+
+
+        /* GET TICKETS */
+
+        const ticketButton =
+          document.getElementById(
+            "fightTicketButton"
+          );
+
+        if (ticketButton) {
+
+          const ticketURL =
+            String(
+              currentFight.ticketUrl || ""
+            ).trim();
+
+          if (ticketURL) {
+
+            ticketButton.href = ticketURL;
+            ticketButton.hidden = false;
+
+          } else {
+
+            ticketButton.hidden = true;
+
+          }
 
         }
 
