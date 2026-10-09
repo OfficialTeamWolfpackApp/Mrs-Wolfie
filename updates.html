@@ -2103,7 +2103,7 @@ body.menu-open {
             );
 
 /* =============================================
-   UPDATE IMAGE
+   UPDATE IMAGE — FRAME SUPPORT
 ============================================= */
 
 if (update.imageUrl) {
@@ -2123,12 +2123,6 @@ if (update.imageUrl) {
   updateImage.style.width =
     "100%";
 
-  updateImage.style.maxHeight =
-    "350px";
-
-  updateImage.style.objectFit =
-    "contain";
-
   updateImage.style.display =
     "block";
 
@@ -2138,12 +2132,57 @@ if (update.imageUrl) {
   updateImage.style.borderRadius =
     "12px";
 
+  /* =========================================
+     IMAGE FRAME SETTINGS
+  ========================================= */
+
+  const allowedRatios = [
+    "16:9",
+    "4:5",
+    "1:1",
+    "9:16"
+  ];
+
+  const imageRatio =
+    allowedRatios.includes(update.imageRatio)
+      ? update.imageRatio
+      : "full";
+
+  if (imageRatio === "full") {
+
+    updateImage.style.aspectRatio =
+      "auto";
+
+    updateImage.style.height =
+      "auto";
+
+    updateImage.style.maxHeight =
+      "none";
+
+    updateImage.style.objectFit =
+      "contain";
+
+  } else {
+
+    updateImage.style.aspectRatio =
+      imageRatio.replace(":", " / ");
+
+    updateImage.style.height =
+      "auto";
+
+    updateImage.style.maxHeight =
+      "none";
+
+    updateImage.style.objectFit =
+      "cover";
+
+  }
+
   card.appendChild(
     updateImage
   );
 
 }
-
             /* =============================================
                OPTIONAL BUTTON
             ============================================== */
