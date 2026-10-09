@@ -2609,6 +2609,216 @@ padding:
 }
 
 /* =========================================================
+   MEET THE PACK — MRS WOLFIE
+========================================================= */
+
+.home-pack-section{
+  margin-top:24px;
+  margin-bottom:34px;
+}
+
+.home-pack-subtitle{
+  margin-top:8px;
+  color:var(--pink);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+/* TEAM GRID */
+
+.home-pack-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+
+/* MEMBER CARD */
+
+.home-pack-member{
+  position:relative;
+  display:block;
+
+  min-height:180px;
+  padding:20px 140px 20px 18px;
+
+  overflow:hidden;
+
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(137,220,255,.13),
+      rgba(7,11,15,.98) 52%,
+      rgba(255,47,146,.13)
+    );
+
+  box-shadow:0 12px 30px rgba(0,0,0,.30);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+/* BLUE LEFT EDGE */
+
+.home-pack-member::before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:3px;
+  background:var(--blue);
+  z-index:3;
+}
+
+/* PINK RIGHT EDGE */
+
+.home-pack-member::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  width:3px;
+  background:var(--pink);
+  z-index:3;
+}
+
+/* MEMBER PHOTO */
+
+.home-pack-photo{
+  position:absolute;
+  top:0;
+  right:0;
+
+  width:135px;
+  height:100%;
+
+  object-fit:cover;
+  object-position:center top;
+
+  z-index:1;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      rgba(0,0,0,.45) 25%,
+      #000 55%
+    );
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      rgba(0,0,0,.45) 25%,
+      #000 55%
+    );
+}
+
+/* CARD CONTENT */
+
+.home-pack-content{
+  position:relative;
+  z-index:2;
+}
+
+/* MEMBER STATUS */
+
+.home-pack-status{
+  display:inline-block;
+
+  margin-bottom:12px;
+  padding:6px 9px;
+
+  border-radius:20px;
+
+  border:1px solid rgba(137,220,255,.20);
+  background:rgba(0,0,0,.45);
+
+  color:var(--blue);
+
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+
+/* MEMBER NAME */
+
+.home-pack-name{
+  margin-bottom:9px;
+
+  color:#fff;
+
+  font-size:17px;
+  font-weight:1000;
+  line-height:1.2;
+  letter-spacing:.2px;
+
+  text-transform:uppercase;
+}
+
+/* MEMBER ROLE */
+
+.home-pack-role{
+  color:#a0aab4;
+
+  font-size:9px;
+  font-weight:700;
+  line-height:1.6;
+}
+
+/* CARD HOVER */
+
+.home-pack-member:hover{
+  transform:translateY(-3px);
+  border-color:rgba(137,220,255,.30);
+}
+
+/* TABLET */
+
+@media(max-width:850px){
+
+  .home-pack-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+  .home-pack-member{
+    min-height:165px;
+    padding:18px 112px 18px 14px;
+  }
+
+  .home-pack-photo{
+    width:110px;
+  }
+
+  .home-pack-name{
+    font-size:14px;
+  }
+
+  .home-pack-role{
+    font-size:8px;
+  }
+
+  .home-pack-status{
+    font-size:6px;
+  }
+
+}
+  
+/* =========================================================
    JOURNEY — TEAM WOLFPACK STYLE
 ========================================================= */
 
@@ -4073,6 +4283,185 @@ footer{
 
 </section>
 
+<!-- =======================================================
+     MEET THE PACK — THE TEAM BEHIND MRS WOLFIE
+======================================================== -->
+
+<section class="home-pack-section">
+
+  <div class="section-heading">
+
+    <div>
+      <div class="section-kicker">
+        TEAM WOLFIE
+      </div>
+
+      <div class="section-title">
+        MEET THE PACK
+      </div>
+    </div>
+
+  </div>
+
+  <div class="home-pack-subtitle">
+    THE TEAM BEHIND MRS WOLFIE
+  </div>
+
+  <div class="home-pack-grid">
+
+    <!-- MR WOLFIE -->
+
+    <article class="home-pack-member">
+
+      <img
+        class="home-pack-photo"
+        src="https://raw.githubusercontent.com/OfficialTeamWolfpackApp/Team-Wolfpack-App/main/mr-wolfie.jpg"
+        alt="Chris Mr Wolfie James"
+      >
+
+      <div class="home-pack-content">
+
+        <div class="home-pack-status">
+          CO-FOUNDER • MANAGER
+        </div>
+
+        <div class="home-pack-name">
+          CHRIS “MR WOLFIE” JAMES
+        </div>
+
+        <div class="home-pack-role">
+          Co-Founder &amp; Joint Owner of Team Wolfpack
+          <br>
+          Manager to Team Wolfie
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- GREIG SLOAN -->
+
+    <article class="home-pack-member">
+
+      <img
+        class="home-pack-photo"
+        src="https://raw.githubusercontent.com/OfficialTeamWolfpackApp/Team-Wolfpack-App/main/greig-sloan.jpg"
+        alt="Greig Sloan"
+      >
+
+      <div class="home-pack-content">
+
+        <div class="home-pack-status">
+          CORNER TEAM
+        </div>
+
+        <div class="home-pack-name">
+          GREIG SLOAN
+        </div>
+
+        <div class="home-pack-role">
+          CORNER TEAM - TEAM WOLFIE 
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- BRY KELLY -->
+
+    <article class="home-pack-member">
+
+      <img
+        class="home-pack-photo"
+        src="https://raw.githubusercontent.com/OfficialTeamWolfpackApp/Team-Wolfpack-App/main/bry-kelly.jpg"
+        alt="Bry Kelly"
+      >
+
+      <div class="home-pack-content">
+
+        <div class="home-pack-status">
+          CORNER TEAM 
+        </div>
+
+        <div class="home-pack-name">
+          BRY KELLY
+        </div>
+
+        <div class="home-pack-role">
+        CORNER TEAM - TEAM WOLFIE • Boxer
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- BILLY BOSSMAN BURTON -->
+
+    <article class="home-pack-member">
+
+      <img
+        class="home-pack-photo"
+        src="https://raw.githubusercontent.com/OfficialTeamWolfpackApp/Team-Wolfpack-App/main/billy-burton.jpg"
+        alt="Billy Bossman Burton"
+      >
+
+      <div class="home-pack-content">
+
+        <div class="home-pack-status">
+          CORNER TEAM
+        </div>
+
+        <div class="home-pack-name">
+          BILLY “BOSSMAN” BURTON
+        </div>
+
+        <div class="home-pack-role">
+           CORNER TEAM - TEAM WOLFIE • Boxer
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- RICHARD DAVIES -->
+
+    <article class="home-pack-member">
+
+      <img
+        class="home-pack-photo"
+        src="https://raw.githubusercontent.com/OfficialTeamWolfpackApp/Team-Wolfpack-App/main/richard-davies.jpeg"
+        alt="Richard Davies"
+      >
+
+      <div class="home-pack-content">
+
+        <div class="home-pack-status">
+          SPONSOR
+        </div>
+
+        <div class="home-pack-name">
+          RICHARD DAVIES
+        </div>
+
+        <div class="home-pack-role">
+          Former Midlands Champion
+          <br>
+          CEO of King Clothing
+          <br>
+          Founder of The Kings Circle
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>  
 
 <!-- =======================================================
      JOURNEY
