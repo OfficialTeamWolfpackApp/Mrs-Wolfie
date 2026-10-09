@@ -740,7 +740,17 @@ const imagePositionY =
     0,
     Math.min(100, Number(data.imagePositionY ?? 50) || 0)
   );
-             
+  /* =========================================
+   MRS WOLFIE IMAGE ZOOM
+========================================= */
+
+const imageZoom = Math.max(
+  100,
+  Math.min(
+    200,
+    Number(data.imageZoom ?? 100)
+  )
+);           
             const link =
               String(
                 data.link ||
@@ -775,20 +785,16 @@ const imagePositionY =
               message:
                 message,
 
-              imageUrl:
-  imageUrl,
+            imageUrl: imageUrl,
+imageRatio: imageRatio,
+imagePositionX: imagePositionX,
+imagePositionY: imagePositionY,
 
-imageRatio:
-  imageRatio,
+/* =========================================
+   IMAGE ZOOM SETTING
+========================================= */
 
-imagePositionX:
-  imagePositionX,
-
-imagePositionY:
-  imagePositionY,
-
-date:
-  date,
+imageZoom: imageZoom,
 
               dateDisplay:
                 dateDisplay,
