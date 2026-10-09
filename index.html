@@ -5748,10 +5748,62 @@ if(
   ){
 
     latestImage.src =
-      latest.imageUrl;
+  latest.imageUrl;
 
-    latestImage.style.display =
-      "block";
+latestImage.style.display =
+  "block";
+
+/* =========================================
+   LATEST UPDATE IMAGE FRAME
+========================================= */
+
+const allowedRatios = [
+  "16:9",
+  "4:5",
+  "1:1",
+  "9:16"
+];
+
+const imageRatio =
+  allowedRatios.includes(latest.imageRatio)
+    ? latest.imageRatio
+    : "full";
+
+latestImage.style.width =
+  "100%";
+
+latestImage.style.display =
+  "block";
+
+if (imageRatio === "full") {
+
+  latestImage.style.aspectRatio =
+    "auto";
+
+  latestImage.style.height =
+    "auto";
+
+  latestImage.style.maxHeight =
+    "none";
+
+  latestImage.style.objectFit =
+    "contain";
+
+} else {
+
+  latestImage.style.aspectRatio =
+    imageRatio.replace(":", " / ");
+
+  latestImage.style.height =
+    "auto";
+
+  latestImage.style.maxHeight =
+    "none";
+
+  latestImage.style.objectFit =
+    "cover";
+
+}
 
   }else{
 
