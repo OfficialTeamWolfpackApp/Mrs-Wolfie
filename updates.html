@@ -2176,16 +2176,72 @@ if (update.imageUrl) {
     updateImage.style.objectFit =
       "cover";
     
- /* =========================================
+/* =========================================
    APPLY SAVED IMAGE POSITION
 ========================================= */
 
 updateImage.style.objectPosition =
   (update.imagePositionX ?? 50) + "% " +
   (update.imagePositionY ?? 50) + "%";
-  card.appendChild(
-    updateImage
-  );
+
+
+/* =========================================
+   MRS WOLFIE IMAGE ZOOM
+========================================= */
+
+const imageZoom = Math.max(
+  100,
+  Math.min(
+    200,
+    Number(update.imageZoom ?? 100)
+  )
+);
+
+updateImage.style.transform =
+  `scale(${imageZoom / 100})`;
+
+updateImage.style.transformOrigin =
+  (update.imagePositionX ?? 50) + "% " +
+  (update.imagePositionY ?? 50) + "%";
+
+
+/* =========================================
+   ADD IMAGE TO UPDATE CARD
+========================================= */
+
+/* =========================================
+   MRS WOLFIE IMAGE ZOOM FRAME
+========================================= */
+
+const imageFrame =
+  document.createElement("div");
+
+imageFrame.style.width = "100%";
+imageFrame.style.marginTop = "15px";
+imageFrame.style.overflow = "hidden";
+imageFrame.style.borderRadius = "12px";
+
+/* Match the selected image ratio */
+
+if (imageRatio === "full") {
+  imageFrame.style.aspectRatio = "auto";
+} else {
+  imageFrame.style.aspectRatio =
+    imageRatio.replace(":", " / ");
+}
+
+/* Keep image inside the frame */
+
+updateImage.style.marginTop = "0";
+updateImage.style.borderRadius = "0";
+
+if (imageRatio !== "full") {
+  updateImage.style.height = "100%";
+}
+
+imageFrame.appendChild(updateImage);
+
+card.appendChild(imageFrame);
 
 }
             /* =============================================
