@@ -2103,147 +2103,53 @@ body.menu-open {
             );
 
 /* =============================================
-   UPDATE IMAGE — FRAME SUPPORT
+   UPDATE IMAGE — FRAME, POSITION AND ZOOM
 ============================================= */
 
 if (update.imageUrl) {
+  const allowedRatios = ["16:9", "4:5", "1:1", "9:16"];
+  const imageRatio = allowedRatios.includes(update.imageRatio)
+    ? update.imageRatio
+    : "full";
 
-  const updateImage =
-    document.createElement("img");
+  const imageFrame = document.createElement("div");
+  imageFrame.style.width = "100%";
+  imageFrame.style.marginTop = "15px";
+  imageFrame.style.borderRadius = "12px";
+  imageFrame.style.overflow = "hidden";
+  imageFrame.style.position = "relative";
 
-  updateImage.src =
-    update.imageUrl;
+  const updateImage = document.createElement("img");
+  updateImage.src = update.imageUrl;
+  updateImage.alt = update.title || "Mrs Wolfie Update";
+  updateImage.loading = "lazy";
+  updateImage.style.display = "block";
+  updateImage.style.width = "100%";
 
-  updateImage.alt =
-    update.title || "Mrs Wolfie Update";
-
-  updateImage.loading =
-    "lazy";
-
-  updateImage.style.width =
-    "100%";
-
-  updateImage.style.display =
-    "block";
-
-  updateImage.style.marginTop =
-    "15px";
-
-  updateImage.style.borderRadius =
-    "12px";
-
-  /* =========================================
-     IMAGE FRAME SETTINGS
-  ========================================= */
-
-  const allowedRatios = [
-    "16:9",
-    "4:5",
-    "1:1",
-    "9:16"
-  ];
-
-  const imageRatio =
-    allowedRatios.includes(update.imageRatio)
-      ? update.imageRatio
-      : "full";
+  const x = Math.max(0, Math.min(100, Number(update.imagePositionX ?? 50)));
+  const y = Math.max(0, Math.min(100, Number(update.imagePositionY ?? 50)));
+  const zoom = Math.max(100, Math.min(200, Number(update.imageZoom ?? 100)));
 
   if (imageRatio === "full") {
-
-    updateImage.style.aspectRatio =
-      "auto";
-
-    updateImage.style.height =
-      "auto";
-
-    updateImage.style.maxHeight =
-      "none";
-
-    updateImage.style.objectFit =
-      "contain";
-
+    imageFrame.style.aspectRatio = "auto";
+    updateImage.style.height = "auto";
+    updateImage.style.objectFit = "contain";
   } else {
+    imageFrame.style.aspectRatio = imageRatio.replace(":", " / ");
+    updateImage.style.position = "absolute";
+    updateImage.style.inset = "0";
+    updateImage.style.height = "100%";
+    updateImage.style.objectFit = "cover";
+    updateImage.style.objectPosition = `${x}% ${y}%`;
+  }
 
-    updateImage.style.aspectRatio =
-      imageRatio.replace(":", " / ");
+  updateImage.style.transform = `scale(${zoom / 100})`;
+  updateImage.style.transformOrigin = `${x}% ${y}%`;
 
-    updateImage.style.height =
-      "auto";
-
-    updateImage.style.maxHeight =
-      "none";
-
-    updateImage.style.objectFit =
-      "cover";
-    
-/* =========================================
-   APPLY SAVED IMAGE POSITION
-========================================= */
-
-updateImage.style.objectPosition =
-  (update.imagePositionX ?? 50) + "% " +
-  (update.imagePositionY ?? 50) + "%";
-
-
-/* =========================================
-   MRS WOLFIE IMAGE ZOOM
-========================================= */
-
-const imageZoom = Math.max(
-  100,
-  Math.min(
-    200,
-    Number(update.imageZoom ?? 100)
-  )
-);
-
-updateImage.style.transform =
-  `scale(${imageZoom / 100})`;
-
-updateImage.style.transformOrigin =
-  (update.imagePositionX ?? 50) + "% " +
-  (update.imagePositionY ?? 50) + "%";
-
-
-/* =========================================
-   ADD IMAGE TO UPDATE CARD
-========================================= */
-
-/* =========================================
-   MRS WOLFIE IMAGE ZOOM FRAME
-========================================= */
-
-const imageFrame =
-  document.createElement("div");
-
-imageFrame.style.width = "100%";
-imageFrame.style.marginTop = "15px";
-imageFrame.style.overflow = "hidden";
-imageFrame.style.borderRadius = "12px";
-
-/* Match the selected image ratio */
-
-if (imageRatio === "full") {
-  imageFrame.style.aspectRatio = "auto";
-} else {
-  imageFrame.style.aspectRatio =
-    imageRatio.replace(":", " / ");
+  imageFrame.appendChild(updateImage);
+  card.appendChild(imageFrame);
 }
 
-/* Keep image inside the frame */
-
-updateImage.style.marginTop = "0";
-updateImage.style.borderRadius = "0";
-
-if (imageRatio !== "full") {
-  updateImage.style.height = "100%";
-}
-
-imageFrame.appendChild(updateImage);
-
-card.appendChild(imageFrame);
-
-}
             /* =============================================
                OPTIONAL BUTTON
             ============================================== */
