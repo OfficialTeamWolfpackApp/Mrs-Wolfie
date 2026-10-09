@@ -725,7 +725,22 @@ const imageRatio =
     "full"
   )
     .trim();             
+/* =========================================
+   MRS WOLFIE IMAGE POSITION
+========================================= */
 
+const imagePositionX =
+  Math.max(
+    0,
+    Math.min(100, Number(data.imagePositionX ?? 50) || 0)
+  );
+
+const imagePositionY =
+  Math.max(
+    0,
+    Math.min(100, Number(data.imagePositionY ?? 50) || 0)
+  );
+             
             const link =
               String(
                 data.link ||
@@ -765,6 +780,12 @@ const imageRatio =
 
 imageRatio:
   imageRatio,
+
+imagePositionX:
+  imagePositionX,
+
+imagePositionY:
+  imagePositionY,
 
 date:
   date,
