@@ -4165,22 +4165,34 @@ footer{
       Connecting to the Mrs Wolfie updates database.
     </div>
 
-    <!-- LATEST UPDATE IMAGE -->
+   <!-- =========================================
+     MRS WOLFIE LATEST UPDATE IMAGE FRAME
+========================================= -->
 
-<img
-  id="latestUpdateImage"
-  alt="Mrs Wolfie Latest Update"
-  loading="lazy"
+<div
+  id="latestUpdateImageFrame"
   style="
-    display:none;
     width:100%;
-    max-height:350px;
-    object-fit:contain;
-    margin-top:15px;
-    margin-bottom:15px;
+    overflow:hidden;
     border-radius:12px;
   "
 >
+
+  <img
+    id="latestUpdateImage"
+    alt="Mrs Wolfie Latest Update"
+    loading="lazy"
+    style="
+      display:none;
+      width:100%;
+      height:auto;
+      max-height:none;
+      object-fit:contain;
+      border-radius:0;
+    "
+  >
+
+</div>
 
     <a
       href="./updates.html"
@@ -5768,7 +5780,39 @@ const imageRatio =
   allowedRatios.includes(latest.imageRatio)
     ? latest.imageRatio
     : "full";
+    
+    /* =========================================
+   MRS WOLFIE HOMEPAGE IMAGE FRAME
+========================================= */
 
+const latestImageFrame =
+  document.getElementById(
+    "latestUpdateImageFrame"
+  );
+
+if (latestImageFrame) {
+
+  /* Show frame when image exists */
+
+  latestImageFrame.style.display =
+    "block";
+
+  /* Apply selected image ratio */
+
+  if (imageRatio === "full") {
+
+    latestImageFrame.style.aspectRatio =
+      "auto";
+
+  } else {
+
+    latestImageFrame.style.aspectRatio =
+      imageRatio.replace(":", " / ");
+
+  }
+
+}
+    
 latestImage.style.width =
   "100%";
 
@@ -5802,6 +5846,18 @@ if (imageRatio === "full") {
 
   latestImage.style.objectFit =
     "cover";
+  /* =========================================
+   FIT IMAGE INSIDE SELECTED FRAME
+========================================= */
+
+latestImage.style.height =
+  "100%";
+
+latestImage.style.maxHeight =
+  "none";
+  
+}
+
 /* =========================================
    MRS WOLFIE IMAGE POSITION
 ========================================= */
@@ -5809,9 +5865,7 @@ if (imageRatio === "full") {
 latestImage.style.objectPosition =
   (latest.imagePositionX ?? 50) + "% " +
   (latest.imagePositionY ?? 50) + "%";
-
-}
-
+    
 /* =========================================
    MRS WOLFIE IMAGE ZOOM
 ========================================= */
@@ -5831,16 +5885,42 @@ latestImage.style.transformOrigin =
   (latest.imagePositionX ?? 50) + "% " +
   (latest.imagePositionY ?? 50) + "%";
 
-  }else{
+}else{
 
-    latestImage.removeAttribute(
-      "src"
+  /* =========================================
+     HIDE IMAGE WHEN NO IMAGE IS ATTACHED
+  ========================================= */
+
+  latestImage.removeAttribute(
+    "src"
+  );
+
+  latestImage.style.display =
+    "none";
+/* =========================================
+   RESET IMAGE ZOOM AND POSITION
+========================================= */
+
+latestImage.style.transform =
+  "scale(1)";
+
+latestImage.style.transformOrigin =
+  "center center";
+
+latestImage.style.objectPosition =
+  "50% 50%";
+    
+  const latestImageFrame =
+    document.getElementById(
+      "latestUpdateImageFrame"
     );
 
-    latestImage.style.display =
-      "none";
+  if (latestImageFrame) {
 
-  }
+    latestImageFrame.style.display =
+      "none";
+    
+ }
 
 }
 
