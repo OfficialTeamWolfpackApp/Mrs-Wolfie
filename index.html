@@ -3582,6 +3582,24 @@ footer{
 .wolfie-image-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:58px 18px 25px;background:rgba(0,0,0,.94);backdrop-filter:blur(10px)}
 .wolfie-image-modal img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 .wolfie-image-modal-close{position:absolute;right:max(18px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;background:#17212a;color:#fff;font-size:28px;cursor:pointer}
+/* Ice-blue left / neon-pink right glow around the full-image viewer */
+.wolfie-image-modal img{
+  border:2px solid transparent;
+  border-radius:12px;
+  background:linear-gradient(#06090e,#06090e) padding-box,
+             linear-gradient(100deg,#36cfff 0%,#86eaff 38%,#ff65bf 70%,#ff2f92 100%) border-box;
+  box-shadow:-15px 0 40px rgba(0,191,255,.36),
+              15px 0 40px rgba(255,47,146,.34),
+              0 0 18px rgba(255,255,255,.12);
+}
+.wolfie-image-modal-close{
+  border-color:rgba(255,143,211,.7);
+  box-shadow:-4px 0 15px rgba(0,191,255,.35),4px 0 15px rgba(255,47,146,.38);
+}
+@media(prefers-reduced-motion:no-preference){
+  .wolfie-image-modal img{animation:wolfieGlowAppear .22s ease-out both}
+  @keyframes wolfieGlowAppear{from{opacity:.65;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+}
 body.wolfie-image-modal-open{overflow:hidden}
 @media(max-width:520px){.wolfie-live-full-image{max-height:420px}.wolfie-image-modal{padding:65px 10px 20px}}
 .wolfie-live-action{display:inline-flex;align-items:center;justify-content:center;min-height:35px;margin-top:14px;padding:0 13px;border:1px solid rgba(137,220,255,.35);border-radius:8px;color:var(--blue);font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
