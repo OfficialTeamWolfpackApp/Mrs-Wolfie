@@ -870,9 +870,14 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                   data.dateEnd || ""
                 ).trim(),
 
-              venue:
+                           venue:
                 String(
                   data.venue || ""
+                ).trim(),
+
+              ticketUrl:
+                String(
+                  data.ticketUrl || ""
                 ).trim(),
 
               status:
