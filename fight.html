@@ -2329,6 +2329,53 @@ background-image:
 
     }
 
+    /* =========================================
+   MRS WOLFIE — GET TICKETS BUTTON
+========================================= */
+
+.home-ticket-button {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 22px auto 5px;
+  padding: 15px 28px;
+
+  border: 2px solid #89dcff;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    110deg,
+    #89dcff,
+    #ff8fd3
+  );
+
+  color: #050505;
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 0 18px rgba(137, 220, 255, 0.35),
+    0 0 25px rgba(255, 143, 211, 0.20);
+
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.home-ticket-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 25px rgba(137, 220, 255, 0.55),
+    0 0 35px rgba(255, 143, 211, 0.35);
+}
+
+.home-ticket-button[hidden] {
+  display: none !important;
+}
+    
   </style>
 
 </head>
@@ -3441,7 +3488,15 @@ background-image:
             "NEXT FIGHT TO BE ANNOUNCED";
 
         }
+        
+/* HIDE TICKETS WHEN NO FIGHT IS AVAILABLE */
 
+const ticketButton =
+  document.getElementById("fightTicketButton");
+
+if (ticketButton) {
+  ticketButton.hidden = true;
+}
       }
 
 
