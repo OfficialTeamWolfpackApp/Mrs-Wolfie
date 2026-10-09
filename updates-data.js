@@ -715,7 +715,16 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
                 ""
               )
                 .trim();
+/* =========================================
+   MRS WOLFIE IMAGE FRAME
+========================================= */
 
+const imageRatio =
+  String(
+    data.imageRatio ||
+    "full"
+  )
+    .trim();             
 
             const link =
               String(
@@ -751,11 +760,14 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
               message:
                 message,
 
-               imageUrl:
-                 imageUrl,
-               
-              date:
-                date,
+              imageUrl:
+  imageUrl,
+
+imageRatio:
+  imageRatio,
+
+date:
+  date,
 
               dateDisplay:
                 dateDisplay,
