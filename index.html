@@ -3556,6 +3556,28 @@ footer{
 
 }
 
+
+/* MRS WOLFIE — COMPACT EXPANDABLE LIVE UPDATES */
+.wolfie-live-list{display:grid;gap:12px}
+.wolfie-live-card{overflow:hidden;border:1px solid rgba(137,220,255,.23);border-left:3px solid var(--blue);border-right:2px solid var(--pink);border-radius:14px;background:linear-gradient(110deg,rgba(137,220,255,.075),#080c11 55%,rgba(255,47,146,.07));box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.wolfie-live-card:nth-child(even){border-left-color:var(--pink);border-right-color:var(--blue)}
+.wolfie-live-card>summary{display:grid;grid-template-columns:110px minmax(0,1fr) 18px;gap:14px;align-items:center;min-height:108px;padding:12px;cursor:pointer;list-style:none}
+.wolfie-live-card>summary::-webkit-details-marker{display:none}
+.wolfie-live-thumb{width:110px;height:84px;border-radius:9px;object-fit:cover;background:linear-gradient(135deg,rgba(137,220,255,.18),rgba(255,47,146,.18));display:block}
+.wolfie-live-placeholder{display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:9px;font-weight:900;letter-spacing:1px;text-align:center}
+.wolfie-live-info{min-width:0}
+.wolfie-live-meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--blue);font-size:8px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.wolfie-live-meta time{color:var(--pink2)}
+.wolfie-live-title{margin:7px 0 5px;font-size:clamp(13px,2.5vw,18px);font-weight:1000;line-height:1.2;text-transform:uppercase}
+.wolfie-live-preview{color:#9ca6b0;font-size:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.wolfie-live-chevron{color:var(--pink);font-size:23px;transition:transform .2s}
+.wolfie-live-card[open] .wolfie-live-chevron{transform:rotate(90deg)}
+.wolfie-live-expanded{padding:15px 17px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.wolfie-live-full-message{white-space:pre-wrap;overflow-wrap:anywhere;color:#c1cad2;font-size:12px;line-height:1.7}
+.wolfie-live-full-image{display:block;width:100%;max-height:650px;object-fit:contain;margin-top:14px;border-radius:10px;background:rgba(0,0,0,.35)}
+.wolfie-live-action{display:inline-flex;align-items:center;justify-content:center;min-height:35px;margin-top:14px;padding:0 13px;border:1px solid rgba(137,220,255,.35);border-radius:8px;color:var(--blue);font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+@media(max-width:520px){.wolfie-live-card>summary{grid-template-columns:76px minmax(0,1fr) 12px;gap:9px;padding:10px;min-height:95px}.wolfie-live-thumb{width:76px;height:72px}.wolfie-live-meta{font-size:7px}.wolfie-live-title{font-size:13px}.wolfie-live-preview{font-size:9px}}
+
 </style>
 
 </head>
@@ -4101,110 +4123,20 @@ footer{
 </section>
 
 <!-- =======================================================
-     LATEST UPDATE
+     MRS WOLFIE LIVE UPDATES — EXPANDABLE
 ======================================================== -->
-
-<section class="latest-section">
-
+<section class="latest-section" aria-label="Mrs Wolfie Live Updates">
   <div class="section-heading">
-
     <div>
-
-      <div class="section-kicker">
-        LIVE FROM THE APP
-      </div>
-
-      <div class="section-title">
-        LATEST UPDATE
-      </div>
-
+      <div class="section-kicker">LIVE FROM THE APP</div>
+      <div class="section-title">LIVE UPDATES</div>
     </div>
-
-    <a
-      href="./updates.html"
-      class="section-link"
-    >
-      VIEW ALL →
-    </a>
-
+    <a href="./updates.html" class="section-link">VIEW ALL UPDATES →</a>
   </div>
-
-
-  <article class="latest-card">
-
-    <div class="latest-top">
-
-      <div
-        id="latestType"
-        class="latest-type"
-      >
-        NEWS
-      </div>
-
-      <div
-        id="latestDate"
-        class="latest-date"
-      >
-      </div>
-
-    </div>
-
-
-    <div
-      id="latestTitle"
-      class="latest-title"
-    >
-      LOADING LATEST UPDATE...
-    </div>
-
-
-    <div
-      id="latestMessage"
-      class="latest-message"
-    >
-      Connecting to the Mrs Wolfie updates database.
-    </div>
-
-   <!-- =========================================
-     MRS WOLFIE LATEST UPDATE IMAGE FRAME
-========================================= -->
-
-<div
-  id="latestUpdateImageFrame"
-  style="
-    width:100%;
-    overflow:hidden;
-    border-radius:12px;
-  "
->
-
-  <img
-    id="latestUpdateImage"
-    alt="Mrs Wolfie Latest Update"
-    loading="lazy"
-    style="
-      display:none;
-      width:100%;
-      height:auto;
-      max-height:none;
-      object-fit:contain;
-      border-radius:0;
-    "
-  >
-
-</div>
-
-    <a
-      href="./updates.html"
-      class="latest-button"
-    >
-      APP UPDATES →
-    </a>
-
-  </article>
-
+  <div id="mrsWolfieLiveUpdates" class="wolfie-live-list" aria-live="polite">
+    <div class="empty-card">Loading Mrs Wolfie updates...</div>
+  </div>
 </section>
-
 
 <!-- =======================================================
      EXPLORE
@@ -5652,69 +5584,89 @@ function renderUpcoming(){
   ====================================================== */
 
   function renderLatestUpdate() {
-  const updates = typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES === "function"
-    ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES()
-    : [];
-  const latest = Array.isArray(updates) ? updates[0] : null;
-  const latestImage = document.getElementById("latestUpdateImage");
-  const latestImageFrame = document.getElementById("latestUpdateImageFrame");
-
-  if (!latest) {
-    $("latestType").textContent = "MRS WOLFIE";
-    $("latestDate").textContent = "";
-    $("latestTitle").textContent = "NO NEW UPDATES";
-    $("latestMessage").textContent =
-      "New Mrs Wolfie updates will appear here automatically.";
-  } else {
-    $("latestType").textContent = text(latest.type, "NEWS");
-    $("latestDate").textContent = text(latest.dateDisplay);
-    $("latestTitle").textContent = text(latest.title, "MRS WOLFIE UPDATE");
-    $("latestMessage").textContent = text(latest.message);
+    const container = document.getElementById("mrsWolfieLiveUpdates");
+    if (!container) return;
+    const updates = typeof window.MRS_WOLFIE_GET_ACTIVE_UPDATES === "function"
+      ? window.MRS_WOLFIE_GET_ACTIVE_UPDATES().slice(0, 3)
+      : [];
+    container.replaceChildren();
+    if (!updates.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty-card";
+      empty.textContent = window.MRS_WOLFIE_UPDATES?.firebaseLoaded
+        ? "No published updates yet."
+        : "Checking for the latest Mrs Wolfie updates...";
+      container.appendChild(empty);
+      return;
+    }
+    updates.forEach(update => {
+      const card = document.createElement("details");
+      card.className = "wolfie-live-card";
+      const summary = document.createElement("summary");
+      const imageUrl = String(update.imageUrl || "").trim();
+      if (imageUrl) {
+        const thumb = document.createElement("img");
+        thumb.className = "wolfie-live-thumb";
+        thumb.src = imageUrl;
+        thumb.alt = "";
+        thumb.loading = "lazy";
+        thumb.style.objectPosition = `${Number(update.imagePositionX ?? 50)}% ${Number(update.imagePositionY ?? 50)}%`;
+        summary.appendChild(thumb);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "wolfie-live-thumb wolfie-live-placeholder";
+        placeholder.textContent = "MRS WOLFIE";
+        summary.appendChild(placeholder);
+      }
+      const info = document.createElement("div");
+      info.className = "wolfie-live-info";
+      const meta = document.createElement("div");
+      meta.className = "wolfie-live-meta";
+      const type = document.createElement("span");
+      type.textContent = String(update.type || "NEWS");
+      const date = document.createElement("time");
+      date.textContent = String(update.dateDisplay || update.date || "");
+      if (update.date) date.dateTime = update.date;
+      meta.append(type, date);
+      const title = document.createElement("div");
+      title.className = "wolfie-live-title";
+      title.textContent = String(update.title || "MRS WOLFIE UPDATE");
+      const preview = document.createElement("div");
+      preview.className = "wolfie-live-preview";
+      preview.textContent = String(update.message || "");
+      info.append(meta, title, preview);
+      const arrow = document.createElement("span");
+      arrow.className = "wolfie-live-chevron";
+      arrow.textContent = "›";
+      arrow.setAttribute("aria-hidden", "true");
+      summary.append(info, arrow);
+      const expanded = document.createElement("div");
+      expanded.className = "wolfie-live-expanded";
+      const fullMessage = document.createElement("p");
+      fullMessage.className = "wolfie-live-full-message";
+      fullMessage.textContent = String(update.message || "");
+      expanded.appendChild(fullMessage);
+      if (imageUrl) {
+        const fullImage = document.createElement("img");
+        fullImage.className = "wolfie-live-full-image";
+        fullImage.src = imageUrl;
+        fullImage.alt = String(update.title || "Mrs Wolfie announcement image");
+        fullImage.loading = "lazy";
+        expanded.appendChild(fullImage);
+      }
+      const link = String(update.link || "").trim();
+      if (link && /^(https?:\/\/|\.\/|\.\.\/|\/[^/])/i.test(link)) {
+        const action = document.createElement("a");
+        action.className = "wolfie-live-action";
+        action.href = link;
+        if (/^https?:\/\//i.test(link)) action.rel = "noopener noreferrer";
+        action.textContent = String(update.buttonText || "VIEW DETAILS");
+        expanded.appendChild(action);
+      }
+      card.append(summary, expanded);
+      container.appendChild(card);
+    });
   }
-
-  if (!latestImage || !latestImageFrame) return;
-
-  if (!latest || !latest.imageUrl) {
-    latestImage.removeAttribute("src");
-    latestImage.style.display = "none";
-    latestImage.style.transform = "none";
-    latestImage.style.transformOrigin = "center center";
-    latestImage.style.objectPosition = "50% 50%";
-    latestImageFrame.style.display = "none";
-    latestImageFrame.style.aspectRatio = "auto";
-    return;
-  }
-
-  const allowedRatios = ["16:9", "4:5", "1:1", "9:16"];
-  const imageRatio = allowedRatios.includes(latest.imageRatio)
-    ? latest.imageRatio
-    : "full";
-  const fullImage = imageRatio === "full";
-  const x = Math.max(0, Math.min(100, Number(latest.imagePositionX ?? 50)));
-  const y = Math.max(0, Math.min(100, Number(latest.imagePositionY ?? 50)));
-  const zoom = Math.max(100, Math.min(200, Number(latest.imageZoom ?? 100))) / 100;
-
-  latestImageFrame.style.display = "block";
-  latestImageFrame.style.position = "relative";
-  latestImageFrame.style.overflow = "hidden";
-  latestImageFrame.style.aspectRatio = fullImage
-    ? "auto"
-    : imageRatio.replace(":", " / ");
-
-  latestImage.style.display = "block";
-  latestImage.style.width = "100%";
-  latestImage.style.maxHeight = "none";
-  latestImage.style.borderRadius = "0";
-  latestImage.style.position = fullImage ? "static" : "absolute";
-  latestImage.style.inset = fullImage ? "auto" : "0";
-  latestImage.style.height = fullImage ? "auto" : "100%";
-  latestImage.style.aspectRatio = "auto";
-  latestImage.style.objectFit = fullImage ? "contain" : "cover";
-  latestImage.style.objectPosition = `${x}% ${y}%`;
-  latestImage.style.transform = `scale(${zoom})`;
-  latestImage.style.transformOrigin = `${x}% ${y}%`;
-  latestImage.src = latest.imageUrl;
-}
 
   /* =====================================================
      RENDER EVERYTHING
