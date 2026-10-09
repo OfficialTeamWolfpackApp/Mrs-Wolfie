@@ -820,7 +820,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
         window.dispatchEvent(
 
           new CustomEvent(
-            "mrsWolfieUpdateDataUpdated",
+         mrsWolfieUpdatesDataUpdated
             {
 
               detail: {
@@ -864,7 +864,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
         window.dispatchEvent(
 
           new CustomEvent(
-            "mrsWolfieUpdateDataUpdated",
+          mrsWolfieUpdatesDataUpdated
             {
 
               detail: {
@@ -912,7 +912,7 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
     window.dispatchEvent(
 
       new CustomEvent(
-        "mrsWolfieUpdateDataUpdated",
+       mrsWolfieUpdatesDataUpdated
         {
 
           detail: {
