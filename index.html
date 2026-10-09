@@ -5802,7 +5802,14 @@ if (imageRatio === "full") {
 
   latestImage.style.objectFit =
     "cover";
+/* =========================================
+   MRS WOLFIE IMAGE POSITION
+========================================= */
 
+latestImage.style.objectPosition =
+  (latest.imagePositionX ?? 50) + "% " +
+  (latest.imagePositionY ?? 50) + "%";
+  
 }
 
   }else{
