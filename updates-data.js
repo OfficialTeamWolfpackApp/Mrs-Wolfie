@@ -702,6 +702,12 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
               )
                 .trim();
 
+             const imageUrl =
+  String(
+    data.imageUrl ||
+    ""
+  )
+    .trim();
 
             const buttonText =
               String(
@@ -745,6 +751,9 @@ window.MRS_WOLFIE_FORMAT_UPDATE_DATE =
               message:
                 message,
 
+               imageUrl:
+                 imageUrl,
+               
               date:
                 date,
 
