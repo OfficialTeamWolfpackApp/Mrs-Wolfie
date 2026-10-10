@@ -1617,6 +1617,37 @@ body.menu-open {
 body.update-image-viewer-open { overflow:hidden; }
 @media(max-width:600px) { .update-expanded-image { max-width:100%; } }
 
+
+    /* LATEST UPDATES — image banner below sticky navigation */
+    .latest-updates-banner {
+      position: relative;
+      width: min(1200px, calc(100% - 28px));
+      margin: 22px auto 0;
+      border: 1px solid rgba(137,220,255,.42);
+      border-right-color: rgba(255,47,146,.60);
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(100deg,#051323,#150616);
+      box-shadow: -9px 0 26px rgba(0,191,255,.17),
+                   9px 0 26px rgba(255,47,146,.17),
+                   0 12px 30px rgba(0,0,0,.4);
+    }
+    .latest-updates-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2.73 / 1;
+      object-fit: contain;
+    }
+    @media (max-width: 600px) {
+      .latest-updates-banner {
+        width: calc(100% - 18px);
+        margin-top: 12px;
+        border-radius: 10px;
+      }
+      main { padding-top: 28px; }
+    }
+
   </style>
 
 </head>
@@ -1783,36 +1814,12 @@ body.update-image-viewer-open { overflow:hidden; }
        PAGE HERO
   ======================================================== -->
 
-  <section class="page-hero">
-
-    <div class="hero-inner">
-
-      <div class="eyebrow">
-        MRS WOLFIE • TEAM WOLFIE
-      </div>
-
-
-      <h1 class="page-title">
-
-        APP
-
-        <span>
-          UPDATES
-        </span>
-
-      </h1>
-
-
-      <p class="hero-text">
-
-        The latest Mrs Wolfie fight announcements,
-        results, Team Wolfie news and important
-        updates — all in one place.
-
-      </p>
-
-    </div>
-
+  <section class="latest-updates-banner" aria-label="Latest Updates banner">
+    <img
+      src="./images/latest-updates-banner.png"
+      alt="LATEST UPDATES — electric blue and neon pink wolf banner"
+      fetchpriority="high"
+    >
   </section>
 
 
