@@ -2776,6 +2776,7 @@ padding:
 
 /* CARD HOVER */
 
+.home-pack-member:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
 .home-pack-member:hover{
   transform:translateY(-3px);
   border-color:rgba(137,220,255,.30);
@@ -4300,7 +4301,7 @@ body.wolfie-image-modal-open{overflow:hidden}
 
     <!-- MR WOLFIE -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=mr-wolfie" aria-label="View Mr Wolfie profile">
 
       <img
         class="home-pack-photo"
@@ -4326,12 +4327,12 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
 
     <!-- GREIG SLOAN -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=greig-sloan" aria-label="View greig sloan profile">
 
       <img
         class="home-pack-photo"
@@ -4355,12 +4356,12 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
 
     <!-- BRY KELLY -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=bry-kelly" aria-label="View bry kelly profile">
 
       <img
         class="home-pack-photo"
@@ -4384,12 +4385,12 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
 
     <!-- BILLY BOSSMAN BURTON -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=billy-burton" aria-label="View billy burton profile">
 
       <img
         class="home-pack-photo"
@@ -4413,12 +4414,12 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
 
     <!-- KELLY “BOSSGAL” MCSPORRAN -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=kelly-mcsporran" aria-label="View kelly mcsporran profile">
 
       <img class="home-pack-photo" src="./images/Kelly.jpeg" alt="Kelly Bossgal McSporran" loading="lazy" decoding="async">
 
@@ -4438,12 +4439,12 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
 
     <!-- RICHARD DAVIES -->
 
-    <article class="home-pack-member">
+    <a class="home-pack-member" href="./team-member.html?id=richard-davies" aria-label="View richard davies profile">
 
       <img
         class="home-pack-photo"
@@ -4471,7 +4472,7 @@ body.wolfie-image-modal-open{overflow:hidden}
 
       </div>
 
-    </article>
+    </a>
 
   </div>
 
@@ -4489,8 +4490,11 @@ if(grid){
   const ids=['mr-wolfie','greig-sloan','bry-kelly','billy-burton','kelly-mcsporran','richard-davies'];
   const defaultsById=new Map(defaults.map((card,i)=>[ids[i],card]));
   function safeImage(value){try{const u=new URL(value,location.href);return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}}
-  function makeCard(p,existing){
-    const card=existing?existing.cloneNode(true):document.createElement('article');
+  function makeCard(p,existing,id){
+    p={...p,profileId:id};
+    const card=document.createElement('a');
+    card.href='./team-member.html?id='+encodeURIComponent(p.profileId||'');
+    card.setAttribute('aria-label','View '+(p.name||'team member')+' profile');
     card.className='home-pack-member';
     card.replaceChildren();
     const photo=safeImage(p.photo||'');
@@ -4505,8 +4509,8 @@ if(grid){
     const data=snap.val()||{};
     const cards=[];
     // Keep existing members visible until their individual Mrs Wolfie records are created.
-    for(const id of ids){const p=data[id];if(p){if(p.visible!==false)cards.push(makeCard(p,defaultsById.get(id)))}else cards.push(defaultsById.get(id).cloneNode(true))}
-    for(const [id,p] of Object.entries(data)){if(!defaultsById.has(id)&&p&&p.visible!==false)cards.push(makeCard(p))}
+    for(const id of ids){const p=data[id];if(p){if(p.visible!==false)cards.push(makeCard(p,defaultsById.get(id),id))}else cards.push(defaultsById.get(id).cloneNode(true))}
+    for(const [id,p] of Object.entries(data)){if(!defaultsById.has(id)&&p&&p.visible!==false)cards.push(makeCard(p,null,id))}
     grid.replaceChildren(...cards);
   },error=>{console.warn('Mrs Wolfie profiles could not load; existing cards retained:',error.message)});
 }
