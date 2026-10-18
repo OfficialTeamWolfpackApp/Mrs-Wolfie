@@ -3608,6 +3608,75 @@ body.wolfie-image-modal-open{overflow:hidden}
 
 
 /* Kelly's portrait uses the same photo treatment as the other team cards. */
+
+/* MEET THE PACK — PREMIUM PROFILE ACTION */
+.home-pack-profile-button{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  width:max-content;
+  max-width:100%;
+  min-height:42px;
+  margin-top:18px;
+  padding:0 12px 0 17px;
+  border:1px solid rgba(137,220,255,.48);
+  border-radius:11px;
+  background:linear-gradient(110deg,rgba(10,69,96,.96),rgba(16,33,53,.97) 52%,rgba(94,15,70,.95));
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  line-height:1.2;
+  white-space:nowrap;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 5px 18px rgba(0,0,0,.34);
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease;
+}
+.home-pack-profile-button::after{
+  content:'→';
+  display:grid;
+  place-items:center;
+  flex:0 0 27px;
+  width:27px;
+  height:27px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#89dcff,#ff8fd3);
+  color:#061019;
+  font-size:17px;
+  font-weight:900;
+  transition:transform .22s ease;
+}
+.home-pack-member:hover .home-pack-profile-button,
+.home-pack-member:focus-visible .home-pack-profile-button{
+  transform:translateY(-2px);
+  border-color:#ff8fd3;
+  box-shadow:0 0 0 1px rgba(255,143,211,.16),0 7px 22px rgba(255,47,146,.20);
+}
+.home-pack-member:hover .home-pack-profile-button::after,
+.home-pack-member:focus-visible .home-pack-profile-button::after{
+  transform:translateX(3px);
+}
+@media(max-width:480px){
+  .home-pack-profile-button{
+    min-height:39px;
+    margin-top:13px;
+    padding:0 9px 0 11px;
+    gap:9px;
+    font-size:8px;
+    letter-spacing:.7px;
+  }
+  .home-pack-profile-button::after{
+    flex-basis:23px;
+    width:23px;
+    height:23px;
+    font-size:15px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .home-pack-profile-button,.home-pack-profile-button::after{transition:none}
+}
+
 </style>
 
 </head>
