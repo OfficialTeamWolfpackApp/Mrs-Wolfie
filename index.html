@@ -4296,7 +4296,7 @@ body.wolfie-image-modal-open{overflow:hidden}
     THE TEAM BEHIND MRS WOLFIE
   </div>
 
-  <div class="home-pack-grid">
+  <div class="home-pack-grid" id="mrsWolfiePackGrid">
 
     <!-- MR WOLFIE -->
 
@@ -4476,6 +4476,41 @@ body.wolfie-image-modal-open{overflow:hidden}
   </div>
 
 </section>  
+
+<!-- MRS WOLFIE INDEPENDENT TEAM PROFILES -->
+<script type="module">
+import {initializeApp,getApps,getApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {getDatabase,ref,onValue} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+const config={apiKey:"AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",authDomain:"team-wolfpack-app.firebaseapp.com",databaseURL:"https://team-wolfpack-app-default-rtdb.europe-west1.firebasedatabase.app",projectId:"team-wolfpack-app",storageBucket:"team-wolfpack-app.firebasestorage.app",messagingSenderId:"1070414578856",appId:"1:1070414578856:web:df14e7d387e658eeae2e9d"};
+const app=getApps().find(a=>a.name==='mrsWolfiePackPublic')||initializeApp(config,'mrsWolfiePackPublic');
+const grid=document.getElementById('mrsWolfiePackGrid');
+if(grid){
+  const defaults=[...grid.querySelectorAll('.home-pack-member')];
+  const ids=['mr-wolfie','greig-sloan','bry-kelly','billy-burton','kelly-mcsporran','richard-davies'];
+  const defaultsById=new Map(defaults.map((card,i)=>[ids[i],card]));
+  function safeImage(value){try{const u=new URL(value,location.href);return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}}
+  function makeCard(p,existing){
+    const card=existing?existing.cloneNode(true):document.createElement('article');
+    card.className='home-pack-member';
+    card.replaceChildren();
+    const photo=safeImage(p.photo||'');
+    if(photo){const img=document.createElement('img');img.className='home-pack-photo';img.src=photo;img.alt=p.name||'Team member';img.loading='lazy';img.decoding='async';card.append(img)}
+    const content=document.createElement('div');content.className='home-pack-content';
+    const status=document.createElement('div');status.className='home-pack-status';status.textContent=p.role||'TEAM MEMBER';
+    const name=document.createElement('div');name.className='home-pack-name';name.textContent=p.nickname&&p.name&&!p.name.toLowerCase().includes(p.nickname.toLowerCase())?p.name+' “'+p.nickname+'”':p.name||'TEAM MEMBER';
+    const role=document.createElement('div');role.className='home-pack-role';role.textContent=[p.role,p.team].filter(Boolean).join(' - ');
+    content.append(status,name,role);card.append(content);return card;
+  }
+  onValue(ref(getDatabase(app),'mrsWolfieTeamMembers'),snap=>{
+    const data=snap.val()||{};
+    const cards=[];
+    // Keep existing members visible until their individual Mrs Wolfie records are created.
+    for(const id of ids){const p=data[id];if(p){if(p.visible!==false)cards.push(makeCard(p,defaultsById.get(id)))}else cards.push(defaultsById.get(id).cloneNode(true))}
+    for(const [id,p] of Object.entries(data)){if(!defaultsById.has(id)&&p&&p.visible!==false)cards.push(makeCard(p))}
+    grid.replaceChildren(...cards);
+  },error=>{console.warn('Mrs Wolfie profiles could not load; existing cards retained:',error.message)});
+}
+</script>
 
 <!-- =======================================================
      JOURNEY
