@@ -4324,6 +4324,7 @@ body.wolfie-image-modal-open{overflow:hidden}
           <br>
           Manager to Team Wolfie
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4353,6 +4354,7 @@ body.wolfie-image-modal-open{overflow:hidden}
         <div class="home-pack-role">
           CORNER TEAM - TEAM WOLFIE 
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4382,6 +4384,7 @@ body.wolfie-image-modal-open{overflow:hidden}
         <div class="home-pack-role">
         CORNER TEAM - TEAM WOLFIE • Boxer
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4411,6 +4414,7 @@ body.wolfie-image-modal-open{overflow:hidden}
         <div class="home-pack-role">
            CORNER TEAM - TEAM WOLFIE • Boxer
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4436,6 +4440,7 @@ body.wolfie-image-modal-open{overflow:hidden}
         <div class="home-pack-role">
           CORNER TEAM - TEAM WOLFIE
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4469,6 +4474,7 @@ body.wolfie-image-modal-open{overflow:hidden}
           <br>
           Founder of The Kings Circle
         </div>
+        <span class="home-pack-profile-button" aria-hidden="true">VIEW PROFILE</span>
 
       </div>
 
@@ -4503,7 +4509,8 @@ if(grid){
     const status=document.createElement('div');status.className='home-pack-status';status.textContent=p.role||'TEAM MEMBER';
     const name=document.createElement('div');name.className='home-pack-name';name.textContent=p.nickname&&p.name&&!p.name.toLowerCase().includes(p.nickname.toLowerCase())?p.name+' “'+p.nickname+'”':p.name||'TEAM MEMBER';
     const role=document.createElement('div');role.className='home-pack-role';role.textContent=[p.role,p.team].filter(Boolean).join(' - ');
-    content.append(status,name,role);card.append(content);return card;
+    const entry=document.createElement('span');entry.className='home-pack-profile-button';entry.setAttribute('aria-hidden','true');entry.textContent='VIEW PROFILE';
+    content.append(status,name,role,entry);card.append(content);return card;
   }
   onValue(ref(getDatabase(app),'mrsWolfieTeamMembers'),snap=>{
     const data=snap.val()||{};
