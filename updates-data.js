@@ -150,9 +150,10 @@ const updatesTimeout = setTimeout(() => {
       measurementId: "G-6JTCE2N9LZ"
     };
 
-    const app = appModule.getApps().length
-      ? appModule.getApp()
-      : appModule.initializeApp(firebaseConfig);
+    
+const app = appModule.getApps().find(
+  existingApp => existingApp.name === "[DEFAULT]"
+) || appModule.initializeApp(firebaseConfig);
 
     const db = firestoreModule.getFirestore(app);
 
