@@ -3708,6 +3708,15 @@ body.wolfie-image-modal-open{overflow:hidden}
 @media(max-width:760px){.wolfie-fight-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;min-height:0}.wolfie-fighter-panel{min-height:290px}.wolfie-fight-middle{grid-column:1/-1;grid-row:2;padding:22px 18px;gap:15px}.wolfie-right-panel{grid-column:2;grid-row:1}.wolfie-left-panel{grid-column:1;grid-row:1}.wolfie-panel-name strong{font-size:clamp(12px,3.6vw,20px)}.wolfie-panel-name span{font-size:8px}.wolfie-date-venue{font-size:12px}.wolfie-promotion{font-size:23px}}
 @media(max-width:400px){.wolfie-fighter-panel{min-height:235px}.wolfie-panel-name{bottom:12px}.wolfie-panel-name strong{font-size:12px}.wolfie-panel-name span{font-size:7px}}
 
+
+/* Mrs Wolfie notification-bar actions */
+.wolfie-alert-actions{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;align-items:center}
+.wolfie-alert-actions .notification-button{min-width:0;white-space:nowrap}
+.wolfie-alert-actions .wolfie-like{border-color:rgba(255,47,146,.45);color:var(--pink2)}
+.wolfie-alert-actions .wolfie-share{border-color:rgba(137,220,255,.45);color:var(--blue2)}
+.wolfie-alert-actions .wolfie-like[aria-pressed="true"]{background:rgba(255,47,146,.25);color:#fff}
+@media(max-width:520px){.wolfie-alert-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.wolfie-alert-actions .notification-button{width:100%;padding:0 8px}.wolfie-alert-actions #notificationButton{grid-column:1/-1}}
+
 </style>
 
 </head>
@@ -3970,13 +3979,11 @@ body.wolfie-image-modal-open{overflow:hidden}
   </div>
 
 
-  <button
-    id="notificationButton"
-    class="notification-button"
-    type="button"
-  >
-    ENABLE
-  </button>
+  <div class="wolfie-alert-actions" aria-label="Mrs Wolfie app actions">
+    <button id="wolfieLikeButton" class="notification-button wolfie-like" type="button" aria-pressed="false">♡ LIKE MRS WOLFIE</button>
+    <button id="wolfieShareButton" class="notification-button wolfie-share" type="button">↗ SHARE OUR APP</button>
+    <button id="notificationButton" class="notification-button" type="button">🔔 ENABLE NOTIFICATIONS</button>
+  </div>
 
 </section>
 
@@ -6099,6 +6106,45 @@ if(
 
 </script>
 
+
+
+<!-- Mrs Wolfie like/share actions: likes are saved on this device only -->
+<script>
+(function(){
+  const like = document.getElementById('wolfieLikeButton');
+  const share = document.getElementById('wolfieShareButton');
+  const storageKey = 'mrsWolfieAppLiked';
+  if(like){
+    let liked = false;
+    try { liked = localStorage.getItem(storageKey) === 'true'; } catch(e) {}
+    function renderLike(){
+      like.setAttribute('aria-pressed', String(liked));
+      like.textContent = liked ? '♥ LIKED MRS WOLFIE' : '♡ LIKE MRS WOLFIE';
+    }
+    renderLike();
+    like.addEventListener('click', function(){
+      liked = !liked;
+      try { localStorage.setItem(storageKey, String(liked)); } catch(e) {}
+      renderLike();
+    });
+  }
+  if(share){
+    share.addEventListener('click', async function(){
+      const data = {title:'Mrs Wolfie | Official App', text:'Follow Mrs Wolfie on the official boxing app!', url:location.href.split('#')[0]};
+      try {
+        if(navigator.share){ await navigator.share(data); return; }
+        if(navigator.clipboard && window.isSecureContext){
+          await navigator.clipboard.writeText(data.url);
+          share.textContent = '✓ LINK COPIED';
+          setTimeout(()=>share.textContent='↗ SHARE OUR APP', 2200);
+          return;
+        }
+        window.prompt('Copy the Mrs Wolfie app link:', data.url);
+      } catch(e){ if(e.name !== 'AbortError') window.prompt('Copy the Mrs Wolfie app link:', data.url); }
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
