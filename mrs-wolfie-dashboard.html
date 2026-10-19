@@ -1,1 +1,2657 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-title" content="TEAM WOLFPACK">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>Mrs Wolfie Admin Dashboard | Mrs Wolfie</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 0% 15%,
+      rgba(103,220,255,.20),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 100% 35%,
+      rgba(255,143,211,.18),
+      transparent 30%
+    ),
+    linear-gradient(
+      115deg,
+      #02090d 0%,
+      #050505 50%,
+      #130810 100%
+    );
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  text-align:center;
+  padding:25px 18px 18px;
+}
+
+.logo{
+  width:95px;
+  height:95px;
+  object-fit:contain;
+}
+
+.brand{
+  margin-top:5px;
+  color:#67dcff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+
+.title{
+  margin-top:18px;
+  font-size:29px;
+  font-weight:900;
+}
+
+.ice{
+  color:#67dcff;
+}
+
+.pink{
+  color:#ff8fd3;
+}
+
+.subtitle{
+  margin-top:8px;
+  color:#999;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.line{
+  width:100%;
+  max-width:520px;
+  height:2px;
+  margin:20px auto 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #67dcff,
+      transparent,
+      #ff8fd3
+    );
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:8px 16px 70px;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+  margin-bottom:15px;
+  padding:10px;
+  text-align:center;
+  color:#aaa;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.status.admin{
+  color:#67dcff;
+}
+
+.status.error{
+  color:#ff7957;
+}
+
+
+/* =========================
+   ACCESS DENIED
+========================= */
+
+.access-denied{
+  display:none;
+  padding:25px 18px;
+  border-radius:14px;
+  text-align:center;
+
+  border:
+    1px solid rgba(255,143,211,.35);
+
+  background:
+    rgba(45,8,35,.35);
+}
+
+.access-denied.show{
+  display:block;
+}
+
+.access-title{
+  color:#ff8fd3;
+  font-size:18px;
+  font-weight:900;
+}
+
+.access-text{
+  margin-top:10px;
+  color:#aaa;
+  font-size:11px;
+  line-height:1.6;
+}
+
+
+/* =========================
+   ADMIN BAR
+========================= */
+
+.admin-bar{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+  padding:14px 16px;
+  border-radius:12px;
+
+  border:
+    1px solid rgba(103,220,255,.30);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(103,220,255,.12),
+      rgba(255,143,211,.12)
+    );
+}
+
+.admin-bar.show{
+  display:flex;
+}
+
+.admin-name{
+  font-size:11px;
+  font-weight:900;
+}
+
+.admin-badge{
+  display:inline-block;
+  margin-left:6px;
+  padding:4px 7px;
+  border-radius:20px;
+  background:#ff8fd3;
+  color:#050505;
+  font-size:8px;
+  font-weight:900;
+}
+
+.admin-label{
+  color:#67dcff;
+  font-size:9px;
+  font-weight:900;
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+  display:none;
+}
+
+.dashboard.show{
+  display:block;
+}
+
+.section-title{
+  margin:23px 0 11px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro-panel{
+  padding:18px;
+  border-radius:14px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.10),
+      rgba(8,8,8,.92) 50%,
+      rgba(255,143,211,.10)
+    );
+}
+
+.intro-label{
+  color:#67dcff;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.intro-title{
+  margin-top:7px;
+  font-size:20px;
+  font-weight:900;
+}
+
+.intro-text{
+  margin-top:9px;
+  color:#999;
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================
+   LIVE PANELS
+========================= */
+
+.live-panel{
+  overflow:hidden;
+  border-radius:14px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.09),
+      rgba(7,7,7,.96) 50%,
+      rgba(255,143,211,.09)
+    );
+}
+
+.live-main{
+  padding:18px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
+}
+
+.live-label{
+  color:#67dcff;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.live-opponent{
+  margin-top:6px;
+  font-size:21px;
+  font-weight:900;
+}
+
+.live-event{
+  margin-top:7px;
+  color:#ff8fd3;
+  font-size:10px;
+  font-weight:900;
+}
+
+.live-venue{
+  margin-top:6px;
+  color:#888;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.live-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+}
+
+.live-stat{
+  padding:15px 8px;
+  text-align:center;
+
+  border-right:
+    1px solid rgba(255,255,255,.07);
+}
+
+.live-stat:last-child{
+  border-right:none;
+}
+
+.live-stat-value{
+  color:#67dcff;
+  font-size:15px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+
+.live-stat:nth-child(2) .live-stat-value{
+  color:#ff8fd3;
+}
+
+.live-stat-label{
+  margin-top:5px;
+  color:#777;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.live-loading{
+  padding:25px 15px;
+  text-align:center;
+  color:#777;
+  font-size:9px;
+  font-weight:900;
+}
+
+/* =========================
+   MRS WOLFIE CONTROL SECTIONS
+========================= */
+
+.control-section{
+  margin-top:18px;
+  padding:16px;
+
+  border-radius:16px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    rgba(5,5,5,.72);
+}
+
+.control-section.primary{
+  border-color:
+    rgba(255,143,211,.28);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.08),
+      rgba(5,5,5,.90) 50%,
+      rgba(255,143,211,.11)
+    );
+}
+
+.control-section.updates{
+  border-color:
+    rgba(103,220,255,.25);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.10),
+      rgba(5,5,5,.90) 55%,
+      rgba(255,143,211,.07)
+    );
+}
+
+.control-section-header{
+  display:flex;
+  align-items:center;
+
+  gap:11px;
+
+  margin-bottom:14px;
+}
+
+.control-section-icon{
+  width:36px;
+  height:36px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex-shrink:0;
+
+  border-radius:10px;
+
+  border:
+    1px solid rgba(255,143,211,.25);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(103,220,255,.13),
+      rgba(255,143,211,.15)
+    );
+
+  font-size:17px;
+}
+
+.control-section-name{
+  color:#ff8fd3;
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:.6px;
+}
+
+.control-section-description{
+  margin-top:3px;
+
+  color:#777;
+
+  font-size:8px;
+  line-height:1.4;
+}
+
+
+/* CONTROL GRID */
+
+.control-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:9px;
+}
+
+
+/* CONTROL CARD */
+
+.control-card{
+  position:relative;
+
+  min-height:105px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  overflow:hidden;
+
+  padding:15px;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(255,255,255,.09);
+
+  text-decoration:none;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.07),
+      rgba(7,7,7,.94) 50%,
+      rgba(255,143,211,.08)
+    );
+
+  transition:
+    transform .15s ease,
+    border-color .15s ease;
+}
+
+.control-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:#67dcff;
+}
+
+.control-card::after{
+  content:"";
+
+  position:absolute;
+
+  right:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:#ff8fd3;
+}
+
+.control-card:hover{
+  border-color:
+    rgba(255,143,211,.35);
+}
+
+.control-card:active{
+  transform:scale(.985);
+}
+
+.control-card-name{
+  position:relative;
+
+  z-index:2;
+
+  padding-right:42px;
+
+  font-size:11px;
+  font-weight:900;
+}
+
+.control-card-description{
+  position:relative;
+
+  z-index:2;
+
+  margin-top:6px;
+
+  color:#888;
+
+  font-size:8px;
+  line-height:1.5;
+}
+
+
+/* BADGES */
+
+.control-badge{
+  position:absolute;
+
+  top:11px;
+  right:11px;
+
+  z-index:3;
+
+  padding:
+    4px
+    7px;
+
+  border-radius:20px;
+
+  background:#ff8fd3;
+
+  color:#050505;
+
+  font-size:7px;
+  font-weight:900;
+}
+
+.control-badge.blue{
+  background:#67dcff;
+}
+
+
+/* FUTURE CONTROLS */
+
+.control-card.disabled{
+  opacity:.50;
+
+  cursor:default;
+
+  pointer-events:none;
+}
+
+.control-card.disabled::before,
+.control-card.disabled::after{
+  opacity:.40;
+}
+
+.control-badge.soon{
+  background:#555;
+
+  color:#ccc;
+}
+
+
+/* MOBILE */
+
+@media(max-width:520px){
+
+  .control-section{
+    padding:13px;
+  }
+
+  .control-grid{
+    grid-template-columns:1fr;
+  }
+
+  .control-card{
+    min-height:92px;
+  }
+
+}
+  
+/* =========================
+   ACTION CARDS
+========================= */
+
+.action-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.action-card{
+  position:relative;
+  overflow:hidden;
+  min-height:125px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:17px 15px;
+  border-radius:14px;
+  color:#fff;
+  text-decoration:none;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(103,220,255,.11),
+      rgba(8,8,8,.95) 50%,
+      rgba(255,143,211,.11)
+    );
+}
+
+.action-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:#67dcff;
+}
+
+.action-card::after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:#ff8fd3;
+}
+
+.action-card:active{
+  transform:scale(.985);
+}
+
+.action-name{
+  position:relative;
+  z-index:2;
+  font-size:12px;
+  font-weight:900;
+}
+
+.action-description{
+  position:relative;
+  z-index:2;
+  margin-top:7px;
+  color:#888;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.coming-badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:3;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#67dcff;
+  color:#050505;
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* =========================
+   SYSTEM
+========================= */
+
+.system-panel{
+  padding:15px;
+  border-radius:13px;
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  background:
+    rgba(8,8,8,.75);
+}
+
+.system-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 0;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+}
+
+.system-row:last-child{
+  border-bottom:none;
+}
+
+.system-label{
+  color:#888;
+  font-size:9px;
+  font-weight:900;
+}
+
+.system-value{
+  text-align:right;
+  color:#67dcff;
+  font-size:9px;
+  font-weight:900;
+}
+
+.system-value.pink{
+  color:#ff8fd3;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:20px;
+}
+
+.nav-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:12px 8px;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  border:1px solid #67dcff;
+  border-radius:11px;
+  font-size:9px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(103,220,255,.10),
+      rgba(255,143,211,.10)
+    );
+}
+
+.nav-button:active{
+  transform:scale(.985);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:520px){
+
+  .action-grid{
+    grid-template-columns:1fr;
+  }
+
+  .live-opponent{
+    font-size:18px;
+  }
+
+  .live-stat-value{
+    font-size:12px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+<a href="home.html">
+  <img
+    src="icon-512.png"
+    class="logo"
+    alt="Mrs Wolfie"
+  >
+</a>
+
+<div class="brand">
+MRS WOLFIE APP • PRIVATE ADMIN
+</div>
+
+<h1 class="title">
+  <span class="ice">MRS WOLFIE</span>
+  <span class="pink">CONTROL</span>
+</h1>
+
+<p class="subtitle">
+Manage Mrs Wolfie’s boxing app securely, all in one place.
+</p>
+
+<div class="line"></div>
+
+<!-- =========================================
+     MRS WOLFIE CONTROL BANNER
+========================================= -->
+
+<div
+  class="mrs-wolfie-control-banner"
+  style="
+    width:100%;
+    max-width:700px;
+    margin:25px auto 10px;
+    text-align:center;
+  "
+>
+
+  <img
+    src="admin-mrs-wolfie-control-banner.jpeg" onerror="this.closest('.mrs-wolfie-control-banner').style.display='none'"
+    alt="Mrs Wolfie Control"
+    style="
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:contain;
+      border-radius:14px;
+      border:1px solid rgba(255,143,211,.35);
+      box-shadow:0 12px 35px rgba(0,0,0,.45);
+    "
+  >
+
+</div>
+
+</header>
+
+
+<main class="content">
+
+
+<div id="status" class="status">
+CHECKING ADMIN ACCESS...
+</div>
+
+
+<!-- ACCESS DENIED -->
+
+<div id="accessDenied" class="access-denied">
+
+  <div class="access-title">
+    ADMIN ACCESS REQUIRED
+  </div>
+
+  <div class="access-text">
+    Sign in using an authorised Mr Wolfie or Mrs Wolfie administrator account.
+  </div>
+
+  <form id="adminSignIn" style="margin-top:20px;display:grid;gap:10px;text-align:left">
+    <label for="adminEmail" style="font-size:11px">ADMIN EMAIL</label>
+    <input id="adminEmail" type="email" autocomplete="username" required placeholder="Email address" style="padding:13px;border-radius:10px;border:1px solid #67dcff;background:#111;color:white">
+    <label for="adminPassword" style="font-size:11px">PASSWORD</label>
+    <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Password" style="padding:13px;border-radius:10px;border:1px solid #ff8fd3;background:#111;color:white">
+    <button type="submit" style="padding:14px;background:linear-gradient(90deg,#67dcff,#ff8fd3);border:0;border-radius:10px;font-weight:900;color:#050505">SIGN IN</button>
+    <p id="signInError" role="alert" style="color:#ff8fd3;font-size:11px"></p>
+    <a href="home.html" style="color:#67dcff;text-align:center;font-size:11px">RETURN HOME</a>
+  </form>
+
+</div>
+
+
+<!-- ADMIN BAR -->
+
+<div id="adminBar" class="admin-bar">
+
+  <div class="admin-name">
+
+    <span id="adminName"></span>
+
+    <span class="admin-badge">
+      ADMIN
+    </span>
+
+  </div>
+
+  <button id="signOutButton" type="button" style="padding:9px 12px;background:#ff8fd3;border:0;border-radius:8px;font-weight:900">SIGN OUT</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="dashboard">
+
+
+<!-- INTRO -->
+
+<div class="intro-panel">
+
+  <div class="intro-label">
+    MRS WOLFIE APP
+  </div>
+
+  <div class="intro-title">
+    CENTRAL CONTROL
+  </div>
+
+  <div class="intro-text">
+    Manage fights, results and updates directly inside the Mrs Wolfie app.
+    <br><br><strong>Setup:</strong> Fight Management and App Updates will open once their independent admin files are added to this repository.
+  </div>
+
+</div>
+
+
+<!-- LIVE FIGHT STATUS -->
+
+<div class="section-title">
+  <span class="ice">LIVE FIGHT</span>
+  <span class="pink">STATUS</span>
+</div>
+
+<div
+  id="liveFightPanel"
+  class="live-panel"
+>
+  <div class="live-loading">
+    LOADING LIVE FIGHT DATA...
+  </div>
+</div>
+
+
+<!-- LIVE UPDATE STATUS -->
+
+<div class="section-title">
+  <span class="ice">LIVE UPDATE</span>
+  <span class="pink">STATUS</span>
+</div>
+
+<div
+  id="liveUpdatePanel"
+  class="live-panel"
+>
+  <div class="live-loading">
+    LOADING LIVE UPDATE DATA...
+  </div>
+</div>
+
+
+<!-- =========================================
+     MRS WOLFIE MANAGEMENT
+========================================= -->
+
+<div class="section-title">
+
+  <span class="ice">
+    MRS WOLFIE
+  </span>
+
+  <span class="pink">
+    MANAGEMENT
+  </span>
+
+</div>
+
+
+<!-- =========================================
+     FIGHTS
+========================================= -->
+
+<section class="control-section primary">
+
+  <div class="control-section-header">
+
+    <div class="control-section-icon">
+      🥊
+    </div>
+
+    <div>
+
+      <div class="control-section-name">
+        FIGHTS
+      </div>
+
+      <div class="control-section-description">
+        Manage upcoming fights, results and Mrs Wolfie's fight history.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="control-grid">
+
+    <a
+      class="control-card"
+      href="mrs-wolfie-fights-admin.html"
+    >
+
+      <div class="control-badge">
+        LIVE
+      </div>
+
+      <div class="control-card-name">
+        FIGHT MANAGEMENT
+      </div>
+
+      <div class="control-card-description">
+        Add upcoming fights, edit fight information, manage opponents,
+        venues, dates, results and fight history.
+      </div>
+
+    </a>
+
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        TICKET MANAGEMENT
+      </div>
+
+      <div class="control-card-description">
+        Dedicated controls for fight ticket links and ticket availability.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================
+     UPDATES & NOTIFICATIONS
+========================================= -->
+
+<section class="control-section updates">
+
+  <div class="control-section-header">
+
+    <div class="control-section-icon">
+      🔔
+    </div>
+
+    <div>
+
+      <div class="control-section-name">
+        UPDATES & NOTIFICATIONS
+      </div>
+
+      <div class="control-section-description">
+        Control news, announcements and communication from the Mrs Wolfie app.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="control-grid">
+
+    <a
+      class="control-card"
+      href="mrs-wolfie-updates-admin.html"
+    >
+
+      <div class="control-badge blue">
+        LIVE
+      </div>
+
+      <div class="control-card-name">
+        APP UPDATES
+      </div>
+
+      <div class="control-card-description">
+        Create, edit and publish Mrs Wolfie news, announcements
+        and app updates.
+      </div>
+
+    </a>
+
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        NOTIFICATION MANAGER
+      </div>
+
+      <div class="control-card-description">
+        Send Mrs Wolfie push notifications directly to registered app devices.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================
+     GALLERY & MEDIA
+========================================= -->
+
+<section class="control-section primary">
+
+  <div class="control-section-header">
+
+    <div class="control-section-icon">
+      📸
+    </div>
+
+    <div>
+
+      <div class="control-section-name">
+        GALLERY & MEDIA
+      </div>
+
+      <div class="control-section-description">
+        Manage Mrs Wolfie photographs, galleries and media content.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="control-grid">
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        GALLERY MANAGER
+      </div>
+
+      <div class="control-card-description">
+        Create gallery folders and manage Mrs Wolfie photographs.
+      </div>
+
+    </div>
+
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        UPLOAD MEDIA
+      </div>
+
+      <div class="control-card-description">
+        Upload new photographs and media to the Mrs Wolfie app.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================
+     PROFILE & SPONSORS
+========================================= -->
+
+<section class="control-section updates">
+
+  <div class="control-section-header">
+
+    <div class="control-section-icon">
+      👤
+    </div>
+
+    <div>
+
+      <div class="control-section-name">
+        PROFILE & SPONSORS
+      </div>
+
+      <div class="control-section-description">
+        Manage Mrs Wolfie's profile, sponsor information and app content.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="control-grid">
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        PROFILE MANAGER
+      </div>
+
+      <div class="control-card-description">
+        Manage biography, fighter information and profile content.
+      </div>
+
+    </div>
+
+
+    <div class="control-card disabled">
+
+      <div class="control-badge soon">
+        COMING SOON
+      </div>
+
+      <div class="control-card-name">
+        SPONSORS
+      </div>
+
+      <div class="control-card-description">
+        Add, edit and organise sponsors shown throughout the Mrs Wolfie app.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SYSTEM STATUS -->
+
+<div class="section-title">
+  <span class="ice">SYSTEM</span>
+  <span class="pink">STATUS</span>
+</div>
+
+<div class="system-panel">
+
+
+<div class="system-row">
+
+  <div class="system-label">
+    FIREBASE
+  </div>
+
+  <div
+    id="firebaseStatus"
+    class="system-value"
+  >
+    CONNECTING...
+  </div>
+
+</div>
+
+
+<div class="system-row">
+
+  <div class="system-label">
+    ADMIN ACCOUNT
+  </div>
+
+  <div
+    id="systemAdmin"
+    class="system-value pink"
+  >
+    -
+  </div>
+
+</div>
+
+
+<div class="system-row">
+
+  <div class="system-label">
+    MRS WOLFIE FIGHTS
+  </div>
+
+  <div
+    id="fightManagerStatus"
+    class="system-value"
+  >
+    CONNECTING...
+  </div>
+
+</div>
+
+
+<div class="system-row">
+
+  <div class="system-label">
+    MRS WOLFIE UPDATES
+  </div>
+
+  <div
+    id="updateManagerStatus"
+    class="system-value"
+  >
+    CONNECTING...
+  </div>
+
+</div>
+
+
+</div>
+
+
+<div class="nav-grid">
+
+<a
+  class="nav-button"
+  href="home.html"
+>
+  ‹ MRS WOLFIE HOME
+</a>
+
+<a
+  class="nav-button"
+  href="home.html"
+>
+  HOME
+</a>
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",
+
+  authDomain:
+    "team-wolfpack-app.firebaseapp.com",
+
+  databaseURL:
+    "https://team-wolfpack-app-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+    "team-wolfpack-app",
+
+  storageBucket:
+    "team-wolfpack-app.firebasestorage.app",
+
+  messagingSenderId:
+    "1070414578856",
+
+  appId:
+    "1:1070414578856:web:df14e7d387e658eeae2e9d",
+
+  measurementId:
+    "G-6JTCE2N9LZ"
+
+};
+
+
+document.getElementById("adminSignIn").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const errorBox = document.getElementById("signInError");
+  errorBox.textContent = "SIGNING IN...";
+  try {
+    const result = await signInWithEmailAndPassword(
+      auth,
+      document.getElementById("adminEmail").value.trim(),
+      document.getElementById("adminPassword").value
+    );
+    if (!ADMINS[result.user.uid]) {
+      await signOut(auth);
+      errorBox.textContent = "THIS ACCOUNT IS NOT AUTHORISED.";
+    } else {
+      errorBox.textContent = "";
+      document.getElementById("adminPassword").value = "";
+    }
+  } catch (error) {
+    errorBox.textContent = "SIGN-IN FAILED. CHECK YOUR DETAILS AND TRY AGAIN.";
+  }
+});
+document.getElementById("signOutButton").addEventListener("click", () => signOut(auth));
+
+/* =========================
+   AUTHORISED ADMINS
+========================= */
+
+const ADMINS = {
+
+  "PRGa9TsCW0QDn1QtoUXyYjEi7YB3":
+    "MR WOLFIE",
+
+  "SlpEQYl94DaH6j42QUyl8Kv2ujJ3":
+    "MRS WOLFIE"
+
+};
+
+
+const app =
+  initializeApp(
+    firebaseConfig
+  );
+
+const auth =
+  getAuth(
+    app
+  );
+
+const db =
+  getFirestore(
+    app
+  );
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const status =
+  document.getElementById(
+    "status"
+  );
+
+const accessDenied =
+  document.getElementById(
+    "accessDenied"
+  );
+
+const adminBar =
+  document.getElementById(
+    "adminBar"
+  );
+
+const adminName =
+  document.getElementById(
+    "adminName"
+  );
+
+const dashboard =
+  document.getElementById(
+    "dashboard"
+  );
+
+const firebaseStatus =
+  document.getElementById(
+    "firebaseStatus"
+  );
+
+const systemAdmin =
+  document.getElementById(
+    "systemAdmin"
+  );
+
+const fightManagerStatus =
+  document.getElementById(
+    "fightManagerStatus"
+  );
+
+const updateManagerStatus =
+  document.getElementById(
+    "updateManagerStatus"
+  );
+
+const liveFightPanel =
+  document.getElementById(
+    "liveFightPanel"
+  );
+
+const liveUpdatePanel =
+  document.getElementById(
+    "liveUpdatePanel"
+  );
+
+
+/* =========================
+   STATE
+========================= */
+
+let unsubscribeFights =
+  null;
+
+let unsubscribeUpdates =
+  null;
+
+
+/* =========================
+   PERMANENT HISTORY
+========================= */
+
+const permanentHistory = [
+  { result:"W" },
+  { result:"L" },
+  { result:"L" }
+];
+
+
+/* =========================
+   DATE HELPERS
+========================= */
+
+function parseDate(
+  value
+){
+
+  if(
+    !value ||
+    typeof value !== "string"
+  ){
+    return null;
+  }
+
+  const parts =
+    value.split("-");
+
+  if(
+    parts.length !== 3
+  ){
+    return null;
+  }
+
+  const year =
+    Number(parts[0]);
+
+  const month =
+    Number(parts[1]);
+
+  const day =
+    Number(parts[2]);
+
+  if(
+    !year ||
+    !month ||
+    !day
+  ){
+    return null;
+  }
+
+  return new Date(
+    year,
+    month - 1,
+    day,
+    23,
+    59,
+    59,
+    999
+  );
+
+}
+
+
+function formatDate(
+  value
+){
+
+  if(
+    !value
+  ){
+    return "DATE TBA";
+  }
+
+  if(
+    typeof value !== "string"
+  ){
+    return String(value);
+  }
+
+  const parts =
+    value.split("-");
+
+  if(
+    parts.length !== 3
+  ){
+    return value;
+  }
+
+  const date =
+    new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return value;
+  }
+
+  return date
+    .toLocaleDateString(
+      "en-GB",
+      {
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+      }
+    )
+    .toUpperCase();
+
+}
+
+
+/* =========================
+   HTML ESCAPING
+========================= */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   LIVE FIGHT STATUS
+========================= */
+
+function renderFightStatus(
+  fights
+){
+
+  const now =
+    new Date();
+
+
+  const upcoming =
+    fights
+      .filter(
+        function(fight){
+
+          if(
+            String(
+              fight.status || ""
+            ).toUpperCase() === "CANCELLED"
+          ){
+            return false;
+          }
+
+          if(
+            String(
+              fight.status || ""
+            ).toUpperCase() === "COMPLETED"
+          ){
+            return false;
+          }
+
+          if(
+            fight.result
+          ){
+            return false;
+          }
+
+          const date =
+            parseDate(
+              fight.date
+            );
+
+          if(
+            !date
+          ){
+            return false;
+          }
+
+          return date >= now;
+
+        }
+      )
+      .sort(
+        function(a,b){
+
+          return String(
+            a.date || ""
+          ).localeCompare(
+            String(
+              b.date || ""
+            )
+          );
+
+        }
+      );
+
+
+  const nextFight =
+    upcoming.length
+      ? upcoming[0]
+      : null;
+
+
+  const results =
+    [
+      ...permanentHistory.map(
+        function(fight){
+          return fight.result;
+        }
+      ),
+
+      ...fights
+        .filter(
+          function(fight){
+
+            const statusValue =
+              String(
+                fight.status || ""
+              ).toUpperCase();
+
+            const resultValue =
+              String(
+                fight.result || ""
+              ).toUpperCase();
+
+            return (
+              statusValue === "COMPLETED" &&
+              ["W","L","D"].includes(
+                resultValue
+              )
+            );
+
+          }
+        )
+        .map(
+          function(fight){
+
+            return String(
+              fight.result || ""
+            ).toUpperCase();
+
+          }
+        )
+    ];
+
+
+  const wins =
+    results.filter(
+      function(result){
+        return result === "W";
+      }
+    ).length;
+
+
+  const losses =
+    results.filter(
+      function(result){
+        return result === "L";
+      }
+    ).length;
+
+
+  const draws =
+    results.filter(
+      function(result){
+        return result === "D";
+      }
+    ).length;
+
+
+  const record =
+    wins +
+    "–" +
+    losses +
+    "–" +
+    draws;
+
+
+  if(
+    !nextFight
+  ){
+
+    liveFightPanel.innerHTML = `
+      <div class="live-main">
+
+        <div class="live-label">
+          NEXT FIGHT
+        </div>
+
+        <div class="live-opponent">
+          NO UPCOMING FIGHT
+        </div>
+
+        <div class="live-venue">
+          Add the next fight through Fight Management.
+        </div>
+
+      </div>
+
+      <div class="live-stats">
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            -
+          </div>
+
+          <div class="live-stat-label">
+            NEXT DATE
+          </div>
+
+        </div>
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            ${upcoming.length}
+          </div>
+
+          <div class="live-stat-label">
+            UPCOMING
+          </div>
+
+        </div>
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            ${record}
+          </div>
+
+          <div class="live-stat-label">
+            RECORD
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const promotionEvent =
+    [
+      nextFight.promotion,
+      nextFight.event
+    ]
+      .filter(Boolean)
+      .join(" • ");
+
+
+  liveFightPanel.innerHTML = `
+    <div class="live-main">
+
+      <div class="live-label">
+        NEXT FIGHT
+      </div>
+
+      <div class="live-opponent">
+        MRS WOLFIE vs
+        ${escapeHtml(
+          nextFight.opponent ||
+          "TBA"
+        )}
+      </div>
+
+      <div class="live-event">
+        ${escapeHtml(
+          promotionEvent ||
+          nextFight.type ||
+          "FIGHT NIGHT"
+        )}
+      </div>
+
+      <div class="live-venue">
+
+        ${escapeHtml(
+          formatDate(
+            nextFight.date
+          )
+        )}
+
+        ${
+          nextFight.dateEnd
+            ? " — " +
+              escapeHtml(
+                formatDate(
+                  nextFight.dateEnd
+                )
+              )
+            : ""
+        }
+
+        <br>
+
+        ${escapeHtml(
+          nextFight.venue ||
+          "VENUE TBA"
+        )}
+
+      </div>
+
+    </div>
+
+
+    <div class="live-stats">
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${escapeHtml(
+            formatDate(
+              nextFight.date
+            )
+          )}
+        </div>
+
+        <div class="live-stat-label">
+          NEXT DATE
+        </div>
+
+      </div>
+
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${upcoming.length}
+        </div>
+
+        <div class="live-stat-label">
+          UPCOMING
+        </div>
+
+      </div>
+
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${record}
+        </div>
+
+        <div class="live-stat-label">
+          RECORD
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* =========================
+   UPDATE FIELD HELPERS
+========================= */
+
+function getUpdatePublished(
+  update
+){
+
+  /*
+    Current manager normally uses active.
+    These alternatives make the dashboard
+    tolerant of older update documents.
+  */
+
+  if(
+    update.active === true
+  ){
+    return true;
+  }
+
+  if(
+    update.published === true
+  ){
+    return true;
+  }
+
+  if(
+    String(
+      update.status || ""
+    ).toUpperCase() === "PUBLISHED"
+  ){
+    return true;
+  }
+
+  return false;
+
+}
+
+
+function getUpdateDate(
+  update
+){
+
+  return (
+    update.date ||
+    update.displayDate ||
+    ""
+  );
+
+}
+
+
+/* =========================
+   LIVE UPDATE STATUS
+========================= */
+
+function renderUpdateStatus(
+  updates
+){
+
+  const publishedUpdates =
+    updates
+      .filter(
+        function(update){
+
+          return getUpdatePublished(
+            update
+          );
+
+        }
+      )
+      .sort(
+        function(a,b){
+
+          return String(
+            getUpdateDate(b)
+          ).localeCompare(
+            String(
+              getUpdateDate(a)
+            )
+          );
+
+        }
+      );
+
+
+  const latestUpdate =
+    publishedUpdates.length
+      ? publishedUpdates[0]
+      : null;
+
+
+  if(
+    !latestUpdate
+  ){
+
+    liveUpdatePanel.innerHTML = `
+      <div class="live-main">
+
+        <div class="live-label">
+          LATEST PUBLISHED UPDATE
+        </div>
+
+        <div class="live-opponent">
+          NO PUBLISHED UPDATES
+        </div>
+
+        <div class="live-venue">
+          Publish an update through App Updates.
+        </div>
+
+      </div>
+
+
+      <div class="live-stats">
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            -
+          </div>
+
+          <div class="live-stat-label">
+            TYPE
+          </div>
+
+        </div>
+
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            -
+          </div>
+
+          <div class="live-stat-label">
+            DATE
+          </div>
+
+        </div>
+
+
+        <div class="live-stat">
+
+          <div class="live-stat-value">
+            0
+          </div>
+
+          <div class="live-stat-label">
+            PUBLISHED
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const updateDate =
+    getUpdateDate(
+      latestUpdate
+    );
+
+
+  liveUpdatePanel.innerHTML = `
+    <div class="live-main">
+
+      <div class="live-label">
+        LATEST PUBLISHED UPDATE
+      </div>
+
+      <div class="live-opponent">
+        ${escapeHtml(
+          latestUpdate.title ||
+          "UNTITLED UPDATE"
+        )}
+      </div>
+
+      <div class="live-event">
+        ${escapeHtml(
+          latestUpdate.type ||
+          "NEWS"
+        )}
+      </div>
+
+      <div class="live-venue">
+        ${escapeHtml(
+          latestUpdate.message ||
+          ""
+        )}
+      </div>
+
+    </div>
+
+
+    <div class="live-stats">
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${escapeHtml(
+            latestUpdate.type ||
+            "NEWS"
+          )}
+        </div>
+
+        <div class="live-stat-label">
+          TYPE
+        </div>
+
+      </div>
+
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${escapeHtml(
+            formatDate(
+              updateDate
+            )
+          )}
+        </div>
+
+        <div class="live-stat-label">
+          DATE
+        </div>
+
+      </div>
+
+
+      <div class="live-stat">
+
+        <div class="live-stat-value">
+          ${publishedUpdates.length}
+        </div>
+
+        <div class="live-stat-label">
+          PUBLISHED
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* =========================
+   FIGHT FIRESTORE LISTENER
+========================= */
+
+function startFightListener(){
+
+  if(
+    unsubscribeFights
+  ){
+    unsubscribeFights();
+  }
+
+
+  fightManagerStatus.textContent =
+    "CONNECTING...";
+
+
+  unsubscribeFights =
+    onSnapshot(
+
+      collection(
+        db,
+        "mrsWolfieFights"
+      ),
+
+      function(snapshot){
+
+        const fights =
+          [];
+
+
+        snapshot.forEach(
+          function(item){
+
+            fights.push({
+              id:item.id,
+              ...item.data()
+            });
+
+          }
+        );
+
+
+        firebaseStatus.textContent =
+          "CONNECTED";
+
+        fightManagerStatus.textContent =
+          "FIGHT MANAGER LIVE";
+
+
+        renderFightStatus(
+          fights
+        );
+
+      },
+
+
+      function(error){
+
+        console.error(
+          "Mrs Wolfie live fight status:",
+          error
+        );
+
+
+        fightManagerStatus.textContent =
+          "CONNECTION ERROR";
+
+
+        liveFightPanel.innerHTML = `
+          <div class="live-loading">
+            LIVE FIGHT DATA COULD NOT BE LOADED.
+          </div>
+        `;
+
+      }
+
+    );
+
+}
+
+
+/* =========================
+   UPDATE FIRESTORE LISTENER
+========================= */
+
+function startUpdateListener(){
+
+  if(
+    unsubscribeUpdates
+  ){
+    unsubscribeUpdates();
+  }
+
+
+  updateManagerStatus.textContent =
+    "CONNECTING...";
+
+
+  unsubscribeUpdates =
+    onSnapshot(
+
+      collection(
+        db,
+        "mrsWolfieUpdates"
+      ),
+
+      function(snapshot){
+
+        const updates =
+          [];
+
+
+        snapshot.forEach(
+          function(item){
+
+            updates.push({
+              id:item.id,
+              ...item.data()
+            });
+
+          }
+        );
+
+
+        firebaseStatus.textContent =
+          "CONNECTED";
+
+        updateManagerStatus.textContent =
+          "UPDATE MANAGER LIVE";
+
+
+        renderUpdateStatus(
+          updates
+        );
+
+      },
+
+
+      function(error){
+
+        console.error(
+          "Mrs Wolfie live update status:",
+          error
+        );
+
+
+        updateManagerStatus.textContent =
+          "CONNECTION ERROR";
+
+
+        liveUpdatePanel.innerHTML = `
+          <div class="live-loading">
+            LIVE UPDATE DATA COULD NOT BE LOADED.
+          </div>
+        `;
+
+      }
+
+    );
+
+}
+
+
+/* =========================
+   STOP LISTENERS
+========================= */
+
+function stopListeners(){
+
+  if(
+    unsubscribeFights
+  ){
+
+    unsubscribeFights();
+
+    unsubscribeFights =
+      null;
+
+  }
+
+
+  if(
+    unsubscribeUpdates
+  ){
+
+    unsubscribeUpdates();
+
+    unsubscribeUpdates =
+      null;
+
+  }
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+  auth,
+  function(user){
+
+    if(
+      user &&
+      ADMINS[
+        user.uid
+      ]
+    ){
+
+      const name =
+        ADMINS[
+          user.uid
+        ];
+
+
+      status.textContent =
+        "● " +
+        name +
+        " • ADMIN CONNECTED";
+
+
+      status.className =
+        "status admin";
+
+
+      adminName.textContent =
+        name;
+
+
+      systemAdmin.textContent =
+        name;
+
+
+      firebaseStatus.textContent =
+        "CONNECTED";
+
+
+      accessDenied.classList.remove(
+        "show"
+      );
+
+
+      adminBar.classList.add(
+        "show"
+      );
+
+
+      dashboard.classList.add(
+        "show"
+      );
+
+
+      startFightListener();
+
+      startUpdateListener();
+
+
+      return;
+
+    }
+
+
+    stopListeners();
+
+
+    status.textContent =
+      "ADMIN ACCESS REQUIRED";
+
+
+    status.className =
+      "status error";
+
+
+    firebaseStatus.textContent =
+      "NOT AUTHORISED";
+
+
+    fightManagerStatus.textContent =
+      "NOT AUTHORISED";
+
+
+    updateManagerStatus.textContent =
+      "NOT AUTHORISED";
+
+
+    systemAdmin.textContent =
+      "-";
+
+
+    adminBar.classList.remove(
+      "show"
+    );
+
+
+    dashboard.classList.remove(
+      "show"
+    );
+
+
+    accessDenied.classList.add(
+      "show"
+    );
+
+  }
+);
+
+</script>
+
+
+
+
+
+</body>
+</html>
