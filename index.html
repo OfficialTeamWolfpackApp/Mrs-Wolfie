@@ -1,4 +1,624 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050509"><title>Enter Mrs Wolfie</title>
-<style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}.entry{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000}.art{position:relative;width:min(100vw,56.31dvh);height:min(100dvh,177.58vw);max-width:100vw;max-height:100dvh}.art img{display:block;width:100%;height:100%;object-fit:contain}.enter{position:absolute;left:15%;top:77%;width:70%;height:8%;display:block;cursor:pointer;border:0;background:transparent;color:transparent;font-size:0;touch-action:manipulation}.enter:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:10px}</style>
-</head><body><main class="entry"><div class="art"><img src="./images/mrs-wolfie-entrance.png" alt="Mrs Wolfie — One Pack, One Purpose. Enter Mrs Wolfie."><a class="enter" href="./home.html" aria-label="Enter Mrs Wolfie">Enter Mrs Wolfie</a></div></main></body></html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#050509">
+
+<title>Enter Mrs Wolfie</title>
+
+<style>
+
+/* =====================================
+   RESET
+===================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* =====================================
+   ORIGINAL ENTRANCE SCREEN
+===================================== */
+
+.entry {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #000;
+}
+
+.art {
+  position: relative;
+
+  width: min(100vw, 56.31dvh);
+  height: min(100dvh, 177.58vw);
+
+  max-width: 100vw;
+  max-height: 100dvh;
+}
+
+.art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =====================================
+   ORIGINAL ENTER BUTTON
+===================================== */
+
+.enter {
+  position: absolute;
+
+  left: 15%;
+  top: 77%;
+
+  width: 70%;
+  height: 8%;
+
+  display: block;
+
+  cursor: pointer;
+
+  border: 0;
+  background: transparent;
+
+  color: transparent;
+  font-size: 0;
+
+  touch-action: manipulation;
+}
+
+.enter:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* =====================================
+   CINEMATIC INTRO SCREEN
+===================================== */
+
+.wolfie-intro {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #000;
+
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.wolfie-intro.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* =====================================
+   CINEMATIC ARTWORK
+===================================== */
+
+.intro-picture {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-picture picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  opacity: 0;
+  filter: brightness(0.1);
+
+  transform: scale(1);
+}
+
+/* =====================================
+   CINEMATIC ANIMATION
+===================================== */
+
+.wolfie-intro.active .intro-image {
+  animation: wolfieReveal 8s ease-in-out forwards;
+}
+
+@keyframes wolfieReveal {
+
+  0% {
+    opacity: 0;
+    filter: brightness(0.1);
+    transform: scale(1);
+  }
+
+  15% {
+    opacity: 1;
+    filter: brightness(0.45);
+  }
+
+  35% {
+    opacity: 1;
+    filter: brightness(1.1);
+  }
+
+  65% {
+    opacity: 1;
+    filter: brightness(1.35);
+  }
+
+  85% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  100% {
+    opacity: 0;
+    filter: brightness(0);
+    transform: scale(1);
+  }
+
+}
+
+/* =====================================
+   ELECTRIC BLUE LIGHT
+===================================== */
+
+.intro-blue {
+  position: absolute;
+
+  left: -30%;
+  top: 0;
+
+  width: 70%;
+  height: 100%;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at left center,
+    rgba(0,191,255,0.35),
+    transparent 70%
+  );
+
+  mix-blend-mode: screen;
+
+  opacity: 0;
+}
+
+.wolfie-intro.active .intro-blue {
+  animation: bluePulse 8s ease-in-out forwards;
+}
+
+@keyframes bluePulse {
+
+  0%, 100% {
+    opacity: 0;
+  }
+
+  20%, 55% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 0.4;
+  }
+
+}
+
+/* =====================================
+   NEON PINK LIGHT
+===================================== */
+
+.intro-pink {
+  position: absolute;
+
+  right: -30%;
+  top: 0;
+
+  width: 70%;
+  height: 100%;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at right center,
+    rgba(255,0,128,0.35),
+    transparent 70%
+  );
+
+  mix-blend-mode: screen;
+
+  opacity: 0;
+}
+
+.wolfie-intro.active .intro-pink {
+  animation: pinkPulse 8s ease-in-out forwards;
+}
+
+@keyframes pinkPulse {
+
+  0%, 100% {
+    opacity: 0;
+  }
+
+  30%, 65% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.3;
+  }
+
+}
+
+/* =====================================
+   CINEMATIC FLASH
+===================================== */
+
+.intro-flash {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background: #fff;
+
+  opacity: 0;
+}
+
+.wolfie-intro.active .intro-flash {
+  animation: cinematicFlash 8s linear forwards;
+}
+
+@keyframes cinematicFlash {
+
+  0%, 19%, 22%, 48%, 51%, 100% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+
+}
+
+/* =====================================
+   SKIP INTRO BUTTON
+===================================== */
+
+.skip-intro {
+  position: absolute;
+
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(30px, env(safe-area-inset-bottom));
+
+  z-index: 100;
+
+  padding: 12px 20px;
+
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 30px;
+
+  background: rgba(0,0,0,0.65);
+
+  color: #fff;
+
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 15px rgba(0,191,255,0.3),
+    0 0 15px rgba(255,0,128,0.3);
+}
+
+.skip-intro:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.skip-intro:focus-visible {
+  outline: 3px solid #00bfff;
+  outline-offset: 4px;
+}
+
+/* =====================================
+   REDUCED MOTION
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .wolfie-intro.active .intro-image,
+  .wolfie-intro.active .intro-blue,
+  .wolfie-intro.active .intro-pink,
+  .wolfie-intro.active .intro-flash {
+    animation: none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================
+     ORIGINAL MRS WOLFIE ENTRANCE
+===================================== -->
+
+<main class="entry">
+
+  <div class="art">
+
+    <img
+      src="./images/mrs-wolfie-entrance.png"
+      alt="Mrs Wolfie — One Pack, One Purpose. Enter Mrs Wolfie."
+    >
+
+    <a
+      class="enter"
+      id="enterMrsWolfie"
+      href="./home.html"
+      aria-label="Enter Mrs Wolfie"
+    >
+      Enter Mrs Wolfie
+    </a>
+
+  </div>
+
+</main>
+
+<!-- =====================================
+     MRS WOLFIE CINEMATIC INTRO
+===================================== -->
+
+<div
+  class="wolfie-intro"
+  id="wolfieIntro"
+  aria-hidden="true"
+>
+
+  <div class="intro-picture">
+
+    <picture>
+
+      <!-- DESKTOP ARTWORK -->
+
+      <source
+        media="(min-aspect-ratio: 1/1)"
+        srcset="./images/mrs-wolfie-intro-desktop.png"
+      >
+
+      <!-- MOBILE ARTWORK -->
+
+      <img
+        class="intro-image"
+        src="./images/mrs-wolfie-intro-mobile.png"
+        alt="Mrs Wolfie cinematic introduction"
+      >
+
+    </picture>
+
+  </div>
+
+  <!-- BLUE AND PINK LIGHTING -->
+
+  <div class="intro-blue"></div>
+  <div class="intro-pink"></div>
+
+  <!-- CINEMATIC FLASH -->
+
+  <div class="intro-flash"></div>
+
+  <!-- SKIP INTRO -->
+
+  <button
+    class="skip-intro"
+    id="skipWolfieIntro"
+    type="button"
+  >
+    SKIP INTRO ›
+  </button>
+
+</div>
+
+<!-- =====================================
+     CINEMATIC SOUNDTRACK
+===================================== -->
+
+<audio
+  id="wolfieAudio"
+  src="./images/mrs-wolfie-intro.mp3"
+  preload="auto"
+></audio>
+
+<script>
+
+/* =====================================
+   MRS WOLFIE ENTER ANIMATION
+===================================== */
+
+const enterButton =
+  document.getElementById("enterMrsWolfie");
+
+const intro =
+  document.getElementById("wolfieIntro");
+
+const audio =
+  document.getElementById("wolfieAudio");
+
+const skipButton =
+  document.getElementById("skipWolfieIntro");
+
+let isEntering = false;
+let hasNavigated = false;
+let fallbackTimer;
+
+const destination = enterButton.href;
+
+/* =====================================
+   OPEN HOMEPAGE
+===================================== */
+
+function openWolfieHome() {
+
+  if (hasNavigated) return;
+
+  hasNavigated = true;
+
+  window.clearTimeout(fallbackTimer);
+
+  audio.pause();
+
+  window.location.assign(destination);
+
+}
+
+/* =====================================
+   START CINEMATIC INTRO
+===================================== */
+
+enterButton.addEventListener("click", function(event) {
+
+  if (
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey ||
+    event.button !== 0
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (isEntering) return;
+
+  isEntering = true;
+
+  /* ACCESSIBILITY */
+
+  if (
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+  ) {
+    openWolfieHome();
+    return;
+  }
+
+  /* SHOW CINEMATIC INTRO */
+
+  intro.classList.add("active");
+
+  intro.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  skipButton.focus();
+
+  /* PLAY SOUNDTRACK */
+
+  audio.volume = 0.85;
+  audio.currentTime = 0;
+
+  const playAttempt = audio.play();
+
+  if (playAttempt) {
+
+    playAttempt.catch(function(error) {
+
+      console.warn(
+        "Mrs Wolfie intro audio could not play:",
+        error
+      );
+
+      /* CONTINUE VISUAL ANIMATION WITHOUT AUDIO */
+
+    });
+
+  }
+
+  /* NAVIGATE WHEN SOUNDTRACK FINISHES */
+
+  audio.addEventListener(
+    "ended",
+    openWolfieHome,
+    { once: true }
+  );
+
+  /* SAFETY FALLBACK */
+
+  fallbackTimer = window.setTimeout(
+    openWolfieHome,
+    8500
+  );
+
+});
+
+/* =====================================
+   SKIP INTRO
+===================================== */
+
+skipButton.addEventListener("click", function() {
+
+  openWolfieHome();
+
+});
+
+</script>
+
+</body>
+</html>
