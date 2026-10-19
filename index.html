@@ -5762,9 +5762,14 @@ function renderUpcoming(){
     if (!updates.length) {
       const empty = document.createElement("div");
       empty.className = "empty-card";
-      empty.textContent = window.MRS_WOLFIE_UPDATES?.firebaseLoaded
+      const state = window.MRS_WOLFIE_UPDATES;
+      empty.textContent = state?.firebaseLoaded
         ? "No published updates yet."
-        : "Checking for the latest Mrs Wolfie updates...";
+        : state?.error
+          ? "Live updates are temporarily unavailable. Please try again later."
+          : state?.timedOut
+            ? "Still waiting for live updates. Please check your connection and refresh."
+            : "Checking for the latest Mrs Wolfie updates...";
       container.appendChild(empty);
       return;
     }
