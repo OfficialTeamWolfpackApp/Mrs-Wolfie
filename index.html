@@ -3717,6 +3717,18 @@ body.wolfie-image-modal-open{overflow:hidden}
 .wolfie-alert-actions .wolfie-like[aria-pressed="true"]{background:rgba(255,47,146,.25);color:#fff}
 @media(max-width:520px){.wolfie-alert-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.wolfie-alert-actions .notification-button{width:100%;padding:0 8px}.wolfie-alert-actions #notificationButton{grid-column:1/-1}}
 
+
+/* MRS WOLFIE — SUPPORTER COUNT */
+.wolfie-support{position:relative;overflow:hidden;margin:-5px 0 24px;padding:25px 22px;border:1px solid rgba(255,255,255,.12);border-left:3px solid var(--blue);border-right:3px solid var(--pink);border-radius:18px;text-align:center;background:radial-gradient(circle at 0 35%,rgba(137,220,255,.17),transparent 48%),radial-gradient(circle at 100% 60%,rgba(255,47,146,.17),transparent 48%),#080c11;box-shadow:0 14px 35px rgba(0,0,0,.30)}
+.wolfie-support-kicker{color:var(--pink2);font-size:10px;font-weight:900;letter-spacing:3px}
+.wolfie-support-title{margin:10px 0;color:#fff;font-size:clamp(21px,4vw,35px);font-weight:1000;letter-spacing:1px}.wolfie-support-title span{color:var(--blue)}
+.wolfie-support-description{max-width:580px;margin:0 auto 17px;color:#c1c9d0;font-size:12px;line-height:1.6}
+.wolfie-support-count{display:inline-flex;flex-direction:column;align-items:center;gap:6px;min-width:190px;padding:15px 30px;border:1px solid rgba(137,220,255,.30);border-radius:13px;background:rgba(0,0,0,.36)}
+.wolfie-support-number{font-size:clamp(30px,6vw,50px);font-weight:1000;line-height:1;color:#fff}
+.wolfie-support-caption{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--pink2)}
+.wolfie-support-status{min-height:17px;margin-top:12px;color:#9eabb5;font-size:10px}
+.wolfie-alert-actions .wolfie-like:disabled{cursor:default;opacity:.95}
+
 </style>
 
 </head>
@@ -3987,6 +3999,18 @@ body.wolfie-image-modal-open{overflow:hidden}
 
 </section>
 
+
+<!-- MRS WOLFIE — LIVE SUPPORTER COUNT -->
+<section class="wolfie-support" aria-label="Mrs Wolfie supporters">
+  <div class="wolfie-support-kicker">ONE PACK • ONE PURPOSE</div>
+  <h2 class="wolfie-support-title">SUPPORT <span>MRS WOLFIE</span></h2>
+  <p class="wolfie-support-description">Show your support for Mrs Wolfie and become part of Team Wolfie. Every supporter makes a difference.</p>
+  <div class="wolfie-support-count" aria-live="polite" aria-atomic="true">
+    <strong class="wolfie-support-number" id="wolfieSupportCount">—</strong>
+    <span class="wolfie-support-caption">♥ MRS WOLFIE SUPPORTERS</span>
+  </div>
+  <p class="wolfie-support-status" id="wolfieSupportStatus" role="status">Connecting to live supporters…</p>
+</section>
 
 <!-- =======================================================
      NEXT FIGHT
@@ -6108,41 +6132,90 @@ if(
 
 
 
-<!-- Mrs Wolfie like/share actions: likes are saved on this device only -->
+<!-- Mrs Wolfie supporter records are stored separately in Cloud Firestore. -->
+<script type="module">
+import {initializeApp,getApp,getApps} from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js';
+import {getAuth,signInAnonymously} from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
+import {getFirestore,collection,doc,getDoc,setDoc,onSnapshot,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+
+const firebaseConfig={apiKey:'AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY',authDomain:'team-wolfpack-app.firebaseapp.com',projectId:'team-wolfpack-app',appId:'1:1070414578856:web:df14e7d387e658eeae2e9d'};
+const app=getApps().find(a=>a.name==='[DEFAULT]')||initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const supporters=collection(db,'mrsWolfieSupporters');
+const like=document.getElementById('wolfieLikeButton');
+const count=document.getElementById('wolfieSupportCount');
+const status=document.getElementById('wolfieSupportStatus');
+let supporterUser=null;
+let alreadyLiked=false;
+let busy=false;
+function message(value){status.textContent=value;}
+function render(){
+  like.textContent=alreadyLiked?'♥ LIKED MRS WOLFIE':'♡ LIKE MRS WOLFIE';
+  like.setAttribute('aria-pressed',String(alreadyLiked));
+  like.disabled=alreadyLiked||busy||!supporterUser;
+}
+render();
+// Real-time shared count. Show an error rather than an invented zero if access fails.
+onSnapshot(supporters,snapshot=>{
+  count.textContent=snapshot.size.toLocaleString();
+},error=>{count.textContent='—';message('Supporter total unavailable. Please try again later.');console.error('Supporter count:',error);});
+
+async function initialiseLike(){
+  try{
+    // Never sign an existing administrator or member out to create an anonymous user.
+    await auth.authStateReady();
+    supporterUser=auth.currentUser||(await signInAnonymously(auth)).user;
+    const record=doc(supporters,supporterUser.uid);
+    alreadyLiked=(await getDoc(record)).exists();
+    message(alreadyLiked?'Thank you for supporting Mrs Wolfie!':'Tap LIKE MRS WOLFIE above to show your support.');
+  }catch(error){
+    console.error('Mrs Wolfie supporter sign-in:',error);
+    message('Unable to connect your like. Please refresh and try again.');
+  }
+  render();
+}
+like.addEventListener('click',async()=>{
+  if(busy||alreadyLiked||!supporterUser)return;
+  busy=true;render();message('Saving your support…');
+  try{
+    const record=doc(supporters,supporterUser.uid);
+    // The Firestore create-only rule prevents overwriting an existing like.
+    await setDoc(record,{uid:supporterUser.uid,createdAt:serverTimestamp()});
+    alreadyLiked=true;
+    message('Thank you! Your support is locked in ♥');
+  }catch(error){
+    // If a record already exists, treat it as liked rather than offering an unlike action.
+    try{
+      if((await getDoc(doc(supporters,supporterUser.uid))).exists()){
+        alreadyLiked=true;
+        message('Thank you! You have already supported Mrs Wolfie.');
+      }else{
+        message('Could not save your like. Please try again.');
+        console.error('Save Mrs Wolfie like:',error);
+      }
+    }catch(readError){message('Unable to verify your like. Please try again.');console.error(readError);}
+  }finally{busy=false;render();}
+});
+initialiseLike();
+</script>
 <script>
 (function(){
-  const like = document.getElementById('wolfieLikeButton');
-  const share = document.getElementById('wolfieShareButton');
-  const storageKey = 'mrsWolfieAppLiked';
-  if(like){
-    let liked = false;
-    try { liked = localStorage.getItem(storageKey) === 'true'; } catch(e) {}
-    function renderLike(){
-      like.setAttribute('aria-pressed', String(liked));
-      like.textContent = liked ? '♥ LIKED MRS WOLFIE' : '♡ LIKE MRS WOLFIE';
-    }
-    renderLike();
-    like.addEventListener('click', function(){
-      liked = !liked;
-      try { localStorage.setItem(storageKey, String(liked)); } catch(e) {}
-      renderLike();
-    });
-  }
-  if(share){
-    share.addEventListener('click', async function(){
-      const data = {title:'Mrs Wolfie | Official App', text:'Follow Mrs Wolfie on the official boxing app!', url:location.href.split('#')[0]};
-      try {
-        if(navigator.share){ await navigator.share(data); return; }
-        if(navigator.clipboard && window.isSecureContext){
-          await navigator.clipboard.writeText(data.url);
-          share.textContent = '✓ LINK COPIED';
-          setTimeout(()=>share.textContent='↗ SHARE OUR APP', 2200);
-          return;
-        }
-        window.prompt('Copy the Mrs Wolfie app link:', data.url);
-      } catch(e){ if(e.name !== 'AbortError') window.prompt('Copy the Mrs Wolfie app link:', data.url); }
-    });
-  }
+  const share=document.getElementById('wolfieShareButton');
+  if(!share)return;
+  share.addEventListener('click',async function(){
+    const data={title:'Mrs Wolfie | Official App',text:'Follow Mrs Wolfie on the official boxing app!',url:location.href.split('#')[0]};
+    try{
+      if(navigator.share){await navigator.share(data);return;}
+      if(navigator.clipboard&&window.isSecureContext){
+        await navigator.clipboard.writeText(data.url);
+        share.textContent='✓ LINK COPIED';
+        setTimeout(()=>share.textContent='↗ SHARE OUR APP',2200);
+        return;
+      }
+      window.prompt('Copy the Mrs Wolfie app link:',data.url);
+    }catch(e){if(e.name!=='AbortError')window.prompt('Copy the Mrs Wolfie app link:',data.url);}
+  });
 })();
 </script>
 
