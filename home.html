@@ -6229,5 +6229,84 @@ initialiseLike();
 })();
 </script>
 
+<!-- =======================================================
+     MRS WOLFIE ADMIN DASHBOARD MENU ACCESS
+======================================================== -->
+
+<script type="module">
+
+import {
+  initializeApp,
+  getApps,
+  getApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+/* EXISTING FIREBASE PROJECT */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC06RDrqpXodbYBJqyeGvRkmtxQGapaaPY",
+  authDomain: "team-wolfpack-app.firebaseapp.com",
+  projectId: "team-wolfpack-app",
+  appId: "1:1070414578856:web:df14e7d387e658eeae2e9d"
+};
+
+
+/* AUTHORISED ADMINISTRATORS */
+
+const ADMIN_UIDS = [
+  "PRGa9TsCW0QDn1QtoUXyYjEi7YB3", // MR WOLFIE
+  "SlpEQYl94DaH6j42QUyl8Kv2ujJ3"  // MRS WOLFIE
+];
+
+
+/* CONNECT TO EXISTING FIREBASE APP */
+
+const app = getApps().length
+  ? getApp()
+  : initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+/* ADMIN MENU BUTTON */
+
+const adminMenuButton =
+  document.getElementById("mrsWolfieAdminMenu");
+
+
+/* CHECK ADMIN LOGIN */
+
+onAuthStateChanged(auth, (user) => {
+
+  if (!adminMenuButton) return;
+
+  if (
+    user &&
+    !user.isAnonymous &&
+    ADMIN_UIDS.includes(user.uid)
+  ) {
+
+    adminMenuButton.style.display = "";
+
+    console.log(
+      "Mrs Wolfie Admin Dashboard enabled."
+    );
+
+  } else {
+
+    adminMenuButton.style.display = "none";
+
+  }
+
+});
+
+</script>
+  
 </body>
 </html>
