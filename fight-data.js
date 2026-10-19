@@ -33,19 +33,19 @@ const MRS_WOLFIE_FALLBACK_FIGHTS = [
     result: ""
   },
 
-  {
-    id: "fight-20-nov-2026",
-    promotion: "TRAIN4FIGHT",
-    event: "SUPER MIDDLEWEIGHT TITLE",
-    opponent: "KAYLEIGH GIBSON",
-    date: "2026-11-20",
-    dateEnd:
-    dateDisplay: "20 NOVEMBER 2026",
-    venue: "EASTHOUSES MINERS CLUB",
-    status: "UPCOMING",
-    type: "TITLE FIGHT",
-    result: ""
-  }
+ {
+  id: "fight-20-nov-2026",
+  promotion: "TRAIN4FIGHT",
+  event: "SUPER MIDDLEWEIGHT TITLE",
+  opponent: "G-KAYLEIGHX GIBSON",
+  date: "2026-11-20",
+  dateEnd: "2026-11-21",
+  dateDisplay: "20 NOVEMBER 2026",
+  venue: "EASTHOUSES MINERS CLUB",
+  status: "UPCOMING",
+  type: "TITLE FIGHT",
+  result: ""
+}
 
 ];
 
