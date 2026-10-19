@@ -3677,6 +3677,37 @@ body.wolfie-image-modal-open{overflow:hidden}
   .home-pack-profile-button,.home-pack-profile-button::after{transition:none}
 }
 
+
+/* MRS WOLFIE — THREE-PANEL NEXT FIGHT (TEAM WOLFPACK LAYOUT) */
+.wolfie-fight-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.94fr) minmax(0,1.1fr);align-items:stretch;gap:14px;min-height:480px;overflow:visible;background:transparent;border:0;border-radius:0;box-shadow:none;margin-bottom:34px}
+.wolfie-fight-grid::before,.wolfie-fight-grid::after{display:none}
+.wolfie-fighter-panel{position:relative;min-width:0;min-height:480px;overflow:hidden;border-radius:20px;background:#090d13;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.wolfie-left-panel{border:2px solid var(--blue);box-shadow:0 0 22px rgba(137,220,255,.15)}
+.wolfie-right-panel{border:2px solid var(--pink);box-shadow:0 0 22px rgba(255,47,146,.15)}
+.wolfie-panel-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.wolfie-right-panel .wolfie-panel-image{object-fit:contain;object-position:center bottom}
+.wolfie-fighter-panel::after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.9));pointer-events:none}
+.wolfie-panel-name{position:absolute;z-index:1;bottom:19px;left:8px;right:8px;text-align:center;text-transform:uppercase;text-shadow:0 2px 10px #000}
+.wolfie-panel-name strong{display:block;font-size:clamp(16px,2.2vw,25px);line-height:1.12;font-weight:1000;overflow-wrap:anywhere}
+.wolfie-left-panel .wolfie-panel-name strong{color:var(--blue)}
+.wolfie-right-panel .wolfie-panel-name strong{color:var(--pink2)}
+.wolfie-panel-name span{display:block;margin-top:8px;font-size:10px;font-weight:900;letter-spacing:1.4px}
+.wolfie-fight-middle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:17px;min-width:0;padding:25px 15px;text-align:center;border:1px solid rgba(255,255,255,.26);border-radius:20px;background:linear-gradient(160deg,#101a28,#06090f 58%,#151923)}
+.wolfie-middle-brand{color:var(--blue);font-size:11px;font-weight:1000;letter-spacing:2px}
+.wolfie-promotion{font-size:clamp(19px,2.3vw,29px);font-weight:1000;line-height:1.1;text-transform:uppercase}
+.wolfie-promotion-small{display:block;margin-top:6px;color:var(--pink2);font-size:12px;font-weight:900;letter-spacing:1.5px}
+.wolfie-title-card{width:100%;padding:16px 9px;border:1px solid rgba(255,47,146,.65);border-radius:12px;background:rgba(255,47,146,.05)}
+.wolfie-title-card div{color:var(--pink2);font-size:13px;font-weight:1000;letter-spacing:1.4px}
+.wolfie-title-card strong{display:block;margin-top:10px;font-size:clamp(14px,1.5vw,19px);line-height:1.3}
+.wolfie-date-venue{display:grid;gap:9px;margin:6px 0;color:#fff;font-size:13px;font-weight:1000;letter-spacing:.5px}
+.wolfie-main-action,.wolfie-ticket-action{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:10px;border-radius:10px;font-size:11px;font-weight:1000;letter-spacing:1px;text-align:center}
+.wolfie-main-action{border:1px solid var(--blue);background:linear-gradient(90deg,rgba(137,220,255,.14),rgba(255,47,146,.1))}
+.wolfie-ticket-action{border:1px solid var(--pink);background:linear-gradient(90deg,rgba(137,220,255,.1),rgba(255,47,146,.23))}
+.wolfie-ticket-info{display:grid;gap:5px;font-size:13px;line-height:1.25}
+.wolfie-ticket-info[hidden],.wolfie-ticket-action[hidden]{display:none}
+@media(max-width:760px){.wolfie-fight-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;min-height:0}.wolfie-fighter-panel{min-height:290px}.wolfie-fight-middle{grid-column:1/-1;grid-row:2;padding:22px 18px;gap:15px}.wolfie-right-panel{grid-column:2;grid-row:1}.wolfie-left-panel{grid-column:1;grid-row:1}.wolfie-panel-name strong{font-size:clamp(12px,3.6vw,20px)}.wolfie-panel-name span{font-size:8px}.wolfie-date-venue{font-size:12px}.wolfie-promotion{font-size:23px}}
+@media(max-width:400px){.wolfie-fighter-panel{min-height:235px}.wolfie-panel-name{bottom:12px}.wolfie-panel-name strong{font-size:12px}.wolfie-panel-name span{font-size:7px}}
+
 </style>
 
 </head>
@@ -3954,121 +3985,24 @@ body.wolfie-image-modal-open{overflow:hidden}
      NEXT FIGHT
 ======================================================== -->
 
-<section
-  id="nextFightCard"
-  class="next-fight"
->
-
-  <div class="fighter-side left">
-
-    <img
-      id="nextFightImage"
-      src="./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
-      class="fighter-photo"
-      alt="Mrs Wolfie"
-    >
-
+<section id="nextFightCard" class="next-fight wolfie-fight-grid" aria-label="Mrs Wolfie next fight">
+  <div class="wolfie-fighter-panel wolfie-left-panel">
+    <img id="nextFightImage" src="./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png" alt="Mrs Wolfie" class="wolfie-panel-image">
+    <div class="wolfie-panel-name"><strong>MRS WOLFIE</strong><span>TEAM WOLFIE</span></div>
   </div>
-
-
-<div class="fighter-side right">
-
-  <img
-    src="./images/g-kayleighx-gibson.png"
-    class="fighter-photo opponent-photo"
-    alt="G-Kayleighx Gibson"
-  >
-
-</div>
-
-
-  <div class="fight-centre">
-
-    <div class="next-label">
-      NEXT FIGHT
-    </div>
-
-    <div
-      id="nextFightPromotion"
-      class="promotion"
-    >
-      LOADING...
-
-      <span
-        id="nextFightEvent"
-        class="promotion-small"
-      >
-        MRS WOLFIE
-      </span>
-
-    </div>
-
-
-    <div class="vs">
-      VS
-    </div>
-
-
-    <div
-      id="nextFightDetails"
-      class="fight-details"
-    >
-
-      <div class="fight-detail">
-        LOADING FIGHT DETAILS
-      </div>
-
-    </div>
-
-
-    <a
-      id="nextFightButton"
-      class="fight-button"
-      href="./fight.html"
-    >
-      VIEW FIGHT DETAILS →
-    </a>
-
-
-    <a
-      id="homeTicketButton"
-      class="home-ticket-button"
-      href="#"
-      target="_blank"
-      rel="noopener noreferrer"
-      hidden
-    >
-      🎟 GET TICKETS →
-    </a>
-
+  <div class="wolfie-fight-middle">
+    <div class="wolfie-middle-brand">🐺 TEAM WOLFPACK</div>
+    <div id="nextFightPromotion" class="wolfie-promotion">TRAIN4FIGHT <span id="nextFightEvent" class="wolfie-promotion-small">PROMOTIONS</span></div>
+    <div class="wolfie-title-card"><div>★ TITLE FIGHT</div><strong>LADIES SUPER MIDDLEWEIGHT NOVICE TITLE</strong></div>
+    <div id="nextFightDetails" class="wolfie-date-venue"><div>20 NOVEMBER 2026</div><div>EASTHOUSES MINERS CLUB</div></div>
+    <a id="nextFightButton" class="wolfie-main-action" href="./fight.html">VIEW FIGHT DETAILS →</a>
+    <div id="wolfieTicketInfo" class="wolfie-ticket-info" hidden><div id="wolfieTicketPrice"></div><div>🟢 TICKETS AVAILABLE</div></div>
+    <a id="homeTicketButton" class="wolfie-ticket-action" href="#" target="_blank" rel="noopener noreferrer" hidden>🎟 GET TICKETS →</a>
   </div>
-
-
-  <div class="fighter-name left">
-
-    <strong>
-      MRS WOLFIE
-    </strong>
-
-    <span>
-      TEAM WOLFIE
-    </span>
-
+  <div class="wolfie-fighter-panel wolfie-right-panel">
+    <img src="./images/g-kayleighx-gibson.png" alt="G-Kayleighx Gibson" class="wolfie-panel-image">
+    <div class="wolfie-panel-name"><strong id="nextFightOpponent">G-KAYLEIGHX GIBSON</strong><span>OPPONENT</span></div>
   </div>
-
-
-  <div class="fighter-name right">
-
-    <strong id="nextFightOpponent">
-      TBA
-    </strong>
-
-    <span>
-      OPPONENT
-    </span>
-
-  </div>
-
 </section>
 
 
@@ -5369,13 +5303,14 @@ if(grid){
 
 
       details.innerHTML =
-        '<div class="fight-detail">' +
+        '<div class="wolfie-date-line">' +
         "NEW FIGHT TO BE ANNOUNCED" +
         "</div>";
 
 
       ticketButton.hidden =
         true;
+      if (ticketInfo) ticketInfo.hidden = true;
 
 
       return;
@@ -5415,7 +5350,7 @@ if(grid){
 
     details.innerHTML =
 
-      '<div class="fight-detail">' +
+      '<div class="wolfie-date-line">' +
 
       escapeHTML(
         dateDisplay(
@@ -5425,7 +5360,7 @@ if(grid){
 
       "</div>" +
 
-      '<div class="fight-detail">' +
+      '<div class="wolfie-date-line">' +
 
       escapeHTML(
         venue
@@ -5433,6 +5368,13 @@ if(grid){
 
       "</div>";
 
+
+    const ticketInfo = $("wolfieTicketInfo");
+    const ticketPrice = $("wolfieTicketPrice");
+    if (ticketPrice) {
+      const price = text(fight.ticketPrice || fight.ticketCost || fight.price);
+      ticketPrice.textContent = price ? "🎟 TICKETS " + price : "🎟 TICKETS";
+    }
 
     const ticketURL =
       text(
@@ -5451,6 +5393,7 @@ if(grid){
 
       ticketButton.hidden =
         false;
+      if (ticketInfo) ticketInfo.hidden = false;
 
     }
 
