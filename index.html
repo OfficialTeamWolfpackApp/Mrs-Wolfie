@@ -3992,7 +3992,7 @@ body.wolfie-image-modal-open{overflow:hidden}
   </div>
   <div class="wolfie-fight-middle">
     <div class="wolfie-middle-brand">🐺 TEAM WOLFPACK</div>
-    <div id="nextFightPromotion" class="wolfie-promotion">TRAIN4FIGHT <span id="nextFightEvent" class="wolfie-promotion-small">PROMOTIONS</span></div>
+    <div id="nextFightPromotion" class="wolfie-promotion">TEAM WOLFPACK <span id="nextFightEvent" class="wolfie-promotion-small">PROMOTIONS</span></div>
     <div class="wolfie-title-card"><div>★ TITLE FIGHT</div><strong>LADIES SUPER MIDDLEWEIGHT NOVICE TITLE</strong></div>
     <div id="nextFightDetails" class="wolfie-date-venue"><div>20 NOVEMBER 2026</div><div>EASTHOUSES MINERS CLUB</div></div>
     <a id="nextFightButton" class="wolfie-main-action" href="./fight.html">VIEW FIGHT DETAILS →</a>
@@ -5285,17 +5285,19 @@ if(grid){
     const ticketButton =
       $("homeTicketButton");
 
+    const ticketInfo = $("wolfieTicketInfo");
+
 
     if(
       !fight
     ){
 
       promotion.childNodes[0].nodeValue =
-        "NEXT FIGHT TBA ";
+        "TEAM WOLFPACK ";
 
 
       event.textContent =
-        "AWAITING ANNOUNCEMENT";
+        "PROMOTIONS";
 
 
       opponent.textContent =
@@ -5319,19 +5321,11 @@ if(grid){
 
 
     promotion.childNodes[0].nodeValue =
-      text(
-        fight.promotion,
-        "MRS WOLFIE"
-      ) +
-      " ";
+      "TEAM WOLFPACK ";
 
 
     event.textContent =
-      text(
-        fight.event ||
-        fight.eventName,
-        "FIGHT NIGHT"
-      );
+      "PROMOTIONS";
 
 
     opponent.textContent =
@@ -5369,7 +5363,6 @@ if(grid){
       "</div>";
 
 
-    const ticketInfo = $("wolfieTicketInfo");
     const ticketPrice = $("wolfieTicketPrice");
     if (ticketPrice) {
       const price = text(fight.ticketPrice || fight.ticketCost || fight.price);
@@ -5401,6 +5394,7 @@ if(grid){
 
       ticketButton.hidden =
         true;
+      if (ticketInfo) ticketInfo.hidden = true;
 
     }
 
