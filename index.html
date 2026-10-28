@@ -428,38 +428,23 @@ body {
   id="wolfieIntro"
   aria-hidden="true"
 >
+<!-- MRS WOLFIE OFFICIAL OPENING VIDEO -->
 
-  <div class="intro-picture">
-
-    <picture>
-
-      <!-- DESKTOP ARTWORK -->
-
-      <source
-        media="(min-aspect-ratio: 1/1)"
-        srcset="./images/mrs-wolfie-intro-desktop.png"
-      >
-
-      <!-- MOBILE ARTWORK -->
-
-      <img
-        class="intro-image"
-        src="./images/mrs-wolfie-intro-mobile.png"
-        alt="Mrs Wolfie cinematic introduction"
-      >
-
-    </picture>
-
-  </div>
-
-  <!-- BLUE AND PINK LIGHTING -->
-
-  <div class="intro-blue"></div>
-  <div class="intro-pink"></div>
-
-  <!-- CINEMATIC FLASH -->
-
-  <div class="intro-flash"></div>
+<video
+  id="mrsWolfieOpeningVideo"
+  src="./Mrs-wolfie-video.mp4"
+  playsinline
+  preload="auto"
+  style="
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:#000;
+    z-index:50;
+  "
+></video>
 
   <!-- SKIP INTRO -->
 
@@ -473,18 +458,6 @@ body {
 
 </div>
 
-<!-- =====================================
-     CINEMATIC SOUNDTRACK
-===================================== -->
-
-<audio
-  id="wolfieAudio"
-  src="./images/mrs-wolfie-intro.mp3"
-  preload="auto"
-></audio>
-
-<script>
-
 /* =====================================
    MRS WOLFIE ENTER ANIMATION
 ===================================== */
@@ -495,8 +468,8 @@ const enterButton =
 const intro =
   document.getElementById("wolfieIntro");
 
-const audio =
-  document.getElementById("wolfieAudio");
+const video =
+  document.getElementById("mrsWolfieOpeningVideo");
 
 const skipButton =
   document.getElementById("skipWolfieIntro");
@@ -519,7 +492,7 @@ function openWolfieHome() {
 
   window.clearTimeout(fallbackTimer);
 
-  audio.pause();
+  video.pause();
 
   window.location.assign(destination);
 
@@ -569,44 +542,28 @@ enterButton.addEventListener("click", function(event) {
 
   skipButton.focus();
 
-  /* PLAY SOUNDTRACK */
+/* PLAY MRS WOLFIE OPENING VIDEO */
 
-  audio.volume = 0.85;
-  audio.currentTime = 0;
+video.currentTime = 0;
 
-  const playAttempt = audio.play();
+video.addEventListener(
+  "ended",
+  openWolfieHome,
+  { once: true }
+);
 
-  if (playAttempt) {
+const playAttempt = video.play();
 
-    playAttempt.catch(function(error) {
+if (playAttempt) {
+  playAttempt.catch(function(error) {
+    console.warn(
+      "Mrs Wolfie opening video could not play:",
+      error
+    );
 
-      console.warn(
-        "Mrs Wolfie intro audio could not play:",
-        error
-      );
-
-      /* CONTINUE VISUAL ANIMATION WITHOUT AUDIO */
-
-    });
-
-  }
-
-  /* NAVIGATE WHEN SOUNDTRACK FINISHES */
-
-  audio.addEventListener(
-    "ended",
-    openWolfieHome,
-    { once: true }
-  );
-
-  /* SAFETY FALLBACK */
-
-  fallbackTimer = window.setTimeout(
-    openWolfieHome,
-    8500
-  );
-
-});
+    openWolfieHome();
+  });
+}
 
 /* =====================================
    SKIP INTRO
