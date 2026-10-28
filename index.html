@@ -476,7 +476,6 @@ const skipButton =
 
 let isEntering = false;
 let hasNavigated = false;
-let fallbackTimer;
 
 const destination = enterButton.href;
 
@@ -490,8 +489,7 @@ function openWolfieHome() {
 
   hasNavigated = true;
 
-  window.clearTimeout(fallbackTimer);
-
+ 
   video.pause();
 
   window.location.assign(destination);
