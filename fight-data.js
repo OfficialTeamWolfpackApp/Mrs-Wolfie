@@ -42,7 +42,7 @@ const MRS_WOLFIE_FALLBACK_FIGHTS = [
   dateEnd: "2026-11-21",
   dateDisplay: "20 NOVEMBER 2026",
   venue: "EASTHOUSES MINERS CLUB",
-  status: "UPCOMING",
+  status: "POSTPONED",
   type: "TITLE FIGHT",
   result: ""
 }
