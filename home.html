@@ -3730,6 +3730,7 @@ body.wolfie-image-modal-open{overflow:hidden}
 .wolfie-alert-actions .wolfie-like:disabled{cursor:default;opacity:.95}
 
 
+ .wolfie-opponent-photo-wrap{position:relative;display:flex;align-items:center;justify-content:center;min-height:100px}.wolfie-opponent-placeholder{display:flex;align-items:center;justify-content:center;width:90px;height:100px;border-radius:12px;border:1px solid rgba(255,143,211,.35);background:rgba(255,143,211,.08);color:#ff8fd3;font-size:48px;font-weight:900}.wolfie-opponent-photo-wrap [hidden]{display:none!important}
 </style>
 
 </head>
@@ -4041,7 +4042,7 @@ body.wolfie-image-modal-open{overflow:hidden}
     <a id="homeTicketButton" class="wolfie-ticket-action" href="#" target="_blank" rel="noopener noreferrer" hidden>🎟 GET TICKETS →</a>
   </div>
   <div class="wolfie-fighter-panel wolfie-right-panel">
-    <img src="./images/g-kayleighx-gibson.png" alt="G-Kayleighx Gibson" class="wolfie-panel-image">
+    <div class="wolfie-opponent-photo-wrap"><img id="homeNextOpponentPhoto" alt="Next opponent" class="wolfie-panel-image" hidden><span id="homeNextOpponentPlaceholder" class="wolfie-opponent-placeholder">?</span></div>
     <div class="wolfie-panel-name"><strong id="nextFightOpponent">G-KAYLEIGHX GIBSON</strong><span>OPPONENT</span></div>
   </div>
 </section>
@@ -5305,6 +5306,23 @@ if(grid){
      NEXT FIGHT
   ====================================================== */
 
+  function updateHomeOpponentPhoto(fight) {
+    const photo = document.getElementById("homeNextOpponentPhoto");
+    const placeholder = document.getElementById("homeNextOpponentPlaceholder");
+    if (!photo || !placeholder) return;
+    const opponent = String(fight?.opponent || "").trim();
+    const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
+      ? String(fight?.opponentImage || "").trim() : "";
+    photo.hidden = !/^https:\/\//i.test(url);
+    placeholder.hidden = !photo.hidden;
+    if (!photo.hidden) { photo.src = url; photo.alt = opponent; }
+    else photo.removeAttribute("src");
+  }
+  document.getElementById("homeNextOpponentPhoto")?.addEventListener("error", function(){
+    this.hidden = true;
+    document.getElementById("homeNextOpponentPlaceholder").hidden = false;
+  });
+
   function renderNextFight(){
 
     const fight =
@@ -5328,6 +5346,8 @@ if(grid){
 
     const ticketInfo = $("wolfieTicketInfo");
 
+
+    updateHomeOpponentPhoto(fight);
 
     if(
       !fight
