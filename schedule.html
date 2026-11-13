@@ -1312,6 +1312,63 @@ a.schedule-card:hover{
   text-transform:uppercase;
 }
 
+/* =========================================================
+   POSTPONED FIGHTS — COMPACT SCHEDULE CARDS
+========================================================= */
+
+#postponedFightsSection[hidden] {
+  display: none !important;
+}
+
+.postponed-schedule-card {
+  border-left: 2px solid var(--blue);
+  border-right: 2px solid var(--pink);
+
+  background: linear-gradient(
+    90deg,
+    rgba(137,220,255,.08),
+    #080c11 42%,
+    rgba(255,143,211,.12)
+  );
+}
+
+.postponed-schedule-badge {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 6px;
+  padding: 5px 8px;
+
+  border-radius: 6px;
+  border: 1px solid rgba(255,143,211,.45);
+
+  background: rgba(255,143,211,.12);
+  color: var(--pink);
+
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.postponed-schedule-notice {
+  margin-top: 7px;
+
+  color: var(--pink);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.postponed-schedule-card .schedule-date {
+  background: rgba(255,143,211,.05);
+}
+
+.postponed-schedule-card .date-month {
+  color: var(--pink);
+}    
+    
  /* =========================================================
    FIGHT HISTORY — COMPACT RESULT CARDS
 ========================================================= */
@@ -2462,7 +2519,34 @@ a.schedule-card:hover{
 
     </section>
 
+<!-- =====================================================
+     POSTPONED FIGHTS
+====================================================== -->
 
+<section
+  class="section"
+  id="postponedFightsSection"
+  hidden
+>
+
+  <div class="section-heading">
+
+    <h2>
+      POSTPONED FIGHTS
+    </h2>
+
+    <span class="section-label">
+      AWAITING CONFIRMATION
+    </span>
+
+  </div>
+
+  <div
+    class="schedule-list"
+    id="postponedFightsList"
+  ></div>
+
+</section>
 
     <!-- =====================================================
          FIGHT HISTORY
