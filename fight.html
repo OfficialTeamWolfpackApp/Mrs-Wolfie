@@ -2448,7 +2448,8 @@ background-image:
   font-weight: 800;
   text-align: center;
 }    
-  </style>
+  .fight-opponent-placeholder{display:flex;align-items:center;justify-content:center;width:100px;height:100px;border:1px solid rgba(255,143,211,.45);border-radius:50%;background:rgba(255,143,211,.07);color:#ff8fd3;font-size:55px;font-weight:900;margin:auto}.fight-opponent-placeholder[hidden],#fightOpponentPhoto[hidden]{display:none!important}
+</style>
 
 </head>
 
@@ -2728,12 +2729,14 @@ background-image:
           <div class="fighter">
 
            <img
-  src="./images/g-kayleighx-gibson.png"
+  id="fightOpponentPhoto"
   class="opponent-circle opponent-photo"
-  alt="G-Kayleighx Gibson"
+  alt="Next opponent"
+  hidden
 >
 
 
+            <div id="fightOpponentPlaceholder" class="fight-opponent-placeholder">?</div>
             <div class="fighter-label">
               OPPONENT
             </div>
@@ -3459,7 +3462,26 @@ background-image:
          NO FIGHT STATE
       ====================================================== */
 
+      function updateFightOpponentPhoto(fight) {
+        const photo = document.getElementById("fightOpponentPhoto");
+        const placeholder = document.getElementById("fightOpponentPlaceholder");
+        if (!photo || !placeholder) return;
+        const opponent = String(fight?.opponent || "").trim();
+        const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
+          ? String(fight?.opponentImage || "").trim() : "";
+        const show = /^https:\/\//i.test(url);
+        photo.hidden = !show;
+        placeholder.hidden = show;
+        if (show) { photo.src = url; photo.alt = opponent; }
+        else photo.removeAttribute("src");
+      }
+      document.getElementById("fightOpponentPhoto")?.addEventListener("error", function() {
+        this.hidden = true;
+        document.getElementById("fightOpponentPlaceholder").hidden = false;
+      });
+
       function showNoFightState() {
+        updateFightOpponentPhoto(null);
 
 
         if (fightSectionDate) {
@@ -3600,6 +3622,7 @@ if (ticketButton) {
       function loadFightInformation(
         currentFight
       ) {
+        updateFightOpponentPhoto(currentFight);
 
 
         if (!currentFight) {
