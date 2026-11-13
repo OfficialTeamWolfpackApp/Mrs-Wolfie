@@ -2018,6 +2018,7 @@ a.schedule-card:hover{
 }
     
   .schedule-opponent-placeholder{display:flex;align-items:center;justify-content:center;width:100px;height:110px;border:1px solid rgba(255,143,211,.4);border-radius:12px;background:rgba(255,143,211,.07);color:#ff8fd3;font-size:56px;font-weight:900}.schedule-opponent-placeholder[hidden],#scheduleOpponentPhoto[hidden]{display:none!important}
+.mystery-boxer-silhouette{display:block;width:100%;height:100%;max-height:160px;filter:drop-shadow(0 0 14px rgba(255,143,211,.22))}
 </style>
 
 </head>
@@ -2311,7 +2312,13 @@ a.schedule-card:hover{
     hidden
   >
 
-  <div id="scheduleOpponentPlaceholder" class="schedule-opponent-placeholder">?</div>
+  <div id="scheduleOpponentPlaceholder" class="schedule-opponent-placeholder"><svg class="mystery-boxer-silhouette" viewBox="0 0 180 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mystery opponent silhouette">
+  <defs><linearGradient id="mysteryBoxerFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#40213b"/><stop offset="1" stop-color="#130f20"/></linearGradient></defs>
+  <path d="M19 205c2-38 19-59 48-67l4-14c-15-12-22-28-22-48 0-28 17-49 41-49s41 21 41 49c0 20-7 36-22 48l4 14c29 8 46 29 48 67Z" fill="url(#mysteryBoxerFill)" stroke="#ff8fd3" stroke-opacity=".6" stroke-width="2"/>
+  <path d="M60 83c-4-29 6-56 30-56s34 27 30 56c-9-8-16-14-30-14s-21 6-30 14Z" fill="#080b13"/>
+  <path d="M63 140c-19-7-35-2-42 13-9 20 1 35 19 37 19 2 29-9 30-26l-7-24ZM117 140c19-7 35-2 42 13 9 20-1 35-19 37-19 2-29-9-30-26l7-24Z" fill="#181522" stroke="#ff8fd3" stroke-opacity=".75" stroke-width="2"/>
+  <path d="M90 139v65" stroke="#ff8fd3" stroke-opacity=".3" stroke-width="2"/>
+</svg></div>
   <div class="fighter opponent">
     TBA
   </div>
