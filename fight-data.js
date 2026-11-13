@@ -444,7 +444,15 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
           ) {
             return false;
           }
+          /* EXCLUDE POSTPONED FIGHTS FROM NEXT FIGHT */
 
+if (
+  window.MRS_WOLFIE_IS_POSTPONED(
+    fight
+  )
+) {
+  return false;
+}
           const finalDate =
             window.MRS_WOLFIE_GET_FINAL_DATE(
               fight
@@ -554,6 +562,27 @@ if (
 
   };
 
+/* =========================================================
+   POSTPONED FIGHTS
+========================================================= */
+
+window.MRS_WOLFIE_GET_POSTPONED_FIGHTS =
+  function() {
+
+    return window.MRS_WOLFIE_FIGHTS.upcoming
+
+      .filter(
+        (fight) =>
+          window.MRS_WOLFIE_IS_POSTPONED(fight)
+      )
+
+      .sort(
+        (a, b) =>
+          window.MRS_WOLFIE_CREATE_DATE(b.date) -
+          window.MRS_WOLFIE_CREATE_DATE(a.date)
+      );
+
+  };
 
 /* =========================================================
    COMPLETED FIREBASE / ANNOUNCED FIGHTS
