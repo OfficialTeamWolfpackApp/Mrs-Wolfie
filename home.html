@@ -3696,6 +3696,7 @@ body.wolfie-image-modal-open{overflow:hidden}
 .wolfie-middle-brand{color:var(--blue);font-size:11px;font-weight:1000;letter-spacing:2px}
 .wolfie-promotion{font-size:clamp(19px,2.3vw,29px);font-weight:1000;line-height:1.1;text-transform:uppercase}
 .wolfie-promotion-small{display:block;margin-top:6px;color:var(--pink2);font-size:12px;font-weight:900;letter-spacing:1.5px}
+.wolfie-title-card[hidden]{display:none!important}
 .wolfie-title-card{width:100%;padding:16px 9px;border:1px solid rgba(255,47,146,.65);border-radius:12px;background:rgba(255,47,146,.05)}
 .wolfie-title-card div{color:var(--pink2);font-size:13px;font-weight:1000;letter-spacing:1.4px}
 .wolfie-title-card strong{display:block;margin-top:10px;font-size:clamp(14px,1.5vw,19px);line-height:1.3}
@@ -4035,7 +4036,7 @@ body.wolfie-image-modal-open{overflow:hidden}
   <div class="wolfie-fight-middle">
     <div class="wolfie-middle-brand">🐺 TEAM WOLFPACK</div>
     <div id="nextFightPromotion" class="wolfie-promotion">TEAM WOLFPACK <span id="nextFightEvent" class="wolfie-promotion-small">PROMOTIONS</span></div>
-    <div class="wolfie-title-card"><div>★ TITLE FIGHT</div><strong>LADIES SUPER MIDDLEWEIGHT NOVICE TITLE</strong></div>
+    <div id="homeNextFightTitleCard" class="wolfie-title-card" hidden><div>★ TITLE FIGHT</div><strong id="homeNextFightTitle"></strong></div>
     <div id="nextFightDetails" class="wolfie-date-venue"><div>20 NOVEMBER 2026</div><div>EASTHOUSES MINERS CLUB</div></div>
     <a id="nextFightButton" class="wolfie-main-action" href="./fight.html">VIEW FIGHT DETAILS →</a>
     <div id="wolfieTicketInfo" class="wolfie-ticket-info" hidden><div id="wolfieTicketPrice"></div><div>🟢 TICKETS AVAILABLE</div></div>
@@ -5348,6 +5349,20 @@ if(grid){
 
 
     updateHomeOpponentPhoto(fight);
+
+    // The title belongs to the current upcoming fight, never a postponed one.
+    const titleCard = $("homeNextFightTitleCard");
+    const titleText = $("homeNextFightTitle");
+    const status = String(fight?.status || "UPCOMING").trim().toUpperCase();
+    const title = status === "UPCOMING"
+      ? String(fight?.fightTitle || fight?.title || "").trim()
+      : "";
+    const isTitleFight = /title|championship/i.test(title) ||
+      /title/i.test(String(fight?.type || fight?.fightType || ""));
+    if (titleCard && titleText) {
+      titleCard.hidden = !(title && isTitleFight);
+      titleText.textContent = title && isTitleFight ? title : "";
+    }
 
     if(
       !fight
