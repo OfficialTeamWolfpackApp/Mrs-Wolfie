@@ -3732,6 +3732,7 @@ body.wolfie-image-modal-open{overflow:hidden}
 
 
  .wolfie-opponent-photo-wrap{position:relative;display:flex;align-items:center;justify-content:center;min-height:100px}.wolfie-opponent-placeholder{display:flex;align-items:center;justify-content:center;width:90px;height:100px;border-radius:12px;border:1px solid rgba(255,143,211,.35);background:rgba(255,143,211,.08);color:#ff8fd3;font-size:48px;font-weight:900}.wolfie-opponent-photo-wrap [hidden]{display:none!important}
+.mystery-boxer-silhouette{display:block;width:100%;height:100%;max-height:160px;filter:drop-shadow(0 0 14px rgba(255,143,211,.22))}
 </style>
 
 </head>
@@ -4043,7 +4044,13 @@ body.wolfie-image-modal-open{overflow:hidden}
     <a id="homeTicketButton" class="wolfie-ticket-action" href="#" target="_blank" rel="noopener noreferrer" hidden>🎟 GET TICKETS →</a>
   </div>
   <div class="wolfie-fighter-panel wolfie-right-panel">
-    <div class="wolfie-opponent-photo-wrap"><img id="homeNextOpponentPhoto" alt="Next opponent" class="wolfie-panel-image" hidden><span id="homeNextOpponentPlaceholder" class="wolfie-opponent-placeholder">?</span></div>
+    <div class="wolfie-opponent-photo-wrap"><img id="homeNextOpponentPhoto" alt="Next opponent" class="wolfie-panel-image" hidden><span id="homeNextOpponentPlaceholder" class="wolfie-opponent-placeholder"><svg class="mystery-boxer-silhouette" viewBox="0 0 180 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mystery opponent silhouette">
+  <defs><linearGradient id="mysteryBoxerFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#40213b"/><stop offset="1" stop-color="#130f20"/></linearGradient></defs>
+  <path d="M19 205c2-38 19-59 48-67l4-14c-15-12-22-28-22-48 0-28 17-49 41-49s41 21 41 49c0 20-7 36-22 48l4 14c29 8 46 29 48 67Z" fill="url(#mysteryBoxerFill)" stroke="#ff8fd3" stroke-opacity=".6" stroke-width="2"/>
+  <path d="M60 83c-4-29 6-56 30-56s34 27 30 56c-9-8-16-14-30-14s-21 6-30 14Z" fill="#080b13"/>
+  <path d="M63 140c-19-7-35-2-42 13-9 20 1 35 19 37 19 2 29-9 30-26l-7-24ZM117 140c19-7 35-2 42 13 9 20-1 35-19 37-19 2-29-9-30-26l7-24Z" fill="#181522" stroke="#ff8fd3" stroke-opacity=".75" stroke-width="2"/>
+  <path d="M90 139v65" stroke="#ff8fd3" stroke-opacity=".3" stroke-width="2"/>
+</svg></span></div>
     <div class="wolfie-panel-name"><strong id="nextFightOpponent">G-KAYLEIGHX GIBSON</strong><span>OPPONENT</span></div>
   </div>
 </section>
