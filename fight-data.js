@@ -492,7 +492,16 @@ window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
               return false;
             }
 
-            const finalDate =
+             /* EXCLUDE POSTPONED FIGHTS */
+
+if (
+  String(fight.status || "")
+    .trim()
+    .toUpperCase() === "POSTPONED"
+) {
+  return false;
+}
+              const finalDate =
               window.MRS_WOLFIE_GET_FINAL_DATE(
                 fight
               );
