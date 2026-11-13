@@ -2792,12 +2792,13 @@ a.schedule-card:hover{
       window.MRS_WOLFIE_FIGHTS || {};
 
 
-    let currentFight = null;
+   let currentFight = null;
 
-    let upcomingFights = [];
+let upcomingFights = [];
 
-    let fightHistory = [];
+let postponedFights = [];
 
+let fightHistory = [];
 
     /* =====================================================
        REFRESH CENTRAL DATA
@@ -2820,6 +2821,14 @@ a.schedule-card:hover{
                 : []
             );
 
+      /* =========================================
+   GET POSTPONED FIGHTS
+========================================= */
+
+postponedFights =
+  typeof window.MRS_WOLFIE_GET_POSTPONED_FIGHTS === "function"
+    ? window.MRS_WOLFIE_GET_POSTPONED_FIGHTS()
+    : [];
 
       fightHistory =
         typeof window.MRS_WOLFIE_GET_FIGHT_HISTORY === "function"
@@ -3532,7 +3541,186 @@ a.schedule-card:hover{
 
     }
 
+/* =====================================================
+   RENDER POSTPONED FIGHTS
+===================================================== */
 
+function renderPostponedFights() {
+
+  const section =
+    document.getElementById(
+      "postponedFightsSection"
+    );
+
+  const container =
+    document.getElementById(
+      "postponedFightsList"
+    );
+
+  if (!section || !container) {
+    return;
+  }
+
+  container.replaceChildren();
+
+  if (
+    !Array.isArray(postponedFights) ||
+    postponedFights.length === 0
+  ) {
+    section.hidden = true;
+    return;
+  }
+
+  section.hidden = false;
+
+  postponedFights.forEach(function(fight) {
+
+    const card =
+      document.createElement("article");
+
+    card.className =
+      "schedule-card postponed-schedule-card";
+
+    /* ORIGINAL FIGHT DATE */
+
+    const dateBox =
+      document.createElement("div");
+
+    dateBox.className = "schedule-date";
+
+    const dateDay =
+      document.createElement("div");
+
+    dateDay.className = "date-day";
+
+    const dateMonth =
+      document.createElement("div");
+
+    dateMonth.className = "date-month";
+
+    const originalDate =
+      fight.dateDisplay ||
+      fight.date ||
+      "TBA";
+
+    dateDay.textContent = "DATE";
+
+    dateMonth.textContent = "TBA";
+
+    const parsedDate =
+  parseFightDate(fight.date);
+
+    if (
+      parsedDate instanceof Date &&
+      !Number.isNaN(parsedDate.getTime())
+    ) {
+
+      dateDay.textContent =
+        String(parsedDate.getDate())
+          .padStart(2, "0");
+
+      dateMonth.textContent =
+        parsedDate.toLocaleDateString(
+          "en-GB",
+          { month: "short" }
+        ).toUpperCase();
+
+    }
+
+    dateBox.appendChild(dateDay);
+    dateBox.appendChild(dateMonth);
+
+    /* FIGHT INFORMATION */
+
+    const info =
+      document.createElement("div");
+
+    info.className = "schedule-info";
+
+    const badge =
+      document.createElement("div");
+
+    badge.className =
+      "postponed-schedule-badge";
+
+    badge.textContent = "POSTPONED";
+
+    const promotion =
+      document.createElement("div");
+
+    promotion.className = "schedule-type";
+
+    promotion.textContent =
+      fight.promotion || "TBA";
+
+    const matchup =
+      document.createElement("div");
+
+    matchup.className = "schedule-fight";
+
+    matchup.textContent =
+      "MRS WOLFIE VS " +
+      (fight.opponent || "TBA");
+
+    const event =
+      document.createElement("div");
+
+    event.className = "schedule-event";
+
+    event.textContent =
+      (fight.event || "EVENT TBA") +
+      " • " +
+      (fight.venue || "VENUE TBA");
+
+    const dateNotice =
+      document.createElement("div");
+
+    dateNotice.className = "schedule-event";
+
+    dateNotice.textContent =
+      "ORIGINAL DATE: " + originalDate;
+
+    const notice =
+      document.createElement("div");
+
+    notice.className =
+      "postponed-schedule-notice";
+
+    notice.textContent =
+      "AWAITING CONFIRMED NEW DATE";
+
+    info.appendChild(badge);
+    info.appendChild(promotion);
+    info.appendChild(matchup);
+    info.appendChild(event);
+    info.appendChild(dateNotice);
+    info.appendChild(notice);
+
+    /* STATUS INDICATOR */
+
+    const indicator =
+      document.createElement("div");
+
+    indicator.className = "schedule-arrow";
+
+    indicator.textContent = "!";
+
+    indicator.setAttribute(
+      "aria-label",
+      "Fight postponed"
+    );
+
+    /* BUILD CARD */
+
+    card.appendChild(dateBox);
+    card.appendChild(info);
+    card.appendChild(indicator);
+
+    container.appendChild(card);
+
+  });
+
+}
 
     /* =====================================================
        FIGHT HISTORY
@@ -3857,24 +4045,30 @@ a.schedule-card:hover{
 
 
     /* =====================================================
-       START SCHEDULE
-    ====================================================== */
+   REFRESH COMPLETE FIGHT SCHEDULE
+===================================================== */
 
-    function refreshSchedulePage() {
+function refreshSchedulePage() {
 
-      refreshCentralFightData();
+  /* REFRESH CENTRAL FIGHT DATABASE */
+  refreshCentralFightData();
 
-      loadNextFight();
+  /* UPDATE NEXT FIGHT */
+  loadNextFight();
 
-      renderUpcomingFights();
+  /* UPDATE UPCOMING FIGHTS */
+  renderUpcomingFights();
 
-      renderFightHistory();
+  /* UPDATE POSTPONED FIGHTS */
+  renderPostponedFights();
 
-      updateFightStatus();
+  /* UPDATE FIGHT HISTORY */
+  renderFightHistory();
 
-    }
+  /* UPDATE NEXT FIGHT STATUS */
+  updateFightStatus();
 
-
+}
     /*
       Draw immediately using the local fallback data.
     */
