@@ -305,6 +305,28 @@ window.MRS_WOLFIE_IS_CANCELLED =
 
   };
 
+/* =========================================================
+   POSTPONED FIGHT STATUS
+========================================================= */
+
+window.MRS_WOLFIE_IS_POSTPONED =
+  function(fight) {
+
+    if (!fight) {
+      return false;
+    }
+
+    return (
+      String(
+        fight.status || ""
+      )
+        .trim()
+        .toUpperCase()
+      ===
+      "POSTPONED"
+    );
+
+  };
 
 /* =========================================================
    FIGHT FINAL DATE
@@ -492,12 +514,12 @@ window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
               return false;
             }
 
-             /* EXCLUDE POSTPONED FIGHTS */
+           /* EXCLUDE POSTPONED FIGHTS */
 
 if (
-  String(fight.status || "")
-    .trim()
-    .toUpperCase() === "POSTPONED"
+  window.MRS_WOLFIE_IS_POSTPONED(
+    fight
+  )
 ) {
   return false;
 }
