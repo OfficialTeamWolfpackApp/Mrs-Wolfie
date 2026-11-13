@@ -2017,7 +2017,8 @@ a.schedule-card:hover{
 
 }
     
-  </style>
+  .schedule-opponent-placeholder{display:flex;align-items:center;justify-content:center;width:100px;height:110px;border:1px solid rgba(255,143,211,.4);border-radius:12px;background:rgba(255,143,211,.07);color:#ff8fd3;font-size:56px;font-weight:900}.schedule-opponent-placeholder[hidden],#scheduleOpponentPhoto[hidden]{display:none!important}
+</style>
 
 </head>
 
@@ -2304,13 +2305,15 @@ a.schedule-card:hover{
             <div class="fighter-side-card opponent-side">
 
   <img
-    src="./images/g-kayleighx-gibson.png"
+    id="scheduleOpponentPhoto"
     class="schedule-fighter-photo schedule-opponent-photo"
-    alt="G-Kayleighx Gibson"
+    alt="Next opponent"
+    hidden
   >
 
+  <div id="scheduleOpponentPlaceholder" class="schedule-opponent-placeholder">?</div>
   <div class="fighter opponent">
-    G-KAYLEIGHX GIBSON
+    TBA
   </div>
 
 </div>
@@ -3094,7 +3097,26 @@ postponedFights =
        LOAD NEXT FIGHT
     ====================================================== */
 
+    function updateScheduleOpponentPhoto(fight) {
+      const photo = document.getElementById("scheduleOpponentPhoto");
+      const placeholder = document.getElementById("scheduleOpponentPlaceholder");
+      if (!photo || !placeholder) return;
+      const opponent = String(fight?.opponent || "").trim();
+      const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
+        ? String(fight?.opponentImage || "").trim() : "";
+      const show = /^https:\/\//i.test(url);
+      photo.hidden = !show;
+      placeholder.hidden = show;
+      if (show) { photo.src = url; photo.alt = opponent; }
+      else photo.removeAttribute("src");
+    }
+    document.getElementById("scheduleOpponentPhoto")?.addEventListener("error", function() {
+      this.hidden = true;
+      document.getElementById("scheduleOpponentPlaceholder").hidden = false;
+    });
+
     function loadNextFight() {
+      updateScheduleOpponentPhoto(currentFight && currentFight.date ? currentFight : null);
 
 
       if (
