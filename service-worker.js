@@ -146,11 +146,22 @@ self.addEventListener(
       "./index.html";
 
 
-    const absoluteURL =
-      new URL(
-        targetURL,
-        self.registration.scope
-      ).href;
+    // Notification payload URLs are untrusted. Only navigate within
+    // the Mrs Wolfie application's service-worker scope.
+    const appScope = new URL(self.registration.scope);
+    let destination;
+    try {
+      destination = new URL(String(targetURL), appScope);
+    } catch (error) {
+      destination = new URL("./index.html", appScope);
+    }
+    if (
+      destination.origin !== appScope.origin ||
+      !destination.pathname.startsWith(appScope.pathname)
+    ) {
+      destination = new URL("./index.html", appScope);
+    }
+    const absoluteURL = destination.href;
 
 
     event.waitUntil(
@@ -216,7 +227,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v15";
+  "mrs-wolfie-boxing-v16";
 
 
 
