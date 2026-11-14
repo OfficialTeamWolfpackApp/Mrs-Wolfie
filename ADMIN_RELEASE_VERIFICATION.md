@@ -73,3 +73,23 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - [ ] Exercise invalid/missing App Check tokens, malformed requests, rate limits, duplicate registrations, revoked permission, and rotated tokens in a non-production environment.
 
 **Release blocker:** Do not describe notification registration as end-to-end verified or deploy these changes until the backend checks above and live device tests pass.
+
+## Step 56 — notification lifecycle audit (14 November 2026)
+
+### Confirmed in the current client branch
+- Registration requests permission only through an explicit call to the enable function. The homepage calls it from a button click; returning devices are not prompted automatically.
+- A successful backend response is required before the client stores the FCM token in localStorage.
+- An existing local token is retained on transient registration or refresh failures while permission remains granted. A failed first registration does not create a local success marker.
+- Token rechecks run when the app becomes visible and when the browser reports an online transition, but only for devices with a saved token and granted permission.
+- When a changed FCM token is detected, the client registers it with the backend before replacing the saved token. Concurrent refresh checks are deduplicated within the page.
+- Revoking browser permission clears the **local** marker when checked. This does **not** prove that the old token was removed from the server.
+
+### Remaining release blockers — must be tested against the actual backend
+- [ ] Confirm how the server replaces or retires the previous FCM token after rotation; otherwise old and new tokens could both receive a notification.
+- [ ] Confirm server-side registration expiry/renewal for unchanged tokens. The client does not periodically re-submit an unchanged token.
+- [ ] Confirm an opt-out/unregister mechanism that removes backend records after permission revocation; localStorage removal alone is insufficient.
+- [ ] Verify behaviour after browser data clearing, app reinstall, service-worker replacement and offline-to-online transitions.
+- [ ] Simulate transient backend failures and verify existing opt-ins are preserved without reporting an unconfirmed new registration as successful.
+- [ ] Test duplicate click attempts, token-refresh races and permission revocation during a pending backend request on real supported browsers.
+
+**Audit result:** Client-side lifecycle handling is improved, but the notification system is **not** verified end-to-end. The actual Cloud Function implementation and non-production tests are required before release.
