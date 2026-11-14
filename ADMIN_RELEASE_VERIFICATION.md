@@ -31,3 +31,24 @@
 
 ## Security note
 The client-side UID allowlist is a user-interface guard, **not** an authorisation boundary. Firestore, Realtime Database, Storage and Cloud Functions must independently enforce access control. No live Firebase rules were changed or deployed by this pull request.
+
+## Step 20 — release blockers and verification evidence (14 November 2026)
+
+### Verified from the development branch
+- The public updates adapter queries `mrsWolfieUpdates` with `where("active", "==", true)`; backend rules must still be checked in the deployed project.
+- Fight and update photo uploaders restrict client-selected images to JPEG, PNG or WebP, maximum 8 MiB.
+- The public fight adapter passes `fighterImage`, `opponentImage`, `fightTitle`, `displayDate` and `method` from Firestore into the public fight model.
+- The service worker precache no longer lists the three absent PWA icons; this prevents those absent paths from causing `cache.addAll()` to reject the installation.
+- The admin dashboard banner now points to an existing repository image.
+
+### Open release blockers
+- [ ] Supply and verify `images/icon-192.png`, `images/icon-512.png` and `images/icon-maskable-512.png`; all three are referenced by `manifest.json`. The notification service worker also refers to `images/icon-192.png`.
+- [ ] Check the **currently deployed** Firebase rules in the actual Firebase project; this repository does not establish production rule state.
+- [ ] Decide whether unpublished fights are permitted in `mrsWolfieFights`. The existing public fight listener reads the entire collection; a client-only draft flag does not protect private announcements.
+- [ ] Test that the deployed public Firestore query for active updates is permitted by the current backend rules.
+- [ ] Run automated JavaScript/HTML checks and browser smoke tests, including service worker registration, admin login, uploads, TBA states, postponement, and mobile layouts.
+- [ ] Verify the notification Cloud Function's backend authorisation and deduplication.
+- [ ] Review and approve the complete PR diff before merging or deploying.
+
+### Release decision
+**NOT READY TO MERGE OR DEPLOY.** Repository inspection and commits are not substitutes for emulator tests, deployed-rule inspection or real-device verification. No production changes authorised.
