@@ -9,8 +9,8 @@
    mrsWolfieFights
 
    FALLBACK:
-   Local announced fights remain available if Firebase
-   cannot be reached.
+   No fights are announced if Firebase cannot be reached,
+   preventing old or postponed bouts from appearing as current.
 ========================================================= */
 
 
@@ -18,36 +18,9 @@
    LOCAL FALLBACK ANNOUNCED FIGHTS
 ========================================================= */
 
-const MRS_WOLFIE_FALLBACK_FIGHTS = [
-
-  {
-    id: "fight-17-oct-2026",
-    promotion: "AYRSHIRE BOXING",
-    event: "THE LAUNCH",
-    opponent: "COLLEEN LEYDEN",
-    date: "2026-10-17",
-    dateDisplay: "17 OCTOBER 2026",
-    venue: "AYR RACECOURSE",
-    status: "UPCOMING",
-    type: "FIGHT NIGHT",
-    result: ""
-  },
-
- {
-  id: "fight-20-nov-2026",
-  promotion: "TRAIN4FIGHT",
-  event: "SUPER MIDDLEWEIGHT TITLE",
-  opponent: "G-KAYLEIGHX GIBSON",
-  date: "2026-11-20",
-  dateEnd: "2026-11-21",
-  dateDisplay: "20 NOVEMBER 2026",
-  venue: "EASTHOUSES MINERS CLUB",
-  status: "POSTPONED",
-  type: "TITLE FIGHT",
-  result: ""
-}
-
-];
+// Do not publish stale fight announcements when Firestore is unavailable.
+// Firestore is the authoritative source for current and postponed fights.
+const MRS_WOLFIE_FALLBACK_FIGHTS = [];
 
 
 /* =========================================================
