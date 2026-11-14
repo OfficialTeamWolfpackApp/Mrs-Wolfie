@@ -33,9 +33,13 @@ Emulator ports deliberately differ from the previously used local profile-image 
 
 - [x] Isolated emulator configuration created.
 - [x] Test dependency manifest created.
-- [ ] Complete rules fixtures committed and reviewed.
+- [x] Complete Firestore rules fixture committed from the supplied 499-line source, with one private-draft match inserted.\n- [ ] Complete Storage rules fixture still outstanding; the Storage rules were supplied inline, not as a source file suitable for exact-copy fixture assembly.
 - [ ] Tests executed against running emulators.
 - [ ] Failures corrected, results captured.
 - [ ] Production deployment separately approved.
 
 **Caution:** Current test files are unexecuted and may require compatibility fixes before they pass. The `@firebase/rules-unit-testing` Storage API and emulator behaviour must be verified locally. Do not interpret the existence of tests as proof of access restrictions.
+
+## Step 86 status
+
+`security/firestore.rules.test` is now a complete test-only copy of the user-uploaded Firestore rules with the proposed `mrsWolfieFightDrafts` match added. It has not been deployed or emulator-tested. **Do not run the Storage test yet:** `security/storage.rules.test` is not present. For an exact-copy Storage fixture, supply the full Storage rules as a `.txt` file (or create a verified full copy locally); then insert the proposed private-draft Storage match without changing existing paths. The Firestore test also remains unexecuted.
