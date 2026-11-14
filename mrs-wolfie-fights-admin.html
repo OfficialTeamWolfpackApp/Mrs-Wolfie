@@ -820,8 +820,8 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
           <div class="field"><label for="resultMethod">RESULT / METHOD — OPTIONAL</label><input id="resultMethod" type="text" placeholder="e.g. Points, TKO, Decision"></div>
           <div class="field"><label for="fightTitle">FIGHT TYPE / TITLE — OPTIONAL</label><input id="fightTitle" type="text" placeholder="e.g. Ladies Super Middleweight Novice Title"></div>
-          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden></div>
-          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden></div>
+          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
+          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
 
           <div class="field full">
             <label for="venue">VENUE</label>
@@ -1124,6 +1124,8 @@ const fighterImageUpload = document.getElementById("fighterImageUpload");
 const opponentImageUpload = document.getElementById("opponentImageUpload");
 const fighterImagePreview = document.getElementById("fighterImagePreview");
 const opponentImagePreview = document.getElementById("opponentImagePreview");
+const removeFighterImage = document.getElementById("removeFighterImage");
+const removeOpponentImage = document.getElementById("removeOpponentImage");
 const selectedImages = [
   [fighterImageUpload, fighterImagePreview],
   [opponentImageUpload, opponentImagePreview]
@@ -1280,6 +1282,8 @@ function resetForm() {
   fightTitle.value = "";
   fighterImageUpload.value = "";
   opponentImageUpload.value = "";
+  removeFighterImage.checked = false;
+  removeOpponentImage.checked = false;
   setImagePreview(fighterImagePreview, "");
   setImagePreview(opponentImagePreview, "");
 
@@ -1969,6 +1973,8 @@ async function editFight(id) {
   fightTitle.value = fight.fightTitle || "";
   fighterImageUpload.value = "";
   opponentImageUpload.value = "";
+  removeFighterImage.checked = false;
+  removeOpponentImage.checked = false;
   setImagePreview(fighterImagePreview, fight.fighterImage || "");
   setImagePreview(opponentImagePreview, fight.opponentImage || "");
 
@@ -2373,6 +2379,16 @@ fightForm.addEventListener(
 
     const fighterFile = fighterImageUpload.files[0];
     const opponentFile = opponentImageUpload.files[0];
+    if (removeFighterImage.checked && fighterFile) {
+      showMessage("REMOVE THE FIGHTER IMAGE OR UPLOAD A REPLACEMENT, NOT BOTH.", "error");
+      return;
+    }
+    if (removeOpponentImage.checked && opponentFile) {
+      showMessage("REMOVE THE OPPONENT IMAGE OR UPLOAD A REPLACEMENT, NOT BOTH.", "error");
+      return;
+    }
+    if (removeFighterImage.checked) publicData.fighterImage = "";
+    if (removeOpponentImage.checked) publicData.opponentImage = "";
     const previousFight = editingId ? getFight(editingId) : null;
     const previousOpponent = String(previousFight?.opponent || "TBA").trim().toUpperCase();
     const opponentChanged = Boolean(previousFight) && previousOpponent !== publicData.opponent;
