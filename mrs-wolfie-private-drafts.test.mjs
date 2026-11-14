@@ -27,7 +27,7 @@ const mocks = {
 
 const executable = source
   .replace(/^import\s*\{[\s\S]*?\}\s*from\s*["'][^"']+["'];/m, "")
-  .replace(/^export\s+(?=(?:const|function)\b)/gm, "");
+  .replace(/^export\s+(?=(?:async\s+function|const|function)\b)/gm, "");
 
 const context = vm.createContext({ ...mocks, Set, Object, Array, String, Error });
 vm.runInContext(executable + `
