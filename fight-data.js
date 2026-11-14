@@ -516,7 +516,11 @@ if (
               );
 
             if (!finalDate) {
-              return false;
+              // An announced upcoming fight may have a date still TBA.
+              // Keep it in upcoming lists, but not in the dated next-fight hero.
+              return !String(fight.date || "").trim() &&
+                !String(fight.dateEnd || "").trim() &&
+                String(fight.status || "UPCOMING").trim().toUpperCase() === "UPCOMING";
             }
 
             return (
@@ -529,10 +533,11 @@ if (
         .sort(
           (a, b) => {
 
-            return (
-              window.MRS_WOLFIE_CREATE_DATE(a.date) -
-              window.MRS_WOLFIE_CREATE_DATE(b.date)
-            );
+            const aDate = window.MRS_WOLFIE_GET_FINAL_DATE(a);
+            const bDate = window.MRS_WOLFIE_GET_FINAL_DATE(b);
+            // Confirmed dates first; date-TBA announcements follow.
+            return (aDate ? aDate.getTime() : Number.MAX_SAFE_INTEGER) -
+              (bDate ? bDate.getTime() : Number.MAX_SAFE_INTEGER);
 
           }
         )
