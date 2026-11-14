@@ -1474,11 +1474,13 @@ async function uploadMrsWolfieImage() {
     "mrs-wolfie-updates/" +
     Date.now() +
     "-" +
+    crypto.randomUUID() +
+    "-" +
     safeName;
 
   const fileRef = storageRef(storage, filePath);
 
-  await uploadBytes(fileRef, file);
+  await uploadBytes(fileRef, file, { contentType: file.type });
 
   const imageURL = await getDownloadURL(fileRef);
 
