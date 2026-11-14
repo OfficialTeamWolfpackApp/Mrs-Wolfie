@@ -309,6 +309,50 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 
+    /* Display foreground updates without creating a second OS-level
+       notification. All message text is inserted as text, never HTML. */
+    let foregroundNoticeTimer = null;
+    function showForegroundNotice(payload) {
+      if (document.visibilityState !== "visible" || !document.body) return;
+      const data = payload && payload.data || {};
+      const notification = payload && payload.notification || {};
+      const title = String(notification.title || data.title || "MRS WOLFIE").slice(0, 100);
+      const body = String(notification.body || data.body || "A new update is available.").slice(0, 250);
+      const scope = new URL("./", window.location.href);
+      let destination;
+      try { destination = new URL(String(data.url || "./updates.html"), scope); }
+      catch (error) { destination = new URL("./updates.html", scope); }
+      if (destination.origin !== scope.origin ||
+          !destination.pathname.startsWith(scope.pathname)) {
+        destination = new URL("./updates.html", scope);
+      }
+      let notice = document.getElementById("mrsWolfieForegroundNotice");
+      if (!notice) {
+        notice = document.createElement("div");
+        notice.id = "mrsWolfieForegroundNotice";
+        notice.setAttribute("role", "status");
+        notice.style.cssText = "position:fixed;bottom:18px;left:18px;right:18px;max-width:420px;margin:auto;z-index:99999;background:#101d2a;color:#fff;border:1px solid #89dcff;border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px #0008;font:15px/1.5 system-ui,sans-serif";
+        document.body.appendChild(notice);
+      }
+      notice.replaceChildren();
+      const heading = document.createElement("strong");
+      heading.textContent = title;
+      const description = document.createElement("div");
+      description.textContent = body;
+      const open = document.createElement("a");
+      open.href = destination.href;
+      open.textContent = "View update";
+      open.style.cssText = "display:inline-block;margin-top:8px;color:#89dcff";
+      const dismiss = document.createElement("button");
+      dismiss.type = "button";
+      dismiss.textContent = "Dismiss";
+      dismiss.style.cssText = "margin-left:16px;background:transparent;color:#fff;border:0;cursor:pointer";
+      dismiss.addEventListener("click", () => notice.remove());
+      notice.append(heading, description, open, dismiss);
+      clearTimeout(foregroundNoticeTimer);
+      foregroundNoticeTimer = setTimeout(() => notice.remove(), 12000);
+    }
+
     /* =====================================================
        FOREGROUND MESSAGES
     ====================================================== */
@@ -320,6 +364,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
         console.log(
           "Mrs Wolfie foreground notification received."
         );
+
+        showForegroundNotice(payload);
 
 
         window.dispatchEvent(
