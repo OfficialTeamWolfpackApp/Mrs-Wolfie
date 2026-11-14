@@ -1554,7 +1554,7 @@ document.getElementById("adminSignIn").addEventListener("submit", async (event) 
       document.getElementById("adminEmail").value.trim(),
       document.getElementById("adminPassword").value
     );
-    if (!ADMINS[result.user.uid]) {
+    if (result.user.isAnonymous || !ADMINS[result.user.uid]) {
       await signOut(auth);
       errorBox.textContent = "THIS ACCOUNT IS NOT AUTHORISED.";
     } else {
@@ -2594,6 +2594,7 @@ onAuthStateChanged(
 
     if(
       user &&
+      !user.isAnonymous &&
       ADMINS[
         user.uid
       ]
