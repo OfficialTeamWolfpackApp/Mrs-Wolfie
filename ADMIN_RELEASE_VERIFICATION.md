@@ -200,3 +200,62 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - [ ] Only after security tests pass, approve any data migration and production deployment.
 
 **Step 76 decision:** Architecture documented, but **no draft data model or new publication control is enabled**. This deliberately avoids creating a false sense of privacy before Firebase security rules are verified and deployed. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 77 — Firebase rule inventory and proposed draft access controls (14 November 2026)
+
+### Repository inspection
+- Checked the root of the development repository and the Team Wolfpack app repository for `firestore.rules`, `storage.rules`, `database.rules.json`, `firebase.json`, and `functions/firestore.rules` / `functions/storage.rules` on their default branches. **None of those exact paths was available** through the GitHub connector. This does **not** prove no rules exist elsewhere, or what is deployed.
+- The Mrs Wolfie admin client gates access on two Firebase Auth UIDs: `PRGa9TsCW0QDn1QtoUXyYjEi7YB3` and `SlpEQYl94DaH6j42QUyl8Kv2ujJ3`. Client-side UID checks are not a substitute for server-side rules.
+- The existing public fight adapter listens to `mrsWolfieFights` without a publication filter. No private draft collection is currently enabled.
+
+### Proposed Firestore rule fragment — REVIEW ONLY, NOT A DEPLOYABLE FULL RULESET
+```javascript
+// Place inside the EXISTING service cloud.firestore / match /databases/{database}/documents
+// after reviewing the entire deployed ruleset. Never replace the full rules with this fragment.
+function isMrsWolfieAdmin() {
+  return request.auth != null &&
+    request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+}
+match /mrsWolfieFightDrafts/{fightId} {
+  allow get, list, create, update, delete: if isMrsWolfieAdmin();
+}
+```
+
+### Proposed Storage rule fragment — REVIEW ONLY, NOT A DEPLOYABLE FULL RULESET
+```javascript
+// Place inside the EXISTING service firebase.storage / match /b/{bucket}/o
+// after reviewing the entire deployed ruleset.
+function isMrsWolfieAdmin() {
+  return request.auth != null &&
+    request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+}
+match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
+  allow read, delete: if isMrsWolfieAdmin();
+  allow create, update: if isMrsWolfieAdmin()
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+}
+```
+
+### Security and integration caveats
+- **Rules are additive only if there is no broader overlapping allow.** Inspect all existing wildcard matches and public read rules. A permissive catch-all could still expose drafts.
+- The existing `mrsWolfieFights` public collection is **not** made private by these fragments. Keep drafts out of it until a controlled publication mechanism is implemented.
+- Do not copy a private Storage download token into a public document. Firebase download URLs may contain long-lived bearer tokens; enforce a deliberate public-image copy/upload and revocation policy when publishing.
+- Verify the exact Firebase project, Storage bucket and admin UIDs against deployed configuration. Consider custom admin claims for long-term management, but do not silently change the identity model.
+- Test unauthenticated, non-admin authenticated and both admin users against **direct document reads, collection queries, image reads, writes and deletes** in an isolated emulator project.
+- The existing public fight image prefix `fight-images/` must remain separate from private draft images. Do not weaken its rules to enable private draft access.
+
+### Next release gate
+- [ ] Obtain current **deployed** Firestore and Storage rules or the authoritative Firebase configuration repository.
+- [ ] Confirm there are no overlapping public wildcard permissions.
+- [ ] Test proposed rules in Firebase emulators with authorised and unauthorised identities.
+- [ ] Only then implement draft editing and publication controls, followed by separate review and deployment approval.
+
+**Step 77 decision:** Security-rule design documented; **no Firebase rules were changed or deployed**, and no confidential draft writes were enabled. **NOT READY TO MERGE OR DEPLOY.**
