@@ -2047,6 +2047,19 @@ async function editFight(id) {
 ========================================================= */
 
 async function setResult(id, result) {
+  if (!["W", "L", "D"].includes(result)) {
+    showMessage("INVALID FIGHT RESULT.", "error");
+    return;
+  }
+  const fight = getFight(id);
+  if (!fight) {
+    showMessage("FIGHT NOT FOUND. REFRESH AND TRY AGAIN.", "error");
+    return;
+  }
+  if (["POSTPONED", "CANCELLED"].includes(String(fight.status || "").toUpperCase())) {
+    showMessage("THIS FIGHT IS POSTPONED OR CANCELLED. UPDATE ITS STATUS IN EDIT FIGHT BEFORE RECORDING A RESULT.", "error");
+    return;
+  }
   if (saveButton.disabled) {
     showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
     return;
@@ -2107,6 +2120,15 @@ async function setResult(id, result) {
 ========================================================= */
 
 async function cancelFight(id) {
+  const fight = getFight(id);
+  if (!fight) {
+    showMessage("FIGHT NOT FOUND. REFRESH AND TRY AGAIN.", "error");
+    return;
+  }
+  if (String(fight.status || "").toUpperCase() === "COMPLETED") {
+    showMessage("A COMPLETED FIGHT CANNOT BE CANCELLED USING THE QUICK ACTION. REVIEW ITS STATUS IN EDIT FIGHT.", "error");
+    return;
+  }
   if (saveButton.disabled) {
     showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
     return;
