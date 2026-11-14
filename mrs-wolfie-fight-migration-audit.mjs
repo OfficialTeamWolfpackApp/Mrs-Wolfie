@@ -21,12 +21,13 @@ function dateTimestamp(date) {
 }
 
 function fingerprint(fight) {
-  return [
+  const parts = [
     clean(fight.fightDate || fight.date).toLowerCase(),
     clean(fight.opponent).toLowerCase(),
     clean(fight.promotion).toLowerCase(),
     clean(fight.eventName || fight.event).toLowerCase()
-  ].join("|");
+  ];
+  return parts.some(Boolean) ? parts.join("|") : null;
 }
 
 export function mapMrsWolfieFight(documentId, source) {
@@ -122,7 +123,7 @@ export function buildMrsWolfieMigrationAudit(firestoreDocuments, realtimeFights)
 
   for (const [, fight] of existing) {
     const key = fingerprint(fight);
-    if (key.replaceAll("|", "")) {
+    if (key) {
       existingFingerprints.set(key, (existingFingerprints.get(key) || 0) + 1);
     }
   }
@@ -136,14 +137,14 @@ export function buildMrsWolfieMigrationAudit(firestoreDocuments, realtimeFights)
       reasons.push("TARGET_ID_ALREADY_EXISTS");
     }
 
-    if (existingFingerprints.has(row.fingerprint)) {
+    if (row.fingerprint && existingFingerprints.has(row.fingerprint)) {
       reasons.push("POSSIBLE_EXISTING_DUPLICATE");
     }
 
-    if (seenSourceFingerprints.has(row.fingerprint)) {
+    if (row.fingerprint && seenSourceFingerprints.has(row.fingerprint)) {
       reasons.push("DUPLICATE_WITHIN_SOURCE_COLLECTION");
     }
-    seenSourceFingerprints.add(row.fingerprint);
+    if (row.fingerprint) seenSourceFingerprints.add(row.fingerprint);
 
     return {
       ...row,
