@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import {
   mapMrsWolfieFight,
   buildMrsWolfieMigrationAudit
-} from "./mrs-wolfie-fight-migration-audit.js";
+} from "./mrs-wolfie-fight-migration-audit.mjs";
 
 test("maps Mrs Wolfie Firestore field names to Team Wolfpack schema", () => {
   const row = mapMrsWolfieFight("fight-1", {
