@@ -312,8 +312,28 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     /* Display foreground updates without creating a second OS-level
        notification. All message text is inserted as text, never HTML. */
     let foregroundNoticeTimer = null;
+    const recentForegroundMessageIds = new Map();
     function showForegroundNotice(payload) {
       if (document.visibilityState !== "visible" || !document.body) return;
+      // Firebase messageId is stable for repeat deliveries of the same push.
+      // Keep a short-lived marker across same-tab page navigation.
+      const messageId = payload && (payload.messageId || payload.fcmMessageId);
+      if (messageId) {
+        const key = "mrsWolfieForegroundMessage:" + String(messageId);
+        const now = Date.now();
+        for (const [id, timestamp] of recentForegroundMessageIds) {
+          if (now - timestamp > 60000) recentForegroundMessageIds.delete(id);
+        }
+        if (recentForegroundMessageIds.has(key)) return;
+        try {
+          const previous = Number(sessionStorage.getItem(key) || 0);
+          if (previous && now - previous >= 0 && now - previous < 60000) return;
+          sessionStorage.setItem(key, String(now));
+        } catch (error) {
+          // Private browsing can disable sessionStorage; in-memory dedupe remains.
+        }
+        recentForegroundMessageIds.set(key, now);
+      }
       const data = payload && payload.data || {};
       const notification = payload && payload.notification || {};
       const title = String(notification.title || data.title || "MRS WOLFIE").slice(0, 100);
