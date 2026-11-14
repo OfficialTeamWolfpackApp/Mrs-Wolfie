@@ -535,6 +535,17 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
              REGISTER WITH PROTECTED CLOUD FUNCTION
           ================================================== */
 
+          // The user may revoke permission while service-worker activation
+          // or Firebase token acquisition is pending. Never submit a token
+          // to the backend after permission has already been revoked.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationPermission", {
+              detail: { permission: Notification.permission }
+            }));
+            return { success: false, permission: Notification.permission, registered: false };
+          }
+
           await registerDeviceWithBackend(
             token
           );
