@@ -345,3 +345,37 @@ The user supplied a 612-line JSON rules export with root `"rules"` and `".read"`
 - [ ] Retain the supplied RTDB rules as a separate reference; do not replace or modify them for the Firestore draft feature.
 
 **Step 80 decision:** Database product correctly identified; Firestore rules still outstanding. No rule changes, deployments, merges or confidential draft writes.
+
+
+## Step 81 — user-supplied Cloud Firestore rules verified at source level (14 November 2026)
+
+The user provided the complete-looking `rules_version = '2'; service cloud.firestore` rules text (499 lines). This establishes the **supplied rules'** contents, but does not independently confirm the currently deployed rules.
+
+### Relevant current access controls in supplied rules
+- `isAdmin()` permits exactly the two existing authorised Firebase Auth UIDs.
+- `mrsWolfieFights/{fightId}`: `allow read: if true`; `allow create, update, delete: if isAdmin()`. All fight fields are publicly readable, including any confidential fields mistakenly saved here.
+- `mrsWolfieFightAdminNotes/{fightId}`: admin-only read/create/update/delete.
+- `mrsWolfieUpdates/{updateId}`: admin can read all; public read only when `resource.data.active == true`; admin-only write.
+- `mrsWolfiePushSubscribers/{subscriberId}`: no client read/write.
+- `gallery/{galleryId}`: admin reads all, public reads published records only.
+- Final `match /{document=**}` explicitly denies all other access. In the supplied text, no overlapping wildcard grants draft access.
+- There is **no** `mrsWolfieFightDrafts/{fightId}` match; draft documents would be denied by the supplied rules.
+
+### Minimal proposed Firestore addition — NOT DEPLOYED
+Insert immediately after the `mrsWolfieFightAdminNotes` match within `match /databases/{database}/documents`:
+```javascript
+/* MRS WOLFIE UNANNOUNCED FIGHT DRAFTS — ADMIN ONLY */
+match /mrsWolfieFightDrafts/{fightId} {
+  allow get, list, create, update, delete: if isAdmin();
+}
+```
+The existing deny-all rule should remain unchanged. This addition does **not** alter the public `mrsWolfieFights` or existing admin notes. Note that `get`/`list` permissions cover individual document reads and queries respectively.
+
+### Rollout safety
+1. Back up the exact deployed rules and verify they match the supplied source.
+2. Test both authorised admin accounts and an unauthenticated and a non-admin account against draft get/list/create/update/delete in isolated emulators.
+3. Test published fights and private notes still work on both apps.
+4. Review and separately test the proposed private draft Storage rules; no draft-image upload to public `fight-images/`.
+5. Only then approve deployment of rules, followed by the new UI controls. No private drafts should be saved before both rulesets are live.
+
+**Step 81 decision:** Firestore source review complete. **No rules deployed or changed; no draft UI enabled.** The security prerequisite is now concrete, pending emulator validation and deployment approval.
