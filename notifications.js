@@ -635,8 +635,12 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             error
           );
 
-          // A locally stored token does not prove backend registration.
-          localStorage.removeItem("mrsWolfieFCMToken");
+          // Preserve a previously confirmed registration during a temporary
+          // network/backend failure. Never create a success marker for a
+          // failed first-time registration, and clear it if permission ended.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+          }
 
 
           window.dispatchEvent(
