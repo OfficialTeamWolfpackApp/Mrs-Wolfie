@@ -83,6 +83,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
       return { success: false, permission: "unsupported" };
     };
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
     return;
 
   }
@@ -150,6 +151,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       console.log(
         "Firebase Cloud Messaging is not supported by this browser."
       );
+      window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
       window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
         return { supported: false, permission: "unsupported", registered: false };
@@ -773,6 +775,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     console.log(
       "Mrs Wolfie notification system ready."
     );
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
   }
 
@@ -788,8 +791,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       return { supported: false, permission: Notification.permission, registered: false };
     };
     window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
-      return { success: false, error: "Notification system unavailable" };
+      return { success: false, error: new Error("Notification system unavailable. Check your connection and refresh the app.") };
     };
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
   }
 
