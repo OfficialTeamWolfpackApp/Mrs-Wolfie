@@ -633,6 +633,47 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 
+    /* Recheck the token when an opted-in supporter returns to the app.
+       Never prompt automatically, and only submit if Firebase rotated it. */
+    let tokenRecheckInFlight = null;
+    async function recheckNotificationToken() {
+      if (document.visibilityState !== "visible" ||
+          Notification.permission !== "granted" ||
+          !localStorage.getItem("mrsWolfieFCMToken")) {
+        return;
+      }
+      if (tokenRecheckInFlight) return tokenRecheckInFlight;
+      tokenRecheckInFlight = (async () => {
+        try {
+          const registration = await navigator.serviceWorker.getRegistration("./");
+          if (!registration) return;
+          const currentToken = await getToken(messaging, {
+            vapidKey: MRS_WOLFIE_VAPID_KEY,
+            serviceWorkerRegistration: registration
+          });
+          if (!currentToken) return;
+          if (currentToken !== localStorage.getItem("mrsWolfieFCMToken")) {
+            await registerDeviceWithBackend(currentToken);
+            localStorage.setItem("mrsWolfieFCMToken", currentToken);
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationRegistered", {
+              detail: { registered: true, refreshed: true }
+            }));
+          }
+        } catch (error) {
+          // A transient connectivity failure must not erase a previously
+          // registered token. Retry on the next visibility transition.
+          console.warn("Mrs Wolfie notification token recheck failed:", error);
+        }
+      })().finally(() => { tokenRecheckInFlight = null; });
+      return tokenRecheckInFlight;
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        recheckNotificationToken();
+      }
+    });
+    recheckNotificationToken();
+
     /* =====================================================
        SYSTEM READY
     ====================================================== */
