@@ -67,14 +67,22 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
   ======================================================== */
 
   if (
+    !window.isSecureContext ||
     !("Notification" in window) ||
-    !("serviceWorker" in navigator)
+    !("serviceWorker" in navigator) ||
+    !("PushManager" in window)
   ) {
 
     console.log(
-      "Mrs Wolfie notifications are not supported by this browser."
+      "Mrs Wolfie push notifications require a secure, compatible browser."
     );
 
+    window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+      return { supported: false, permission: "unsupported", registered: false };
+    };
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+      return { success: false, permission: "unsupported" };
+    };
     return;
 
   }
