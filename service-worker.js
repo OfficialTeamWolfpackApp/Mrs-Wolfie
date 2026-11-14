@@ -164,58 +164,37 @@ self.addEventListener(
     const absoluteURL = destination.href;
 
 
-    event.waitUntil(
+    event.waitUntil((async () => {
+      const clientList = await clients.matchAll({
+        type: "window",
+        includeUncontrolled: true
+      });
 
-      clients
-        .matchAll({
-          type: "window",
-          includeUncontrolled: true
-        })
+      // Prefer an existing window already showing this destination.
+      for (const client of clientList) {
+        if (client.url === absoluteURL && "focus" in client) {
+          return client.focus();
+        }
+      }
 
-        .then(
-          async (clientList) => {
-
-            for (
-              const client
-              of clientList
-            ) {
-
-              if (
-                "navigate" in client
-              ) {
-
-                await client.navigate(
-                  absoluteURL
-                );
-
-              }
-
-
-              if (
-                "focus" in client
-              ) {
-
-                return client.focus();
-
-              }
-
-            }
-
-
-            if (
-              clients.openWindow
-            ) {
-
-              return clients.openWindow(
-                absoluteURL
-              );
-
-            }
-
+      // Reuse only a window belonging to this application. Do not
+      // redirect unrelated windows controlled by the same origin.
+      for (const client of clientList) {
+        try {
+          const clientURL = new URL(client.url);
+          if (clientURL.origin !== appScope.origin ||
+              !clientURL.pathname.startsWith(appScope.pathname)) continue;
+          if ("navigate" in client) {
+            const navigated = await client.navigate(absoluteURL);
+            if (navigated && "focus" in navigated) return navigated.focus();
           }
-        )
+        } catch (error) {
+          console.warn("[Mrs Wolfie] Could not reuse notification window:", error);
+        }
+      }
 
-    );
+      if (clients.openWindow) return clients.openWindow(absoluteURL);
+    })());
 
   }
 );
@@ -227,7 +206,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v16";
+  "mrs-wolfie-boxing-v17";
 
 
 
