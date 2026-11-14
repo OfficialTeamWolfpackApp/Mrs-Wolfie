@@ -2908,7 +2908,8 @@ postponedFights =
         !fight.date
       ) {
 
-        return NaN;
+        // Keep date-TBA announcements after confirmed dates.
+        return Number.MAX_SAFE_INTEGER;
 
       }
 
@@ -2918,19 +2919,21 @@ postponedFights =
         "function"
       ) {
 
-        return window
+        const timestamp = window
           .MRS_WOLFIE_CREATE_DATE(
             fight.date
           )
           .getTime();
+        return Number.isFinite(timestamp) ? timestamp : Number.MAX_SAFE_INTEGER;
 
       }
 
 
-      return new Date(
+      const timestamp = new Date(
         fight.date +
         "T12:00:00"
       ).getTime();
+      return Number.isFinite(timestamp) ? timestamp : Number.MAX_SAFE_INTEGER;
 
     }
 
@@ -3376,7 +3379,7 @@ postponedFights =
 
             const eventDate =
               fight.dateDisplay ||
-              "TBA";
+              "DATE TBA";
 
 
             const cardContent = `
