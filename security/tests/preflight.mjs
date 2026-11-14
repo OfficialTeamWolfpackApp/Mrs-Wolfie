@@ -4,7 +4,7 @@
  * Run from security/: node tests/preflight.mjs
  */
 import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import assert from 'node:assert/strict';
@@ -19,7 +19,8 @@ const fixtures = [
 ];
 for (const [path, service, draftMatch] of fixtures) {
   const fullPath = resolve(base, path);
-  assert.ok(fullPath.startsWith(base + '/'), 'Rules path must stay within security/');
+  const rel = relative(base, fullPath);
+  assert.ok(rel !== '..' && !rel.startsWith('..\\\\') && !rel.startsWith('../') && !isAbsolute(rel), 'Rules path must stay within security/');
   assert.ok(existsSync(fullPath), 'Missing rules fixture: ' + path);
   const content = readFileSync(fullPath, 'utf8');
   assert.ok(content.includes(service), 'Wrong rules service: ' + path);
