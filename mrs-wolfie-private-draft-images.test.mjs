@@ -111,7 +111,7 @@ pass("Public fight-images path cannot be deleted through private image API");
 
 assert.equal(api.PRIVATE_IMAGE_PREFIX, "mrs-wolfie-private-fight-drafts");
 assert.equal(api.MAX_IMAGE_SIZE, 8 * 1024 * 1024);
-const executableSource = source.replace(/\/\\*[\\s\\S]*?\\*\/|\/\/.*$/gm, "");
+const executableSource = source.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "");
 assert.doesNotMatch(executableSource, /getDownloadURL/);
 pass("No public download-token URL API is used");
 
