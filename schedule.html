@@ -2291,7 +2291,8 @@ a.schedule-card:hover{
 
   <img
     src="./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
-    class="schedule-fighter-photo"
+    id="scheduleMrsWolfiePhoto"
+              class="schedule-fighter-photo"
     alt="Mrs Wolfie"
   >
 
@@ -3102,7 +3103,17 @@ postponedFights =
        LOAD NEXT FIGHT
     ====================================================== */
 
-    function updateScheduleOpponentPhoto(fight) {
+    function updateMrsWolfieFighterPhoto(fight) {
+        const photo = document.getElementById("scheduleMrsWolfiePhoto");
+        if (!photo) return;
+        const uploaded = String(fight?.fighterImage || "").trim();
+        const fallback = photo.dataset.defaultSrc || photo.getAttribute("src");
+        if (!photo.dataset.defaultSrc) photo.dataset.defaultSrc = fallback;
+        const desired = /^https:\\/\\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
+        if (photo.getAttribute("src") !== desired) photo.src = desired;
+        photo.onerror = function() { this.onerror = null; this.src = this.dataset.defaultSrc; };
+      }
+      function updateScheduleOpponentPhoto(fight) {
       const photo = document.getElementById("scheduleOpponentPhoto");
       const placeholder = document.getElementById("scheduleOpponentPlaceholder");
       if (!photo || !placeholder) return;
@@ -3121,6 +3132,7 @@ postponedFights =
     });
 
     function loadNextFight() {
+      updateMrsWolfieFighterPhoto(currentFight);
       updateScheduleOpponentPhoto(currentFight && currentFight.date ? currentFight : null);
 
 
