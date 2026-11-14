@@ -278,3 +278,50 @@ match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
 - [ ] Test that public listeners, both admin editors, and historical postponed fights continue to function after rules changes.
 
 **Step 78 decision:** Cross-app dependency confirmed. **Cannot verify or modify deployed rules from GitHub alone.** Do not enable draft storage or claim privacy until the exact deployed rules are supplied and tested. No production changes were made.
+
+
+## Step 79 — review of user-provided Firebase Storage rules (14 November 2026)
+
+**Evidence:** User supplied a complete-looking `rules_version = '2'; service firebase.storage` rules text in chat. This is a **supplied configuration**, not independent confirmation that these exact rules are deployed.
+
+### Confirmed from supplied Storage rules
+- `fight-images/{fileName}`: public read; create/update for the two authorised admin UIDs only, JPEG/PNG/WebP, maximum 8 MiB; delete for the same admin UIDs. This supports the fight editor's best-effort uploaded-image cleanup if these rules are actually deployed.
+- `mrs-wolfie-updates/{fileName}`: public read; admin-only write, image MIME, less than 10 MiB (with deletion permitted via `request.resource == null`).
+- `mrs-wolfie/team-members/{profileId}/{fileName}` and `mrs-wolfie-profiles/{fileName}`: public read, admin-only JPEG/PNG/WebP upload up to 8 MiB and admin delete.
+- Sponsor logos, gallery, supporter avatars, official member avatars and banners, and live-update videos have distinct path rules. Their permissions must remain intact.
+- No `mrs-wolfie-private-fight-drafts/{fightId}/{fileName}` match appears in the supplied text. With no other matching allow, such draft uploads would be denied by default.
+- No catch-all `match /{allPaths=**}` appears in the supplied text. This is a source-level observation, not proof of deployed state.
+
+### Specific security considerations
+- `fight-images/` is **public**; do not place confidential draft images there. Public Firebase download URLs should also be treated as shareable access tokens.
+- `live-updates/{fileName}` is a one-segment match, separate from `live-updates/videos/{fileName}`; video uploads have their own 100 MiB MP4/WebM rule.
+- Some public image paths allow `image/.*` rather than an explicit format allowlist. This is broader than the JPEG/PNG/WebP restrictions on fight images; consider tightening separately after checking real upload requirements.
+- Official member banners have `allow delete: if false`. Do not alter this policy accidentally while extending Storage rules.
+- Storage rules do **not** control Firestore document reads. The proposed draft collection also needs its own Firestore rule verification.
+
+### Proposed non-deployed Storage addition
+```javascript
+// Insert inside the existing match /b/{bucket}/o block.
+// Do NOT replace existing rules or deploy before emulator tests.
+match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
+  allow read, delete: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+  allow create, update: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ]
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+}
+```
+
+### Remaining required evidence
+- [ ] Obtain **Firestore Database → Rules** in full to review `mrsWolfieFights`, `mrsWolfieFightAdminNotes`, and proposed `mrsWolfieFightDrafts`.
+- [ ] Confirm whether the supplied Storage rules are the currently deployed version, and test the private path in an isolated Firebase emulator.
+- [ ] Do not write draft data or images until both Firestore and Storage access controls have passed negative tests.
+
+**Step 79 decision:** Storage rule review completed from supplied text; no Firebase deployment, rules modification, or private draft implementation. **NOT READY TO MERGE OR DEPLOY.**
