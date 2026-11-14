@@ -6139,6 +6139,10 @@ function renderHome(){
     updateStatus
   );
 
+  // Firebase imports can finish after the 15-second loading timeout.
+  // Refresh controls when initialization completes, without prompting.
+  window.addEventListener("mrsWolfieNotificationsReady", updateStatus);
+
   window.addEventListener("mrsWolfieNotificationError", function (event) {
     updateStatus();
     message.textContent = event.detail?.message || "Notification registration failed. Please try again.";
