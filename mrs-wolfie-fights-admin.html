@@ -649,6 +649,142 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 }
 
   </style>
+<style>
+/* PRIVATE DRAFT MANAGEMENT PANEL V1 */
+
+.private-draft-panel {
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(13, 20, 31, 0.98),
+    rgba(22, 30, 44, 0.98)
+  );
+  border: 1px solid rgba(0, 191, 255, 0.25);
+  color: #f5f9ff;
+}
+
+.private-draft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.private-draft-header h3 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.private-draft-header p {
+  margin: 0;
+  color: #b8c8d8;
+  line-height: 1.6;
+}
+
+.private-draft-status {
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: rgba(255, 176, 0, 0.12);
+  border: 1px solid rgba(255, 176, 0, 0.35);
+  color: #ffcb67;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.private-draft-warning {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(255, 176, 0, 0.08);
+  border-left: 3px solid #ffb000;
+}
+
+.private-draft-warning strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #ffd17b;
+}
+
+.private-draft-warning p {
+  margin: 0;
+  color: #d4dce5;
+  line-height: 1.6;
+}
+
+.private-draft-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.private-draft-actions button {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.private-draft-list {
+  margin-top: 22px;
+}
+
+.private-draft-empty {
+  padding: 38px 20px;
+  text-align: center;
+  border: 1px dashed rgba(145, 169, 193, 0.35);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.private-draft-empty-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.private-draft-empty h4 {
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.private-draft-empty p {
+  margin: 6px 0;
+  color: #aebfd0;
+  line-height: 1.6;
+}
+
+.private-draft-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #8fa8bf;
+}
+
+@media (max-width: 600px) {
+  .private-draft-panel {
+    padding: 16px;
+  }
+
+  .private-draft-actions {
+    flex-direction: column;
+  }
+
+  .private-draft-actions button {
+    width: 100%;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -916,6 +1052,15 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
         <div class="form-actions">
 
           <button
+            id="saveDraftButton"
+            class="button dark"
+            type="button"
+            disabled
+            title="Private draft functionality is being prepared"
+          >
+            SAVE PRIVATE DRAFT - COMING SOON
+          </button>
+          <button
             id="saveButton"
             class="button primary"
             type="submit"
@@ -945,7 +1090,91 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
     </div>
 
 
+        <!-- PRIVATE FIGHT DRAFTS - DEVELOPMENT PLACEHOLDER -->
     <div class="section-title">
+      <span class="ice">PRIVATE FIGHT</span>
+      <span class="pink">DRAFTS</span>
+    </div>
+
+    <div id="draftFightList" class="private-draft-panel">
+
+  <!-- PRIVATE DRAFT MANAGEMENT PANEL V1 -->
+
+  <div class="private-draft-header">
+    <div>
+      <h3>PRIVATE FIGHT DRAFTS</h3>
+      <p>
+        Prepare confidential fight announcements before
+        they become visible on the Mrs Wolfie app.
+      </p>
+    </div>
+
+    <span class="private-draft-status">
+      DEVELOPMENT MODE
+    </span>
+  </div>
+
+  <div class="private-draft-warning">
+    <strong>CONFIDENTIAL FIGHT MANAGEMENT</strong>
+    <p>
+      Private drafts are not published automatically.
+      Draft saving, image uploads and publication
+      are currently disabled.
+    </p>
+  </div>
+
+  <div class="private-draft-actions">
+
+    <button
+      id="createPrivateDraftButton"
+      type="button"
+      class="button primary"
+      disabled
+    >
+      + CREATE PRIVATE DRAFT
+    </button>
+
+    <button
+      id="refreshPrivateDraftsButton"
+      type="button"
+      class="button dark"
+      disabled
+    >
+      REFRESH DRAFTS
+    </button>
+
+  </div>
+
+  <div class="private-draft-list">
+
+    <div class="private-draft-empty">
+      <div class="private-draft-empty-icon">
+        &#128274;
+      </div>
+
+      <h4>PRIVATE DRAFT MANAGEMENT</h4>
+
+      <p>
+        This section will display confidential fights
+        that have not yet been announced.
+      </p>
+
+      <p>
+        Draft loading will become available after
+        Firebase security verification.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="private-draft-footer">
+    <span>PRIVATE DRAFTS</span>
+    <span>ADMINISTRATORS ONLY</span>
+    <span>PUBLICATION REQUIRES APPROVAL</span>
+  </div>
+
+</div>
+<div class="section-title">
       <span class="ice">MRS WOLFIE</span>
       <span class="pink">FIGHT DATABASE</span>
     </div>
@@ -984,6 +1213,22 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
 
 <script type="module">
+import {
+  applyFightFormMode
+} from "./mrs-wolfie-form-mode.js";
+
+import {
+  createPrivateNoteRequestGuard
+} from "./mrs-wolfie-note-request-guard.js";
+
+const privateNoteRequestGuard =
+  createPrivateNoteRequestGuard();
+import {
+  prepareCreatePrivateDraft
+} from "./mrs-wolfie-private-draft-button.js";
+import {
+  createFightEditorModeManager
+} from "./mrs-wolfie-editor-mode.js";
 
 import {
   initializeApp
@@ -1013,6 +1258,34 @@ import {
 
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
+/* =========================================================
+   PRIVATE DRAFT MODULE IMPORTS
+   Development integration - saving remains disabled.
+========================================================= */
+
+import {
+  createPrivateDraft,
+  updatePrivateDraft,
+  getPrivateDraft,
+  loadPrivateDrafts,
+  deletePrivateDraft,
+  privateDraftsReady
+} from "./mrs-wolfie-private-drafts.js";
+
+import {
+  uploadPrivateDraftImage,
+  getPrivateDraftImageBlob,
+  deletePrivateDraftImage
+} from "./mrs-wolfie-private-draft-images.js";
+
+import {
+  initialisePrivateDraftController
+} from "./mrs-wolfie-private-draft-controller.js";
+import { renderPrivateDraftList } from "./mrs-wolfie-private-draft-list.js";
+import {
+  collectPrivateDraftForm,
+  populatePrivateDraftForm
+} from "./mrs-wolfie-private-draft-form.js";
 const firebaseConfig = {
 
   apiKey:
@@ -1067,6 +1340,80 @@ const auth =
 const db =
   getFirestore(app);
 const storage = getStorage(app);
+
+/* =========================================================
+   PRIVATE DRAFT CONTROLLER INITIALISATION
+   Draft writes and publication remain disabled.
+========================================================= */
+
+/*
+=========================================================
+PRIVATE DRAFT FORM INTEGRATION
+=========================================================
+
+This helper collects confidential fight details.
+
+It does not save, publish or upload anything.
+The existing public fight form remains unchanged.
+=========================================================
+*/
+
+/*
+=========================================================
+PRIVATE DRAFT MODE PROTECTION
+=========================================================
+
+PUBLIC:
+Existing public fight management.
+
+PRIVATE:
+Confidential draft preparation.
+
+Private mode is not enabled until security and
+integration testing is complete.
+=========================================================
+*/
+
+const PRIVATE_DRAFT_MODE_ENABLED = false;
+
+const fightEditorModeManager =
+  createFightEditorModeManager({
+    privateModeEnabled: PRIVATE_DRAFT_MODE_ENABLED
+  });
+
+function isPrivateDraftMode() {
+  return fightEditorModeManager.isPrivateMode();
+}
+
+function setFightEditorMode(mode) {
+  return fightEditorModeManager.setMode(mode);
+}
+function preparePrivateDraftFromForm() {
+  return collectPrivateDraftForm(document);
+}
+const privateDraftController =
+  initialisePrivateDraftController({
+    db,
+    storage,
+    auth,
+    saveButton: document.getElementById("saveDraftButton"),
+    draftList: document.getElementById("draftFightList")
+  });
+
+/* PRIVATE DRAFT LIST MANAGER - SAFE INITIALISATION */
+const privateDraftListContainer =
+  document.getElementById("draftFightList");
+
+if (!privateDraftListContainer) {
+  throw new Error("Private draft list container missing.");
+}
+
+/*
+  Display only the empty development state.
+  Do not load confidential draft records.
+*/
+renderPrivateDraftList(privateDraftListContainer, []);
+
 
 
 const fightsCollection =
@@ -1299,9 +1646,58 @@ function escapeHtml(value) {
 }
 
 
-function resetForm() {
+/* FIGHT FORM MODE - SAFE ACTION BUTTON MANAGEMENT */
+function updateFightFormMode() {
+  return applyFightFormMode({
+    mode: fightEditorModeManager.getMode(),
+    publicSaveButton: saveButton,
+    privateSaveButton: document.getElementById("saveDraftButton"),
+    privateDraftWritesEnabled: false,
+    editingPublicFight: editingId !== null
+  });
+}
+/* PRIVATE DRAFT CREATE BUTTON - SAFE DEVELOPMENT GUARD */
+const createPrivateDraftButton =
+  document.getElementById("createPrivateDraftButton");
 
+if (!createPrivateDraftButton) {
+  throw new Error("Create Private Draft button is missing.");
+}
+
+createPrivateDraftButton.disabled = !PRIVATE_DRAFT_MODE_ENABLED;
+
+createPrivateDraftButton.addEventListener("click", function() {
+  try {
+    prepareCreatePrivateDraft({
+      editorModeManager: fightEditorModeManager,
+      privateModeEnabled: PRIVATE_DRAFT_MODE_ENABLED,
+      editingPublicFight: editingId !== null
+    });
+
+    updateFightFormMode();
+
+    // No draft saving, loading, or publication occurs here.
+    showMessage(
+      "PRIVATE DRAFT EDITOR PREPARED. SAVING IS NOT ENABLED.",
+      "info"
+    );
+
+  } catch (error) {
+    console.warn("Private draft editor unavailable:", error.message);
+
+    showMessage(
+      error.message,
+      "error"
+    );
+  }
+});
+
+/* EXISTING PUBLIC FORM RESET */
+function resetForm() {
+  privateNoteRequestGuard.invalidate();
+  setFightEditorMode("PUBLIC");
   editingId = null;
+  updateFightFormMode();
   loadingPrivateNote = false;
 
   fightForm.reset();
@@ -1358,6 +1754,9 @@ function getFight(id) {
 
 async function loadPrivateNote(fightId) {
 
+  const noteRequest =
+    privateNoteRequestGuard.begin(fightId);
+
   notes.value = "";
   notes.disabled = true;
 
@@ -1375,7 +1774,7 @@ async function loadPrivateNote(fightId) {
     const noteSnapshot =
       await getDoc(noteReference);
 
-    if (editingId !== fightId) {
+    if (!privateNoteRequestGuard.isCurrent(noteRequest, editingId)) {
       return;
     }
 
@@ -1395,7 +1794,7 @@ async function loadPrivateNote(fightId) {
       error
     );
 
-    if (editingId === fightId) {
+    if (privateNoteRequestGuard.isCurrent(noteRequest, editingId)) {
 
       showMessage(
         "PRIVATE ADMIN NOTE COULD NOT BE LOADED.",
@@ -1405,7 +1804,7 @@ async function loadPrivateNote(fightId) {
 
   } finally {
 
-    if (editingId === fightId) {
+    if (privateNoteRequestGuard.isCurrent(noteRequest, editingId)) {
 
       loadingPrivateNote = false;
       notes.disabled = false;
@@ -1966,6 +2365,7 @@ function renderFights() {
 ========================================================= */
 
 async function editFight(id) {
+  setFightEditorMode("PUBLIC");
   if (saveButton.disabled) {
     showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE SWITCHING FIGHTS.", "error");
     return;
@@ -2310,6 +2710,20 @@ fightForm.addEventListener(
   async function(e) {
 
     e.preventDefault();
+    /* PRIVATE DRAFT PUBLIC SUBMISSION GUARD */
+    if (isPrivateDraftMode()) {
+      console.warn(
+        "Public fight submission blocked in Private Draft Mode."
+      );
+
+      showMessage(
+        "PUBLIC SUBMISSION BLOCKED: PRIVATE DRAFT MODE IS ACTIVE.",
+        "error"
+      );
+
+      return;
+    }
+
 
     clearMessage();
 
