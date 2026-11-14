@@ -2047,6 +2047,10 @@ async function editFight(id) {
 ========================================================= */
 
 async function setResult(id, result) {
+  if (saveButton.disabled) {
+    showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
+    return;
+  }
 
   const label =
     result === "W"
@@ -2103,6 +2107,10 @@ async function setResult(id, result) {
 ========================================================= */
 
 async function cancelFight(id) {
+  if (saveButton.disabled) {
+    showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
+    return;
+  }
 
   if (
     !confirm(
@@ -2149,6 +2157,10 @@ async function cancelFight(id) {
 ========================================================= */
 
 async function deleteFight(id) {
+  if (saveButton.disabled) {
+    showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
+    return;
+  }
 
   if (
     !confirm(
@@ -2608,7 +2620,7 @@ fightForm.addEventListener(
 cancelEditButton.addEventListener(
   "click",
   function() {
-
+    if (saveButton.disabled) return;
     resetForm();
   }
 );
