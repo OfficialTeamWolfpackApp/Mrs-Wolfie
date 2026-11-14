@@ -1005,7 +1005,8 @@ import {
   setDoc,
   onSnapshot,
   serverTimestamp,
-  deleteField
+  deleteField,
+  writeBatch
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -2183,50 +2184,32 @@ async function deleteFight(id) {
     showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE CHANGING ANOTHER FIGHT.", "error");
     return;
   }
-
-  if (
-    !confirm(
-      "Permanently delete this fight and its private Admin Note?"
-    )
-  ) {
+  const fight = getFight(id);
+  if (!fight) {
+    showMessage("FIGHT NOT FOUND. REFRESH AND TRY AGAIN.", "error");
     return;
   }
-
+  const status = String(fight.status || "UPCOMING").toUpperCase();
+  const description = [fight.event, fight.opponent, fight.date || "DATE TBA"].filter(Boolean).join(" — ");
+  const warning = ["COMPLETED", "POSTPONED", "CANCELLED"].includes(status)
+    ? "WARNING: This is a historical " + status + " fight. Deleting it removes its public history.\\n\\n"
+    : "";
+  if (!confirm(warning + "Permanently delete " + description +
+      "?\\n\\nThe fight and its private admin note will be deleted together. Uploaded photos remain in Firebase Storage.")) return;
 
   try {
-
-    await deleteDoc(
-      doc(
-        db,
-        "mrsWolfieFightAdminNotes",
-        id
-      )
-    );
-
-
-    await deleteDoc(
-      doc(
-        db,
-        "mrsWolfieFights",
-        id
-      )
-    );
-
-
-    if (editingId === id) {
-      resetForm();
-    }
-
+    // Atomic Firestore batch: both records are deleted or neither is.
+    const batch = writeBatch(db);
+    batch.delete(doc(db, "mrsWolfieFightAdminNotes", id));
+    batch.delete(doc(db, "mrsWolfieFights", id));
+    await batch.commit();
+    if (editingId === id) resetForm();
+    showMessage("FIGHT AND PRIVATE ADMIN NOTE DELETED. UPLOADED PHOTOS RETAINED.", "success");
   } catch (error) {
-
-    console.error(error);
-
-    alert(
-      "The fight could not be completely deleted."
-    );
+    console.error("Delete fight:", error);
+    showMessage("FIGHT DELETION FAILED. NO PARTIAL DELETION WAS COMMITTED. CHECK FIREBASE PERMISSIONS.", "error");
   }
 }
-
 
 /* =========================================================
    CARD BUTTONS
