@@ -158,6 +158,12 @@ window.MRS_WOLFIE_BUILD_DATE_DISPLAY =
       return "";
     }
 
+    // Admin Fight Management saves its optional override as displayDate.
+    // Honour it before generating a date from the start/end fields.
+    if (String(fight.displayDate || "").trim()) {
+      return String(fight.displayDate).trim();
+    }
+
     if (fight.dateDisplay) {
       return fight.dateDisplay;
     }
