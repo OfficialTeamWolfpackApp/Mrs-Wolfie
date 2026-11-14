@@ -1,0 +1,285 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+/* MRS WOLFIE TEAM MEMBER PHOTOGRAPHS & BANNERS */
+
+match /mrs-wolfie/team-members/{profileId}/{fileName} {
+
+  allow read: if true;
+
+  allow create, update: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    )
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+
+  allow delete: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    );
+}
+    /* =========================================
+       LIVE UPDATES
+    ========================================= */
+
+    match /live-updates/{fileName} {
+
+      allow read: if true;
+
+      allow write: if request.auth != null
+        && (
+          request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+          || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+        )
+        && (
+          request.resource == null
+          || (
+            request.resource.size < 10 * 1024 * 1024
+            && request.resource.contentType.matches('image/.*')
+          )
+        );
+    }
+
+/* =========================================
+   TEAM WOLFPACK LIVE UPDATE VIDEOS
+========================================= */
+
+match /live-updates/videos/{fileName} {
+
+  // Allow supporters to watch published videos
+  allow read: if true;
+
+  // Only authorised administrators can upload videos
+  allow create, update: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    )
+    && request.resource.size <= 100 * 1024 * 1024
+    && request.resource.contentType.matches('video/(mp4|webm)');
+
+  // Only authorised administrators can delete videos
+  allow delete: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    );
+
+}
+
+    /* =========================================
+       TEAM WOLFPACK GALLERY
+    ========================================= */
+
+    match /gallery/{fileName} {
+
+      allow read: if true;
+
+      allow write: if request.auth != null
+        && (
+          request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+          || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+        )
+        && (
+          request.resource == null
+          || (
+            request.resource.size < 10 * 1024 * 1024
+            && request.resource.contentType.matches('image/.*')
+          )
+        );
+    }
+
+
+    /* =========================================
+       MRS WOLFIE APP UPDATES
+    ========================================= */
+
+    match /mrs-wolfie-updates/{fileName} {
+
+      // Allow images to display in the Mrs Wolfie app
+      allow read: if true;
+
+      // Only authorised admins can upload images
+      allow write: if request.auth != null
+        && (
+          request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+          || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+        )
+        && (
+          request.resource == null
+          || (
+            request.resource.size < 10 * 1024 * 1024
+            && request.resource.contentType.matches('image/.*')
+          )
+        );
+    }
+
+/* =========================================
+   MRS WOLFIE TEAM MEMBER PROFILE IMAGES
+========================================= */
+
+match /mrs-wolfie-profiles/{fileName} {
+
+  // Allow photographs and banners to display publicly
+  allow read: if true;
+
+  // Only authorised administrators can upload images
+  allow create, update: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    )
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+
+  // Only authorised administrators can delete images
+  allow delete: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    );
+}
+
+    /* =========================================
+       TEAM WOLFPACK
+       SPONSOR & SUPPORTER LOGOS
+    ========================================= */
+
+    match /sponsor-logos/{fileName} {
+
+      // Publicly display sponsor and supporter logos.
+      allow read: if true;
+
+      // Only Mr Wolfie and Mrs Wolfie can upload.
+      allow create, update: if request.auth != null
+        && (
+          request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+          || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+        )
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp|gif)');
+
+      // Only authorised administrators can delete logos.
+      allow delete: if request.auth != null
+        && (
+          request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+          || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+        );
+    }
+/* =========================================
+   TEAM WOLFPACK FIGHT MANAGEMENT IMAGES
+========================================= */
+
+match /fight-images/{fileName} {
+
+  // Allow fighter and opponent photographs to display publicly
+  allow read: if true;
+
+  // Only Mr Wolfie and Mrs Wolfie can upload photographs
+  allow create, update: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    )
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+
+  // Only authorised administrators can delete photographs
+  allow delete: if request.auth != null
+    && (
+      request.auth.uid == 'PRGa9TsCW0QDn1QtoUXyYjEi7YB3'
+      || request.auth.uid == 'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    );
+}
+/* =========================================
+   TEAM WOLFPACK SUPPORTER PROFILE PICTURES
+========================================= */
+
+match /supporter-avatars/{userId}/{fileName} {
+
+  allow read: if true;
+
+  allow create, update: if request.auth != null
+    && request.auth.uid == userId
+    && request.auth.token.email_verified == true
+    && fileName.matches('profile\\.(jpg|jpeg|png|webp)')
+    && request.resource.size <= 2 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+
+  allow delete: if request.auth != null
+    && request.auth.uid == userId
+    && request.auth.token.email_verified == true
+    && fileName.matches('profile\\.(jpg|jpeg|png|webp)');
+}
+
+/* =========================================
+   OFFICIAL TEAM WOLFPACK MEMBER PHOTOGRAPHS
+========================================= */
+
+match /official-member-avatars/{userId}/{fileName} {
+
+  // Official member photographs are publicly visible.
+  allow read: if true;
+
+  // Only verified, authorised official members can upload.
+  allow create, update: if request.auth != null
+    && request.auth.uid == userId
+    && request.auth.token.email_verified == true
+    && request.auth.token.officialMember == true
+    && fileName == 'profile.webp'
+    && request.resource.size <= 2 * 1024 * 1024
+    && request.resource.contentType == 'image/webp';
+
+  // Only the authorised account owner can delete their photo.
+  allow delete: if request.auth != null
+    && request.auth.uid == userId
+    && request.auth.token.email_verified == true
+    && request.auth.token.officialMember == true
+    && fileName == 'profile.webp';
+}
+/* Add this match block INSIDE match /b/{bucket}/o, alongside the existing avatar rules.
+   Leave all existing Storage rules unchanged. */
+
+match /official-member-banners/{userId}/{fileName} {
+  allow read: if true;
+
+  allow create, update: if request.auth != null
+    && request.auth.uid == userId
+    && request.auth.token.email_verified == true
+    && request.auth.token.officialMember == true
+    && request.auth.token.officialMemberSlug in [
+      'mr-wolfie', 'mrs-wolfie', 'greig-sloan', 'bry-kelly',
+      'billy-burton', 'kelly-mcsporran', 'richard-davies'
+    ]
+    && fileName == 'banner.webp'
+    && request.resource.size <= 5 * 1024 * 1024
+    && request.resource.contentType == 'image/webp';
+
+  allow delete: if false;
+}
+
+/* =========================================
+   MRS WOLFIE PRIVATE FIGHT DRAFT IMAGES — TEST ONLY
+========================================= */
+match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
+  allow read, delete: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+  allow create, update: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ]
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+}
+
+
+  }
+}

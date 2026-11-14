@@ -9,8 +9,8 @@
    mrsWolfieFights
 
    FALLBACK:
-   Local announced fights remain available if Firebase
-   cannot be reached.
+   No fights are announced if Firebase cannot be reached,
+   preventing old or postponed bouts from appearing as current.
 ========================================================= */
 
 
@@ -18,36 +18,9 @@
    LOCAL FALLBACK ANNOUNCED FIGHTS
 ========================================================= */
 
-const MRS_WOLFIE_FALLBACK_FIGHTS = [
-
-  {
-    id: "fight-17-oct-2026",
-    promotion: "AYRSHIRE BOXING",
-    event: "THE LAUNCH",
-    opponent: "COLLEEN LEYDEN",
-    date: "2026-10-17",
-    dateDisplay: "17 OCTOBER 2026",
-    venue: "AYR RACECOURSE",
-    status: "UPCOMING",
-    type: "FIGHT NIGHT",
-    result: ""
-  },
-
- {
-  id: "fight-20-nov-2026",
-  promotion: "TRAIN4FIGHT",
-  event: "SUPER MIDDLEWEIGHT TITLE",
-  opponent: "G-KAYLEIGHX GIBSON",
-  date: "2026-11-20",
-  dateEnd: "2026-11-21",
-  dateDisplay: "20 NOVEMBER 2026",
-  venue: "EASTHOUSES MINERS CLUB",
-  status: "POSTPONED",
-  type: "TITLE FIGHT",
-  result: ""
-}
-
-];
+// Do not publish stale fight announcements when Firestore is unavailable.
+// Firestore is the authoritative source for current and postponed fights.
+const MRS_WOLFIE_FALLBACK_FIGHTS = [];
 
 
 /* =========================================================
@@ -183,6 +156,12 @@ window.MRS_WOLFIE_BUILD_DATE_DISPLAY =
 
     if (!fight) {
       return "";
+    }
+
+    // Admin Fight Management saves its optional override as displayDate.
+    // Honour it before generating a date from the start/end fields.
+    if (String(fight.displayDate || "").trim()) {
+      return String(fight.displayDate).trim();
     }
 
     if (fight.dateDisplay) {
@@ -537,7 +516,11 @@ if (
               );
 
             if (!finalDate) {
-              return false;
+              // An announced upcoming fight may have a date still TBA.
+              // Keep it in upcoming lists, but not in the dated next-fight hero.
+              return !String(fight.date || "").trim() &&
+                !String(fight.dateEnd || "").trim() &&
+                String(fight.status || "UPCOMING").trim().toUpperCase() === "UPCOMING";
             }
 
             return (
@@ -550,10 +533,11 @@ if (
         .sort(
           (a, b) => {
 
-            return (
-              window.MRS_WOLFIE_CREATE_DATE(a.date) -
-              window.MRS_WOLFIE_CREATE_DATE(b.date)
-            );
+            const aDate = window.MRS_WOLFIE_GET_FINAL_DATE(a);
+            const bDate = window.MRS_WOLFIE_GET_FINAL_DATE(b);
+            // Confirmed dates first; date-TBA announcements follow.
+            return (aDate ? aDate.getTime() : Number.MAX_SAFE_INTEGER) -
+              (bDate ? bDate.getTime() : Number.MAX_SAFE_INTEGER);
 
           }
         )
@@ -919,6 +903,13 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                 String(
                   data.opponent || ""
                 ).trim(),
+
+              // Keep uploaded images and fight titles available to public cards.
+              fighterImage: String(data.fighterImage || "").trim(),
+              opponentImage: String(data.opponentImage || "").trim(),
+              fightTitle: String(data.fightTitle || "").trim(),
+              displayDate: String(data.displayDate || "").trim(),
+              method: String(data.method || "").trim(),
 
               date:
                 String(

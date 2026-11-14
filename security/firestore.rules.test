@@ -1,0 +1,508 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+
+    /* =========================================
+       AUTHENTICATION
+       ========================================= */
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+
+    /* =========================================
+       TEAM WOLFPACK ADMINS
+       ========================================= */
+
+    function isAdmin() {
+      return isSignedIn()
+        && (
+          request.auth.uid == "PRGa9TsCW0QDn1QtoUXyYjEi7YB3"
+          ||
+          request.auth.uid == "SlpEQYl94DaH6j42QUyl8Kv2ujJ3"
+        );
+    }
+
+
+    /* =========================================
+       MEMBER MODERATION STATUS
+       ========================================= */
+
+    function hasModerationRecord() {
+      return isSignedIn()
+        && exists(
+          /databases/$(database)/documents/moderation/$(request.auth.uid)
+        );
+    }
+
+
+    function isMuted() {
+      return hasModerationRecord()
+        && get(
+          /databases/$(database)/documents/moderation/$(request.auth.uid)
+        ).data.muted == true;
+    }
+
+
+    function isBlocked() {
+      return hasModerationRecord()
+        && get(
+          /databases/$(database)/documents/moderation/$(request.auth.uid)
+        ).data.blocked == true;
+    }
+
+
+    /* =========================================
+       PACK CHAT MESSAGES
+       ========================================= */
+
+    match /messages/{messageId} {
+
+      /*
+        Signed-in Pack members can read
+        Pack Chat messages.
+      */
+
+      allow read: if isSignedIn();
+
+
+      /*
+        Members can send messages only when
+        they are not muted or blocked.
+      */
+
+      allow create: if isSignedIn()
+        && !isMuted()
+        && !isBlocked()
+
+        && request.resource.data.keys().hasOnly([
+          'uid',
+          'name',
+          'text',
+          'createdAt'
+        ])
+
+        && request.resource.data.uid == request.auth.uid
+
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 30
+
+        && request.resource.data.text is string
+        && request.resource.data.text.size() >= 1
+        && request.resource.data.text.size() <= 500
+
+        && request.resource.data.createdAt == request.time;
+
+
+      /*
+        Pack Chat messages cannot be edited.
+      */
+
+      allow update: if false;
+
+
+      /*
+        Only Team Wolfpack administrators
+        can delete messages.
+      */
+
+      allow delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MESSAGE REPORTS
+       ========================================= */
+
+    match /reports/{reportId} {
+
+      /*
+        Reports are private.
+
+        Only Team Wolfpack administrators
+        can read them.
+      */
+
+      allow read: if isAdmin();
+
+
+      /*
+        Signed-in, non-blocked Pack members
+        can submit reports.
+
+        The report must contain only the
+        expected fields.
+      */
+
+      allow create: if isSignedIn()
+        && !isBlocked()
+
+        && request.resource.data.keys().hasOnly([
+          'reporterUid',
+          'messageId',
+          'messageUid',
+          'messageName',
+          'messageText',
+          'reason',
+          'createdAt'
+        ])
+
+        && request.resource.data.reporterUid == request.auth.uid
+
+        && request.resource.data.messageId is string
+        && request.resource.data.messageId.size() >= 1
+
+        && request.resource.data.messageUid is string
+        && request.resource.data.messageUid.size() >= 1
+
+        && request.resource.data.messageName is string
+        && request.resource.data.messageName.size() >= 1
+        && request.resource.data.messageName.size() <= 30
+
+        && request.resource.data.messageText is string
+        && request.resource.data.messageText.size() <= 500
+
+        && request.resource.data.reason is string
+        && request.resource.data.reason.size() >= 1
+        && request.resource.data.reason.size() <= 100
+
+        && request.resource.data.createdAt == request.time;
+
+
+      /*
+        Only administrators can modify
+        or delete reports.
+      */
+
+      allow update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MEMBER MODERATION
+       ========================================= */
+
+    match /moderation/{userId} {
+
+      /*
+        Administrators can read every
+        moderation record.
+
+        Individual members can read only
+        their own moderation record.
+      */
+
+      allow read: if isAdmin()
+        || (
+          isSignedIn()
+          && request.auth.uid == userId
+        );
+
+
+      /*
+        Only Team Wolfpack administrators
+        can create or change moderation.
+      */
+
+      allow create, update: if isAdmin()
+
+        && request.resource.data.keys().hasOnly([
+          'uid',
+          'name',
+          'muted',
+          'blocked',
+          'updatedAt',
+          'updatedBy',
+          'updatedByName'
+        ])
+
+        && request.resource.data.uid == userId
+
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 30
+
+        && request.resource.data.muted is bool
+
+        && request.resource.data.blocked is bool
+
+        && request.resource.data.updatedBy == request.auth.uid
+
+        && request.resource.data.updatedByName is string
+        && request.resource.data.updatedByName.size() >= 1
+        && request.resource.data.updatedByName.size() <= 30
+
+        && request.resource.data.updatedAt == request.time;
+
+
+      /*
+        Only administrators can delete
+        moderation records.
+      */
+
+      allow delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       RESOLVED / MODERATION HISTORY
+       ========================================= */
+
+    match /resolvedReports/{resolvedReportId} {
+
+      /*
+        Moderation history is completely
+        private.
+
+        Only MR WOLFIE and MRS WOLFIE
+        can access it.
+      */
+
+      allow read: if isAdmin();
+
+      allow create: if isAdmin();
+
+      allow update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MRS WOLFIE FIGHTS
+       ========================================= */
+
+    match /mrsWolfieFights/{fightId} {
+
+      /*
+        Mrs Wolfie fight information can be read
+        publicly by the Mrs Wolfie app.
+      */
+
+      allow read: if true;
+
+
+      /*
+        Only authorised Team Wolfpack admins
+        can create, edit or delete Mrs Wolfie fights.
+      */
+
+      allow create, update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MRS WOLFIE PRIVATE ADMIN NOTES
+       ========================================= */
+
+    match /mrsWolfieFightAdminNotes/{fightId} {
+
+      allow read, create, update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MRS WOLFIE PRIVATE FIGHT DRAFTS — TEST ONLY
+       ========================================= */
+
+    match /mrsWolfieFightDrafts/{fightId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MRS WOLFIE APP UPDATES
+       ========================================= */
+
+    match /mrsWolfieUpdates/{updateId} {
+
+      /*
+        Team Wolfpack admins can read every update,
+        including unpublished updates.
+
+        The public Mrs Wolfie app can read only
+        updates where active is true.
+      */
+
+      allow read: if isAdmin()
+        || resource.data.active == true;
+
+
+      /*
+        Only authorised Team Wolfpack admins
+        can create, edit or delete updates.
+      */
+
+      allow create, update, delete: if isAdmin();
+    }
+
+
+    /* =========================================
+       MRS WOLFIE PUSH SUBSCRIBERS
+       ========================================= */
+
+    match /mrsWolfiePushSubscribers/{subscriberId} {
+
+      /*
+        Push notification registration tokens
+        are private backend data.
+
+        Browsers, public users, Pack members
+        and administrators cannot access these
+        documents directly through Firestore.
+
+        The trusted Mrs Wolfie Cloud Function
+        manages this collection using the
+        Firebase Admin SDK.
+      */
+
+      allow read, write: if false;
+    }
+    
+    /* =========================================
+       TEAM WOLFPACK NOTIFICATION HISTORY
+       ========================================= */
+
+    match /teamWolfpackNotificationHistory/{historyId} {
+
+      /*
+        Notification history is private.
+
+        Only authorised Team Wolfpack admins
+        can read notification history.
+
+        Browser clients cannot create, edit
+        or delete history records.
+
+        History records are created by the
+        trusted Cloud Function using the
+        Firebase Admin SDK.
+      */
+
+      allow read: if isAdmin();
+
+      allow create, update, delete: if false;
+    }
+    
+    /* =========================================
+       TEAM WOLFPACK GALLERY
+       ========================================= */
+
+    match /gallery/{galleryId} {
+
+      /*
+        Published gallery photos can be viewed
+        publicly in the Team Wolfpack app.
+
+        Team Wolfpack administrators can also
+        read unpublished gallery photos.
+      */
+
+      allow read: if isAdmin()
+        || resource.data.published == true;
+
+
+      /*
+        Only authorised Team Wolfpack admins
+        can create gallery records.
+      */
+
+      allow create: if isAdmin()
+
+        && request.resource.data.keys().hasOnly([
+          'imageURL',
+          'storagePath',
+          'fileName',
+          'category',
+          'event',
+          'caption',
+          'date',
+          'featured',
+          'published',
+          'createdAt',
+          'createdBy',
+          'createdByName'
+        ])
+
+        && request.resource.data.imageURL is string
+        && request.resource.data.imageURL.size() > 0
+
+        && request.resource.data.storagePath is string
+        && request.resource.data.storagePath.size() > 0
+
+        && request.resource.data.fileName is string
+        && request.resource.data.fileName.size() > 0
+
+        && request.resource.data.category is string
+        && request.resource.data.category.size() > 0
+
+        && request.resource.data.event is string
+        && request.resource.data.event.size() <= 150
+
+        && request.resource.data.caption is string
+        && request.resource.data.caption.size() <= 500
+
+        && request.resource.data.date is string
+
+        && request.resource.data.featured is bool
+        && request.resource.data.published is bool
+
+        && request.resource.data.createdAt == request.time
+
+        && request.resource.data.createdBy == request.auth.uid
+
+        && request.resource.data.createdByName is string;
+
+
+      /*
+        Only authorised Team Wolfpack admins
+        can edit or delete gallery records.
+      */
+
+      allow update, delete: if isAdmin();
+    }
+
+/* =========================================
+   MRS WOLFIE SUPPORTERS
+   ========================================= */
+
+match /mrsWolfieSupporters/{supporterId} {
+
+  // Allow everyone to read supporter records
+  // so the app can display the total.
+
+  allow read: if true;
+
+  // Each signed-in Firebase user can
+  // register one like under their own UID.
+
+  allow create: if request.auth != null
+    && supporterId == request.auth.uid
+    && request.resource.data.keys().hasOnly([
+      'uid',
+      'createdAt'
+    ])
+    && request.resource.data.uid == request.auth.uid
+    && request.resource.data.createdAt == request.time;
+
+  // Likes cannot be edited or removed.
+
+  allow update, delete: if false;
+}
+    
+    /* =========================================
+       EVERYTHING ELSE PRIVATE
+       ========================================= */
+
+    match /{document=**} {
+
+      allow read, write: if false;
+    }
+
+
+  }
+
+}

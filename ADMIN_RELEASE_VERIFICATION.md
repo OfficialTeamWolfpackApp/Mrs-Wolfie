@@ -1,0 +1,381 @@
+# Mrs Wolfie admin release verification (draft PR #1)
+
+## Repository inspection — 14 November 2026
+- Admin login is present in `mrs-wolfie-dashboard.html` and uses Firebase email/password authentication.
+- Dashboard and both management pages gate their UI on two authorised non-anonymous Firebase UIDs.
+- Fight data collection: `mrsWolfieFights` (Cloud Firestore).
+- Update data collection: `mrsWolfieUpdates` (Cloud Firestore).
+- Fight image upload prefix: `fight-images/` (Firebase Storage).
+- Update image upload prefix: `mrs-wolfie-updates/` (Firebase Storage).
+- Both upload interfaces accept JPEG, PNG, WebP and enforce an 8 MB client-side size limit.
+- The separate profile editor uses Firebase Realtime Database. Verify its actual database path and rules independently.
+- No `firestore.rules`, `storage.rules` or `database.rules.json` was found at the root of this repository. The deployed Firebase rules **have not been inspected**.
+- This is a code review, **not** proof of production permissions or successful uploads.
+
+## Required Firebase console / emulator checks — do not merge before completion
+- [ ] Confirm the current **deployed** Firestore rules for `mrsWolfieFights/{id}` and `mrsWolfieUpdates/{id}`.
+- [ ] Confirm the current **deployed** Storage rules for `fight-images/{path=**}` and `mrs-wolfie-updates/{path=**}`, including MIME and size constraints.
+- [ ] Confirm the Realtime Database rules for Mrs Wolfie profile records and uploads.
+- [ ] Check that only the two approved authenticated admin accounts may create/update/delete these records; anonymous users and ordinary supporters must be denied by backend rules.
+- [ ] Confirm that public read permissions match what the app needs and that no private notes or internal admin data are exposed.
+- [ ] Test read/write denials using Firebase Emulator Suite or a dedicated test project; never test destructive actions against production data.
+- [ ] Verify Firebase Authentication email/password provider is enabled, and the Mrs Wolfie hosting origin is an authorised domain where applicable.
+- [ ] Verify both administrators can log in, log out and navigate from the homepage to all three admin tools.
+- [ ] Test creating, editing and postponing a fight; verify public fight cards and the TBA silhouette display correctly.
+- [ ] Test fighter and opponent photo upload from PC and mobile, including invalid type, >8 MB, denied-user and network-failure cases.
+- [ ] Test creating/editing updates and image upload; confirm the public app displays changes.
+- [ ] Confirm notification Cloud Functions accept only authorised requests and do not send duplicate notifications.
+- [ ] Check the browser console and network tab for missing assets, broken links and service-worker cache issues.
+- [ ] Check mobile viewport layouts and touch controls on a real phone.
+- [ ] Obtain approval before merging PR #1 or deploying to the live app.
+
+## Security note
+The client-side UID allowlist is a user-interface guard, **not** an authorisation boundary. Firestore, Realtime Database, Storage and Cloud Functions must independently enforce access control. No live Firebase rules were changed or deployed by this pull request.
+
+## Step 20 — release blockers and verification evidence (14 November 2026)
+
+### Verified from the development branch
+- The public updates adapter queries `mrsWolfieUpdates` with `where("active", "==", true)`; backend rules must still be checked in the deployed project.
+- Fight and update photo uploaders restrict client-selected images to JPEG, PNG or WebP, maximum 8 MiB.
+- The public fight adapter passes `fighterImage`, `opponentImage`, `fightTitle`, `displayDate` and `method` from Firestore into the public fight model.
+- The service worker precache no longer lists the three absent PWA icons; this prevents those absent paths from causing `cache.addAll()` to reject the installation.
+- The admin dashboard banner now points to an existing repository image.
+
+### Open release blockers
+- [ ] Supply and verify `images/icon-192.png`, `images/icon-512.png` and `images/icon-maskable-512.png`; all three are referenced by `manifest.json`. The notification service worker also refers to `images/icon-192.png`.
+- [ ] Check the **currently deployed** Firebase rules in the actual Firebase project; this repository does not establish production rule state.
+- [ ] Decide whether unpublished fights are permitted in `mrsWolfieFights`. The existing public fight listener reads the entire collection; a client-only draft flag does not protect private announcements.
+- [ ] Test that the deployed public Firestore query for active updates is permitted by the current backend rules.
+- [ ] Run automated JavaScript/HTML checks and browser smoke tests, including service worker registration, admin login, uploads, TBA states, postponement, and mobile layouts.
+- [ ] Verify the notification Cloud Function's backend authorisation and deduplication.
+- [ ] Review and approve the complete PR diff before merging or deploying.
+
+### Release decision
+**NOT READY TO MERGE OR DEPLOY.** Repository inspection and commits are not substitutes for emulator tests, deployed-rule inspection or real-device verification. No production changes authorised.
+
+## Step 44 — push device backend review (14 November 2026)
+
+### Confirmed client contract
+- `notifications.js` posts `{ "token": "<FCM registration token>" }` to the HTTPS Cloud Function `registerMrsWolfiePushDevice` in `europe-west1`.
+- The request includes an `X-Firebase-AppCheck` header obtained from Firebase App Check. App Check attests the app environment; **it does not identify an individual supporter or replace backend authorisation**.
+- The client expects a successful HTTP status and JSON `{ "success": true }` before saving a local registration marker.
+- If browser permission is revoked during registration, the client now avoids saving a success marker. This does **not** unregister a previously stored backend token.
+
+### Backend verification blocked — source not available in inspected GitHub repositories
+- GitHub code search did not locate the Cloud Function implementation, and the expected `functions/index.js` path was not found in the Team Wolfpack app repository. **No backend security or cleanup behaviour has been verified.**
+- [ ] Obtain the actual deployed function source, its Firebase project configuration and deployment revision for `registerMrsWolfiePushDevice`.
+- [ ] Confirm server-side Firebase App Check verification, CORS origin allowlist, method checks, request-size limits and FCM token format validation.
+- [ ] Confirm abuse controls (rate limiting, registration quotas and anti-spam) and ensure token values are never logged.
+- [ ] Verify that registration is idempotent and that duplicate/rotated tokens do not create duplicate sends.
+- [ ] Define a server-side invalid-token cleanup path for FCM `registration-token-not-registered` and other permanent delivery failures; distinguish temporary delivery failures.
+- [ ] Design an explicit opt-out/unregister endpoint or equivalent revocation process. Clearing browser localStorage does not revoke the backend registration.
+- [ ] Verify how backend records expire or are renewed for returning supporters, including tokens that remain unchanged.
+- [ ] Exercise invalid/missing App Check tokens, malformed requests, rate limits, duplicate registrations, revoked permission, and rotated tokens in a non-production environment.
+
+**Release blocker:** Do not describe notification registration as end-to-end verified or deploy these changes until the backend checks above and live device tests pass.
+
+## Step 56 — notification lifecycle audit (14 November 2026)
+
+### Confirmed in the current client branch
+- Registration requests permission only through an explicit call to the enable function. The homepage calls it from a button click; returning devices are not prompted automatically.
+- A successful backend response is required before the client stores the FCM token in localStorage.
+- An existing local token is retained on transient registration or refresh failures while permission remains granted. A failed first registration does not create a local success marker.
+- Token rechecks run when the app becomes visible and when the browser reports an online transition, but only for devices with a saved token and granted permission.
+- When a changed FCM token is detected, the client registers it with the backend before replacing the saved token. Concurrent refresh checks are deduplicated within the page.
+- Revoking browser permission clears the **local** marker when checked. This does **not** prove that the old token was removed from the server.
+
+### Remaining release blockers — must be tested against the actual backend
+- [ ] Confirm how the server replaces or retires the previous FCM token after rotation; otherwise old and new tokens could both receive a notification.
+- [ ] Confirm server-side registration expiry/renewal for unchanged tokens. The client does not periodically re-submit an unchanged token.
+- [ ] Confirm an opt-out/unregister mechanism that removes backend records after permission revocation; localStorage removal alone is insufficient.
+- [ ] Verify behaviour after browser data clearing, app reinstall, service-worker replacement and offline-to-online transitions.
+- [ ] Simulate transient backend failures and verify existing opt-ins are preserved without reporting an unconfirmed new registration as successful.
+- [ ] Test duplicate click attempts, token-refresh races and permission revocation during a pending backend request on real supported browsers.
+
+**Audit result:** Client-side lifecycle handling is improved, but the notification system is **not** verified end-to-end. The actual Cloud Function implementation and non-production tests are required before release.
+
+## Step 57 — wider pull request release-readiness review (14 November 2026)
+
+### Verified from the current development branch and PR #1 file list
+- PR #1 currently changes 11 files: `ADMIN_RELEASE_VERIFICATION.md`, `fight-data.js`, `fight.html`, `home.html`, `mrs-wolfie-dashboard.html`, `mrs-wolfie-fights-admin.html`, `mrs-wolfie-updates-admin.html`, `notifications.js`, `schedule.html`, `service-worker.js` and `updates.html`.
+- The public fight adapter has an empty local announced-fights fallback (`MRS_WOLFIE_FALLBACK_FIGHTS = []`); it must still be tested against actual Firestore records and failure conditions.
+- The public updates adapter filters Firestore updates with `active == true`; deployed Firestore rules and indexes remain unverified.
+- The three PWA icon paths referenced in `manifest.json` are **not included in PR #1's changed-file list**. Do not infer their image contents, branding or installability from this review; verify the actual binary assets separately.
+- GitHub's combined commit-status endpoint returned **no status entries** for the inspected development commit. This is not evidence that CI or browser tests passed.
+
+### Release gates still open
+- [ ] Obtain real test evidence for admin sign-in, Firestore/Storage authorisation, image uploads and public rendering on desktop and mobile.
+- [ ] Exercise announced, TBA, postponed and cancelled fight states using non-production data; check every public page for stale opponent names, dates or title text.
+- [ ] Verify manifest icon files and branding from actual image bytes and test installation on Android and iOS.
+- [ ] Confirm the deployed Firebase rules and push-registration Cloud Function source, then run negative security tests.
+- [ ] Run automated syntax checks and browser smoke tests; record results and any failures in this document.
+- [ ] Review the complete PR diff and obtain explicit approval before merge or deployment.
+
+**Step 57 decision: NOT READY TO MERGE OR DEPLOY.** This is a repository review and documentation update only; no automated test suite or real-device test was executed in this step.
+
+## Step 58 — fight display and status audit (14 November 2026)
+
+### Verified from current source
+- The fight editor offers `UPCOMING`, `POSTPONED`, `COMPLETED` and `CANCELLED` statuses and an optional `fightTitle` field.
+- `fight-data.js` normalises Firestore status to uppercase and passes `fightTitle`, `fighterImage`, `opponentImage` and `displayDate` to the public model.
+- `MRS_WOLFIE_GET_NEXT_FIGHT` and `MRS_WOLFIE_GET_UPCOMING_FIGHTS` exclude postponed, cancelled and completed/result fights; they also require a valid final date that has not passed.
+- `home.html` resets the next-fight opponent to `TBA` and hides the title card when there is no eligible next fight. The opponent photo is only used for a named opponent on an `UPCOMING` fight; otherwise the silhouette remains.
+- `fight.html` and `schedule.html` contain separate postponed-fight rendering sections; these must still be exercised with representative Firestore records.
+
+### Behaviour requiring a product decision or test
+- [ ] **Undated announcements:** The next-fight and upcoming-fights selectors require a valid `date` or `dateEnd`. Decide whether an announced `UPCOMING` fight with date TBA should appear in the public schedule before a date is confirmed. Do not silently change this policy.
+- [ ] **Publication control:** The public Firestore adapter reads the entire `mrsWolfieFights` collection. If drafts or private opponent details are stored there, client-side hiding is not sufficient; enforce publication access in Firestore rules or separate private records.
+- [ ] **Postponed data:** Test that postponed cards show their historical opponent/date/title as intended, but never leak those values into the active next-fight card when there is no announced fight.
+- [ ] **Title and image reset:** Switch live test records from title fight to ordinary fight to no upcoming fight and verify title card, opponent name and image all reset correctly on each page.
+- [ ] **Status transitions:** Test `UPCOMING → POSTPONED → UPCOMING`, `UPCOMING → CANCELLED`, and `UPCOMING → COMPLETED` using isolated test data.
+
+**Step 58 result:** Static source audit only. No Firebase records were modified and no live UI tests were run. Release remains blocked pending these checks.
+
+
+## Step 74 — fight-management test matrix and release gates (14 November 2026)
+
+**Scope:** Repository-level review of the fight editor, Firestore fight adapter and the Step 73 deletion changes. The following are **test cases to execute**, not claims of successful browser or Firebase tests.
+
+### Admin form and data integrity — desktop and mobile
+- [ ] Sign in as each authorised admin; confirm an unauthorised account cannot read private notes or write fights/images.
+- [ ] Create an UPCOMING fight with confirmed date, opponent and title; verify every saved field after page refresh.
+- [ ] Create an UPCOMING fight with DATE TBA and opponent TBA; verify the mystery silhouette and absence of stale opponent/title data.
+- [ ] Upload JPG, PNG and WebP images from desktop file picker and mobile photo library; verify preview, final public image, 8 MB limit and invalid-file rejection.
+- [ ] Replace and remove fighter/opponent images; confirm old image URLs are no longer used by that fight, while historical Storage objects remain untouched.
+- [ ] Change opponent name and set opponent to TBA; verify the former opponent image is not carried forward.
+- [ ] Verify image uploads are not repeated when public fight save succeeds but private-note save fails; inspect the actual saved URLs after refreshing.
+- [ ] Simulate upload failure, Firestore save failure, lost connectivity and permission denial. Verify best-effort cleanup and inspect Storage for orphans; **deployed Storage delete permission is unverified**.
+- [ ] While a save is pending, try edit/cancel/result/delete actions and repeated submission. Verify the controls cannot cause conflicting writes.
+- [ ] Test narrow mobile layouts, keyboard focus, touch targets, error messages and scrolling on Android and iOS browsers.
+
+### Status transitions and public displays
+- [ ] UPCOMING → POSTPONED: historical card remains visible where intended; next-fight hero no longer shows the postponed opponent or title.
+- [ ] POSTPONED → UPCOMING: re-announced fight returns to active displays only when eligible.
+- [ ] UPCOMING → CANCELLED: cancelled fight is excluded from active next-fight selection.
+- [ ] UPCOMING → COMPLETED: WIN/LOSS/DRAW and result method render correctly; postponed/cancelled quick-result actions are rejected.
+- [ ] Confirmed-date and undated UPCOMING records: confirmed dates sort first; DATE TBA records appear in the intended schedule/Next Up locations but do not become the dated next-fight hero.
+- [ ] Verify home.html, fight.html and schedule.html with zero fights, one fight, multiple fights, postponed-only and title-fight-to-ordinary-fight transitions.
+- [ ] Check both desktop and mobile for stale text, broken image URLs, incorrect silhouettes and cache-related outdated data.
+
+### Deletion and security
+- [ ] Delete a test fight with a private note; confirm both Firestore documents disappear together after the atomic batch commits.
+- [ ] Force a Firestore permission error during batch deletion; confirm neither document is removed.
+- [ ] Verify deletion confirmation clearly identifies the selected fight and warns about historical statuses.
+- [ ] Confirm Storage images are retained after fight deletion; separately design a reference-aware cleanup policy if deletion of unused images is required.
+- [ ] Confirm actual deployed Firestore and Storage rules, including admin-only note access, image upload/delete permissions and whether unpublished fights can be read publicly.
+- [ ] Review push-notification backend registration and permissions before enabling real notification delivery.
+
+### Outstanding risks requiring resolution
+- **Public draft privacy:** Public collection reads may expose unannounced records. Do not store confidential drafts in a publicly readable collection without a server-enforced publication model.
+- **Ambiguous network outcome:** A write that succeeds server-side but loses its response may be retried, potentially duplicating a new fight or leaving uploaded images. Client-side success flags do not eliminate this risk.
+- **Image cleanup:** Step 67's best-effort delete requires deployed Storage rules that permit the admin to delete newly uploaded objects; this has not been verified.
+- **Cross-client concurrency:** UI button locks only prevent actions in the current page, not simultaneous edits from different devices.
+- **Binary PWA icons:** Actual Mrs Wolfie icon branding and installation still require inspection and device testing.
+- **CI and browser coverage:** No successful automated suite, real Firebase integration test or real-device smoke test is recorded here.
+
+**Step 74 decision: NOT READY TO MERGE OR DEPLOY.** This step adds a reproducible acceptance-test plan; it does not execute the tests, change Firebase rules, merge the PR or deploy production code.
+
+
+## Step 76 — secure draft/publish architecture decision (14 November 2026)
+
+**Source findings:** The current admin editor writes directly to `mrsWolfieFights`, and the public `fight-data.js` subscribes to that entire collection. No `firestore.rules` file was found at the root of this development branch. Consequently, **a client-side `draft` flag alone must not be used to store confidential fight information**.
+
+### Recommended phased architecture (not yet implemented)
+1. Keep `mrsWolfieFights/{id}` as the **published, publicly readable projection only**, preserving compatibility with the current homepage, schedule, fight page and postponed history.
+2. Create `mrsWolfieFightDrafts/{id}` for **admin-only** unpublished content. Do not write private opponent names, unpublished dates, or draft images to the public fight document.
+3. Verify and deploy Firestore rules that restrict **all reads and writes** on `mrsWolfieFightDrafts/{id}` to the two approved admin identities. Public reads of `mrsWolfieFights/{id}` should remain limited to explicitly public data.
+4. Use a stable shared document ID and a deliberate **Publish** action that copies only approved public fields to `mrsWolfieFights/{id}`. Publishing must be idempotent; avoid `addDoc` retries that create duplicates.
+5. **Unpublish** should remove or archive the public projection without deleting the admin-only draft. Preserve historical postponed/completed fights according to the team's explicit policy; do not silently unpublish them.
+6. Store private draft images under a separate Storage prefix with **admin-only read and write** rules; current `fight-images/` URLs are publicly readable and are not appropriate for confidential draft imagery.
+7. Define publication audit fields (`publishedAt`, `publishedBy`, `lastPublishedAt`) and handle concurrent edits, partial publication failures, and notification delivery only after confirmed publication.
+8. Migrate existing records cautiously: treat current `mrsWolfieFights` entries as **already public**, do not assume they are drafts, and back up data before any migration. Review legacy notes and any unpublished sensitive fields first.
+
+### Release gate and order of operations
+- [ ] Obtain the exact **deployed** Firestore and Storage rules and verify the authorised admin identity model.
+- [ ] Agree whether unpublished fights should have private images, and whether postponed records remain publicly visible.
+- [ ] Implement and test admin-only draft collection and private-image Storage rules in an isolated Firebase project.
+- [ ] Add admin Draft / Publish / Unpublish controls and update the admin listing to distinguish public versus private records.
+- [ ] Verify public unauthenticated clients cannot read draft documents **or** draft images, including direct document and Storage URL attempts.
+- [ ] Test publish, republish, unpublish, rollback, multi-device conflict and network-interruption scenarios.
+- [ ] Only after security tests pass, approve any data migration and production deployment.
+
+**Step 76 decision:** Architecture documented, but **no draft data model or new publication control is enabled**. This deliberately avoids creating a false sense of privacy before Firebase security rules are verified and deployed. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 77 — Firebase rule inventory and proposed draft access controls (14 November 2026)
+
+### Repository inspection
+- Checked the root of the development repository and the Team Wolfpack app repository for `firestore.rules`, `storage.rules`, `database.rules.json`, `firebase.json`, and `functions/firestore.rules` / `functions/storage.rules` on their default branches. **None of those exact paths was available** through the GitHub connector. This does **not** prove no rules exist elsewhere, or what is deployed.
+- The Mrs Wolfie admin client gates access on two Firebase Auth UIDs: `PRGa9TsCW0QDn1QtoUXyYjEi7YB3` and `SlpEQYl94DaH6j42QUyl8Kv2ujJ3`. Client-side UID checks are not a substitute for server-side rules.
+- The existing public fight adapter listens to `mrsWolfieFights` without a publication filter. No private draft collection is currently enabled.
+
+### Proposed Firestore rule fragment — REVIEW ONLY, NOT A DEPLOYABLE FULL RULESET
+```javascript
+// Place inside the EXISTING service cloud.firestore / match /databases/{database}/documents
+// after reviewing the entire deployed ruleset. Never replace the full rules with this fragment.
+function isMrsWolfieAdmin() {
+  return request.auth != null &&
+    request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+}
+match /mrsWolfieFightDrafts/{fightId} {
+  allow get, list, create, update, delete: if isMrsWolfieAdmin();
+}
+```
+
+### Proposed Storage rule fragment — REVIEW ONLY, NOT A DEPLOYABLE FULL RULESET
+```javascript
+// Place inside the EXISTING service firebase.storage / match /b/{bucket}/o
+// after reviewing the entire deployed ruleset.
+function isMrsWolfieAdmin() {
+  return request.auth != null &&
+    request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+}
+match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
+  allow read, delete: if isMrsWolfieAdmin();
+  allow create, update: if isMrsWolfieAdmin()
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+}
+```
+
+### Security and integration caveats
+- **Rules are additive only if there is no broader overlapping allow.** Inspect all existing wildcard matches and public read rules. A permissive catch-all could still expose drafts.
+- The existing `mrsWolfieFights` public collection is **not** made private by these fragments. Keep drafts out of it until a controlled publication mechanism is implemented.
+- Do not copy a private Storage download token into a public document. Firebase download URLs may contain long-lived bearer tokens; enforce a deliberate public-image copy/upload and revocation policy when publishing.
+- Verify the exact Firebase project, Storage bucket and admin UIDs against deployed configuration. Consider custom admin claims for long-term management, but do not silently change the identity model.
+- Test unauthenticated, non-admin authenticated and both admin users against **direct document reads, collection queries, image reads, writes and deletes** in an isolated emulator project.
+- The existing public fight image prefix `fight-images/` must remain separate from private draft images. Do not weaken its rules to enable private draft access.
+
+### Next release gate
+- [ ] Obtain current **deployed** Firestore and Storage rules or the authoritative Firebase configuration repository.
+- [ ] Confirm there are no overlapping public wildcard permissions.
+- [ ] Test proposed rules in Firebase emulators with authorised and unauthorised identities.
+- [ ] Only then implement draft editing and publication controls, followed by separate review and deployment approval.
+
+**Step 77 decision:** Security-rule design documented; **no Firebase rules were changed or deployed**, and no confidential draft writes were enabled. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 78 — cross-app Firebase rule dependency review (14 November 2026)
+
+### Verified from the connected GitHub repositories
+- The accessible GitHub account lists two repositories: `OfficialTeamWolfpackApp/Team-Wolfpack-App` and `OfficialTeamWolfpackApp/Mrs-Wolfie`.
+- The **Team Wolfpack** repository's `admin-mrs-wolfie-fights.html` uses the same Firebase project configuration (`team-wolfpack-app`), writes to `mrsWolfieFights`, and separately reads/writes `mrsWolfieFightAdminNotes`. This is a **second live-capable admin editing surface**, independent of the new Mrs Wolfie editor.
+- The Team Wolfpack admin page also includes quick result/cancel/delete operations. Changes to Mrs Wolfie's admin UI alone **do not** secure or update the Team Wolfpack admin editor.
+- No authoritative deployed Firestore or Storage rules were obtained from the GitHub files checked. The exact deployed rules remain unknown.
+
+### Cross-app requirements before a secure draft feature
+- [ ] Obtain current Firestore and Storage rules from the **Firebase console** or the authoritative local functions/rules project.
+- [ ] Review the Team Wolfpack admin editor and Mrs Wolfie editor **together**; do not allow one editor to publish drafts implicitly while the other treats them as private.
+- [ ] Keep public `mrsWolfieFights` compatible with both apps until both clients are migrated.
+- [ ] Add private draft read/write rules only after checking overlapping wildcard allows in the complete ruleset.
+- [ ] Ensure all future draft writes from either app target the admin-only draft collection and private Storage prefix.
+- [ ] Test that public listeners, both admin editors, and historical postponed fights continue to function after rules changes.
+
+**Step 78 decision:** Cross-app dependency confirmed. **Cannot verify or modify deployed rules from GitHub alone.** Do not enable draft storage or claim privacy until the exact deployed rules are supplied and tested. No production changes were made.
+
+
+## Step 79 — review of user-provided Firebase Storage rules (14 November 2026)
+
+**Evidence:** User supplied a complete-looking `rules_version = '2'; service firebase.storage` rules text in chat. This is a **supplied configuration**, not independent confirmation that these exact rules are deployed.
+
+### Confirmed from supplied Storage rules
+- `fight-images/{fileName}`: public read; create/update for the two authorised admin UIDs only, JPEG/PNG/WebP, maximum 8 MiB; delete for the same admin UIDs. This supports the fight editor's best-effort uploaded-image cleanup if these rules are actually deployed.
+- `mrs-wolfie-updates/{fileName}`: public read; admin-only write, image MIME, less than 10 MiB (with deletion permitted via `request.resource == null`).
+- `mrs-wolfie/team-members/{profileId}/{fileName}` and `mrs-wolfie-profiles/{fileName}`: public read, admin-only JPEG/PNG/WebP upload up to 8 MiB and admin delete.
+- Sponsor logos, gallery, supporter avatars, official member avatars and banners, and live-update videos have distinct path rules. Their permissions must remain intact.
+- No `mrs-wolfie-private-fight-drafts/{fightId}/{fileName}` match appears in the supplied text. With no other matching allow, such draft uploads would be denied by default.
+- No catch-all `match /{allPaths=**}` appears in the supplied text. This is a source-level observation, not proof of deployed state.
+
+### Specific security considerations
+- `fight-images/` is **public**; do not place confidential draft images there. Public Firebase download URLs should also be treated as shareable access tokens.
+- `live-updates/{fileName}` is a one-segment match, separate from `live-updates/videos/{fileName}`; video uploads have their own 100 MiB MP4/WebM rule.
+- Some public image paths allow `image/.*` rather than an explicit format allowlist. This is broader than the JPEG/PNG/WebP restrictions on fight images; consider tightening separately after checking real upload requirements.
+- Official member banners have `allow delete: if false`. Do not alter this policy accidentally while extending Storage rules.
+- Storage rules do **not** control Firestore document reads. The proposed draft collection also needs its own Firestore rule verification.
+
+### Proposed non-deployed Storage addition
+```javascript
+// Insert inside the existing match /b/{bucket}/o block.
+// Do NOT replace existing rules or deploy before emulator tests.
+match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
+  allow read, delete: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ];
+  allow create, update: if request.auth != null
+    && request.auth.uid in [
+      'PRGa9TsCW0QDn1QtoUXyYjEi7YB3',
+      'SlpEQYl94DaH6j42QUyl8Kv2ujJ3'
+    ]
+    && request.resource.size <= 8 * 1024 * 1024
+    && request.resource.contentType.matches('image/(jpeg|png|webp)');
+}
+```
+
+### Remaining required evidence
+- [ ] Obtain **Firestore Database → Rules** in full to review `mrsWolfieFights`, `mrsWolfieFightAdminNotes`, and proposed `mrsWolfieFightDrafts`.
+- [ ] Confirm whether the supplied Storage rules are the currently deployed version, and test the private path in an isolated Firebase emulator.
+- [ ] Do not write draft data or images until both Firestore and Storage access controls have passed negative tests.
+
+**Step 79 decision:** Storage rule review completed from supplied text; no Firebase deployment, rules modification, or private draft implementation. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 80 — supplied rules file is Realtime Database, not Firestore (14 November 2026)
+
+The user supplied a 612-line JSON rules export with root `"rules"` and `".read"`, `".write"`, `".validate"`, and `".indexOn"` entries. **This is Firebase Realtime Database (RTDB) security rules, not Cloud Firestore rules.** Do not attempt to deploy it to Firestore or use it as evidence of Firestore access controls.
+
+### Relevant RTDB observations
+- Root `.read: false` and `.write: false`; explicit public reads and restricted writes are configured per child path.
+- `fights` and `updates` are public-read and admin-write RTDB paths.
+- `mrsWolfieTeamMembers` is public-read and admin-write with child validation.
+- Sponsor, supporter, profile, badge and application paths have separate permissions and validation; preserve them in any future RTDB work.
+- The source contains no Firestore `match /mrsWolfieFights/{fightId}` or `match /mrsWolfieFightAdminNotes/{fightId}` rules; those collections are Cloud Firestore and **not governed by this JSON**.
+
+### Required next evidence
+- [ ] Obtain the actual **Firestore Database → Rules** text, beginning `rules_version = '2'; service cloud.firestore {` (or the actual deployed equivalent).
+- [ ] Confirm the Firestore `mrsWolfieFights`, `mrsWolfieFightAdminNotes`, and `mrsWolfieUpdates` rules, including overlapping wildcard matches.
+- [ ] Only after reviewing the actual Firestore rules, prepare a non-production `mrsWolfieFightDrafts` rule patch and emulator tests.
+- [ ] Retain the supplied RTDB rules as a separate reference; do not replace or modify them for the Firestore draft feature.
+
+**Step 80 decision:** Database product correctly identified; Firestore rules still outstanding. No rule changes, deployments, merges or confidential draft writes.
+
+
+## Step 81 — user-supplied Cloud Firestore rules verified at source level (14 November 2026)
+
+The user provided the complete-looking `rules_version = '2'; service cloud.firestore` rules text (499 lines). This establishes the **supplied rules'** contents, but does not independently confirm the currently deployed rules.
+
+### Relevant current access controls in supplied rules
+- `isAdmin()` permits exactly the two existing authorised Firebase Auth UIDs.
+- `mrsWolfieFights/{fightId}`: `allow read: if true`; `allow create, update, delete: if isAdmin()`. All fight fields are publicly readable, including any confidential fields mistakenly saved here.
+- `mrsWolfieFightAdminNotes/{fightId}`: admin-only read/create/update/delete.
+- `mrsWolfieUpdates/{updateId}`: admin can read all; public read only when `resource.data.active == true`; admin-only write.
+- `mrsWolfiePushSubscribers/{subscriberId}`: no client read/write.
+- `gallery/{galleryId}`: admin reads all, public reads published records only.
+- Final `match /{document=**}` explicitly denies all other access. In the supplied text, no overlapping wildcard grants draft access.
+- There is **no** `mrsWolfieFightDrafts/{fightId}` match; draft documents would be denied by the supplied rules.
+
+### Minimal proposed Firestore addition — NOT DEPLOYED
+Insert immediately after the `mrsWolfieFightAdminNotes` match within `match /databases/{database}/documents`:
+```javascript
+/* MRS WOLFIE UNANNOUNCED FIGHT DRAFTS — ADMIN ONLY */
+match /mrsWolfieFightDrafts/{fightId} {
+  allow get, list, create, update, delete: if isAdmin();
+}
+```
+The existing deny-all rule should remain unchanged. This addition does **not** alter the public `mrsWolfieFights` or existing admin notes. Note that `get`/`list` permissions cover individual document reads and queries respectively.
+
+### Rollout safety
+1. Back up the exact deployed rules and verify they match the supplied source.
+2. Test both authorised admin accounts and an unauthenticated and a non-admin account against draft get/list/create/update/delete in isolated emulators.
+3. Test published fights and private notes still work on both apps.
+4. Review and separately test the proposed private draft Storage rules; no draft-image upload to public `fight-images/`.
+5. Only then approve deployment of rules, followed by the new UI controls. No private drafts should be saved before both rulesets are live.
+
+**Step 81 decision:** Firestore source review complete. **No rules deployed or changed; no draft UI enabled.** The security prerequisite is now concrete, pending emulator validation and deployment approval.

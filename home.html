@@ -405,6 +405,8 @@ button{
     transform .18s ease;
 }
 
+.menu-link[hidden]{display:none!important;}
+
 .menu-link:hover,
 .menu-link.active{
   color:#fff;
@@ -3947,6 +3949,13 @@ body.wolfie-image-modal-open{overflow:hidden}
     TEAM WOLFPACK OFFICIAL MOBILE APP
   </a>
 
+  <!-- Sign-in entry for administrators who are not yet signed in. -->
+  <a href="mrs-wolfie-dashboard.html" class="menu-link" id="mrsWolfieAdminSignIn">
+    <span class="menu-icon">🔐</span>
+    <span>ADMIN SIGN IN</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
   <!-- MRS WOLFIE ADMIN DASHBOARD -->
 <a
   href="mrs-wolfie-dashboard.html"
@@ -3954,7 +3963,7 @@ body.wolfie-image-modal-open{overflow:hidden}
   id="mrsWolfieAdminMenu"
   style="display:none;"
 >
-  🔐 ADMIN DASHBOARD
+  <span class="menu-icon">⚙</span><span>ADMIN DASHBOARD</span><span class="menu-arrow">›</span>
 </a>
   
 </aside>
@@ -4042,7 +4051,7 @@ body.wolfie-image-modal-open{overflow:hidden}
     <div class="wolfie-middle-brand">🐺 TEAM WOLFPACK</div>
     <div id="nextFightPromotion" class="wolfie-promotion">TEAM WOLFPACK <span id="nextFightEvent" class="wolfie-promotion-small">PROMOTIONS</span></div>
     <div id="homeNextFightTitleCard" class="wolfie-title-card" hidden><div>★ TITLE FIGHT</div><strong id="homeNextFightTitle"></strong></div>
-    <div id="nextFightDetails" class="wolfie-date-venue"><div>20 NOVEMBER 2026</div><div>EASTHOUSES MINERS CLUB</div></div>
+    <div id="nextFightDetails" class="wolfie-date-venue"><div>DATE TBA</div><div>VENUE TBA</div></div>
     <a id="nextFightButton" class="wolfie-main-action" href="./fight.html">VIEW FIGHT DETAILS →</a>
     <div id="wolfieTicketInfo" class="wolfie-ticket-info" hidden><div id="wolfieTicketPrice"></div><div>🟢 TICKETS AVAILABLE</div></div>
     <a id="homeTicketButton" class="wolfie-ticket-action" href="#" target="_blank" rel="noopener noreferrer" hidden>🎟 GET TICKETS →</a>
@@ -5319,10 +5328,23 @@ if(grid){
     const opponent = String(fight?.opponent || "").trim();
     const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
       ? String(fight?.opponentImage || "").trim() : "";
-    photo.hidden = !/^https:\/\//i.test(url);
-    placeholder.hidden = !photo.hidden;
-    if (!photo.hidden) { photo.src = url; photo.alt = opponent; }
-    else photo.removeAttribute("src");
+    const show = /^https:\/\//i.test(url);
+    // Keep the silhouette visible until the uploaded photograph has loaded.
+    photo.hidden = true;
+    placeholder.hidden = false;
+    photo.onload = function() {
+      if (show && this.getAttribute("src") === url) {
+        this.hidden = false;
+        placeholder.hidden = true;
+      }
+    };
+    if (show) {
+      photo.alt = opponent;
+      if (photo.getAttribute("src") !== url) photo.src = url;
+      else if (photo.complete && photo.naturalWidth > 0) photo.onload();
+    } else {
+      photo.removeAttribute("src");
+    }
   }
   document.getElementById("homeNextOpponentPhoto")?.addEventListener("error", function(){
     this.hidden = true;
@@ -5995,66 +6017,79 @@ function renderHome(){
   }
 
 
+  let notificationInitTimer = null;
+  const notificationInitStarted = Date.now();
+  let notificationRegistrationPending = false;
+
   function updateStatus(){
-
-    if(
-      !("Notification" in window)
-    ){
-
-      button.textContent =
-        "UNAVAILABLE";
-
-      button.disabled =
-        true;
-
-      message.textContent =
-        "Notifications are not supported on this device.";
-
+    if (notificationRegistrationPending) {
+      button.disabled = true;
+      button.textContent = "CONNECTING...";
+      message.textContent = "Registering this device for Mrs Wolfie notifications...";
       return;
+    }
+    // notifications.js imports Firebase asynchronously. Do not offer a
+    // clickable ENABLE button until its registration API is actually ready.
+    if (typeof window.MRS_WOLFIE_NOTIFICATION_STATUS !== "function" ||
+        typeof window.MRS_WOLFIE_ENABLE_NOTIFICATIONS !== "function") {
+      button.disabled = true;
+      if (Date.now() - notificationInitStarted < 15000) {
+        button.textContent = "LOADING...";
+        message.textContent = "Preparing notification support. Please wait.";
+        if (!notificationInitTimer) {
+          notificationInitTimer = setTimeout(function () {
+            notificationInitTimer = null;
+            updateStatus();
+          }, 300);
+        }
+      } else {
+        button.textContent = "UNAVAILABLE";
+        message.textContent = "Notification setup could not load. Check your connection and refresh the app.";
+      }
+      return;
+    }
+    if (notificationInitTimer) {
+      clearTimeout(notificationInitTimer);
+      notificationInitTimer = null;
+    }
+    const status = typeof window.MRS_WOLFIE_NOTIFICATION_STATUS === "function"
+      ? window.MRS_WOLFIE_NOTIFICATION_STATUS()
+      : { supported: ("Notification" in window),
+          permission: ("Notification" in window) ? Notification.permission : "unsupported",
+          registered: false };
 
+    if (!status.supported || status.permission === "unsupported") {
+      button.textContent = "UNAVAILABLE";
+      button.disabled = true;
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const installed = window.matchMedia("(display-mode: standalone)").matches ||
+        navigator.standalone === true;
+      message.textContent = isIOS && !installed
+        ? "On iPhone or iPad, add Mrs Wolfie to your Home Screen and open the installed app to use push notifications (iOS 16.4+)."
+        : "Push notifications are unavailable in this browser or app environment.";
+      return;
     }
 
-
-    if(
-      Notification.permission ===
-      "granted"
-    ){
-
-      button.textContent =
-        "ENABLED";
-
-      message.textContent =
-        "Mrs Wolfie notifications are enabled on this device.";
-
+    if (status.permission === "denied") {
+      button.textContent = "BLOCKED";
+      button.disabled = true;
+      message.textContent = "Notifications are blocked in your browser settings.";
       return;
-
     }
 
-
-    if(
-      Notification.permission ===
-      "denied"
-    ){
-
-      button.textContent =
-        "BLOCKED";
-
-      message.textContent =
-        "Notifications are blocked in your browser settings.";
-
-      return;
-
+    button.disabled = false;
+    if (status.permission === "granted" && status.registered) {
+      button.textContent = "ENABLED";
+      message.textContent = "Mrs Wolfie notifications are registered on this device.";
+    } else if (status.permission === "granted") {
+      button.textContent = "COMPLETE SETUP";
+      message.textContent = "Permission is granted, but device registration is not confirmed. Tap to finish setup.";
+    } else {
+      button.textContent = "ENABLE";
+      message.textContent = "Enable notifications for Mrs Wolfie fight news, results and app updates.";
     }
-
-
-    button.textContent =
-      "ENABLE";
-
-    message.textContent =
-      "Enable notifications for Mrs Wolfie fight news, results and app updates.";
-
   }
-
 
   button.addEventListener(
     "click",
@@ -6075,41 +6110,33 @@ function renderHome(){
       }
 
 
-      button.disabled =
-        true;
+      if (notificationRegistrationPending) return;
+      notificationRegistrationPending = true;
+      updateStatus();
 
-      button.textContent =
-        "CONNECTING...";
-
-
-      try{
-
-        await window
-          .MRS_WOLFIE_ENABLE_NOTIFICATIONS();
-
+      let result;
+      try {
+        result = await window.MRS_WOLFIE_ENABLE_NOTIFICATIONS();
+      } catch (error) {
+        console.error("Mrs Wolfie notification enable failed:", error);
+        result = { success: false, error };
+      } finally {
+        notificationRegistrationPending = false;
       }
-
-      catch(error){
-
-        console.error(
-          "Mrs Wolfie notification enable failed:",
-          error
-        );
-
-      }
-
-
-      button.disabled =
-        false;
 
       updateStatus();
+      if (result && !result.success && result.error) {
+        message.textContent = typeof result.error === "string"
+          ? result.error
+          : (result.error.message || "Notification registration failed. Please try again.");
+      }
 
     }
   );
 
 
   window.addEventListener(
-    "mrsWolfieNotificationPermissionChanged",
+    "mrsWolfieNotificationPermission",
     updateStatus
   );
 
@@ -6118,6 +6145,22 @@ function renderHome(){
     "mrsWolfieNotificationRegistered",
     updateStatus
   );
+
+  // Firebase imports can finish after the 15-second loading timeout.
+  // Refresh controls when initialization completes, without prompting.
+  window.addEventListener("mrsWolfieNotificationsReady", updateStatus);
+
+  window.addEventListener("mrsWolfieNotificationError", function (event) {
+    // A click-initiated registration has its own final result handler.
+    // Do not overwrite CONNECTING while that attempt is still pending.
+    if (notificationRegistrationPending) return;
+    updateStatus();
+    message.textContent = event.detail?.message || "Notification registration failed. Please try again.";
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") updateStatus();
+  });
 
 
   updateStatus();
@@ -6325,6 +6368,7 @@ const adminMenuButton =
 onAuthStateChanged(auth, (user) => {
 
   if (!adminMenuButton) return;
+  const adminSignInButton = document.getElementById("mrsWolfieAdminSignIn");
 
   if (
     user &&
@@ -6333,6 +6377,7 @@ onAuthStateChanged(auth, (user) => {
   ) {
 
     adminMenuButton.style.display = "";
+    if (adminSignInButton) adminSignInButton.hidden = true;
 
     console.log(
       "Mrs Wolfie Admin Dashboard enabled."
@@ -6341,6 +6386,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
 
     adminMenuButton.style.display = "none";
+    if (adminSignInButton) adminSignInButton.hidden = false;
 
   }
 

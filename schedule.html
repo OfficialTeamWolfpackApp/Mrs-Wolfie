@@ -2274,12 +2274,12 @@ a.schedule-card:hover{
 
 
           <h2 class="next-promotion">
-            AYRSHIRE BOXING
+            PROMOTION TBA
           </h2>
 
 
           <div class="next-event">
-            THE LAUNCH
+            TBA
           </div>
 
 
@@ -2291,7 +2291,8 @@ a.schedule-card:hover{
 
   <img
     src="./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
-    class="schedule-fighter-photo"
+    id="scheduleMrsWolfiePhoto"
+              class="schedule-fighter-photo"
     alt="Mrs Wolfie"
   >
 
@@ -2337,7 +2338,7 @@ a.schedule-card:hover{
               </div>
 
               <div class="info-value">
-                17 OCTOBER 2026
+                TBA
               </div>
 
             </div>
@@ -2350,7 +2351,7 @@ a.schedule-card:hover{
               </div>
 
               <div class="info-value">
-                AYR RACECOURSE
+                VENUE TBA
               </div>
 
             </div>
@@ -2363,7 +2364,7 @@ a.schedule-card:hover{
               </div>
 
               <div class="info-value">
-                THE LAUNCH
+                TBA
               </div>
 
             </div>
@@ -2411,119 +2412,8 @@ a.schedule-card:hover{
 
 
 
-      <div class="schedule-list">
-
-
-        <!-- OCTOBER -->
-
-        <a
-          href="./fight.html"
-          class="schedule-card next-card"
-        >
-
-
-          <div class="schedule-date">
-
-            <div class="date-day">
-              17
-            </div>
-
-            <div class="date-month">
-              OCT
-            </div>
-
-          </div>
-
-
-          <div class="schedule-info">
-
-
-            <div class="next-badge">
-              NEXT FIGHT
-            </div>
-
-
-            <div class="schedule-type">
-              AYRSHIRE BOXING • THE LAUNCH
-            </div>
-
-
-            <div class="schedule-fight">
-              MRS WOLFIE VS COLLEEN LEYDEN
-            </div>
-
-
-            <div class="schedule-event">
-              AYR RACECOURSE • 17 OCTOBER 2026
-            </div>
-
-
-          </div>
-
-
-          <div class="schedule-arrow">
-            ›
-          </div>
-
-
-        </a>
-
-
-
-        <!-- NOVEMBER -->
-
-        <div class="schedule-card title-card">
-
-
-          <div class="schedule-date">
-
-            <div class="date-day">
-              20/21
-            </div>
-
-            <div class="date-month">
-              NOV
-            </div>
-
-          </div>
-
-
-          <div class="schedule-info">
-
-
-            <div class="schedule-type">
-              TRAIN4FIGHT
-            </div>
-
-
-            <div class="schedule-fight">
-              MRS WOLFIE VS TBA
-            </div>
-
-
-            <div class="schedule-event">
-              EASTHOUSES MINERS CLUB • NOVEMBER 2026
-            </div>
-
-
-            <div class="title-badge">
-              SUPER MIDDLEWEIGHT TITLE
-            </div>
-
-
-          </div>
-
-
-          <div class="schedule-arrow">
-            ›
-          </div>
-
-
-        </div>
-
-
-      </div>
-
+      <!-- Upcoming cards are rendered from Firestore; do not pre-render old bouts. -->
+      <div class="schedule-list"></div>
 
     </section>
 
@@ -2784,6 +2674,7 @@ a.schedule-card:hover{
   ======================================================== -->
 
   <script src="./fight-data.js"></script>
+  <script src="./notifications.js"></script>
 
 
   <!-- =======================================================
@@ -3017,7 +2908,8 @@ postponedFights =
         !fight.date
       ) {
 
-        return NaN;
+        // Keep date-TBA announcements after confirmed dates.
+        return Number.MAX_SAFE_INTEGER;
 
       }
 
@@ -3027,19 +2919,21 @@ postponedFights =
         "function"
       ) {
 
-        return window
+        const timestamp = window
           .MRS_WOLFIE_CREATE_DATE(
             fight.date
           )
           .getTime();
+        return Number.isFinite(timestamp) ? timestamp : Number.MAX_SAFE_INTEGER;
 
       }
 
 
-      return new Date(
+      const timestamp = new Date(
         fight.date +
         "T12:00:00"
       ).getTime();
+      return Number.isFinite(timestamp) ? timestamp : Number.MAX_SAFE_INTEGER;
 
     }
 
@@ -3102,18 +2996,40 @@ postponedFights =
        LOAD NEXT FIGHT
     ====================================================== */
 
-    function updateScheduleOpponentPhoto(fight) {
+    function updateMrsWolfieFighterPhoto(fight) {
+        const photo = document.getElementById("scheduleMrsWolfiePhoto");
+        if (!photo) return;
+        const uploaded = String(fight?.fighterImage || "").trim();
+        const fallback = photo.dataset.defaultSrc || photo.getAttribute("src");
+        if (!photo.dataset.defaultSrc) photo.dataset.defaultSrc = fallback;
+        const desired = /^https:\/\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
+        if (photo.getAttribute("src") !== desired) photo.src = desired;
+        photo.onerror = function() { this.onerror = null; this.src = this.dataset.defaultSrc; };
+      }
+      function updateScheduleOpponentPhoto(fight) {
       const photo = document.getElementById("scheduleOpponentPhoto");
       const placeholder = document.getElementById("scheduleOpponentPlaceholder");
       if (!photo || !placeholder) return;
       const opponent = String(fight?.opponent || "").trim();
       const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
         ? String(fight?.opponentImage || "").trim() : "";
-      const show = /^https:\/\//i.test(url);
-      photo.hidden = !show;
-      placeholder.hidden = show;
-      if (show) { photo.src = url; photo.alt = opponent; }
-      else photo.removeAttribute("src");
+    const show = /^https:\/\//i.test(url);
+    // Keep the silhouette visible until the uploaded photograph has loaded.
+    photo.hidden = true;
+    placeholder.hidden = false;
+    photo.onload = function() {
+      if (show && this.getAttribute("src") === url) {
+        this.hidden = false;
+        placeholder.hidden = true;
+      }
+    };
+    if (show) {
+      photo.alt = opponent;
+      if (photo.getAttribute("src") !== url) photo.src = url;
+      else if (photo.complete && photo.naturalWidth > 0) photo.onload();
+    } else {
+      photo.removeAttribute("src");
+    }
     }
     document.getElementById("scheduleOpponentPhoto")?.addEventListener("error", function() {
       this.hidden = true;
@@ -3121,6 +3037,7 @@ postponedFights =
     });
 
     function loadNextFight() {
+      updateMrsWolfieFighterPhoto(currentFight);
       updateScheduleOpponentPhoto(currentFight && currentFight.date ? currentFight : null);
 
 
@@ -3403,13 +3320,20 @@ postponedFights =
                 currentFight.opponent;
 
 
-            const cardClass =
-              fight.event &&
-              fight.event
-                .toUpperCase()
-                .includes("TITLE")
-                ? " title-card"
-                : "";
+            const titleText = String(fight.fightTitle || "").trim() ||
+              (String(fight.event || "").toUpperCase().includes("TITLE")
+                ? String(fight.event) : "");
+
+            // Fight details are inserted into HTML templates below.
+            // Escape Firestore-sourced text before interpolation.
+            const escapeFightText = value => String(value ?? "")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
+
+            const cardClass = titleText ? " title-card" : "";
 
 
             const nextClass =
@@ -3428,17 +3352,13 @@ postponedFights =
                 : "";
 
 
-            const titleBadge =
-              fight.event &&
-              fight.event
-                .toUpperCase()
-                .includes("TITLE")
-                ? `
+            const titleBadge = titleText
+              ? `
                   <div class="title-badge">
-                    ${fight.event}
+                    ${escapeFightText(titleText)}
                   </div>
                 `
-                : "";
+              : "";
 
 
             const typeText =
@@ -3459,7 +3379,7 @@ postponedFights =
 
             const eventDate =
               fight.dateDisplay ||
-              "TBA";
+              "DATE TBA";
 
 
             const cardContent = `
@@ -3482,15 +3402,15 @@ postponedFights =
                 ${tag}
 
                 <div class="schedule-type">
-                  ${typeText}
+                  ${escapeFightText(typeText)}
                 </div>
 
                 <div class="schedule-fight">
-                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                  MRS WOLFIE VS ${escapeFightText(fight.opponent || "TBA")}
                 </div>
 
                 <div class="schedule-event">
-                  ${fight.venue || "TBA"} • ${eventDate}
+                  ${escapeFightText(fight.venue || "TBA")} • ${escapeFightText(eventDate)}
                 </div>
 
                 ${titleBadge}
@@ -3876,17 +3796,25 @@ function renderPostponedFights() {
             card.className =
               "history-card";
 
+            // Historical fight details can also originate from Firestore.
+            // Escape values before inserting them into the card markup.
+            const safeHistoryText = value => String(value ?? "")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
 
             card.innerHTML = `
 
               <div class="history-date">
 
                 <div class="history-day">
-                  ${getDateDay(fight)}
+                  ${safeHistoryText(getDateDay(fight))}
                 </div>
 
                 <div class="history-month">
-                  ${getHistoryMonth(fight)}
+                  ${safeHistoryText(getHistoryMonth(fight))}
                 </div>
 
               </div>
@@ -3895,22 +3823,22 @@ function renderPostponedFights() {
               <div class="history-info">
 
                 <div class="history-promotion">
-                  ${fight.promotion || "TBA"}
+                  ${safeHistoryText(fight.promotion || "TBA")}
                 </div>
 
                 <div class="history-fight">
-                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                  MRS WOLFIE VS ${safeHistoryText(fight.opponent || "TBA")}
                 </div>
 
                 <div class="history-venue">
-                  ${fight.venue || "TBA"}
+                  ${safeHistoryText(fight.venue || "TBA")}
                 </div>
 
               </div>
 
 
-              <div class="result${resultClass}">
-                ${result}
+              <div class="result${safeHistoryText(resultClass)}">
+                ${safeHistoryText(result)}
               </div>
 
             `;

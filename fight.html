@@ -2690,6 +2690,7 @@ background-image:
           <div class="fighter">
 
             <img
+              id="fightMrsWolfiePhoto"
               class="fighter-photo"
               src="images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
               alt="Mrs Wolfie"
@@ -3058,6 +3059,7 @@ background-image:
   ======================================================== -->
 
   <script src="./fight-data.js"></script>
+  <script src="./notifications.js"></script>
 
 
 
@@ -3467,6 +3469,16 @@ background-image:
          NO FIGHT STATE
       ====================================================== */
 
+      function updateMrsWolfieFighterPhoto(fight) {
+        const photo = document.getElementById("fightMrsWolfiePhoto");
+        if (!photo) return;
+        const uploaded = String(fight?.fighterImage || "").trim();
+        const fallback = photo.dataset.defaultSrc || photo.getAttribute("src");
+        if (!photo.dataset.defaultSrc) photo.dataset.defaultSrc = fallback;
+        const desired = /^https:\/\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
+        if (photo.getAttribute("src") !== desired) photo.src = desired;
+        photo.onerror = function() { this.onerror = null; this.src = this.dataset.defaultSrc; };
+      }
       function updateFightOpponentPhoto(fight) {
         const photo = document.getElementById("fightOpponentPhoto");
         const placeholder = document.getElementById("fightOpponentPlaceholder");
@@ -3474,11 +3486,23 @@ background-image:
         const opponent = String(fight?.opponent || "").trim();
         const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
           ? String(fight?.opponentImage || "").trim() : "";
-        const show = /^https:\/\//i.test(url);
-        photo.hidden = !show;
-        placeholder.hidden = show;
-        if (show) { photo.src = url; photo.alt = opponent; }
-        else photo.removeAttribute("src");
+    const show = /^https:\/\//i.test(url);
+    // Keep the silhouette visible until the uploaded photograph has loaded.
+    photo.hidden = true;
+    placeholder.hidden = false;
+    photo.onload = function() {
+      if (show && this.getAttribute("src") === url) {
+        this.hidden = false;
+        placeholder.hidden = true;
+      }
+    };
+    if (show) {
+      photo.alt = opponent;
+      if (photo.getAttribute("src") !== url) photo.src = url;
+      else if (photo.complete && photo.naturalWidth > 0) photo.onload();
+    } else {
+      photo.removeAttribute("src");
+    }
       }
       document.getElementById("fightOpponentPhoto")?.addEventListener("error", function() {
         this.hidden = true;
@@ -3486,6 +3510,8 @@ background-image:
       });
 
       function showNoFightState() {
+        // Clear images from the previous fight when there is no active bout.
+        updateMrsWolfieFighterPhoto(null);
         updateFightOpponentPhoto(null);
 
 
@@ -3627,7 +3653,8 @@ if (ticketButton) {
       function loadFightInformation(
         currentFight
       ) {
-        updateFightOpponentPhoto(currentFight);
+        updateMrsWolfieFighterPhoto(currentFight);
+      updateFightOpponentPhoto(currentFight);
 
 
         if (!currentFight) {

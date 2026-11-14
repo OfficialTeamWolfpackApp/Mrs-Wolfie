@@ -67,14 +67,23 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
   ======================================================== */
 
   if (
+    !window.isSecureContext ||
     !("Notification" in window) ||
-    !("serviceWorker" in navigator)
+    !("serviceWorker" in navigator) ||
+    !("PushManager" in window)
   ) {
 
     console.log(
-      "Mrs Wolfie notifications are not supported by this browser."
+      "Mrs Wolfie push notifications require a secure, compatible browser."
     );
 
+    window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+      return { supported: false, permission: "unsupported", registered: false };
+    };
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+      return { success: false, permission: "unsupported" };
+    };
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
     return;
 
   }
@@ -143,6 +152,14 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
         "Firebase Cloud Messaging is not supported by this browser."
       );
 
+      window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+        return { supported: false, permission: "unsupported", registered: false };
+      };
+      window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+        return { success: false, permission: "unsupported" };
+      };
+      // Notify the homepage only after both public APIs are available.
+      window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
       return;
 
     }
@@ -295,6 +312,70 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 
+    /* Display foreground updates without creating a second OS-level
+       notification. All message text is inserted as text, never HTML. */
+    let foregroundNoticeTimer = null;
+    const recentForegroundMessageIds = new Map();
+    function showForegroundNotice(payload) {
+      if (document.visibilityState !== "visible" || !document.body) return;
+      // Firebase messageId is stable for repeat deliveries of the same push.
+      // Keep a short-lived marker across same-tab page navigation.
+      const messageId = payload && (payload.messageId || payload.fcmMessageId);
+      if (messageId) {
+        const key = "mrsWolfieForegroundMessage:" + String(messageId);
+        const now = Date.now();
+        for (const [id, timestamp] of recentForegroundMessageIds) {
+          if (now - timestamp > 60000) recentForegroundMessageIds.delete(id);
+        }
+        if (recentForegroundMessageIds.has(key)) return;
+        try {
+          const previous = Number(sessionStorage.getItem(key) || 0);
+          if (previous && now - previous >= 0 && now - previous < 60000) return;
+          sessionStorage.setItem(key, String(now));
+        } catch (error) {
+          // Private browsing can disable sessionStorage; in-memory dedupe remains.
+        }
+        recentForegroundMessageIds.set(key, now);
+      }
+      const data = payload && payload.data || {};
+      const notification = payload && payload.notification || {};
+      const title = String(notification.title || data.title || "MRS WOLFIE").slice(0, 100);
+      const body = String(notification.body || data.body || "A new update is available.").slice(0, 250);
+      const scope = new URL("./", window.location.href);
+      let destination;
+      try { destination = new URL(String(data.url || "./updates.html"), scope); }
+      catch (error) { destination = new URL("./updates.html", scope); }
+      if (destination.origin !== scope.origin ||
+          !destination.pathname.startsWith(scope.pathname)) {
+        destination = new URL("./updates.html", scope);
+      }
+      let notice = document.getElementById("mrsWolfieForegroundNotice");
+      if (!notice) {
+        notice = document.createElement("div");
+        notice.id = "mrsWolfieForegroundNotice";
+        notice.setAttribute("role", "status");
+        notice.style.cssText = "position:fixed;bottom:18px;left:18px;right:18px;max-width:420px;margin:auto;z-index:99999;background:#101d2a;color:#fff;border:1px solid #89dcff;border-radius:12px;padding:14px 16px;box-shadow:0 8px 30px #0008;font:15px/1.5 system-ui,sans-serif";
+        document.body.appendChild(notice);
+      }
+      notice.replaceChildren();
+      const heading = document.createElement("strong");
+      heading.textContent = title;
+      const description = document.createElement("div");
+      description.textContent = body;
+      const open = document.createElement("a");
+      open.href = destination.href;
+      open.textContent = "View update";
+      open.style.cssText = "display:inline-block;margin-top:8px;color:#89dcff";
+      const dismiss = document.createElement("button");
+      dismiss.type = "button";
+      dismiss.textContent = "Dismiss";
+      dismiss.style.cssText = "margin-left:16px;background:transparent;color:#fff;border:0;cursor:pointer";
+      dismiss.addEventListener("click", () => notice.remove());
+      notice.append(heading, description, open, dismiss);
+      clearTimeout(foregroundNoticeTimer);
+      foregroundNoticeTimer = setTimeout(() => notice.remove(), 12000);
+    }
+
     /* =====================================================
        FOREGROUND MESSAGES
     ====================================================== */
@@ -306,6 +387,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
         console.log(
           "Mrs Wolfie foreground notification received."
         );
+
+        showForegroundNotice(payload);
 
 
         window.dispatchEvent(
@@ -337,8 +420,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           );
 
 
-          const permission =
-            await Notification.requestPermission();
+          // Do not trigger a redundant prompt when permission is already
+          // granted, and do not re-prompt after the browser has denied it.
+          const permission = Notification.permission === "default"
+            ? await Notification.requestPermission()
+            : Notification.permission;
 
 
           console.log(
@@ -355,6 +441,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           if (
             permission !== "granted"
           ) {
+
+            localStorage.removeItem("mrsWolfieFCMToken");
 
             window.dispatchEvent(
               new CustomEvent(
@@ -447,10 +535,30 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
              REGISTER WITH PROTECTED CLOUD FUNCTION
           ================================================== */
 
+          // The user may revoke permission while service-worker activation
+          // or Firebase token acquisition is pending. Never submit a token
+          // to the backend after permission has already been revoked.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationPermission", {
+              detail: { permission: Notification.permission }
+            }));
+            return { success: false, permission: Notification.permission, registered: false };
+          }
+
           await registerDeviceWithBackend(
             token
           );
 
+          // Permission may be revoked while the backend request is pending.
+          // Do not report success or cache a token after revocation.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationPermission", {
+              detail: { permission: Notification.permission }
+            }));
+            return { success: false, permission: Notification.permission, registered: false };
+          }
 
 
           /* =================================================
@@ -527,6 +635,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             error
           );
 
+          // Preserve a previously confirmed registration during a temporary
+          // network/backend failure. Never create a success marker for a
+          // failed first-time registration, and clear it if permission ended.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+          }
+
 
           window.dispatchEvent(
             new CustomEvent(
@@ -559,12 +674,44 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 
+    /* Avoid simultaneous permission prompts and duplicate token submissions.
+       A later explicit request can retry after the first has settled. */
+    const enableNotificationsOnce = window.MRS_WOLFIE_ENABLE_NOTIFICATIONS;
+    let notificationRegistrationInFlight = null;
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = function () {
+      if (notificationRegistrationInFlight) {
+        return notificationRegistrationInFlight;
+      }
+      // Permission prompts require a direct user gesture in many browsers.
+      // Do not defer the first requestPermission() behind a Promise callback.
+      const registrationAttempt = Notification.permission === "default"
+        ? enableNotificationsOnce()
+        : (async () => {
+            // Already-authorised users can safely wait for a background
+            // token refresh without losing the permission-prompt gesture.
+            if (tokenRecheckInFlight) await tokenRecheckInFlight;
+            return enableNotificationsOnce();
+          })();
+      notificationRegistrationInFlight = Promise.resolve(registrationAttempt)
+        .finally(() => {
+          notificationRegistrationInFlight = null;
+        });
+      return notificationRegistrationInFlight;
+    };
+
+
     /* =====================================================
        CURRENT NOTIFICATION STATUS
     ====================================================== */
 
     window.MRS_WOLFIE_NOTIFICATION_STATUS =
       function () {
+
+        // Permission can change in browser settings without a page reload.
+        // Invalidate a cached success marker if permission was revoked.
+        if (Notification.permission !== "granted") {
+          localStorage.removeItem("mrsWolfieFCMToken");
+        }
 
         return {
 
@@ -575,6 +722,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             Notification.permission,
 
           registered:
+            Notification.permission === "granted" &&
             Boolean(
               localStorage.getItem(
                 "mrsWolfieFCMToken"
@@ -587,6 +735,60 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
 
 
+    /* Recheck the token when an opted-in supporter returns to the app.
+       Never prompt automatically, and only submit if Firebase rotated it. */
+    let tokenRecheckInFlight = null;
+    async function recheckNotificationToken() {
+      if (document.visibilityState !== "visible" ||
+          Notification.permission !== "granted" ||
+          !localStorage.getItem("mrsWolfieFCMToken")) {
+        return;
+      }
+      if (notificationRegistrationInFlight) return;
+      if (tokenRecheckInFlight) return tokenRecheckInFlight;
+      tokenRecheckInFlight = (async () => {
+        try {
+          const previousToken = localStorage.getItem("mrsWolfieFCMToken");
+          const registration = await navigator.serviceWorker.getRegistration("./");
+          if (!registration) return;
+          const currentToken = await getToken(messaging, {
+            vapidKey: MRS_WOLFIE_VAPID_KEY,
+            serviceWorkerRegistration: registration
+          });
+          if (!currentToken) return;
+          // Stop if the supporter revoked permission or another operation
+          // changed the saved token while the network request was running.
+          if (Notification.permission !== "granted" ||
+              localStorage.getItem("mrsWolfieFCMToken") !== previousToken) return;
+          if (currentToken !== previousToken) {
+            await registerDeviceWithBackend(currentToken);
+            if (Notification.permission !== "granted" ||
+                localStorage.getItem("mrsWolfieFCMToken") !== previousToken) return;
+            localStorage.setItem("mrsWolfieFCMToken", currentToken);
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationRegistered", {
+              detail: { registered: true, refreshed: true }
+            }));
+          }
+        } catch (error) {
+          // Preserve the last confirmed token. Retry when the app returns
+          // to the foreground or the browser reports connectivity restored.
+          console.warn("Mrs Wolfie notification token recheck failed:", error);
+        }
+      })().finally(() => { tokenRecheckInFlight = null; });
+      return tokenRecheckInFlight;
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        recheckNotificationToken();
+      }
+    });
+    // A device can reconnect without the supporter switching apps.
+    // Only recheck existing opt-ins; this never requests permission.
+    window.addEventListener("online", () => {
+      recheckNotificationToken();
+    });
+    recheckNotificationToken();
+
     /* =====================================================
        SYSTEM READY
     ====================================================== */
@@ -594,6 +796,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
     console.log(
       "Mrs Wolfie notification system ready."
     );
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
   }
 
@@ -604,6 +807,14 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       "Mrs Wolfie notification system failed to initialise:",
       error
     );
+
+    window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+      return { supported: false, permission: Notification.permission, registered: false };
+    };
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+      return { success: false, error: new Error("Notification system unavailable. Check your connection and refresh the app.") };
+    };
+    window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
   }
 

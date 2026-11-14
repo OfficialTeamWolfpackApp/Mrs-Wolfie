@@ -106,11 +106,8 @@ messaging.onBackgroundMessage(
         {
           body: body,
 
-          icon:
-            "./images/icon-192.png",
-
-          badge:
-            "./images/icon-192.png",
+          icon: "./images/icon-192.png",
+          badge: "./images/icon-192.png",
 
           tag:
             data.tag ||
@@ -144,70 +141,67 @@ self.addEventListener(
     event.notification.close();
 
 
+    // Firebase-generated notifications can store their destination in
+    // FCM_MSG rather than the custom data.url used for data-only pushes.
+    const notificationData = event.notification.data || {};
+    const firebaseMessage = notificationData.FCM_MSG || {};
     const targetURL =
-      event.notification.data?.url ||
-      "./index.html";
+      notificationData.url ||
+      firebaseMessage.data?.url ||
+      firebaseMessage.fcmOptions?.link ||
+      firebaseMessage.notification?.click_action ||
+      "./updates.html";
 
 
-    const absoluteURL =
-      new URL(
-        targetURL,
-        self.registration.scope
-      ).href;
+    // Notification payload URLs are untrusted. Only navigate within
+    // the Mrs Wolfie application's service-worker scope.
+    const appScope = new URL(self.registration.scope);
+    let destination;
+    try {
+      destination = new URL(String(targetURL), appScope);
+    } catch (error) {
+      destination = new URL("./index.html", appScope);
+    }
+    if (
+      destination.origin !== appScope.origin ||
+      !destination.pathname.startsWith(appScope.pathname)
+    ) {
+      destination = new URL("./index.html", appScope);
+    }
+    const absoluteURL = destination.href;
 
 
-    event.waitUntil(
+    event.waitUntil((async () => {
+      const clientList = await clients.matchAll({
+        type: "window",
+        includeUncontrolled: true
+      });
 
-      clients
-        .matchAll({
-          type: "window",
-          includeUncontrolled: true
-        })
+      // Prefer an existing window already showing this destination.
+      for (const client of clientList) {
+        if (client.url === absoluteURL && "focus" in client) {
+          return client.focus();
+        }
+      }
 
-        .then(
-          async (clientList) => {
-
-            for (
-              const client
-              of clientList
-            ) {
-
-              if (
-                "navigate" in client
-              ) {
-
-                await client.navigate(
-                  absoluteURL
-                );
-
-              }
-
-
-              if (
-                "focus" in client
-              ) {
-
-                return client.focus();
-
-              }
-
-            }
-
-
-            if (
-              clients.openWindow
-            ) {
-
-              return clients.openWindow(
-                absoluteURL
-              );
-
-            }
-
+      // Reuse only a window belonging to this application. Do not
+      // redirect unrelated windows controlled by the same origin.
+      for (const client of clientList) {
+        try {
+          const clientURL = new URL(client.url);
+          if (clientURL.origin !== appScope.origin ||
+              !clientURL.pathname.startsWith(appScope.pathname)) continue;
+          if ("navigate" in client) {
+            const navigated = await client.navigate(absoluteURL);
+            if (navigated && "focus" in navigated) return navigated.focus();
           }
-        )
+        } catch (error) {
+          console.warn("[Mrs Wolfie] Could not reuse notification window:", error);
+        }
+      }
 
-    );
+      if (clients.openWindow) return clients.openWindow(absoluteURL);
+    })());
 
   }
 );
@@ -219,7 +213,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v11";
+  "mrs-wolfie-boxing-v18";
 
 
 
@@ -247,19 +241,21 @@ const APP_FILES = [
 
   "./notifications.js",
 
-  "./manifest.json",
-
-  "./images/icon-192.png",
-
-  "./images/icon-512.png",
-
-  "./images/icon-maskable-512.png",
-
-  "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
+  "./manifest.json"
 
 ];
 
 
+
+/* Image assets are cached opportunistically. Missing images must not
+   prevent the verified core HTML/JS files from installing offline. */
+const OPTIONAL_ICON_FILES = [
+  "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png",
+  "./images/female-fighter-tba.png",
+  "./images/icon-192.png",
+  "./images/icon-512.png",
+  "./images/icon-maskable-512.png"
+];
 
 /* =========================================================
    INSTALL
@@ -279,9 +275,15 @@ self.addEventListener(
         .then(
           (cache) => {
 
-            return cache.addAll(
-              APP_FILES
-            );
+            return cache.addAll(APP_FILES).then(async () => {
+              await Promise.all(OPTIONAL_ICON_FILES.map(async (path) => {
+                try {
+                  await cache.add(path);
+                } catch (error) {
+                  console.warn("[Mrs Wolfie] Optional image unavailable:", path);
+                }
+              }));
+            });
 
           }
         )
@@ -318,6 +320,7 @@ self.addEventListener(
                 (cacheName) => {
 
                   if (
+                    cacheName.startsWith("mrs-wolfie-boxing-") &&
                     cacheName !==
                     CACHE_NAME
                   ) {
