@@ -1334,6 +1334,7 @@ function resetForm() {
   saveButton.disabled = false;
 
   cancelEditButton.hidden = true;
+  cancelEditButton.disabled = false;
 
   clearMessage();
 }
@@ -2559,8 +2560,18 @@ fightForm.addEventListener(
       if (publicFightSaved) {
         fighterImageUpload.value = "";
         opponentImageUpload.value = "";
-        if (fighterURLForRetry) setImagePreview(fighterImagePreview, fighterURLForRetry);
-        if (opponentURLForRetry) setImagePreview(opponentImagePreview, opponentURLForRetry);
+        removeFighterImage.checked = false;
+        removeOpponentImage.checked = false;
+        // Keep the local record consistent until the Firestore listener refreshes.
+        // This prevents an old image from reappearing during a private-note retry.
+        const savedFight = editingId ? getFight(editingId) : null;
+        if (savedFight) {
+          savedFight.fighterImage = publicData.fighterImage;
+          savedFight.opponentImage = publicData.opponentImage;
+        }
+        refreshAllImagePreviews();
+        fighterImageState.textContent = publicData.fighterImage ? "FIGHT IMAGE SAVED — private note still needs retry." : "NO FIGHTER IMAGE SAVED — private note still needs retry.";
+        opponentImageState.textContent = publicData.opponentImage ? "OPPONENT IMAGE SAVED — private note still needs retry." : "NO OPPONENT IMAGE SAVED — private note still needs retry.";
       }
 
       // Never delete files once the fight document references them.
