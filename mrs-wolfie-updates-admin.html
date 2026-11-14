@@ -1418,7 +1418,7 @@ updateImageFile.addEventListener("change", function() {
     return;
   }
 
-  if (file.size > 10 * 1024 * 1024) {
+  if (file.size > 8 * 1024 * 1024) {
     updateImageFile.value = "";
     updateImageStatus.textContent =
       "IMAGE MUST BE SMALLER THAN 10MB.";
@@ -1459,8 +1459,8 @@ async function uploadMrsWolfieImage() {
     throw new Error("Please choose a JPG, PNG or WEBP image.");
   }
 
-  if (file.size > 10 * 1024 * 1024) {
-    throw new Error("Image must be smaller than 10MB.");
+  if (file.size > 8 * 1024 * 1024) {
+    throw new Error("Image must be 8 MB or smaller.");
   }
 
   updateImageStatus.textContent = "UPLOADING IMAGE...";
@@ -2640,6 +2640,7 @@ onAuthStateChanged(
 
     if(
       user &&
+      !user.isAnonymous &&
       ADMINS[
         user.uid
       ]
