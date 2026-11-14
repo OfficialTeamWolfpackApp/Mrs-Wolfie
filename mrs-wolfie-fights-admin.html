@@ -823,6 +823,8 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
           <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
           <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
 
+          <p class="field-help" style="grid-column:1/-1">IMAGE HISTORY: Replacing or removing a photograph updates this fight only. Previously uploaded files are retained in Firebase Storage to avoid deleting images that another fight or historical record may still use. Storage cleanup must be reviewed separately.</p>
+
           <div class="field full">
             <label for="venue">VENUE</label>
 
@@ -2441,6 +2443,7 @@ fightForm.addEventListener(
     }
 
     saveButton.disabled = true;
+    cancelEditButton.disabled = true;
     saveButton.textContent = "SAVING / UPLOADING...";
 
     let publicFightSaved = false;
@@ -2564,6 +2567,7 @@ fightForm.addEventListener(
 
 
     saveButton.disabled = false;
+    cancelEditButton.disabled = false;
     saveButton.textContent = editingId ? "SAVE CHANGES" : "ADD FIGHT";
   }
 );
