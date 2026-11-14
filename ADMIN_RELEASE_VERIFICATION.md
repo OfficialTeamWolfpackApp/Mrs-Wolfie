@@ -93,3 +93,22 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - [ ] Test duplicate click attempts, token-refresh races and permission revocation during a pending backend request on real supported browsers.
 
 **Audit result:** Client-side lifecycle handling is improved, but the notification system is **not** verified end-to-end. The actual Cloud Function implementation and non-production tests are required before release.
+
+## Step 57 — wider pull request release-readiness review (14 November 2026)
+
+### Verified from the current development branch and PR #1 file list
+- PR #1 currently changes 11 files: `ADMIN_RELEASE_VERIFICATION.md`, `fight-data.js`, `fight.html`, `home.html`, `mrs-wolfie-dashboard.html`, `mrs-wolfie-fights-admin.html`, `mrs-wolfie-updates-admin.html`, `notifications.js`, `schedule.html`, `service-worker.js` and `updates.html`.
+- The public fight adapter has an empty local announced-fights fallback (`MRS_WOLFIE_FALLBACK_FIGHTS = []`); it must still be tested against actual Firestore records and failure conditions.
+- The public updates adapter filters Firestore updates with `active == true`; deployed Firestore rules and indexes remain unverified.
+- The three PWA icon paths referenced in `manifest.json` are **not included in PR #1's changed-file list**. Do not infer their image contents, branding or installability from this review; verify the actual binary assets separately.
+- GitHub's combined commit-status endpoint returned **no status entries** for the inspected development commit. This is not evidence that CI or browser tests passed.
+
+### Release gates still open
+- [ ] Obtain real test evidence for admin sign-in, Firestore/Storage authorisation, image uploads and public rendering on desktop and mobile.
+- [ ] Exercise announced, TBA, postponed and cancelled fight states using non-production data; check every public page for stale opponent names, dates or title text.
+- [ ] Verify manifest icon files and branding from actual image bytes and test installation on Android and iOS.
+- [ ] Confirm the deployed Firebase rules and push-registration Cloud Function source, then run negative security tests.
+- [ ] Run automated syntax checks and browser smoke tests; record results and any failures in this document.
+- [ ] Review the complete PR diff and obtain explicit approval before merge or deployment.
+
+**Step 57 decision: NOT READY TO MERGE OR DEPLOY.** This is a repository review and documentation update only; no automated test suite or real-device test was executed in this step.
