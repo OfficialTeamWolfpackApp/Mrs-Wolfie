@@ -107,9 +107,7 @@ messaging.onBackgroundMessage(
           body: body,
 
           icon:
-            "./images/icon-192.png",
-
-          badge:
+                    badge:
             "./images/icon-192.png",
 
           tag:
@@ -219,7 +217,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v11";
+  "mrs-wolfie-boxing-v12";
 
 
 
@@ -251,15 +249,14 @@ const APP_FILES = [
 
   "./images/icon-192.png",
 
-  "./images/icon-512.png",
-
-  "./images/icon-maskable-512.png",
-
   "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
 
 ];
 
 
+
+/* Missing optional icons must not block the entire offline cache install.
+   Add these assets back after the PWA icon artwork is supplied. */
 
 /* =========================================================
    INSTALL
@@ -318,6 +315,7 @@ self.addEventListener(
                 (cacheName) => {
 
                   if (
+                    cacheName.startsWith("mrs-wolfie-boxing-") &&
                     cacheName !==
                     CACHE_NAME
                   ) {
