@@ -6027,7 +6027,13 @@ function renderHome(){
     if (!status.supported || status.permission === "unsupported") {
       button.textContent = "UNAVAILABLE";
       button.disabled = true;
-      message.textContent = "Notifications are not supported on this device.";
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const installed = window.matchMedia("(display-mode: standalone)").matches ||
+        navigator.standalone === true;
+      message.textContent = isIOS && !installed
+        ? "On iPhone or iPad, add Mrs Wolfie to your Home Screen and open the installed app to use push notifications (iOS 16.4+)."
+        : "Push notifications are unavailable in this browser or app environment.";
       return;
     }
 
@@ -6077,27 +6083,19 @@ function renderHome(){
         "CONNECTING...";
 
 
+      let result;
       try{
-
-        await window
-          .MRS_WOLFIE_ENABLE_NOTIFICATIONS();
-
+        result = await window.MRS_WOLFIE_ENABLE_NOTIFICATIONS();
+      } catch(error){
+        console.error("Mrs Wolfie notification enable failed:", error);
+        result = { success: false, error };
       }
-
-      catch(error){
-
-        console.error(
-          "Mrs Wolfie notification enable failed:",
-          error
-        );
-
-      }
-
-
-      button.disabled =
-        false;
 
       updateStatus();
+      if (result && !result.success && result.error) {
+        message.textContent = result.error.message ||
+          "Notification registration failed. Please try again.";
+      }
 
     }
   );
