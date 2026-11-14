@@ -772,13 +772,12 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
 
           <div class="field">
-            <label for="opponent">OPPONENT</label>
+            <label for="opponent">OPPONENT — OPTIONAL (TBA IF BLANK)</label>
 
             <input
               id="opponent"
               type="text"
-              placeholder="e.g. COLLEEN LEYDEN"
-              required
+              placeholder="TBA — leave blank until confirmed"
             >
           </div>
 
@@ -796,12 +795,11 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
 
           <div class="field">
-            <label for="fightDate">FIGHT DATE</label>
+            <label for="fightDate">FIGHT DATE — OPTIONAL (DATE TBA IF BLANK)</label>
 
             <input
               id="fightDate"
               type="date"
-              required
             >
           </div>
 
@@ -2294,7 +2292,7 @@ fightForm.addEventListener(
       opponent:
         opponent.value
           .trim()
-          .toUpperCase(),
+          .toUpperCase() || "TBA",
 
       type:
         fightType.value,
