@@ -2440,6 +2440,7 @@ fightForm.addEventListener(
     saveButton.disabled = true;
     saveButton.textContent = "SAVING / UPLOADING...";
 
+    let publicFightSaved = false;
     try {
       const fighterURL = await uploadFightPhoto(fighterFile, "fighter");
       const opponentURL = await uploadFightPhoto(opponentFile, "opponent");
@@ -2470,7 +2471,7 @@ fightForm.addEventListener(
               deleteField()
           }
         );
-
+        publicFightSaved = true;
 
         await savePrivateNote(
           fightId,
@@ -2504,6 +2505,10 @@ fightForm.addEventListener(
             fightsCollection,
             publicData
           );
+        publicFightSaved = true;
+        // If saving the private note fails, retry by updating this fight,
+        // rather than accidentally creating a duplicate announcement.
+        editingId = newFight.id;
 
 
         if (privateNote) {
@@ -2535,7 +2540,9 @@ fightForm.addEventListener(
 
 
       showMessage(
-        "FIGHT OR PRIVATE NOTE COULD NOT BE SAVED. CHECK FIRESTORE PERMISSIONS.",
+        publicFightSaved
+          ? "FIGHT DETAILS WERE SAVED, BUT THE PRIVATE ADMIN NOTE COULD NOT BE SAVED. RETRY SAVE CHANGES; DO NOT ADD A DUPLICATE FIGHT."
+          : "FIGHT COULD NOT BE SAVED. IMAGE UPLOADS MAY NEED CLEANUP. CHECK CONNECTION AND FIREBASE PERMISSIONS.",
         "error"
       );
     }
