@@ -6151,6 +6151,9 @@ function renderHome(){
   window.addEventListener("mrsWolfieNotificationsReady", updateStatus);
 
   window.addEventListener("mrsWolfieNotificationError", function (event) {
+    // A click-initiated registration has its own final result handler.
+    // Do not overwrite CONNECTING while that attempt is still pending.
+    if (notificationRegistrationPending) return;
     updateStatus();
     message.textContent = event.detail?.message || "Notification registration failed. Please try again.";
   });
