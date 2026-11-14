@@ -1421,7 +1421,7 @@ updateImageFile.addEventListener("change", function() {
   if (file.size > 8 * 1024 * 1024) {
     updateImageFile.value = "";
     updateImageStatus.textContent =
-      "IMAGE MUST BE SMALLER THAN 10MB.";
+      "IMAGE MUST BE 8 MB OR SMALLER.";
     updateImagePreviewBox.style.display = "none";
     return;
   }
