@@ -52,3 +52,24 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 
 ### Release decision
 **NOT READY TO MERGE OR DEPLOY.** Repository inspection and commits are not substitutes for emulator tests, deployed-rule inspection or real-device verification. No production changes authorised.
+
+## Step 44 — push device backend review (14 November 2026)
+
+### Confirmed client contract
+- `notifications.js` posts `{ "token": "<FCM registration token>" }` to the HTTPS Cloud Function `registerMrsWolfiePushDevice` in `europe-west1`.
+- The request includes an `X-Firebase-AppCheck` header obtained from Firebase App Check. App Check attests the app environment; **it does not identify an individual supporter or replace backend authorisation**.
+- The client expects a successful HTTP status and JSON `{ "success": true }` before saving a local registration marker.
+- If browser permission is revoked during registration, the client now avoids saving a success marker. This does **not** unregister a previously stored backend token.
+
+### Backend verification blocked — source not available in inspected GitHub repositories
+- GitHub code search did not locate the Cloud Function implementation, and the expected `functions/index.js` path was not found in the Team Wolfpack app repository. **No backend security or cleanup behaviour has been verified.**
+- [ ] Obtain the actual deployed function source, its Firebase project configuration and deployment revision for `registerMrsWolfiePushDevice`.
+- [ ] Confirm server-side Firebase App Check verification, CORS origin allowlist, method checks, request-size limits and FCM token format validation.
+- [ ] Confirm abuse controls (rate limiting, registration quotas and anti-spam) and ensure token values are never logged.
+- [ ] Verify that registration is idempotent and that duplicate/rotated tokens do not create duplicate sends.
+- [ ] Define a server-side invalid-token cleanup path for FCM `registration-token-not-registered` and other permanent delivery failures; distinguish temporary delivery failures.
+- [ ] Design an explicit opt-out/unregister endpoint or equivalent revocation process. Clearing browser localStorage does not revoke the backend registration.
+- [ ] Verify how backend records expire or are renewed for returning supporters, including tokens that remain unchanged.
+- [ ] Exercise invalid/missing App Check tokens, malformed requests, rate limits, duplicate registrations, revoked permission, and rotated tokens in a non-production environment.
+
+**Release blocker:** Do not describe notification registration as end-to-end verified or deploy these changes until the backend checks above and live device tests pass.
