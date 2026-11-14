@@ -2570,6 +2570,7 @@ onAuthStateChanged(
 
     if (
       user &&
+      !user.isAnonymous &&
       ADMINS[user.uid]
     ) {
 
