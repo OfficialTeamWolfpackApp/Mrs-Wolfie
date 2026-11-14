@@ -106,9 +106,8 @@ messaging.onBackgroundMessage(
         {
           body: body,
 
-          icon:
-                    badge:
-            "./images/icon-192.png",
+          icon: "./images/icon-192.png",
+          badge: "./images/icon-192.png",
 
           tag:
             data.tag ||
@@ -217,7 +216,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v12";
+  "mrs-wolfie-boxing-v13";
 
 
 
@@ -255,8 +254,8 @@ const APP_FILES = [
 
 
 
-/* Missing optional icons must not block the entire offline cache install.
-   Add these assets back after the PWA icon artwork is supplied. */
+/* The icon-192 asset is part of the required cache; verify it exists
+   before deploying, because cache.addAll rejects missing files. */
 
 /* =========================================================
    INSTALL
