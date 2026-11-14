@@ -151,6 +151,12 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
         "Firebase Cloud Messaging is not supported by this browser."
       );
 
+      window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+        return { supported: false, permission: "unsupported", registered: false };
+      };
+      window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+        return { success: false, permission: "unsupported" };
+      };
       return;
 
     }
@@ -535,6 +541,9 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             error
           );
 
+          // A locally stored token does not prove backend registration.
+          localStorage.removeItem("mrsWolfieFCMToken");
+
 
           window.dispatchEvent(
             new CustomEvent(
@@ -583,6 +592,7 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             Notification.permission,
 
           registered:
+            Notification.permission === "granted" &&
             Boolean(
               localStorage.getItem(
                 "mrsWolfieFCMToken"
@@ -612,6 +622,13 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       "Mrs Wolfie notification system failed to initialise:",
       error
     );
+
+    window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
+      return { supported: false, permission: Notification.permission, registered: false };
+    };
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
+      return { success: false, error: "Notification system unavailable" };
+    };
 
   }
 
