@@ -21,13 +21,24 @@ function dateTimestamp(date) {
 }
 
 function fingerprint(fight) {
-  const parts = [
-    clean(fight.fightDate || fight.date).toLowerCase(),
-    clean(fight.opponent).toLowerCase(),
-    clean(fight.promotion).toLowerCase(),
-    clean(fight.eventName || fight.event).toLowerCase()
-  ];
-  return parts.some(Boolean) ? parts.join("|") : null;
+  const fightDate = clean(fight.fightDate || fight.date).toLowerCase();
+  const opponent = clean(fight.opponent).toLowerCase();
+  const promotion = clean(fight.promotion).toLowerCase();
+  const eventName = clean(fight.eventName || fight.event).toLowerCase();
+
+  // Do not treat generic TBA / mostly-empty records as duplicates.
+  // Require either a named opponent, or a dated event with promotion/event context.
+  const hasNamedOpponent = opponent && opponent !== "tba";
+  const hasDatedEventContext = fightDate && (promotion || eventName);
+
+  if (!hasNamedOpponent && !hasDatedEventContext) return null;
+
+  return [
+    fightDate,
+    opponent,
+    promotion,
+    eventName
+  ].join("|");
 }
 
 export function mapMrsWolfieFight(documentId, source) {
