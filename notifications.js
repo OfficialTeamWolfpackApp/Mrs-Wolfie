@@ -536,6 +536,15 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             token
           );
 
+          // Permission may be revoked while the backend request is pending.
+          // Do not report success or cache a token after revocation.
+          if (Notification.permission !== "granted") {
+            localStorage.removeItem("mrsWolfieFCMToken");
+            window.dispatchEvent(new CustomEvent("mrsWolfieNotificationPermission", {
+              detail: { permission: Notification.permission }
+            }));
+            return { success: false, permission: Notification.permission, registered: false };
+          }
 
 
           /* =================================================
