@@ -43,6 +43,9 @@ const identities = [
 
 for (const [label, uid, allowed] of identities) {
   test(`private draft get/list/write/delete: ${label}`, async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), 'mrsWolfieFightDrafts', 'draft-access-check'), { opponent: 'SEEDED PRIVATE TEST' });
+    });
     const db = uid ? env.authenticatedContext(uid).firestore() : env.unauthenticatedContext().firestore();
     const draft = doc(db, 'mrsWolfieFightDrafts', 'draft-access-check');
     const list = collection(db, 'mrsWolfieFightDrafts');
