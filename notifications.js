@@ -151,7 +151,6 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       console.log(
         "Firebase Cloud Messaging is not supported by this browser."
       );
-      window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
 
       window.MRS_WOLFIE_NOTIFICATION_STATUS = function () {
         return { supported: false, permission: "unsupported", registered: false };
@@ -159,6 +158,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = async function () {
         return { success: false, permission: "unsupported" };
       };
+      // Notify the homepage only after both public APIs are available.
+      window.dispatchEvent(new Event("mrsWolfieNotificationsReady"));
       return;
 
     }
