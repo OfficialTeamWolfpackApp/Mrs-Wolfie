@@ -6017,7 +6017,34 @@ function renderHome(){
   }
 
 
+  let notificationInitTimer = null;
+  const notificationInitStarted = Date.now();
+
   function updateStatus(){
+    // notifications.js imports Firebase asynchronously. Do not offer a
+    // clickable ENABLE button until its registration API is actually ready.
+    if (typeof window.MRS_WOLFIE_NOTIFICATION_STATUS !== "function" ||
+        typeof window.MRS_WOLFIE_ENABLE_NOTIFICATIONS !== "function") {
+      button.disabled = true;
+      if (Date.now() - notificationInitStarted < 15000) {
+        button.textContent = "LOADING...";
+        message.textContent = "Preparing notification support. Please wait.";
+        if (!notificationInitTimer) {
+          notificationInitTimer = setTimeout(function () {
+            notificationInitTimer = null;
+            updateStatus();
+          }, 300);
+        }
+      } else {
+        button.textContent = "UNAVAILABLE";
+        message.textContent = "Notification setup could not load. Check your connection and refresh the app.";
+      }
+      return;
+    }
+    if (notificationInitTimer) {
+      clearTimeout(notificationInitTimer);
+      notificationInitTimer = null;
+    }
     const status = typeof window.MRS_WOLFIE_NOTIFICATION_STATUS === "function"
       ? window.MRS_WOLFIE_NOTIFICATION_STATUS()
       : { supported: ("Notification" in window),
