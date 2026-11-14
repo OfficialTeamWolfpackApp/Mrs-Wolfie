@@ -2349,13 +2349,25 @@ fightForm.addEventListener(
     }
 
 
-    if (
-      publicData.result &&
-      publicData.status !== "COMPLETED"
-    ) {
+    // Never silently convert an upcoming or postponed fight to COMPLETED.
+    // Require the admin to select the completed status explicitly.
+    if (publicData.result && publicData.status !== "COMPLETED") {
+      showMessage(
+        "WIN, LOSS or DRAW can only be saved when STATUS is COMPLETED.",
+        "error"
+      );
+      return;
+    }
 
-      publicData.status =
-        "COMPLETED";
+    // An end date without a start date cannot be displayed reliably.
+    if (publicData.dateEnd && !publicData.date) {
+      showMessage("Set a fight date before adding an end date, or leave both blank for DATE TBA.", "error");
+      return;
+    }
+
+    if (publicData.date && publicData.dateEnd && publicData.dateEnd < publicData.date) {
+      showMessage("The end date cannot be earlier than the fight date.", "error");
+      return;
     }
 
 
