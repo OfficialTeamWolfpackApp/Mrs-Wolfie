@@ -216,7 +216,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v14";
+  "mrs-wolfie-boxing-v15";
 
 
 
@@ -244,17 +244,17 @@ const APP_FILES = [
 
   "./notifications.js",
 
-  "./manifest.json",
-
-  "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
+  "./manifest.json"
 
 ];
 
 
 
-/* Icons are cached opportunistically: an icon upload must not be
-   required for the core offline application to install successfully. */
+/* Image assets are cached opportunistically. Missing images must not
+   prevent the verified core HTML/JS files from installing offline. */
 const OPTIONAL_ICON_FILES = [
+  "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png",
+  "./images/female-fighter-tba.png",
   "./images/icon-192.png",
   "./images/icon-512.png",
   "./images/icon-maskable-512.png"
@@ -283,7 +283,7 @@ self.addEventListener(
                 try {
                   await cache.add(path);
                 } catch (error) {
-                  console.warn("[Mrs Wolfie] Optional icon unavailable:", path);
+                  console.warn("[Mrs Wolfie] Optional image unavailable:", path);
                 }
               }));
             });
