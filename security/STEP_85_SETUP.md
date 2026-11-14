@@ -33,7 +33,7 @@ Emulator ports deliberately differ from the previously used local profile-image 
 
 - [x] Isolated emulator configuration created.
 - [x] Test dependency manifest created.
-- [x] Complete Firestore rules fixture committed from the supplied 499-line source, with one private-draft match inserted.\n- [ ] Complete Storage rules fixture still outstanding; the Storage rules were supplied inline, not as a source file suitable for exact-copy fixture assembly.
+- [x] Complete Firestore rules fixture committed from the supplied 499-line source, with one private-draft match inserted.\n- [x] Complete Storage rules fixture committed from the user-uploaded 266-line source, with one private draft image match inserted.
 - [ ] Tests executed against running emulators.
 - [ ] Failures corrected, results captured.
 - [ ] Production deployment separately approved.
@@ -43,3 +43,9 @@ Emulator ports deliberately differ from the previously used local profile-image 
 ## Step 86 status
 
 `security/firestore.rules.test` is now a complete test-only copy of the user-uploaded Firestore rules with the proposed `mrsWolfieFightDrafts` match added. It has not been deployed or emulator-tested. **Do not run the Storage test yet:** `security/storage.rules.test` is not present. For an exact-copy Storage fixture, supply the full Storage rules as a `.txt` file (or create a verified full copy locally); then insert the proposed private-draft Storage match without changing existing paths. The Firestore test also remains unexecuted.
+
+## Step 87 — uploaded Storage rules fixture
+
+The user uploaded the complete 266-line Firebase Storage rules text. Created `security/storage.rules.test` by inserting the proposed private image draft match immediately before the outer Storage scope closes; removing that inserted block reproduces the uploaded source exactly. Existing `fight-images/`, supporter avatars, official member photos, gallery, updates, and other rules were preserved. Both complete test fixtures now exist.
+
+**Not yet verified:** emulator availability, rules compilation, actual test pass/fail, installed dependencies, and whether the uploaded rules exactly match production. Do not deploy. Review test harness compatibility before execution.
