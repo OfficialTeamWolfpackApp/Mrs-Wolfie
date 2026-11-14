@@ -103,7 +103,7 @@ function validatePrivatePath(draftId, path) {
   const filename = path.slice(prefix.length);
 
   if (
-    !/^(fighter|opponent)-[a-f0-9-]{36}\.(jpg|png|webp)$/.test(
+    !/^(fighter|opponent)-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.(jpg|png|webp)$/.test(
       filename
     )
   ) {
