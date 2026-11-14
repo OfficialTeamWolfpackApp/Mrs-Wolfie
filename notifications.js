@@ -590,7 +590,12 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
         return notificationRegistrationInFlight;
       }
       notificationRegistrationInFlight = Promise.resolve()
-        .then(() => enableNotificationsOnce())
+        .then(async () => {
+          // Complete any ongoing background token check before a manual
+          // registration starts, so both cannot write competing tokens.
+          if (tokenRecheckInFlight) await tokenRecheckInFlight;
+          return enableNotificationsOnce();
+        })
         .finally(() => {
           notificationRegistrationInFlight = null;
         });
@@ -642,9 +647,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           !localStorage.getItem("mrsWolfieFCMToken")) {
         return;
       }
+      if (notificationRegistrationInFlight) return;
       if (tokenRecheckInFlight) return tokenRecheckInFlight;
       tokenRecheckInFlight = (async () => {
         try {
+          const previousToken = localStorage.getItem("mrsWolfieFCMToken");
           const registration = await navigator.serviceWorker.getRegistration("./");
           if (!registration) return;
           const currentToken = await getToken(messaging, {
@@ -652,8 +659,14 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             serviceWorkerRegistration: registration
           });
           if (!currentToken) return;
-          if (currentToken !== localStorage.getItem("mrsWolfieFCMToken")) {
+          // Stop if the supporter revoked permission or another operation
+          // changed the saved token while the network request was running.
+          if (Notification.permission !== "granted" ||
+              localStorage.getItem("mrsWolfieFCMToken") !== previousToken) return;
+          if (currentToken !== previousToken) {
             await registerDeviceWithBackend(currentToken);
+            if (Notification.permission !== "granted" ||
+                localStorage.getItem("mrsWolfieFCMToken") !== previousToken) return;
             localStorage.setItem("mrsWolfieFCMToken", currentToken);
             window.dispatchEvent(new CustomEvent("mrsWolfieNotificationRegistered", {
               detail: { registered: true, refreshed: true }
