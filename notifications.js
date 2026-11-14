@@ -770,8 +770,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             }));
           }
         } catch (error) {
-          // A transient connectivity failure must not erase a previously
-          // registered token. Retry on the next visibility transition.
+          // Preserve the last confirmed token. Retry when the app returns
+          // to the foreground or the browser reports connectivity restored.
           console.warn("Mrs Wolfie notification token recheck failed:", error);
         }
       })().finally(() => { tokenRecheckInFlight = null; });
@@ -781,6 +781,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       if (document.visibilityState === "visible") {
         recheckNotificationToken();
       }
+    });
+    // A device can reconnect without the supporter switching apps.
+    // Only recheck existing opt-ins; this never requests permission.
+    window.addEventListener("online", () => {
+      recheckNotificationToken();
     });
     recheckNotificationToken();
 
