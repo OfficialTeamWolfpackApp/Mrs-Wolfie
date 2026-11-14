@@ -3304,13 +3304,20 @@ postponedFights =
                 currentFight.opponent;
 
 
-            const cardClass =
-              fight.event &&
-              fight.event
-                .toUpperCase()
-                .includes("TITLE")
-                ? " title-card"
-                : "";
+            const titleText = String(fight.fightTitle || "").trim() ||
+              (String(fight.event || "").toUpperCase().includes("TITLE")
+                ? String(fight.event) : "");
+
+            // Fight details are inserted into HTML templates below.
+            // Escape Firestore-sourced text before interpolation.
+            const escapeFightText = value => String(value ?? "")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
+
+            const cardClass = titleText ? " title-card" : "";
 
 
             const nextClass =
@@ -3329,17 +3336,13 @@ postponedFights =
                 : "";
 
 
-            const titleBadge =
-              fight.event &&
-              fight.event
-                .toUpperCase()
-                .includes("TITLE")
-                ? `
+            const titleBadge = titleText
+              ? `
                   <div class="title-badge">
-                    ${fight.event}
+                    ${escapeFightText(titleText)}
                   </div>
                 `
-                : "";
+              : "";
 
 
             const typeText =
@@ -3383,15 +3386,15 @@ postponedFights =
                 ${tag}
 
                 <div class="schedule-type">
-                  ${typeText}
+                  ${escapeFightText(typeText)}
                 </div>
 
                 <div class="schedule-fight">
-                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                  MRS WOLFIE VS ${escapeFightText(fight.opponent || "TBA")}
                 </div>
 
                 <div class="schedule-event">
-                  ${fight.venue || "TBA"} • ${eventDate}
+                  ${escapeFightText(fight.venue || "TBA")} • ${escapeFightText(eventDate)}
                 </div>
 
                 ${titleBadge}
