@@ -351,8 +351,11 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
           );
 
 
-          const permission =
-            await Notification.requestPermission();
+          // Do not trigger a redundant prompt when permission is already
+          // granted, and do not re-prompt after the browser has denied it.
+          const permission = Notification.permission === "default"
+            ? await Notification.requestPermission()
+            : Notification.permission;
 
 
           console.log(
@@ -601,6 +604,12 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
     window.MRS_WOLFIE_NOTIFICATION_STATUS =
       function () {
+
+        // Permission can change in browser settings without a page reload.
+        // Invalidate a cached success marker if permission was revoked.
+        if (Notification.permission !== "granted") {
+          localStorage.removeItem("mrsWolfieFCMToken");
+        }
 
         return {
 
