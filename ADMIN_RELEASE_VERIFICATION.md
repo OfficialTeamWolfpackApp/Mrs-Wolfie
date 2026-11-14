@@ -174,3 +174,29 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - **CI and browser coverage:** No successful automated suite, real Firebase integration test or real-device smoke test is recorded here.
 
 **Step 74 decision: NOT READY TO MERGE OR DEPLOY.** This step adds a reproducible acceptance-test plan; it does not execute the tests, change Firebase rules, merge the PR or deploy production code.
+
+
+## Step 76 — secure draft/publish architecture decision (14 November 2026)
+
+**Source findings:** The current admin editor writes directly to `mrsWolfieFights`, and the public `fight-data.js` subscribes to that entire collection. No `firestore.rules` file was found at the root of this development branch. Consequently, **a client-side `draft` flag alone must not be used to store confidential fight information**.
+
+### Recommended phased architecture (not yet implemented)
+1. Keep `mrsWolfieFights/{id}` as the **published, publicly readable projection only**, preserving compatibility with the current homepage, schedule, fight page and postponed history.
+2. Create `mrsWolfieFightDrafts/{id}` for **admin-only** unpublished content. Do not write private opponent names, unpublished dates, or draft images to the public fight document.
+3. Verify and deploy Firestore rules that restrict **all reads and writes** on `mrsWolfieFightDrafts/{id}` to the two approved admin identities. Public reads of `mrsWolfieFights/{id}` should remain limited to explicitly public data.
+4. Use a stable shared document ID and a deliberate **Publish** action that copies only approved public fields to `mrsWolfieFights/{id}`. Publishing must be idempotent; avoid `addDoc` retries that create duplicates.
+5. **Unpublish** should remove or archive the public projection without deleting the admin-only draft. Preserve historical postponed/completed fights according to the team's explicit policy; do not silently unpublish them.
+6. Store private draft images under a separate Storage prefix with **admin-only read and write** rules; current `fight-images/` URLs are publicly readable and are not appropriate for confidential draft imagery.
+7. Define publication audit fields (`publishedAt`, `publishedBy`, `lastPublishedAt`) and handle concurrent edits, partial publication failures, and notification delivery only after confirmed publication.
+8. Migrate existing records cautiously: treat current `mrsWolfieFights` entries as **already public**, do not assume they are drafts, and back up data before any migration. Review legacy notes and any unpublished sensitive fields first.
+
+### Release gate and order of operations
+- [ ] Obtain the exact **deployed** Firestore and Storage rules and verify the authorised admin identity model.
+- [ ] Agree whether unpublished fights should have private images, and whether postponed records remain publicly visible.
+- [ ] Implement and test admin-only draft collection and private-image Storage rules in an isolated Firebase project.
+- [ ] Add admin Draft / Publish / Unpublish controls and update the admin listing to distinguish public versus private records.
+- [ ] Verify public unauthenticated clients cannot read draft documents **or** draft images, including direct document and Storage URL attempts.
+- [ ] Test publish, republish, unpublish, rollback, multi-device conflict and network-interruption scenarios.
+- [ ] Only after security tests pass, approve any data migration and production deployment.
+
+**Step 76 decision:** Architecture documented, but **no draft data model or new publication control is enabled**. This deliberately avoids creating a false sense of privacy before Firebase security rules are verified and deployed. **NOT READY TO MERGE OR DEPLOY.**
