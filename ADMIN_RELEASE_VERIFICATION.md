@@ -325,3 +325,23 @@ match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
 - [ ] Do not write draft data or images until both Firestore and Storage access controls have passed negative tests.
 
 **Step 79 decision:** Storage rule review completed from supplied text; no Firebase deployment, rules modification, or private draft implementation. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 80 — supplied rules file is Realtime Database, not Firestore (14 November 2026)
+
+The user supplied a 612-line JSON rules export with root `"rules"` and `".read"`, `".write"`, `".validate"`, and `".indexOn"` entries. **This is Firebase Realtime Database (RTDB) security rules, not Cloud Firestore rules.** Do not attempt to deploy it to Firestore or use it as evidence of Firestore access controls.
+
+### Relevant RTDB observations
+- Root `.read: false` and `.write: false`; explicit public reads and restricted writes are configured per child path.
+- `fights` and `updates` are public-read and admin-write RTDB paths.
+- `mrsWolfieTeamMembers` is public-read and admin-write with child validation.
+- Sponsor, supporter, profile, badge and application paths have separate permissions and validation; preserve them in any future RTDB work.
+- The source contains no Firestore `match /mrsWolfieFights/{fightId}` or `match /mrsWolfieFightAdminNotes/{fightId}` rules; those collections are Cloud Firestore and **not governed by this JSON**.
+
+### Required next evidence
+- [ ] Obtain the actual **Firestore Database → Rules** text, beginning `rules_version = '2'; service cloud.firestore {` (or the actual deployed equivalent).
+- [ ] Confirm the Firestore `mrsWolfieFights`, `mrsWolfieFightAdminNotes`, and `mrsWolfieUpdates` rules, including overlapping wildcard matches.
+- [ ] Only after reviewing the actual Firestore rules, prepare a non-production `mrsWolfieFightDrafts` rule patch and emulator tests.
+- [ ] Retain the supplied RTDB rules as a separate reference; do not replace or modify them for the Firestore draft feature.
+
+**Step 80 decision:** Database product correctly identified; Firestore rules still outstanding. No rule changes, deployments, merges or confidential draft writes.
