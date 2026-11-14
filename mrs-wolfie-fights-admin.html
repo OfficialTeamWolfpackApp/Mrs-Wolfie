@@ -2373,6 +2373,21 @@ fightForm.addEventListener(
 
     const fighterFile = fighterImageUpload.files[0];
     const opponentFile = opponentImageUpload.files[0];
+    const previousFight = editingId ? getFight(editingId) : null;
+    const previousOpponent = String(previousFight?.opponent || "TBA").trim().toUpperCase();
+    const opponentChanged = Boolean(previousFight) && previousOpponent !== publicData.opponent;
+
+    // Do not carry an old opponent's portrait into a different fight pairing.
+    // A postponed fight retains its historical portrait unless its opponent changes.
+    if (publicData.opponent === "TBA") {
+      if (opponentFile) {
+        showMessage("REMOVE THE OPPONENT IMAGE BEFORE SAVING AN OPPONENT AS TBA.", "error");
+        return;
+      }
+      publicData.opponentImage = "";
+    } else if (opponentChanged && !opponentFile) {
+      publicData.opponentImage = "";
+    }
     try {
       validatePhoto(fighterFile);
       validatePhoto(opponentFile);
