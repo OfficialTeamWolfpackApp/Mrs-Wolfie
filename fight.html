@@ -2690,6 +2690,7 @@ background-image:
           <div class="fighter">
 
             <img
+              id="fightMrsWolfiePhoto"
               class="fighter-photo"
               src="images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
               alt="Mrs Wolfie"
@@ -3467,6 +3468,16 @@ background-image:
          NO FIGHT STATE
       ====================================================== */
 
+      function updateMrsWolfieFighterPhoto(fight) {
+        const photo = document.getElementById("fightMrsWolfiePhoto");
+        if (!photo) return;
+        const uploaded = String(fight?.fighterImage || "").trim();
+        const fallback = photo.dataset.defaultSrc || photo.getAttribute("src");
+        if (!photo.dataset.defaultSrc) photo.dataset.defaultSrc = fallback;
+        const desired = /^https:\\/\\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
+        if (photo.getAttribute("src") !== desired) photo.src = desired;
+        photo.onerror = function() { this.onerror = null; this.src = this.dataset.defaultSrc; };
+      }
       function updateFightOpponentPhoto(fight) {
         const photo = document.getElementById("fightOpponentPhoto");
         const placeholder = document.getElementById("fightOpponentPlaceholder");
@@ -3627,7 +3638,8 @@ if (ticketButton) {
       function loadFightInformation(
         currentFight
       ) {
-        updateFightOpponentPhoto(currentFight);
+        updateMrsWolfieFighterPhoto(currentFight);
+      updateFightOpponentPhoto(currentFight);
 
 
         if (!currentFight) {
