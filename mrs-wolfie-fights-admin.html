@@ -820,8 +820,8 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
           <div class="field"><label for="resultMethod">RESULT / METHOD — OPTIONAL</label><input id="resultMethod" type="text" placeholder="e.g. Points, TKO, Decision"></div>
           <div class="field"><label for="fightTitle">FIGHT TYPE / TITLE — OPTIONAL</label><input id="fightTitle" type="text" placeholder="e.g. Ladies Super Middleweight Novice Title"></div>
-          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
-          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
+          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
+          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
 
           <div class="field full">
             <label for="venue">VENUE</label>
@@ -1126,9 +1126,11 @@ const fighterImagePreview = document.getElementById("fighterImagePreview");
 const opponentImagePreview = document.getElementById("opponentImagePreview");
 const removeFighterImage = document.getElementById("removeFighterImage");
 const removeOpponentImage = document.getElementById("removeOpponentImage");
+const fighterImageState = document.getElementById("fighterImageState");
+const opponentImageState = document.getElementById("opponentImageState");
 const selectedImages = [
-  [fighterImageUpload, fighterImagePreview],
-  [opponentImageUpload, opponentImagePreview]
+  [fighterImageUpload, fighterImagePreview, removeFighterImage, fighterImageState, "fighterImage"],
+  [opponentImageUpload, opponentImagePreview, removeOpponentImage, opponentImageState, "opponentImage"]
 ];
 function validatePhoto(file) {
   if (!file) return;
@@ -1152,20 +1154,41 @@ function setImagePreview(preview, url) {
     preview.removeAttribute("src");
   }
 }
-selectedImages.forEach(([input, preview]) => {
+function refreshImagePreview(input, preview, remove, state, field) {
+  const file = input.files[0];
+  const existing = editingId ? (getFight(editingId)?.[field] || "") : "";
+  if (remove.checked) {
+    setImagePreview(preview, "");
+    state.textContent = "IMAGE MARKED FOR REMOVAL — save changes to confirm.";
+  } else if (file) {
+    const url = URL.createObjectURL(file);
+    setImagePreview(preview, url);
+    preview.dataset.objectUrl = url;
+    state.textContent = "NEW IMAGE SELECTED — save changes to replace the existing image.";
+  } else {
+    setImagePreview(preview, existing);
+    state.textContent = existing ? "CURRENT SAVED IMAGE — unchanged." : "No image selected.";
+  }
+}
+function refreshAllImagePreviews() {
+  selectedImages.forEach(args => refreshImagePreview(...args));
+}
+selectedImages.forEach(([input, preview, remove, state, field]) => {
   input.addEventListener("change", () => {
-    const file = input.files[0];
     try {
-      validatePhoto(file);
-      const url = file ? URL.createObjectURL(file) : "";
-      setImagePreview(preview, url);
-      if (file) preview.dataset.objectUrl = url;
+      validatePhoto(input.files[0]);
+      if (input.files[0]) remove.checked = false;
+      refreshImagePreview(input, preview, remove, state, field);
       clearMessage();
     } catch (error) {
       input.value = "";
-      setImagePreview(preview, "");
+      refreshImagePreview(input, preview, remove, state, field);
       showMessage(error.message, "error");
     }
+  });
+  remove.addEventListener("change", () => {
+    if (remove.checked) input.value = "";
+    refreshImagePreview(input, preview, remove, state, field);
   });
   preview.addEventListener("error", () => { preview.hidden = true; });
 });
@@ -1286,6 +1309,7 @@ function resetForm() {
   removeOpponentImage.checked = false;
   setImagePreview(fighterImagePreview, "");
   setImagePreview(opponentImagePreview, "");
+  refreshAllImagePreviews();
 
   fightType.value =
     "FIGHT NIGHT";
@@ -1977,6 +2001,7 @@ async function editFight(id) {
   removeOpponentImage.checked = false;
   setImagePreview(fighterImagePreview, fight.fighterImage || "");
   setImagePreview(opponentImagePreview, fight.opponentImage || "");
+  refreshAllImagePreviews();
 
   fightStatus.value =
     fight.status || "UPCOMING";
