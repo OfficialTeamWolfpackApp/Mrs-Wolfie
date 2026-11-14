@@ -1007,7 +1007,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 const firebaseConfig = {
 
@@ -1192,7 +1192,7 @@ selectedImages.forEach(([input, preview, remove, state, field]) => {
   });
   preview.addEventListener("error", () => { preview.hidden = true; });
 });
-async function uploadFightPhoto(file, kind) {
+async function uploadFightPhoto(file, kind, trackUploadedRef) {
   if (!file) return null;
   validatePhoto(file);
   if (!currentUser || !ADMINS[currentUser.uid]) {
@@ -1203,6 +1203,9 @@ async function uploadFightPhoto(file, kind) {
     "-" + Math.random().toString(36).slice(2,10) + "-mrs-wolfie-" + kind + "." + extension;
   const destination = storageRef(storage, path);
   await uploadBytes(destination, file, {contentType:file.type});
+  // Record the successful upload before requesting its URL, so URL failures
+  // can still trigger cleanup if no fight document was saved.
+  if (trackUploadedRef) trackUploadedRef(destination);
   return getDownloadURL(destination);
 }
 
@@ -2441,9 +2444,11 @@ fightForm.addEventListener(
     saveButton.textContent = "SAVING / UPLOADING...";
 
     let publicFightSaved = false;
+    const uploadedRefs = [];
+    const trackUploadedRef = ref => uploadedRefs.push(ref);
     try {
-      const fighterURL = await uploadFightPhoto(fighterFile, "fighter");
-      const opponentURL = await uploadFightPhoto(opponentFile, "opponent");
+      const fighterURL = await uploadFightPhoto(fighterFile, "fighter", trackUploadedRef);
+      const opponentURL = await uploadFightPhoto(opponentFile, "opponent", trackUploadedRef);
       if (fighterURL) publicData.fighterImage = fighterURL;
       if (opponentURL) publicData.opponentImage = opponentURL;
 
@@ -2538,11 +2543,21 @@ fightForm.addEventListener(
         error
       );
 
+      // Never delete files once the fight document references them.
+      // Only clean up files uploaded by this save attempt, not older photos.
+      let cleanupFailed = false;
+      if (!publicFightSaved && uploadedRefs.length) {
+        const results = await Promise.allSettled(uploadedRefs.map(ref => deleteObject(ref)));
+        cleanupFailed = results.some(result => result.status === "rejected");
+        if (cleanupFailed) console.warn("Some unsaved fight image uploads could not be cleaned up.");
+      }
 
       showMessage(
         publicFightSaved
           ? "FIGHT DETAILS WERE SAVED, BUT THE PRIVATE ADMIN NOTE COULD NOT BE SAVED. RETRY SAVE CHANGES; DO NOT ADD A DUPLICATE FIGHT."
-          : "FIGHT COULD NOT BE SAVED. IMAGE UPLOADS MAY NEED CLEANUP. CHECK CONNECTION AND FIREBASE PERMISSIONS.",
+          : cleanupFailed
+            ? "FIGHT COULD NOT BE SAVED. SOME UPLOADED IMAGES COULD NOT BE CLEANED UP; CHECK FIREBASE STORAGE."
+            : "FIGHT COULD NOT BE SAVED. NEWLY UPLOADED IMAGES WERE CLEANED UP WHERE POSSIBLE. CHECK CONNECTION AND FIREBASE PERMISSIONS.",
         "error"
       );
     }
