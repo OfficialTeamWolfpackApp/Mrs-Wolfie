@@ -3497,6 +3497,8 @@ background-image:
       });
 
       function showNoFightState() {
+        // Clear images from the previous fight when there is no active bout.
+        updateMrsWolfieFighterPhoto(null);
         updateFightOpponentPhoto(null);
 
 
