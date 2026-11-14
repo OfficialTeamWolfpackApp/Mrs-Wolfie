@@ -44,20 +44,22 @@ const ADMIN_UIDS = new Set([
   "SlpEQYl94DaH6j42QUyl8Kv2ujJ3"
 ]);
 
+// Keep this schema aligned with collectPrivateDraftForm() and
+// createPrivateDraftCard(). These are the exact form field names.
 const DRAFT_FIELDS = [
   "promotion",
   "event",
   "opponent",
-  "type",
-  "date",
-  "dateEnd",
+  "fightType",
+  "fightDate",
+  "endDate",
   "displayDate",
-  "method",
+  "resultMethod",
   "fightTitle",
   "venue",
   "ticketUrl",
-  "status",
-  "result",
+  "fightStatus",
+  "fightResult",
   "notes",
   "fighterImagePath",
   "opponentImagePath"
@@ -109,24 +111,24 @@ function cleanDraftData(input) {
   }
 
   if (
-    cleaned.date &&
-    cleaned.dateEnd &&
-    cleaned.dateEnd < cleaned.date
+    cleaned.fightDate &&
+    cleaned.endDate &&
+    cleaned.endDate < cleaned.fightDate
   ) {
     throw new Error(
       "The end date cannot be earlier than the fight date."
     );
   }
 
-  if (cleaned.dateEnd && !cleaned.date) {
+  if (cleaned.endDate && !cleaned.fightDate) {
     throw new Error(
       "A start date is required when an end date is set."
     );
   }
 
   if (
-    cleaned.status === "COMPLETED" &&
-    !["W", "L", "D"].includes(cleaned.result)
+    cleaned.fightStatus === "COMPLETED" &&
+    !["W", "L", "D"].includes(cleaned.fightResult)
   ) {
     throw new Error(
       "A completed fight requires a valid result."
@@ -134,9 +136,9 @@ function cleanDraftData(input) {
   }
 
   if (
-    cleaned.result &&
-    cleaned.status &&
-    cleaned.status !== "COMPLETED"
+    cleaned.fightResult &&
+    cleaned.fightStatus &&
+    cleaned.fightStatus !== "COMPLETED"
   ) {
     throw new Error(
       "Fight results require COMPLETED status."
