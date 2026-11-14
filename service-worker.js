@@ -141,9 +141,16 @@ self.addEventListener(
     event.notification.close();
 
 
+    // Firebase-generated notifications can store their destination in
+    // FCM_MSG rather than the custom data.url used for data-only pushes.
+    const notificationData = event.notification.data || {};
+    const firebaseMessage = notificationData.FCM_MSG || {};
     const targetURL =
-      event.notification.data?.url ||
-      "./index.html";
+      notificationData.url ||
+      firebaseMessage.data?.url ||
+      firebaseMessage.fcmOptions?.link ||
+      firebaseMessage.notification?.click_action ||
+      "./updates.html";
 
 
     // Notification payload URLs are untrusted. Only navigate within
@@ -206,7 +213,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v17";
+  "mrs-wolfie-boxing-v18";
 
 
 
