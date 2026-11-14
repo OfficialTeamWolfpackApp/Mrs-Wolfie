@@ -130,3 +130,47 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - [ ] **Status transitions:** Test `UPCOMING → POSTPONED → UPCOMING`, `UPCOMING → CANCELLED`, and `UPCOMING → COMPLETED` using isolated test data.
 
 **Step 58 result:** Static source audit only. No Firebase records were modified and no live UI tests were run. Release remains blocked pending these checks.
+
+
+## Step 74 — fight-management test matrix and release gates (14 November 2026)
+
+**Scope:** Repository-level review of the fight editor, Firestore fight adapter and the Step 73 deletion changes. The following are **test cases to execute**, not claims of successful browser or Firebase tests.
+
+### Admin form and data integrity — desktop and mobile
+- [ ] Sign in as each authorised admin; confirm an unauthorised account cannot read private notes or write fights/images.
+- [ ] Create an UPCOMING fight with confirmed date, opponent and title; verify every saved field after page refresh.
+- [ ] Create an UPCOMING fight with DATE TBA and opponent TBA; verify the mystery silhouette and absence of stale opponent/title data.
+- [ ] Upload JPG, PNG and WebP images from desktop file picker and mobile photo library; verify preview, final public image, 8 MB limit and invalid-file rejection.
+- [ ] Replace and remove fighter/opponent images; confirm old image URLs are no longer used by that fight, while historical Storage objects remain untouched.
+- [ ] Change opponent name and set opponent to TBA; verify the former opponent image is not carried forward.
+- [ ] Verify image uploads are not repeated when public fight save succeeds but private-note save fails; inspect the actual saved URLs after refreshing.
+- [ ] Simulate upload failure, Firestore save failure, lost connectivity and permission denial. Verify best-effort cleanup and inspect Storage for orphans; **deployed Storage delete permission is unverified**.
+- [ ] While a save is pending, try edit/cancel/result/delete actions and repeated submission. Verify the controls cannot cause conflicting writes.
+- [ ] Test narrow mobile layouts, keyboard focus, touch targets, error messages and scrolling on Android and iOS browsers.
+
+### Status transitions and public displays
+- [ ] UPCOMING → POSTPONED: historical card remains visible where intended; next-fight hero no longer shows the postponed opponent or title.
+- [ ] POSTPONED → UPCOMING: re-announced fight returns to active displays only when eligible.
+- [ ] UPCOMING → CANCELLED: cancelled fight is excluded from active next-fight selection.
+- [ ] UPCOMING → COMPLETED: WIN/LOSS/DRAW and result method render correctly; postponed/cancelled quick-result actions are rejected.
+- [ ] Confirmed-date and undated UPCOMING records: confirmed dates sort first; DATE TBA records appear in the intended schedule/Next Up locations but do not become the dated next-fight hero.
+- [ ] Verify home.html, fight.html and schedule.html with zero fights, one fight, multiple fights, postponed-only and title-fight-to-ordinary-fight transitions.
+- [ ] Check both desktop and mobile for stale text, broken image URLs, incorrect silhouettes and cache-related outdated data.
+
+### Deletion and security
+- [ ] Delete a test fight with a private note; confirm both Firestore documents disappear together after the atomic batch commits.
+- [ ] Force a Firestore permission error during batch deletion; confirm neither document is removed.
+- [ ] Verify deletion confirmation clearly identifies the selected fight and warns about historical statuses.
+- [ ] Confirm Storage images are retained after fight deletion; separately design a reference-aware cleanup policy if deletion of unused images is required.
+- [ ] Confirm actual deployed Firestore and Storage rules, including admin-only note access, image upload/delete permissions and whether unpublished fights can be read publicly.
+- [ ] Review push-notification backend registration and permissions before enabling real notification delivery.
+
+### Outstanding risks requiring resolution
+- **Public draft privacy:** Public collection reads may expose unannounced records. Do not store confidential drafts in a publicly readable collection without a server-enforced publication model.
+- **Ambiguous network outcome:** A write that succeeds server-side but loses its response may be retried, potentially duplicating a new fight or leaving uploaded images. Client-side success flags do not eliminate this risk.
+- **Image cleanup:** Step 67's best-effort delete requires deployed Storage rules that permit the admin to delete newly uploaded objects; this has not been verified.
+- **Cross-client concurrency:** UI button locks only prevent actions in the current page, not simultaneous edits from different devices.
+- **Binary PWA icons:** Actual Mrs Wolfie icon branding and installation still require inspection and device testing.
+- **CI and browser coverage:** No successful automated suite, real Firebase integration test or real-device smoke test is recorded here.
+
+**Step 74 decision: NOT READY TO MERGE OR DEPLOY.** This step adds a reproducible acceptance-test plan; it does not execute the tests, change Firebase rules, merge the PR or deploy production code.
