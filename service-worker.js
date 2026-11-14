@@ -216,7 +216,7 @@ self.addEventListener(
 ========================================================= */
 
 const CACHE_NAME =
-  "mrs-wolfie-boxing-v13";
+  "mrs-wolfie-boxing-v14";
 
 
 
@@ -246,16 +246,19 @@ const APP_FILES = [
 
   "./manifest.json",
 
-  "./images/icon-192.png",
-
   "./images/ChatGPT Image Aug 13, 2026, 03_53_18 PM.png"
 
 ];
 
 
 
-/* The icon-192 asset is part of the required cache; verify it exists
-   before deploying, because cache.addAll rejects missing files. */
+/* Icons are cached opportunistically: an icon upload must not be
+   required for the core offline application to install successfully. */
+const OPTIONAL_ICON_FILES = [
+  "./images/icon-192.png",
+  "./images/icon-512.png",
+  "./images/icon-maskable-512.png"
+];
 
 /* =========================================================
    INSTALL
@@ -275,9 +278,15 @@ self.addEventListener(
         .then(
           (cache) => {
 
-            return cache.addAll(
-              APP_FILES
-            );
+            return cache.addAll(APP_FILES).then(async () => {
+              await Promise.all(OPTIONAL_ICON_FILES.map(async (path) => {
+                try {
+                  await cache.add(path);
+                } catch (error) {
+                  console.warn("[Mrs Wolfie] Optional icon unavailable:", path);
+                }
+              }));
+            });
 
           }
         )
