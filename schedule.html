@@ -3780,17 +3780,25 @@ function renderPostponedFights() {
             card.className =
               "history-card";
 
+            // Historical fight details can also originate from Firestore.
+            // Escape values before inserting them into the card markup.
+            const safeHistoryText = value => String(value ?? "")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
 
             card.innerHTML = `
 
               <div class="history-date">
 
                 <div class="history-day">
-                  ${getDateDay(fight)}
+                  ${safeHistoryText(getDateDay(fight))}
                 </div>
 
                 <div class="history-month">
-                  ${getHistoryMonth(fight)}
+                  ${safeHistoryText(getHistoryMonth(fight))}
                 </div>
 
               </div>
@@ -3799,22 +3807,22 @@ function renderPostponedFights() {
               <div class="history-info">
 
                 <div class="history-promotion">
-                  ${fight.promotion || "TBA"}
+                  ${safeHistoryText(fight.promotion || "TBA")}
                 </div>
 
                 <div class="history-fight">
-                  MRS WOLFIE VS ${fight.opponent || "TBA"}
+                  MRS WOLFIE VS ${safeHistoryText(fight.opponent || "TBA")}
                 </div>
 
                 <div class="history-venue">
-                  ${fight.venue || "TBA"}
+                  ${safeHistoryText(fight.venue || "TBA")}
                 </div>
 
               </div>
 
 
-              <div class="result${resultClass}">
-                ${result}
+              <div class="result${safeHistoryText(resultClass)}">
+                ${safeHistoryText(result)}
               </div>
 
             `;
