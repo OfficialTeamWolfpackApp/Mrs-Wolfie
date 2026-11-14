@@ -1963,6 +1963,10 @@ function renderFights() {
 ========================================================= */
 
 async function editFight(id) {
+  if (saveButton.disabled) {
+    showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE SWITCHING FIGHTS.", "error");
+    return;
+  }
 
   const fight =
     getFight(id);
@@ -2447,6 +2451,8 @@ fightForm.addEventListener(
     saveButton.textContent = "SAVING / UPLOADING...";
 
     let publicFightSaved = false;
+    let fighterURLForRetry = "";
+    let opponentURLForRetry = "";
     const uploadedRefs = [];
     const trackUploadedRef = ref => uploadedRefs.push(ref);
     try {
@@ -2454,6 +2460,8 @@ fightForm.addEventListener(
       const opponentURL = await uploadFightPhoto(opponentFile, "opponent", trackUploadedRef);
       if (fighterURL) publicData.fighterImage = fighterURL;
       if (opponentURL) publicData.opponentImage = opponentURL;
+      fighterURLForRetry = fighterURL || "";
+      opponentURLForRetry = opponentURL || "";
 
       /* EDIT EXISTING */
 
@@ -2545,6 +2553,15 @@ fightForm.addEventListener(
         "Save fight:",
         error
       );
+
+      // A successfully saved fight may have new image URLs already attached.
+      // Clear file selections so retrying a private note cannot upload duplicates.
+      if (publicFightSaved) {
+        fighterImageUpload.value = "";
+        opponentImageUpload.value = "";
+        if (fighterURLForRetry) setImagePreview(fighterImagePreview, fighterURLForRetry);
+        if (opponentURLForRetry) setImagePreview(opponentImagePreview, opponentURLForRetry);
+      }
 
       // Never delete files once the fight document references them.
       // Only clean up files uploaded by this save attempt, not older photos.
