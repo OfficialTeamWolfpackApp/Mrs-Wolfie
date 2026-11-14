@@ -893,6 +893,13 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                   data.opponent || ""
                 ).trim(),
 
+              // Keep uploaded images and fight titles available to public cards.
+              fighterImage: String(data.fighterImage || "").trim(),
+              opponentImage: String(data.opponentImage || "").trim(),
+              fightTitle: String(data.fightTitle || "").trim(),
+              displayDate: String(data.displayDate || "").trim(),
+              method: String(data.method || "").trim(),
+
               date:
                 String(
                   data.date || ""
