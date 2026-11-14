@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test:firestore": "node --test tests/firestore-draft-access.test.mjs",
-    "test:storage": "node --test tests/storage-draft-access.test.mjs"
+    "test:storage": "node --test tests/storage-draft-access.test.mjs",
+    "test:private-image-module": "node --test ../mrs-wolfie-private-draft-images.test.mjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
