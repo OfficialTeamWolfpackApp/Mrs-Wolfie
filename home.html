@@ -405,6 +405,8 @@ button{
     transform .18s ease;
 }
 
+.menu-link[hidden]{display:none!important;}
+
 .menu-link:hover,
 .menu-link.active{
   color:#fff;
@@ -3947,6 +3949,13 @@ body.wolfie-image-modal-open{overflow:hidden}
     TEAM WOLFPACK OFFICIAL MOBILE APP
   </a>
 
+  <!-- Sign-in entry for administrators who are not yet signed in. -->
+  <a href="mrs-wolfie-dashboard.html" class="menu-link" id="mrsWolfieAdminSignIn">
+    <span class="menu-icon">🔐</span>
+    <span>ADMIN SIGN IN</span>
+    <span class="menu-arrow">›</span>
+  </a>
+
   <!-- MRS WOLFIE ADMIN DASHBOARD -->
 <a
   href="mrs-wolfie-dashboard.html"
@@ -3954,7 +3963,7 @@ body.wolfie-image-modal-open{overflow:hidden}
   id="mrsWolfieAdminMenu"
   style="display:none;"
 >
-  🔐 ADMIN DASHBOARD
+  <span class="menu-icon">⚙</span><span>ADMIN DASHBOARD</span><span class="menu-arrow">›</span>
 </a>
   
 </aside>
@@ -6325,6 +6334,7 @@ const adminMenuButton =
 onAuthStateChanged(auth, (user) => {
 
   if (!adminMenuButton) return;
+  const adminSignInButton = document.getElementById("mrsWolfieAdminSignIn");
 
   if (
     user &&
@@ -6333,6 +6343,7 @@ onAuthStateChanged(auth, (user) => {
   ) {
 
     adminMenuButton.style.display = "";
+    if (adminSignInButton) adminSignInButton.hidden = true;
 
     console.log(
       "Mrs Wolfie Admin Dashboard enabled."
@@ -6341,6 +6352,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
 
     adminMenuButton.style.display = "none";
+    if (adminSignInButton) adminSignInButton.hidden = false;
 
   }
 
