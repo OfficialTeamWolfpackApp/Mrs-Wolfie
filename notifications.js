@@ -370,6 +370,8 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
             permission !== "granted"
           ) {
 
+            localStorage.removeItem("mrsWolfieFCMToken");
+
             window.dispatchEvent(
               new CustomEvent(
                 "mrsWolfieNotificationPermission",
@@ -574,6 +576,23 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
 
       };
 
+
+
+    /* Avoid simultaneous permission prompts and duplicate token submissions.
+       A later explicit request can retry after the first has settled. */
+    const enableNotificationsOnce = window.MRS_WOLFIE_ENABLE_NOTIFICATIONS;
+    let notificationRegistrationInFlight = null;
+    window.MRS_WOLFIE_ENABLE_NOTIFICATIONS = function () {
+      if (notificationRegistrationInFlight) {
+        return notificationRegistrationInFlight;
+      }
+      notificationRegistrationInFlight = Promise.resolve()
+        .then(() => enableNotificationsOnce())
+        .finally(() => {
+          notificationRegistrationInFlight = null;
+        });
+      return notificationRegistrationInFlight;
+    };
 
 
     /* =====================================================
