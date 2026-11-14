@@ -6019,8 +6019,15 @@ function renderHome(){
 
   let notificationInitTimer = null;
   const notificationInitStarted = Date.now();
+  let notificationRegistrationPending = false;
 
   function updateStatus(){
+    if (notificationRegistrationPending) {
+      button.disabled = true;
+      button.textContent = "CONNECTING...";
+      message.textContent = "Registering this device for Mrs Wolfie notifications...";
+      return;
+    }
     // notifications.js imports Firebase asynchronously. Do not offer a
     // clickable ENABLE button until its registration API is actually ready.
     if (typeof window.MRS_WOLFIE_NOTIFICATION_STATUS !== "function" ||
@@ -6103,25 +6110,25 @@ function renderHome(){
       }
 
 
-      button.disabled =
-        true;
-
-      button.textContent =
-        "CONNECTING...";
-
+      if (notificationRegistrationPending) return;
+      notificationRegistrationPending = true;
+      updateStatus();
 
       let result;
-      try{
+      try {
         result = await window.MRS_WOLFIE_ENABLE_NOTIFICATIONS();
-      } catch(error){
+      } catch (error) {
         console.error("Mrs Wolfie notification enable failed:", error);
         result = { success: false, error };
+      } finally {
+        notificationRegistrationPending = false;
       }
 
       updateStatus();
       if (result && !result.success && result.error) {
-        message.textContent = result.error.message ||
-          "Notification registration failed. Please try again.";
+        message.textContent = typeof result.error === "string"
+          ? result.error
+          : (result.error.message || "Notification registration failed. Please try again.");
       }
 
     }
