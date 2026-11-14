@@ -259,3 +259,22 @@ match /mrs-wolfie-private-fight-drafts/{fightId}/{fileName} {
 - [ ] Only then implement draft editing and publication controls, followed by separate review and deployment approval.
 
 **Step 77 decision:** Security-rule design documented; **no Firebase rules were changed or deployed**, and no confidential draft writes were enabled. **NOT READY TO MERGE OR DEPLOY.**
+
+
+## Step 78 — cross-app Firebase rule dependency review (14 November 2026)
+
+### Verified from the connected GitHub repositories
+- The accessible GitHub account lists two repositories: `OfficialTeamWolfpackApp/Team-Wolfpack-App` and `OfficialTeamWolfpackApp/Mrs-Wolfie`.
+- The **Team Wolfpack** repository's `admin-mrs-wolfie-fights.html` uses the same Firebase project configuration (`team-wolfpack-app`), writes to `mrsWolfieFights`, and separately reads/writes `mrsWolfieFightAdminNotes`. This is a **second live-capable admin editing surface**, independent of the new Mrs Wolfie editor.
+- The Team Wolfpack admin page also includes quick result/cancel/delete operations. Changes to Mrs Wolfie's admin UI alone **do not** secure or update the Team Wolfpack admin editor.
+- No authoritative deployed Firestore or Storage rules were obtained from the GitHub files checked. The exact deployed rules remain unknown.
+
+### Cross-app requirements before a secure draft feature
+- [ ] Obtain current Firestore and Storage rules from the **Firebase console** or the authoritative local functions/rules project.
+- [ ] Review the Team Wolfpack admin editor and Mrs Wolfie editor **together**; do not allow one editor to publish drafts implicitly while the other treats them as private.
+- [ ] Keep public `mrsWolfieFights` compatible with both apps until both clients are migrated.
+- [ ] Add private draft read/write rules only after checking overlapping wildcard allows in the complete ruleset.
+- [ ] Ensure all future draft writes from either app target the admin-only draft collection and private Storage prefix.
+- [ ] Test that public listeners, both admin editors, and historical postponed fights continue to function after rules changes.
+
+**Step 78 decision:** Cross-app dependency confirmed. **Cannot verify or modify deployed rules from GitHub alone.** Do not enable draft storage or claim privacy until the exact deployed rules are supplied and tested. No production changes were made.
