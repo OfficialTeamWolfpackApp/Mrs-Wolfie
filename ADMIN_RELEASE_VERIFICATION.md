@@ -112,3 +112,21 @@ The client-side UID allowlist is a user-interface guard, **not** an authorisatio
 - [ ] Review the complete PR diff and obtain explicit approval before merge or deployment.
 
 **Step 57 decision: NOT READY TO MERGE OR DEPLOY.** This is a repository review and documentation update only; no automated test suite or real-device test was executed in this step.
+
+## Step 58 — fight display and status audit (14 November 2026)
+
+### Verified from current source
+- The fight editor offers `UPCOMING`, `POSTPONED`, `COMPLETED` and `CANCELLED` statuses and an optional `fightTitle` field.
+- `fight-data.js` normalises Firestore status to uppercase and passes `fightTitle`, `fighterImage`, `opponentImage` and `displayDate` to the public model.
+- `MRS_WOLFIE_GET_NEXT_FIGHT` and `MRS_WOLFIE_GET_UPCOMING_FIGHTS` exclude postponed, cancelled and completed/result fights; they also require a valid final date that has not passed.
+- `home.html` resets the next-fight opponent to `TBA` and hides the title card when there is no eligible next fight. The opponent photo is only used for a named opponent on an `UPCOMING` fight; otherwise the silhouette remains.
+- `fight.html` and `schedule.html` contain separate postponed-fight rendering sections; these must still be exercised with representative Firestore records.
+
+### Behaviour requiring a product decision or test
+- [ ] **Undated announcements:** The next-fight and upcoming-fights selectors require a valid `date` or `dateEnd`. Decide whether an announced `UPCOMING` fight with date TBA should appear in the public schedule before a date is confirmed. Do not silently change this policy.
+- [ ] **Publication control:** The public Firestore adapter reads the entire `mrsWolfieFights` collection. If drafts or private opponent details are stored there, client-side hiding is not sufficient; enforce publication access in Firestore rules or separate private records.
+- [ ] **Postponed data:** Test that postponed cards show their historical opponent/date/title as intended, but never leak those values into the active next-fight card when there is no announced fight.
+- [ ] **Title and image reset:** Switch live test records from title fight to ordinary fight to no upcoming fight and verify title card, opponent name and image all reset correctly on each page.
+- [ ] **Status transitions:** Test `UPCOMING → POSTPONED → UPCOMING`, `UPCOMING → CANCELLED`, and `UPCOMING → COMPLETED` using isolated test data.
+
+**Step 58 result:** Static source audit only. No Firebase records were modified and no live UI tests were run. Release remains blocked pending these checks.
