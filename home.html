@@ -6018,65 +6018,38 @@ function renderHome(){
 
 
   function updateStatus(){
+    const status = typeof window.MRS_WOLFIE_NOTIFICATION_STATUS === "function"
+      ? window.MRS_WOLFIE_NOTIFICATION_STATUS()
+      : { supported: ("Notification" in window),
+          permission: ("Notification" in window) ? Notification.permission : "unsupported",
+          registered: false };
 
-    if(
-      !("Notification" in window)
-    ){
-
-      button.textContent =
-        "UNAVAILABLE";
-
-      button.disabled =
-        true;
-
-      message.textContent =
-        "Notifications are not supported on this device.";
-
+    if (!status.supported || status.permission === "unsupported") {
+      button.textContent = "UNAVAILABLE";
+      button.disabled = true;
+      message.textContent = "Notifications are not supported on this device.";
       return;
-
     }
 
-
-    if(
-      Notification.permission ===
-      "granted"
-    ){
-
-      button.textContent =
-        "ENABLED";
-
-      message.textContent =
-        "Mrs Wolfie notifications are enabled on this device.";
-
+    if (status.permission === "denied") {
+      button.textContent = "BLOCKED";
+      button.disabled = true;
+      message.textContent = "Notifications are blocked in your browser settings.";
       return;
-
     }
 
-
-    if(
-      Notification.permission ===
-      "denied"
-    ){
-
-      button.textContent =
-        "BLOCKED";
-
-      message.textContent =
-        "Notifications are blocked in your browser settings.";
-
-      return;
-
+    button.disabled = false;
+    if (status.permission === "granted" && status.registered) {
+      button.textContent = "ENABLED";
+      message.textContent = "Mrs Wolfie notifications are registered on this device.";
+    } else if (status.permission === "granted") {
+      button.textContent = "COMPLETE SETUP";
+      message.textContent = "Permission is granted, but device registration is not confirmed. Tap to finish setup.";
+    } else {
+      button.textContent = "ENABLE";
+      message.textContent = "Enable notifications for Mrs Wolfie fight news, results and app updates.";
     }
-
-
-    button.textContent =
-      "ENABLE";
-
-    message.textContent =
-      "Enable notifications for Mrs Wolfie fight news, results and app updates.";
-
   }
-
 
   button.addEventListener(
     "click",
@@ -6131,7 +6104,7 @@ function renderHome(){
 
 
   window.addEventListener(
-    "mrsWolfieNotificationPermissionChanged",
+    "mrsWolfieNotificationPermission",
     updateStatus
   );
 
@@ -6140,6 +6113,15 @@ function renderHome(){
     "mrsWolfieNotificationRegistered",
     updateStatus
   );
+
+  window.addEventListener("mrsWolfieNotificationError", function (event) {
+    updateStatus();
+    message.textContent = event.detail?.message || "Notification registration failed. Please try again.";
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") updateStatus();
+  });
 
 
   updateStatus();
