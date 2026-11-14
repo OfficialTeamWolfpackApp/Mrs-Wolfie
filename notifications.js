@@ -664,13 +664,17 @@ const MRS_WOLFIE_FIREBASE_CONFIG = {
       if (notificationRegistrationInFlight) {
         return notificationRegistrationInFlight;
       }
-      notificationRegistrationInFlight = Promise.resolve()
-        .then(async () => {
-          // Complete any ongoing background token check before a manual
-          // registration starts, so both cannot write competing tokens.
-          if (tokenRecheckInFlight) await tokenRecheckInFlight;
-          return enableNotificationsOnce();
-        })
+      // Permission prompts require a direct user gesture in many browsers.
+      // Do not defer the first requestPermission() behind a Promise callback.
+      const registrationAttempt = Notification.permission === "default"
+        ? enableNotificationsOnce()
+        : (async () => {
+            // Already-authorised users can safely wait for a background
+            // token refresh without losing the permission-prompt gesture.
+            if (tokenRecheckInFlight) await tokenRecheckInFlight;
+            return enableNotificationsOnce();
+          })();
+      notificationRegistrationInFlight = Promise.resolve(registrationAttempt)
         .finally(() => {
           notificationRegistrationInFlight = null;
         });
