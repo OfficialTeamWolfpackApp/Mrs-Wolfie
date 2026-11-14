@@ -3474,7 +3474,7 @@ background-image:
         const uploaded = String(fight?.fighterImage || "").trim();
         const fallback = photo.dataset.defaultSrc || photo.getAttribute("src");
         if (!photo.dataset.defaultSrc) photo.dataset.defaultSrc = fallback;
-        const desired = /^https:\\/\\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
+        const desired = /^https:\/\//i.test(uploaded) ? uploaded : photo.dataset.defaultSrc;
         if (photo.getAttribute("src") !== desired) photo.src = desired;
         photo.onerror = function() { this.onerror = null; this.src = this.dataset.defaultSrc; };
       }
