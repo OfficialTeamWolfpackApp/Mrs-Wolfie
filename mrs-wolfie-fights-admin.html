@@ -1343,6 +1343,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
+  getFunctions
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-functions.js";
+
+import {
   getAuth,
   onAuthStateChanged,
   getIdToken
@@ -1448,6 +1452,8 @@ const app =
 const auth =
   getAuth(app);
 
+const functions = getFunctions(app, "europe-west1");
+
 const db =
   getFirestore(app);
 const storage = getStorage(app);
@@ -1540,6 +1546,7 @@ const privateDraftController =
     db,
     storage,
     auth,
+    functions,
     saveButton: document.getElementById("saveDraftButton"),
     draftList: document.getElementById("draftFightList")
   });
