@@ -4055,6 +4055,17 @@ body.wolfie-image-modal-open{overflow:hidden}
 
 
 <!-- =======================================================
+     NEXT UP — LIVE ANNOUNCED FIGHTS
+======================================================== -->
+
+<section class="upcoming-section" aria-label="Mrs Wolfie upcoming fights">
+  <h2 class="section-title">NEXT UP</h2>
+  <div id="nextUpList" class="next-list" aria-live="polite">
+    <div class="empty-card">CHECKING UPCOMING FIGHTS...</div>
+  </div>
+</section>
+
+<!-- =======================================================
      QUICK ACCESS
 ======================================================== -->
 
@@ -4904,6 +4915,13 @@ if(grid){
 
 
   function getUpcomingFights(){
+
+    // Use the same status/date rules as the central fight database.
+    // This excludes past, postponed, cancelled and completed fights,
+    // while retaining announced fights with a TBA date.
+    if (typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function") {
+      return window.MRS_WOLFIE_GET_UPCOMING_FIGHTS();
+    }
 
     const data =
       window.MRS_WOLFIE_FIGHTS
@@ -5928,6 +5946,9 @@ function renderUpcoming(){
 function renderHome(){
 
   renderNextFight();
+
+  // Refresh the Next Up cards whenever Firebase fight data changes.
+  renderUpcoming();
 
   renderRecord();
 
