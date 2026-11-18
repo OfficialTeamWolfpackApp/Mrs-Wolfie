@@ -922,12 +922,12 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
 
               opponent:
                 String(
-                  data.opponent || ""
+                  data.opponent || data.opponentName || ""
                 ).trim(),
 
               date:
                 String(
-                  data.date || ""
+                  data.date || data.fightDate || ""
                 ).trim(),
 
               dateEnd:
@@ -944,6 +944,16 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                 String(
                   data.ticketUrl || ""
                 ).trim(),
+              fighterImage:
+                String(
+                  data.fighterImage || ""
+                ).trim(),
+
+              opponentImage:
+                String(
+                  data.opponentImage || ""
+                ).trim(),
+
 
               status:
                 String(
