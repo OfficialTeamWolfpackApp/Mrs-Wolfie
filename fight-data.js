@@ -806,7 +806,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
     const {
       getFirestore,
       collection,
-      onSnapshot
+      query, where, onSnapshot
     } =
       await import(
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
@@ -863,9 +863,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
       );
 
 
-    onSnapshot(
-
-      fightsCollection,
+    onSnapshot(query(fightsCollection, where("published", "==", true)),
 
       (snapshot) => {
 
