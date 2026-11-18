@@ -1699,55 +1699,60 @@ const permanentHistory = [
    DATE HELPERS
 ========================= */
 
-function parseDate(
-  value
-){
+function parseDate(value){
 
-  if(
-    !value ||
-    typeof value !== "string"
-  ){
+  if (!value) {
     return null;
   }
 
-  const parts =
-    value.split("-");
+  if (typeof value.toDate === "function") {
+    const date = value.toDate();
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
 
-  if(
-    parts.length !== 3
-  ){
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : value;
+  }
+
+  if (typeof value !== "string") {
     return null;
   }
 
-  const year =
-    Number(parts[0]);
+  const text = value.trim();
 
-  const month =
-    Number(parts[1]);
+  let match;
 
-  const day =
-    Number(parts[2]);
+  // YYYY-MM-DD
+  match = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
 
-  if(
-    !year ||
-    !month ||
-    !day
-  ){
-    return null;
+  if (match) {
+    const date = new Date(
+      Number(match[1]),
+      Number(match[2]) - 1,
+      Number(match[3])
+    );
+
+    return Number.isNaN(date.getTime()) ? null : date;
   }
 
-  return new Date(
-    year,
-    month - 1,
-    day,
-    23,
-    59,
-    59,
-    999
-  );
+  // DD/MM/YYYY
+  match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
 
+  if (match) {
+    const date = new Date(
+      Number(match[3]),
+      Number(match[2]) - 1,
+      Number(match[1])
+    );
+
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  // Written dates and ISO timestamps
+  const date = new Date(text);
+
+  return Number.isNaN(date.getTime()) ? null : date;
 }
-
 
 function formatDate(
   value
@@ -1854,7 +1859,17 @@ function renderFightStatus(
           return false;
         }
 
-        if (fight.result) {
+        const result =
+          String(fight.result || "")
+            .trim()
+            .toUpperCase();
+
+        if (
+          result &&
+          result !== "NO RESULT" &&
+          result !== "PENDING" &&
+          result !== "TBA"
+        ) {
           return false;
         }
 
