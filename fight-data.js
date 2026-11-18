@@ -465,8 +465,10 @@ if (
               fight
             );
 
+          // Prefer dated upcoming fights (the array is sorted with TBA last),
+          // but show an agreed date-TBA fight if no dated fight is available.
           if (!finalDate) {
-            return false;
+            return !String(fight.date || "").trim();
           }
 
           return (
