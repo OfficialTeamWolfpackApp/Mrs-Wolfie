@@ -961,11 +961,40 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
           <div class="field"><label for="resultMethod">RESULT / METHOD — OPTIONAL</label><input id="resultMethod" type="text" placeholder="e.g. Points, TKO, Decision"></div>
           <div class="field"><label for="fightTitle">FIGHT TYPE / TITLE — OPTIONAL</label><input id="fightTitle" type="text" placeholder="e.g. Ladies Super Middleweight Novice Title"></div>
-          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
-          <p class="field-help" role="note" style="grid-column:1/-1;border:1px solid rgba(255,143,211,.55);border-radius:8px;padding:12px;background:rgba(255,143,211,.08);color:#fff"><strong>PUBLICATION WARNING:</strong> Saving a fight here writes to the publicly readable fight collection. Do not enter unannounced opponents, confidential fight details or private drafts. Use the private admin note only for confidential notes. A secure draft/publish workflow requires verified Firebase rules and a separate protected data path.</p>
-          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
+          <section class="fight-media-section field full" aria-labelledby="fightMediaHeading">
+            <div class="fight-media-heading">
+              <div>
+                <h3 id="fightMediaHeading">Fight photographs</h3>
+                <p>Upload or replace the photographs shown alongside this fight.</p>
+              </div>
+              <span class="fight-media-format">JPG · PNG · WebP · Max 8 MB each</span>
+            </div>
 
-          <p class="field-help" style="grid-column:1/-1">IMAGE HISTORY: Replacing or removing a photograph updates this fight only. Previously uploaded files are retained in Firebase Storage to avoid deleting images that another fight or historical record may still use. Storage cleanup must be reviewed separately.</p>
+            <div class="fight-media-grid">
+              <div class="field fight-media-card">
+                <label for="fighterImageUpload">MRS WOLFIE / FIGHTER IMAGE</label>
+                <input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp">
+                <img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden>
+                <span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span>
+                <label class="fight-media-remove"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label>
+              </div>
+
+              <div class="field fight-media-card">
+                <label for="opponentImageUpload">OPPONENT IMAGE</label>
+                <input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp">
+                <img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden>
+                <span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span>
+                <label class="fight-media-remove"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label>
+              </div>
+            </div>
+
+            <div class="fight-media-history">
+              <strong>Image history</strong>
+              <p>Replacing or removing a photograph updates this fight only. Previously uploaded files remain in Firebase Storage because other fights or historical records may still use them. Storage cleanup is handled separately.</p>
+            </div>
+          </section>
+
+          <p class="fight-publication-warning field-help" role="note"><strong>PUBLICATION WARNING:</strong> Saving a fight here writes to the publicly readable fight collection. Do not enter unannounced opponents, confidential fight details or private drafts. Use the private admin note only for confidential notes. A secure draft/publish workflow requires verified Firebase rules and a separate protected data path.</p>
 
           <div class="field full">
             <label for="venue">VENUE</label>
