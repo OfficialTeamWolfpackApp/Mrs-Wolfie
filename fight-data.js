@@ -8,9 +8,9 @@
    COLLECTION:
    mrsWolfieFights
 
-   FALLBACK:
-   Local announced fights remain available if Firebase
-   cannot be reached.
+   SAFETY:
+   Public announcements stay empty until Firebase responds.
+   Connection errors never publish local fallback fights.
 ========================================================= */
 
 
@@ -63,9 +63,7 @@ window.MRS_WOLFIE_FIGHTS = {
     successfully loads.
   */
 
-  upcoming: [
-    ...MRS_WOLFIE_FALLBACK_FIGHTS
-  ],
+  upcoming: [],
 
 
   /* =======================================================
@@ -111,7 +109,7 @@ window.MRS_WOLFIE_FIGHTS = {
 
   nextFight: null,
 
-  source: "LOCAL FALLBACK",
+  source: "CONNECTING",
 
   firebaseLoaded: false
 
@@ -443,6 +441,13 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
           ) {
             return false;
           }
+          // Only announced upcoming fights can become the next fight.
+          // A completed fight may not have a result recorded yet.
+          if (String(fight.status || "UPCOMING").trim().toUpperCase() !== "UPCOMING") {
+            return false;
+          }
+
+
 
           if (
             window.MRS_WOLFIE_IS_CANCELLED(
@@ -465,8 +470,10 @@ if (
               fight
             );
 
+          // Prefer dated upcoming fights (the array is sorted with TBA last),
+          // but show an agreed date-TBA fight if no dated fight is available.
           if (!finalDate) {
-            return false;
+            return !String(fight.date || "").trim();
           }
 
           return (
@@ -520,6 +527,13 @@ window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
             ) {
               return false;
             }
+            // Only announced upcoming fights can become the next fight.
+            // A completed fight may not have a result recorded yet.
+            if (String(fight.status || "UPCOMING").trim().toUpperCase() !== "UPCOMING") {
+              return false;
+            }
+
+
 
             if (
               window.MRS_WOLFIE_IS_CANCELLED(
@@ -543,8 +557,10 @@ if (
                 fight
               );
 
+            // Keep announced date-TBA fights visible in the upcoming list.
+            // Cancelled, postponed and completed fights are excluded above.
             if (!finalDate) {
-              return false;
+              return !String(fight.date || "").trim();
             }
 
             return (
@@ -556,12 +572,11 @@ if (
 
         .sort(
           (a, b) => {
-
-            return (
-              window.MRS_WOLFIE_CREATE_DATE(a.date) -
-              window.MRS_WOLFIE_CREATE_DATE(b.date)
-            );
-
+            const aTime = window.MRS_WOLFIE_CREATE_DATE(a.date).getTime();
+            const bTime = window.MRS_WOLFIE_CREATE_DATE(b.date).getTime();
+            if (!Number.isFinite(aTime)) return Number.isFinite(bTime) ? 1 : 0;
+            if (!Number.isFinite(bTime)) return -1;
+            return aTime - bTime;
           }
         )
 
@@ -935,7 +950,20 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                   data.dateEnd || ""
                 ).trim(),
 
-                           venue:
+              dateTba:
+                data.dateTba === true,
+
+              displayDate:
+                String(
+                  data.displayDate || ""
+                ).trim(),
+
+              fightTitle:
+                String(
+                  data.fightTitle || ""
+                ).trim(),
+
+              venue:
                 String(
                   data.venue || ""
                 ).trim(),
@@ -980,9 +1008,10 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
 
 
             fight.dateDisplay =
-              window.MRS_WOLFIE_BUILD_DATE_DISPLAY(
-                fight
-              );
+              fight.dateTba || (!fight.date && !fight.dateEnd)
+                ? "TBA"
+                : fight.displayDate ||
+                  window.MRS_WOLFIE_BUILD_DATE_DISPLAY(fight);
 
 
             firebaseFights.push(
@@ -1050,13 +1079,14 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
       (error) => {
 
         console.error(
-          "Mrs Wolfie Firebase fight listener failed. Using local fallback data.",
+          "Mrs Wolfie Firebase fight listener failed. Public fights unavailable.",
           error
         );
 
 
+        window.MRS_WOLFIE_FIGHTS.upcoming = [];
         window.MRS_WOLFIE_FIGHTS.source =
-          "LOCAL FALLBACK";
+          "FIREBASE ERROR";
 
 
         window.MRS_WOLFIE_FIGHTS.firebaseLoaded =
@@ -1071,7 +1101,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
             "mrsWolfieFightDataUpdated",
             {
               detail: {
-                source: "LOCAL FALLBACK",
+                source: "FIREBASE ERROR",
                 error: true
               }
             }
@@ -1088,13 +1118,14 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
   catch (error) {
 
     console.error(
-      "Mrs Wolfie Firebase could not start. Using local fallback data.",
+      "Mrs Wolfie Firebase could not start. Public fights unavailable.",
       error
     );
 
 
+    window.MRS_WOLFIE_FIGHTS.upcoming = [];
     window.MRS_WOLFIE_FIGHTS.source =
-      "LOCAL FALLBACK";
+      "FIREBASE ERROR";
 
 
     window.MRS_WOLFIE_FIGHTS.firebaseLoaded =
@@ -1109,7 +1140,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
         "mrsWolfieFightDataUpdated",
         {
           detail: {
-            source: "LOCAL FALLBACK",
+            source: "FIREBASE ERROR",
             error: true
           }
         }
