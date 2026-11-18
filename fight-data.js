@@ -8,9 +8,9 @@
    COLLECTION:
    mrsWolfieFights
 
-   FALLBACK:
-   Local announced fights remain available if Firebase
-   cannot be reached.
+   SAFETY:
+   Public announcements stay empty until Firebase responds.
+   Connection errors never publish local fallback fights.
 ========================================================= */
 
 
@@ -63,9 +63,7 @@ window.MRS_WOLFIE_FIGHTS = {
     successfully loads.
   */
 
-  upcoming: [
-    ...MRS_WOLFIE_FALLBACK_FIGHTS
-  ],
+  upcoming: [],
 
 
   /* =======================================================
@@ -111,7 +109,7 @@ window.MRS_WOLFIE_FIGHTS = {
 
   nextFight: null,
 
-  source: "LOCAL FALLBACK",
+  source: "CONNECTING",
 
   firebaseLoaded: false
 
@@ -1081,13 +1079,14 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
       (error) => {
 
         console.error(
-          "Mrs Wolfie Firebase fight listener failed. Using local fallback data.",
+          "Mrs Wolfie Firebase fight listener failed. Public fights unavailable.",
           error
         );
 
 
+        window.MRS_WOLFIE_FIGHTS.upcoming = [];
         window.MRS_WOLFIE_FIGHTS.source =
-          "LOCAL FALLBACK";
+          "FIREBASE ERROR";
 
 
         window.MRS_WOLFIE_FIGHTS.firebaseLoaded =
@@ -1102,7 +1101,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
             "mrsWolfieFightDataUpdated",
             {
               detail: {
-                source: "LOCAL FALLBACK",
+                source: "FIREBASE ERROR",
                 error: true
               }
             }
@@ -1119,13 +1118,14 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
   catch (error) {
 
     console.error(
-      "Mrs Wolfie Firebase could not start. Using local fallback data.",
+      "Mrs Wolfie Firebase could not start. Public fights unavailable.",
       error
     );
 
 
+    window.MRS_WOLFIE_FIGHTS.upcoming = [];
     window.MRS_WOLFIE_FIGHTS.source =
-      "LOCAL FALLBACK";
+      "FIREBASE ERROR";
 
 
     window.MRS_WOLFIE_FIGHTS.firebaseLoaded =
@@ -1140,7 +1140,7 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
         "mrsWolfieFightDataUpdated",
         {
           detail: {
-            source: "LOCAL FALLBACK",
+            source: "FIREBASE ERROR",
             error: true
           }
         }
