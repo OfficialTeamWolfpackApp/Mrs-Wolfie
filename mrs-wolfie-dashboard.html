@@ -1840,6 +1840,12 @@ function renderFightStatus(
     new Date();
 
 
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+
   const upcoming =
     fights
       .filter(function(fight){
@@ -1850,9 +1856,9 @@ function renderFightStatus(
             .toUpperCase();
 
         if (
+          status === "POSTPONED" ||
           status === "CANCELLED" ||
           status === "CANCELED" ||
-          status === "POSTPONED" ||
           status === "COMPLETED" ||
           status === "COMPLETE"
         ) {
@@ -1866,28 +1872,41 @@ function renderFightStatus(
 
         if (
           result &&
-          result !== "NO RESULT" &&
           result !== "PENDING" &&
+          result !== "NO RESULT" &&
           result !== "TBA"
         ) {
           return false;
         }
 
-        const date = parseDate(fight.date);
+        const date = parseDate(
+          fight.date || fight.fightDate
+        );
 
         if (!date) {
           return false;
         }
 
-        return date >= now;
+        const fightDay = new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate()
+        );
+
+        return fightDay >= today;
 
       })
       .sort(function(a,b){
 
-        return (
-          parseDate(a.date).getTime() -
-          parseDate(b.date).getTime()
+        const first = parseDate(
+          a.date || a.fightDate
         );
+
+        const second = parseDate(
+          b.date || b.fightDate
+        );
+
+        return first.getTime() - second.getTime();
 
       });
 
@@ -2057,7 +2076,7 @@ function renderFightStatus(
       <div class="live-opponent">
         MRS WOLFIE vs
         ${escapeHtml(
-          nextFight.opponent ||
+          nextFight.opponentName || nextFight.opponent ||
           "TBA"
         )}
       </div>
