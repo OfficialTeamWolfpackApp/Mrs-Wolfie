@@ -401,10 +401,17 @@ window.MRS_WOLFIE_SORT_FIGHTS =
     window.MRS_WOLFIE_FIGHTS.upcoming.sort(
       (a, b) => {
 
-        return (
-          window.MRS_WOLFIE_CREATE_DATE(a.date) -
-          window.MRS_WOLFIE_CREATE_DATE(b.date)
-        );
+        const dateA = window.MRS_WOLFIE_CREATE_DATE(a.date).getTime();
+          const dateB = window.MRS_WOLFIE_CREATE_DATE(b.date).getTime();
+
+          const validA = Number.isFinite(dateA);
+          const validB = Number.isFinite(dateB);
+
+          if (!validA && !validB) return 0;
+          if (!validA) return 1;
+          if (!validB) return -1;
+
+          return dateA - dateB;
 
       }
     );
