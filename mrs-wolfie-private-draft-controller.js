@@ -30,12 +30,8 @@ import {
 } from "./mrs-wolfie-private-draft-images.js";
 
 import {
-  publishPrivateFightDraft
-} from "./mrs-wolfie-private-draft-publication-service.js";
-
-import {
-  createFirestorePublicationAdapter
-} from "./mrs-wolfie-private-draft-firestore-adapter.js";
+  publishPrivateDraftViaCallable
+} from "./mrs-wolfie-private-draft-callable.js";
 export const PRIVATE_DRAFT_LOADING_ENABLED = false;
 
 export const PRIVATE_DRAFT_WRITES_ENABLED = false;
@@ -54,6 +50,7 @@ export function initialisePrivateDraftController({
   db,
   storage,
   auth,
+  functions,
   saveButton,
   draftList
 }) {
@@ -203,15 +200,11 @@ export function initialisePrivateDraftController({
         );
       }
 
-      const adapter =
-        createFirestorePublicationAdapter(db);
-
-      return publishPrivateFightDraft({
+      return publishPrivateDraftViaCallable({
+        functions,
         user,
         draftId: id,
-        adapter,
-        publicationEnabled:
-          PRIVATE_DRAFT_PUBLICATION_ENABLED
+        publicationEnabled: PRIVATE_DRAFT_PUBLICATION_ENABLED
       });
     }
   };
