@@ -443,6 +443,13 @@ window.MRS_WOLFIE_GET_NEXT_FIGHT =
           ) {
             return false;
           }
+          // Only announced upcoming fights can become the next fight.
+          // A completed fight may not have a result recorded yet.
+          if (String(fight.status || "UPCOMING").trim().toUpperCase() !== "UPCOMING") {
+            return false;
+          }
+
+
 
           if (
             window.MRS_WOLFIE_IS_CANCELLED(
@@ -522,6 +529,13 @@ window.MRS_WOLFIE_GET_UPCOMING_FIGHTS =
             ) {
               return false;
             }
+            // Only announced upcoming fights can become the next fight.
+            // A completed fight may not have a result recorded yet.
+            if (String(fight.status || "UPCOMING").trim().toUpperCase() !== "UPCOMING") {
+              return false;
+            }
+
+
 
             if (
               window.MRS_WOLFIE_IS_CANCELLED(
@@ -560,12 +574,11 @@ if (
 
         .sort(
           (a, b) => {
-
-            return (
-              window.MRS_WOLFIE_CREATE_DATE(a.date) -
-              window.MRS_WOLFIE_CREATE_DATE(b.date)
-            );
-
+            const aTime = window.MRS_WOLFIE_CREATE_DATE(a.date).getTime();
+            const bTime = window.MRS_WOLFIE_CREATE_DATE(b.date).getTime();
+            if (!Number.isFinite(aTime)) return Number.isFinite(bTime) ? 1 : 0;
+            if (!Number.isFinite(bTime)) return -1;
+            return aTime - bTime;
           }
         )
 
