@@ -5929,6 +5929,9 @@ function renderHome(){
 
   renderNextFight();
 
+  // Refresh the Next Up cards whenever Firebase fight data changes.
+  renderUpcoming();
+
   renderRecord();
 
   renderLatestUpdate();
