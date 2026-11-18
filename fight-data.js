@@ -543,8 +543,10 @@ if (
                 fight
               );
 
+            // Keep announced date-TBA fights visible in the upcoming list.
+            // Cancelled, postponed and completed fights are excluded above.
             if (!finalDate) {
-              return false;
+              return !String(fight.date || "").trim();
             }
 
             return (
