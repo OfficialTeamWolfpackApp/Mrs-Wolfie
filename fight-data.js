@@ -939,7 +939,20 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                   data.dateEnd || ""
                 ).trim(),
 
-                           venue:
+              dateTba:
+                data.dateTba === true,
+
+              displayDate:
+                String(
+                  data.displayDate || ""
+                ).trim(),
+
+              fightTitle:
+                String(
+                  data.fightTitle || ""
+                ).trim(),
+
+              venue:
                 String(
                   data.venue || ""
                 ).trim(),
@@ -984,9 +997,10 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
 
 
             fight.dateDisplay =
-              window.MRS_WOLFIE_BUILD_DATE_DISPLAY(
-                fight
-              );
+              fight.dateTba || (!fight.date && !fight.dateEnd)
+                ? "TBA"
+                : fight.displayDate ||
+                  window.MRS_WOLFIE_BUILD_DATE_DISPLAY(fight);
 
 
             firebaseFights.push(
