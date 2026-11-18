@@ -4106,9 +4106,9 @@ function renderUpcomingFights() {
       : (fight.dateDisplay || fight.displayDate || fight.date);
     details.textContent =
       "DATE: " + date +
-      "\\nPROMOTION: " + (fight.promotion || "TBA") +
-      "\\nEVENT: " + (fight.event || "TBA") +
-      "\\nVENUE: " + (fight.venue || "TBA");
+      "\nPROMOTION: " + (fight.promotion || "TBA") +
+      "\nEVENT: " + (fight.event || "TBA") +
+      "\nVENUE: " + (fight.venue || "TBA");
     details.style.whiteSpace = "pre-line";
 
     card.appendChild(badge);
