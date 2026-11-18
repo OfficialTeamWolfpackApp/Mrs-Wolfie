@@ -4066,6 +4066,15 @@ body.wolfie-image-modal-open{overflow:hidden}
 </section>
 
 <!-- =======================================================
+     POSTPONED FIGHTS — LIVE FIREBASE DATA
+======================================================== -->
+
+<section class="upcoming-section" id="postponedFightsSection" aria-label="Mrs Wolfie postponed fights" hidden>
+  <h2 class="section-title">POSTPONED FIGHTS</h2>
+  <div id="postponedFightsList" class="next-list" aria-live="polite"></div>
+</section>
+
+<!-- =======================================================
      QUICK ACCESS
 ======================================================== -->
 
@@ -5793,6 +5802,50 @@ function renderUpcoming(){
 
 
   /* =====================================================
+     POSTPONED FIGHTS — READ ONLY
+  ====================================================== */
+
+  function renderPostponedFights(){
+    const section = $("postponedFightsSection");
+    const list = $("postponedFightsList");
+    if (!section || !list) return;
+
+    const getPostponed = window.MRS_WOLFIE_GET_POSTPONED_FIGHTS;
+    const fights = typeof getPostponed === "function"
+      ? getPostponed()
+      : [];
+
+    section.hidden = fights.length === 0;
+    if (!fights.length) {
+      list.replaceChildren();
+      return;
+    }
+
+    list.innerHTML = fights.map(function(fight){
+      const date = shortDate(fight);
+      const opponent = text(fight.opponent, "TBA");
+      const venue = text(fight.venue, "VENUE TBA");
+      const title = text(fight.fightTitle || fight.title, "");
+      const event = text(fight.event || fight.eventName, fight.promotion || "FIGHT NIGHT");
+      return `
+        <div class="next-item" aria-label="Postponed fight">
+          <div class="date-box">
+            <div class="date-number">${escapeHTML(date.day)}</div>
+            <div class="date-month">${escapeHTML(date.month)}</div>
+          </div>
+          <div class="next-info">
+            <div class="next-fight-label" style="color:var(--pink2)">POSTPONED</div>
+            <div class="next-name">MRS WOLFIE <span class="versus">VS</span> ${escapeHTML(opponent)}</div>
+            <div class="next-meta">${escapeHTML(venue)}</div>
+            <div class="next-event">${escapeHTML(title || event)}</div>
+            <div class="next-meta">AWAITING CONFIRMED NEW DATE</div>
+          </div>
+          <div class="next-arrow" aria-hidden="true">!</div>
+        </div>`;
+    }).join("");
+  }
+
+  /* =====================================================
      LATEST UPDATE
   ====================================================== */
 
@@ -5951,6 +6004,7 @@ function renderHome(){
 
   // Refresh the Next Up cards whenever Firebase fight data changes.
   renderUpcoming();
+  renderPostponedFights();
 
   renderRecord();
 
