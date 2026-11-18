@@ -2838,6 +2838,18 @@ background-image:
     </section>
 
 <!-- =====================================================
+     UPCOMING FIGHTS
+====================================================== -->
+
+<section id="upcomingFightsSection" hidden>
+  <div class="section-header">
+    <h2 class="section-title">UPCOMING FIGHTS</h2>
+    <div class="section-tag">CONFIRMED &amp; DATE TBA</div>
+  </div>
+  <div id="upcomingFightsList"></div>
+</section>
+
+<!-- =====================================================
      POSTPONED FIGHTS
 ====================================================== -->
 
@@ -4059,6 +4071,53 @@ if (ticketButton) {
    RENDER POSTPONED FIGHTS
 ===================================================== */
 
+function renderUpcomingFights() {
+  const section = document.getElementById("upcomingFightsSection");
+  const container = document.getElementById("upcomingFightsList");
+  if (!section || !container) return;
+
+  const fights = typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function"
+    ? window.MRS_WOLFIE_GET_UPCOMING_FIGHTS()
+    : [];
+
+  container.replaceChildren();
+  if (!Array.isArray(fights) || fights.length === 0) {
+    section.hidden = true;
+    return;
+  }
+  section.hidden = false;
+
+  fights.forEach(function(fight) {
+    const card = document.createElement("article");
+    card.className = "postponed-fight-card";
+
+    const badge = document.createElement("div");
+    badge.className = "postponed-fight-badge";
+    badge.textContent = "UPCOMING";
+
+    const title = document.createElement("div");
+    title.className = "postponed-fight-title";
+    title.textContent = "MRS WOLFIE vs " + (fight.opponent || "TBA");
+
+    const details = document.createElement("div");
+    details.className = "postponed-fight-details";
+    const date = fight.dateTba || !fight.date
+      ? "DATE TBA"
+      : (fight.dateDisplay || fight.displayDate || fight.date);
+    details.textContent =
+      "DATE: " + date +
+      "\\nPROMOTION: " + (fight.promotion || "TBA") +
+      "\\nEVENT: " + (fight.event || "TBA") +
+      "\\nVENUE: " + (fight.venue || "TBA");
+    details.style.whiteSpace = "pre-line";
+
+    card.appendChild(badge);
+    card.appendChild(title);
+    card.appendChild(details);
+    container.appendChild(card);
+  });
+}
+
 function renderPostponedFights() {
 
   const section =
@@ -4157,7 +4216,8 @@ function refreshFightPage() {
   /* UPDATE NEXT FIGHT AND COUNTDOWN */
   updateFightCountdown();
 
-  /* UPDATE POSTPONED FIGHTS */
+  /* UPDATE UPCOMING AND POSTPONED FIGHTS */
+  renderUpcomingFights();
   renderPostponedFights();
 
 }
@@ -4166,8 +4226,7 @@ function refreshFightPage() {
       /* =====================================================
          INITIAL DISPLAY
 
-         Local fallback data appears immediately
-         while Firebase connects.
+         Public fight lists stay empty until Firebase responds.
       ====================================================== */
 
       refreshFightPage();
