@@ -60,3 +60,20 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 @media(max-width:700px){.header{padding:22px 16px 16px;grid-template-columns:52px 1fr;column-gap:12px}.logo{width:52px;height:52px}.title{font-size:25px}.subtitle{font-size:12px}.content{padding:8px 12px 48px}.panel{padding:20px 15px}.form-grid{grid-template-columns:1fr;gap:18px}.field.full{grid-column:auto}.admin-bar{padding:14px;flex-wrap:wrap}.fight-card{padding:18px 15px}.fight-top{align-items:flex-start;flex-direction:column}.card-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.small-button{width:100%}.notification-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.notification-label{grid-column:1/-1}.form-actions{flex-direction:column;align-items:stretch}.form-actions .button{width:100%}.nav-grid{grid-template-columns:1fr}.private-draft-panel{padding:15px}}
 @media(max-width:380px){.card-actions,.notification-actions{grid-template-columns:1fr}.header{grid-template-columns:44px 1fr}.logo{width:44px;height:44px}.title{font-size:21px}}
 @media(prefers-reduced-motion:reduce){.button,.small-button,.nav-button{transition:none}}
+
+/* Refinements after visual review: clearer hierarchy and less form clutter. */
+#saveDraftButton{display:none!important}
+.fight-editor .field:has(#fighterImageUpload),.fight-editor .field:has(#opponentImageUpload){background:#111c27;border:1px solid #314455;border-radius:12px;padding:15px}
+.fight-editor .field:has(#fighterImageUpload) .field-help,.fight-editor .field:has(#opponentImageUpload) .field-help{max-width:100%}
+.fight-editor .field:has(#fighterImageUpload) input[type=file],.fight-editor .field:has(#opponentImageUpload) input[type=file]{background:#0a121a}
+.fight-editor .field:has(#fighterImageUpload) label.field-help,.fight-editor .field:has(#opponentImageUpload) label.field-help{display:flex;align-items:center;gap:9px;margin-top:4px;letter-spacing:0;text-transform:none}
+.fight-editor .field:has(#fighterImageUpload) label.field-help input,.fight-editor .field:has(#opponentImageUpload) label.field-help input{margin:0}
+.fight-editor .field:has(#dateTba) label.date-tba-option{display:flex!important;align-items:center;gap:10px;font-size:11px;line-height:1.5;margin-top:9px!important;letter-spacing:0}
+.fight-editor .field:has(#dateTba) label.date-tba-option input{margin:0!important}
+.fight-editor .field:has(#ticketUrl){margin-top:2px}
+.fight-editor .field:has(#notes){margin-top:3px}
+.fight-card .fight-status{white-space:nowrap}
+.fight-card .fight-meta{overflow-wrap:anywhere}
+.private-draft-panel{border-left:3px solid #ffb000}
+.private-draft-warning{background:rgba(255,176,0,.055)}
+@media(min-width:701px){.fight-editor .field:has(#fighterImageUpload),.fight-editor .field:has(#opponentImageUpload){min-height:172px}}
