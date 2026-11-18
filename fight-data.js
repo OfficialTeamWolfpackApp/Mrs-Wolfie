@@ -465,8 +465,10 @@ if (
               fight
             );
 
+          // Prefer dated upcoming fights (the array is sorted with TBA last),
+          // but show an agreed date-TBA fight if no dated fight is available.
           if (!finalDate) {
-            return false;
+            return !String(fight.date || "").trim();
           }
 
           return (
@@ -543,8 +545,10 @@ if (
                 fight
               );
 
+            // Keep announced date-TBA fights visible in the upcoming list.
+            // Cancelled, postponed and completed fights are excluded above.
             if (!finalDate) {
-              return false;
+              return !String(fight.date || "").trim();
             }
 
             return (
@@ -935,7 +939,20 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
                   data.dateEnd || ""
                 ).trim(),
 
-                           venue:
+              dateTba:
+                data.dateTba === true,
+
+              displayDate:
+                String(
+                  data.displayDate || ""
+                ).trim(),
+
+              fightTitle:
+                String(
+                  data.fightTitle || ""
+                ).trim(),
+
+              venue:
                 String(
                   data.venue || ""
                 ).trim(),
@@ -980,9 +997,10 @@ window.MRS_WOLFIE_REFRESH_NEXT_FIGHT();
 
 
             fight.dateDisplay =
-              window.MRS_WOLFIE_BUILD_DATE_DISPLAY(
-                fight
-              );
+              fight.dateTba || (!fight.date && !fight.dateEnd)
+                ? "TBA"
+                : fight.displayDate ||
+                  window.MRS_WOLFIE_BUILD_DATE_DISPLAY(fight);
 
 
             firebaseFights.push(
