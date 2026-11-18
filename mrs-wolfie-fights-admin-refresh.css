@@ -77,3 +77,24 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .private-draft-panel{border-left:3px solid #ffb000}
 .private-draft-warning{background:rgba(255,176,0,.055)}
 @media(min-width:701px){.fight-editor .field:has(#fighterImageUpload),.fight-editor .field:has(#opponentImageUpload){min-height:172px}}
+
+
+/* Media section — two balanced upload cards and a compact history notice. */
+.fight-media-section{display:block;grid-column:1/-1;border:1px solid #334759;background:linear-gradient(125deg,#101c27,#121923);padding:22px;border-radius:16px}
+.fight-media-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.fight-media-heading h3{font-size:18px;line-height:1.25;color:#f5f8fc;margin:0 0 6px}
+.fight-media-heading p{font-size:12px;line-height:1.5;color:#a7b5c4;margin:0}
+.fight-media-format{font-size:11px;color:#b7c9d8;white-space:nowrap;background:#1b2a36;border:1px solid #385064;border-radius:20px;padding:8px 12px}
+.fight-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fight-media-section .fight-media-card{display:flex;flex-direction:column;gap:12px;padding:18px;border:1px solid #33485b;border-radius:12px;background:#0a141d;min-height:205px}
+.fight-media-card>label:first-child{font-size:12px;color:#e6f5ff}
+.fight-media-card input[type=file]{width:100%;background:#101e29;border:1px dashed #4b657a;border-radius:9px;padding:12px;min-height:50px}
+.fight-media-card .image-preview{width:120px;height:140px;object-fit:cover;border-radius:10px}
+.fight-media-card .field-help{font-size:12px;color:#b2c4d4}
+.fight-media-card .fight-media-remove{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:8px;font-size:11px;letter-spacing:0;line-height:1.5;color:#b8c9d8;cursor:pointer}
+.fight-media-card .fight-media-remove input{width:17px;height:17px;min-height:17px;margin:0;flex:0 0 17px}
+.fight-media-history{display:grid;grid-template-columns:125px 1fr;gap:15px;margin-top:16px;padding:14px 16px;border:1px solid #304355;border-radius:10px;background:#14212d}
+.fight-media-history strong{font-size:12px;color:#67dcff}
+.fight-media-history p{font-size:12px;line-height:1.6;color:#b4c4d2;margin:0}
+.fight-publication-warning{grid-column:1/-1!important;padding:15px 17px!important;border:1px solid rgba(255,143,211,.40)!important;border-radius:11px!important;background:rgba(255,143,211,.065)!important;color:#e4d8e3!important;font-size:12px!important;line-height:1.65!important}
+@media(max-width:700px){.fight-media-section{padding:16px}.fight-media-heading{flex-direction:column}.fight-media-format{white-space:normal}.fight-media-grid{grid-template-columns:1fr}.fight-media-history{grid-template-columns:1fr;gap:6px}.fight-media-section .fight-media-card{min-height:0}}
