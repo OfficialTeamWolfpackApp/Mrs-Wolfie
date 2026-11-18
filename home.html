@@ -5319,7 +5319,11 @@ if(grid){
     const opponent = String(fight?.opponent || "").trim();
     const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
       ? String(fight?.opponentImage || "").trim() : "";
-    photo.hidden = !/^https:\/\//i.test(url);
+        const isValidImageUrl =
+      /^https:\/\//i.test(url) ||
+      /^(?!\/|\.{1,2}\/)[a-zA-Z0-9_-][a-zA-Z0-9_./-]*\.(?:jpg|jpeg|png|webp)(?:\?[^#]*)?$/i.test(url);
+
+    photo.hidden = !isValidImageUrl;
     placeholder.hidden = !photo.hidden;
     if (!photo.hidden) { photo.src = url; photo.alt = opponent; }
     else photo.removeAttribute("src");

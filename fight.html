@@ -3474,7 +3474,9 @@ background-image:
         const opponent = String(fight?.opponent || "").trim();
         const url = opponent && opponent.toUpperCase() !== "TBA" && String(fight?.status || "UPCOMING").toUpperCase() === "UPCOMING"
           ? String(fight?.opponentImage || "").trim() : "";
-        const show = /^https:\/\//i.test(url);
+        const show =
+          /^https:\/\//i.test(url) ||
+          /^(?!\/|\.{1,2}\/)[a-zA-Z0-9_-][a-zA-Z0-9_./-]*\.(?:jpg|jpeg|png|webp)(?:\?[^#]*)?$/i.test(url);
         photo.hidden = !show;
         placeholder.hidden = show;
         if (show) { photo.src = url; photo.alt = opponent; }
