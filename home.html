@@ -5387,7 +5387,9 @@ if(grid){
 
       details.innerHTML =
         '<div class="wolfie-date-line">' +
-        "NEW FIGHT TO BE ANNOUNCED" +
+        (window.MRS_WOLFIE_FIGHTS?.firebaseLoaded
+          ? "NEW FIGHT TO BE ANNOUNCED"
+          : "CHECKING FOR THE NEXT FIGHT...") +
         "</div>";
 
 
