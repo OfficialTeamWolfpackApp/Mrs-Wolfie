@@ -29,6 +29,15 @@ import {
   deletePrivateDraftImage
 } from "./mrs-wolfie-private-draft-images.js";
 
+import {
+  publishPrivateFightDraft
+} from "./mrs-wolfie-private-draft-publication-service.js";
+
+import {
+  createFirestorePublicationAdapter
+} from "./mrs-wolfie-private-draft-firestore-adapter.js";
+export const PRIVATE_DRAFT_LOADING_ENABLED = false;
+
 export const PRIVATE_DRAFT_WRITES_ENABLED = false;
 
 export const PRIVATE_DRAFT_PUBLICATION_ENABLED = false;
@@ -76,13 +85,48 @@ export function initialisePrivateDraftController({
         );
       }
 
-      // Do not read confidential records until
-      // the private rules are deployed and verified.
-      throw new Error(
-        "Private draft loading is not enabled."
+      if (!PRIVATE_DRAFT_LOADING_ENABLED) {
+        throw new Error(
+          "Private draft loading is not enabled."
+        );
+      }
+
+      return loadPrivateDrafts(
+        db,
+        auth.currentUser
       );
     },
 
+    async getDraft(id) {
+      const user = auth.currentUser;
+
+      if (!user) {
+        throw new Error(
+          "Administrator sign-in required."
+        );
+      }
+
+      if (!PRIVATE_DRAFT_LOADING_ENABLED) {
+        throw new Error(
+          "Private draft loading is not enabled."
+        );
+      }
+
+      if (
+        typeof id !== "string" ||
+        !/^[A-Za-z0-9_-]{1,128}$/.test(id)
+      ) {
+        throw new Error(
+          "Invalid private draft ID."
+        );
+      }
+
+      return getPrivateDraft(
+        db,
+        user,
+        id
+      );
+    },
     async createDraft(data) {
       requireDraftWritesEnabled();
 
@@ -144,15 +188,31 @@ export function initialisePrivateDraftController({
     },
 
     async publishDraft(id) {
+
       if (!PRIVATE_DRAFT_PUBLICATION_ENABLED) {
         throw new Error(
           "Private draft publication is not enabled."
         );
       }
 
-      throw new Error(
-        "Publication workflow not implemented."
-      );
+      const user = auth.currentUser;
+
+      if (!user) {
+        throw new Error(
+          "Administrator sign-in required."
+        );
+      }
+
+      const adapter =
+        createFirestorePublicationAdapter(db);
+
+      return publishPrivateFightDraft({
+        user,
+        draftId: id,
+        adapter,
+        publicationEnabled:
+          PRIVATE_DRAFT_PUBLICATION_ENABLED
+      });
     }
   };
 }

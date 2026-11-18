@@ -46,7 +46,7 @@ function formatDraftDate(value) {
   });
 }
 
-function createDisabledButton(label, action) {
+function createDisabledButton(label, action, draftId) {
   const button = createElement(
     "button",
     "private-draft-action",
@@ -55,6 +55,12 @@ function createDisabledButton(label, action) {
 
   button.type = "button";
   button.dataset.action = action;
+
+  if (typeof draftId === "string" &&
+      /^[A-Za-z0-9_-]{1,128}$/.test(draftId)) {
+    button.dataset.draftId = draftId;
+  }
+
   button.disabled = true;
 
   return button;
@@ -134,9 +140,9 @@ export function createPrivateDraftCard(draft) {
   );
 
   actions.append(
-    createDisabledButton("EDIT DRAFT", "edit"),
-    createDisabledButton("DELETE DRAFT", "delete"),
-    createDisabledButton("PUBLISH FIGHT", "publish")
+    createDisabledButton("EDIT DRAFT", "edit", draft.id),
+    createDisabledButton("DELETE DRAFT", "delete", draft.id),
+    createDisabledButton("PUBLISH FIGHT", "publish", draft.id)
   );
 
   card.append(header, details, actions);

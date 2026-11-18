@@ -16,16 +16,16 @@ const FIELD_MAP = Object.freeze({
   promotion: "promotion",
   event: "event",
   opponent: "opponent",
-  type: "fightType",
-  date: "fightDate",
-  dateEnd: "endDate",
+  fightType: "fightType",
+  fightDate: "fightDate",
+  endDate: "endDate",
   displayDate: "displayDate",
-  method: "resultMethod",
+  resultMethod: "resultMethod",
   fightTitle: "fightTitle",
   venue: "venue",
   ticketUrl: "ticketUrl",
-  status: "fightStatus",
-  result: "fightResult",
+  fightStatus: "fightStatus",
+  fightResult: "fightResult",
   notes: "notes"
 });
 
@@ -70,24 +70,24 @@ export function collectPrivateDraftForm(documentRef) {
   }
 
   if (
-    data.date &&
-    data.dateEnd &&
-    data.dateEnd < data.date
+    data.fightDate &&
+    data.endDate &&
+    data.endDate < data.fightDate
   ) {
     throw new Error(
       "The fight end date cannot precede its start date."
     );
   }
 
-  if (data.dateEnd && !data.date) {
+  if (data.endDate && !data.fightDate) {
     throw new Error(
       "A fight start date is required when an end date is set."
     );
   }
 
   if (
-    data.status === "COMPLETED" &&
-    !["W", "L", "D"].includes(data.result)
+    data.fightStatus === "COMPLETED" &&
+    !["W", "L", "D"].includes(data.fightResult)
   ) {
     throw new Error(
       "A completed fight requires a valid result."
@@ -95,8 +95,8 @@ export function collectPrivateDraftForm(documentRef) {
   }
 
   if (
-    data.result &&
-    data.status !== "COMPLETED"
+    data.fightResult &&
+    data.fightStatus !== "COMPLETED"
   ) {
     throw new Error(
       "Fight results require COMPLETED status."

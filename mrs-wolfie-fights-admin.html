@@ -449,7 +449,7 @@
     }
 
     /* =====================================
-   POSTPONED FIGHT STATUS — NEON PINK
+   POSTPONED FIGHT STATUS â€” NEON PINK
 ===================================== */
 
 .fight-status.postponed {
@@ -589,7 +589,7 @@
       }
     }
 
-/* Mrs Wolfie fight manager — unified Team Wolfpack admin layout.
+/* Mrs Wolfie fight manager â€” unified Team Wolfpack admin layout.
    Presentation-only: existing form IDs, database and notification handlers remain unchanged. */
 :root { --mw-ice:#67dcff; --mw-pink:#ff8fd3; }
 body { background:radial-gradient(circle at 0% 15%,rgba(0,190,255,.16),transparent 32%),radial-gradient(circle at 100% 70%,rgba(255,92,175,.13),transparent 35%),linear-gradient(115deg,#02090d 0%,#050505 50%,#130810 100%); }
@@ -858,7 +858,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
         <span class="admin-badge">ADMIN</span>
       </div>
 
-      <div class="admin-label">● LIVE CONTROL</div>
+      <div class="admin-label">â— LIVE CONTROL</div>
 
     </div>
 
@@ -874,7 +874,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
     <div class="panel fight-editor">
       <h2 class="editor-title"><span class="ice">ADD / EDIT</span> <span class="pink">FIGHT</span></h2>
-      <p class="editor-subtitle">Manage Mrs Wolfie’s fight schedule, opponents and results from one place. Changes to saved fights are reflected in the Mrs Wolfie app.</p>
+      <p class="editor-subtitle">Manage Mrs Wolfieâ€™s fight schedule, opponents and results from one place. Changes to saved fights are reflected in the Mrs Wolfie app.</p>
 
       <form id="fightForm">
 
@@ -908,12 +908,12 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
 
           <div class="field">
-            <label for="opponent">OPPONENT — OPTIONAL (TBA IF BLANK)</label>
+            <label for="opponent">OPPONENT â€” OPTIONAL (TBA IF BLANK)</label>
 
             <input
               id="opponent"
               type="text"
-              placeholder="TBA — leave blank until confirmed"
+              placeholder="TBA â€” leave blank until confirmed"
             >
           </div>
 
@@ -931,20 +931,24 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
 
           <div class="field">
-            <label for="fightDate">FIGHT DATE — OPTIONAL (DATE TBA IF BLANK)</label>
+            <label for="fightDate">FIGHT DATE â€” OPTIONAL (DATE TBA IF BLANK)</label>
 
             <input
               id="fightDate"
               type="date"
             >
+<label for="dateTba" class="date-tba-option" style="display:flex;align-items:center;gap:9px;margin-top:10px">
+  <input id="dateTba" type="checkbox" style="width:auto;min-height:auto;margin:0">
+  DATE TBA — FIGHT AGREED / CONFIRMED
+</label>
           </div>
 
 
-          <div class="field"><label for="displayDate">DISPLAY DATE — OPTIONAL</label><input id="displayDate" type="text" placeholder="e.g. 20/21 NOVEMBER 2026"><span class="field-help">Use when the event has more than one possible date.</span></div>
+          <div class="field"><label for="displayDate">DISPLAY DATE â€” OPTIONAL</label><input id="displayDate" type="text" placeholder="e.g. 20/21 NOVEMBER 2026"><span class="field-help">Use when the event has more than one possible date.</span></div>
 
           <div class="field">
             <label for="endDate">
-              END DATE — OPTIONAL
+              END DATE â€” OPTIONAL
             </label>
 
             <input
@@ -954,11 +958,11 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
           </div>
 
 
-          <div class="field"><label for="resultMethod">RESULT / METHOD — OPTIONAL</label><input id="resultMethod" type="text" placeholder="e.g. Points, TKO, Decision"></div>
-          <div class="field"><label for="fightTitle">FIGHT TYPE / TITLE — OPTIONAL</label><input id="fightTitle" type="text" placeholder="e.g. Ladies Super Middleweight Novice Title"></div>
-          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE — OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
+          <div class="field"><label for="resultMethod">RESULT / METHOD â€” OPTIONAL</label><input id="resultMethod" type="text" placeholder="e.g. Points, TKO, Decision"></div>
+          <div class="field"><label for="fightTitle">FIGHT TYPE / TITLE â€” OPTIONAL</label><input id="fightTitle" type="text" placeholder="e.g. Ladies Super Middleweight Novice Title"></div>
+          <div class="field"><label for="fighterImageUpload">FIGHTER IMAGE â€” OPTIONAL</label><input id="fighterImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="fighterImagePreview" class="image-preview" alt="Fighter preview" hidden><span id="fighterImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeFighterImage" type="checkbox"> Remove existing fighter image when saving</label></div>
           <p class="field-help" role="note" style="grid-column:1/-1;border:1px solid rgba(255,143,211,.55);border-radius:8px;padding:12px;background:rgba(255,143,211,.08);color:#fff"><strong>PUBLICATION WARNING:</strong> Saving a fight here writes to the publicly readable fight collection. Do not enter unannounced opponents, confidential fight details or private drafts. Use the private admin note only for confidential notes. A secure draft/publish workflow requires verified Firebase rules and a separate protected data path.</p>
-          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE — OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
+          <div class="field"><label for="opponentImageUpload">OPPONENT IMAGE â€” OPTIONAL</label><input id="opponentImageUpload" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-help">Choose a JPG, PNG or WebP photo (maximum 8 MB).</span><img id="opponentImagePreview" class="image-preview" alt="Opponent preview" hidden><span id="opponentImageState" class="field-help" role="status" aria-live="polite">No image selected.</span><label class="field-help"><input id="removeOpponentImage" type="checkbox"> Remove existing opponent image when saving</label></div>
 
           <p class="field-help" style="grid-column:1/-1">IMAGE HISTORY: Replacing or removing a photograph updates this fight only. Previously uploaded files are retained in Firebase Storage to avoid deleting images that another fight or historical record may still use. Storage cleanup must be reviewed separately.</p>
 
@@ -977,7 +981,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 <div class="field full">
 
   <label for="ticketUrl">
-    🎟 TICKET LINK / BOOKING URL — OPTIONAL
+    ðŸŽŸ TICKET LINK / BOOKING URL â€” OPTIONAL
   </label>
 
   <input
@@ -1022,7 +1026,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
                   for="notes"
                   style="margin-bottom:0;"
                 >
-                  ADMIN NOTES — OPTIONAL
+                  ADMIN NOTES â€” OPTIONAL
                 </label>
 
                 <span class="private-badge">
@@ -1033,7 +1037,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
               <textarea
                 id="notes"
-                placeholder="Private fight notes — Team Wolfpack admins only..."
+                placeholder="Private fight notes â€” Team Wolfpack admins only..."
               ></textarea>
 
               <div class="private-note-help">
@@ -1167,7 +1171,111 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
 
   </div>
 
-  <div class="private-draft-footer">
+    <!-- PRIVATE DRAFT PUBLICATION - DISABLED DEVELOPMENT UI -->
+  <section
+    id="privateDraftPublicationPanel"
+    class="private-draft-publication"
+    aria-labelledby="privateDraftPublicationHeading"
+    style="
+      margin-top:22px;
+      padding:22px;
+      border:1px solid rgba(0,191,255,.35);
+      border-radius:16px;
+      background:linear-gradient(
+        135deg,
+        rgba(0,191,255,.08),
+        rgba(255,20,147,.07)
+      );
+    "
+  >
+
+    <h3
+      id="privateDraftPublicationHeading"
+      style="margin-top:0;"
+    >
+      FIGHT PUBLICATION CONTROL
+    </h3>
+
+    <p style="opacity:.85;">
+      Review a private fight announcement before
+      making it visible on the Mrs Wolfie and
+      Team Wolfpack applications.
+    </p>
+
+    <div
+      id="privateDraftPublicationStatus"
+      role="status"
+      aria-live="polite"
+      style="
+        margin:16px 0;
+        padding:12px;
+        border-radius:10px;
+        background:rgba(0,0,0,.3);
+        border-left:4px solid #ff5a5a;
+      "
+    >
+      PUBLICATION DISABLED â€” DEVELOPMENT MODE
+    </div>
+
+    <div
+      class="private-draft-actions"
+      style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px;
+        margin-top:18px;
+      "
+    >
+
+      <button
+        id="previewPrivateDraftButton"
+        type="button"
+        class="button dark"
+        disabled
+      >
+        PREVIEW FIGHT
+      </button>
+
+      <button
+        id="publishPrivateDraftButton"
+        type="button"
+        class="button primary"
+        disabled
+      >
+        PUBLISH FIGHT
+      </button>
+
+    </div>
+
+    <p
+      id="privateDraftPublicationNotice"
+      style="
+        margin-top:16px;
+        font-size:.9rem;
+        opacity:.75;
+      "
+    >
+      Publication requires an approved administrator,
+      a valid private draft, completed security checks
+      and explicit feature activation.
+      These controls cannot publish fights yet.
+    </p>
+
+  </section>
+  <!-- PRIVATE FIGHT PREVIEW - DEVELOPMENT ONLY -->
+  <div
+    id="privateDraftPreviewDisplay"
+    hidden
+    aria-live="polite"
+    style="
+      margin-top:18px;
+      padding:18px;
+      border:1px solid rgba(0,191,255,.3);
+      border-radius:12px;
+      background:rgba(0,0,0,.25);
+    "
+  ></div>
+<div class="private-draft-footer">
     <span>PRIVATE DRAFTS</span>
     <span>ADMINISTRATORS ONLY</span>
     <span>PUBLICATION REQUIRES APPROVAL</span>
@@ -1195,7 +1303,7 @@ input:focus,select:focus,textarea:focus { border-color:var(--mw-ice); box-shadow
         class="nav-button"
         href="mrs-wolfie-dashboard.html"
       >
-        ‹ MRS WOLFIE CONTROL
+        â€¹ MRS WOLFIE CONTROL
       </a>
 
       <a
@@ -1281,6 +1389,9 @@ import {
 import {
   initialisePrivateDraftController
 } from "./mrs-wolfie-private-draft-controller.js";
+import {
+  createPrivateDraftPublicationPreview
+} from "./mrs-wolfie-private-draft-publication-preview.js";
 import { renderPrivateDraftList } from "./mrs-wolfie-private-draft-list.js";
 import {
   collectPrivateDraftForm,
@@ -1374,6 +1485,22 @@ integration testing is complete.
 =========================================================
 */
 
+import {
+  refreshPrivateDraftList
+} from "./mrs-wolfie-private-draft-list-integration.js";
+import {
+  savePrivateFightDraft
+} from "./mrs-wolfie-private-draft-save-handler.js";
+
+import {
+  createPrivateDraftEditState
+} from "./mrs-wolfie-private-draft-edit-state.js";
+
+import {
+  selectPrivateDraftForEditing
+} from "./mrs-wolfie-private-draft-selection.js";
+
+const privateDraftEditState = createPrivateDraftEditState();
 const PRIVATE_DRAFT_MODE_ENABLED = false;
 
 const fightEditorModeManager =
@@ -1387,6 +1514,23 @@ function isPrivateDraftMode() {
 
 function setFightEditorMode(mode) {
   return fightEditorModeManager.setMode(mode);
+}
+/*
+  PRIVATE DRAFT SELECTION
+
+  The feature remains disabled during development.
+  No confidential records are loaded here.
+*/
+function preparePrivateDraftSelection(draft) {
+  return selectPrivateDraftForEditing({
+    draft,
+    editState: privateDraftEditState,
+    documentRef: document,
+    populateForm: populatePrivateDraftForm,
+    isPrivateMode: isPrivateDraftMode,
+    editingPublicFight: editingId !== null,
+    selectionEnabled: PRIVATE_DRAFT_MODE_ENABLED
+  });
 }
 function preparePrivateDraftFromForm() {
   return collectPrivateDraftForm(document);
@@ -1413,6 +1557,148 @@ if (!privateDraftListContainer) {
   Do not load confidential draft records.
 */
 renderPrivateDraftList(privateDraftListContainer, []);
+/*
+=========================================================
+PRIVATE DRAFT EDIT EVENT - STEP 396
+Development connection only.
+
+No private records are loaded.
+No management actions are enabled.
+=========================================================
+*/
+
+privateDraftListContainer.addEventListener(
+  "click",
+  async function(event) {
+
+    if (!PRIVATE_DRAFT_MODE_ENABLED) {
+      return;
+    }
+
+    const button = event.target.closest(
+      "button.private-draft-action"
+    );
+
+    if (!button) {
+      return;
+    }
+
+    if (button.disabled) {
+      return;
+    }
+
+    if (button.dataset.action !== "edit") {
+      return;
+    }
+
+    const draftId = button.dataset.draftId;
+
+    if (
+      typeof draftId !== "string" ||
+      !/^[A-Za-z0-9_-]{1,128}$/.test(draftId)
+    ) {
+      console.warn("Invalid private draft selection.");
+      return;
+    }
+
+    /*
+      Private draft loading and selection remain disabled.
+
+      The actual draft object must eventually come from
+      the authorised private draft controller.
+
+      Do not load confidential records from public fights.
+    */
+
+    /*
+      PRIVATE DRAFT EDIT RETRIEVAL - STEP 400
+
+      This code is protected by the existing disabled
+      private draft mode and controller loading switches.
+
+      Only authorised private records may be retrieved.
+    */
+
+    try {
+      const draft = await privateDraftController.getDraft(
+        draftId
+      );
+
+      if (!draft) {
+        throw new Error(
+          "Private fight draft not found."
+        );
+      }
+
+      if (draft.id !== draftId) {
+        throw new Error(
+          "Private draft identifier mismatch."
+        );
+      }
+
+      if (draft.draftStatus !== "DRAFT") {
+        throw new Error(
+          "Only unpublished private drafts can be edited."
+        );
+      }
+
+      const selectedDraftId = preparePrivateDraftSelection(draft);
+
+      if (selectedDraftId !== draftId) {
+        throw new Error("Private draft selection failed.");
+      }
+
+      updateFightFormMode();
+
+    } catch (error) {
+      console.error(
+        "Private draft editing unavailable:",
+        error
+      );
+    }
+  }
+);
+
+
+/*
+=========================================================
+PRIVATE DRAFT REFRESH - DEVELOPMENT ONLY
+=========================================================
+*/
+
+if (refreshPrivateDraftsButton) {
+
+  refreshPrivateDraftsButton.disabled = true;
+
+  refreshPrivateDraftsButton.addEventListener(
+    "click",
+    async () => {
+
+      if (!PRIVATE_DRAFT_MODE_ENABLED) {
+        return;
+      }
+
+      try {
+
+        await refreshPrivateDraftList({
+          controller: privateDraftController,
+          container: privateDraftListContainer
+        });
+
+      }
+      catch (error) {
+
+        console.error(
+          "Private draft refresh failed:",
+          error
+        );
+
+      }
+
+    }
+  );
+
+}
 
 
 
@@ -1453,6 +1739,31 @@ const fightType =
 const fightDate =
   document.getElementById("fightDate");
 
+const dateTba =
+  document.getElementById("dateTba");
+
+function syncFightDateTba() {
+  const isTba = dateTba.checked;
+
+  fightDate.required = !isTba;
+  fightDate.disabled = isTba;
+  endDate.disabled = isTba;
+
+  if (isTba) {
+    fightDate.value = "";
+    endDate.value = "";
+    displayDate.value = "TBA";
+  } else if (
+    displayDate.value.trim().toUpperCase() === "TBA"
+  ) {
+    displayDate.value = "";
+  }
+}
+
+dateTba.addEventListener(
+  "change",
+  syncFightDateTba
+);
 const endDate =
   document.getElementById("endDate");
 
@@ -1510,15 +1821,15 @@ function refreshImagePreview(input, preview, remove, state, field) {
   const existing = editingId ? (getFight(editingId)?.[field] || "") : "";
   if (remove.checked) {
     setImagePreview(preview, "");
-    state.textContent = "IMAGE MARKED FOR REMOVAL — save changes to confirm.";
+    state.textContent = "IMAGE MARKED FOR REMOVAL â€” save changes to confirm.";
   } else if (file) {
     const url = URL.createObjectURL(file);
     setImagePreview(preview, url);
     preview.dataset.objectUrl = url;
-    state.textContent = "NEW IMAGE SELECTED — save changes to replace the existing image.";
+    state.textContent = "NEW IMAGE SELECTED â€” save changes to replace the existing image.";
   } else {
     setImagePreview(preview, existing);
-    state.textContent = existing ? "CURRENT SAVED IMAGE — unchanged." : "No image selected.";
+    state.textContent = existing ? "CURRENT SAVED IMAGE â€” unchanged." : "No image selected.";
   }
 }
 function refreshAllImagePreviews() {
@@ -1692,8 +2003,212 @@ createPrivateDraftButton.addEventListener("click", function() {
   }
 });
 
+/* PRIVATE DRAFT PREVIEW - SAFE DEVELOPMENT CONNECTION */
+
+const previewPrivateDraftButton =
+  document.getElementById("previewPrivateDraftButton");
+
+const privateDraftPreviewDisplay =
+  document.getElementById("privateDraftPreviewDisplay");
+
+if (!previewPrivateDraftButton || !privateDraftPreviewDisplay) {
+  throw new Error("Private draft preview controls missing.");
+}
+
+previewPrivateDraftButton.disabled = true;
+
+previewPrivateDraftButton.addEventListener("click", async function() {
+
+  if (!PRIVATE_DRAFT_MODE_ENABLED) {
+    return;
+  }
+
+  const draftId = privateDraftEditState.getEditingDraftId();
+
+  if (!draftId) {
+    privateDraftPreviewDisplay.hidden = false;
+    privateDraftPreviewDisplay.textContent =
+      "Select a private fight draft before previewing.";
+    return;
+  }
+
+  try {
+
+    const draftRecord =
+      await privateDraftController.getDraft(draftId);
+
+    const draftData = draftRecord?.data ?? draftRecord;
+
+    const preview =
+      createPrivateDraftPublicationPreview(draftData);
+
+    const fields = [
+      ["Fighter", preview.fighterName],
+      ["Team", preview.team],
+      ["Event", preview.event],
+      ["Promotion", preview.promotion],
+      ["Opponent", preview.opponent],
+      ["Date", preview.displayDate],
+      ["Venue", preview.venue],
+      ["Fight Title", preview.fightTitle],
+      ["Fight Type", preview.fightType],
+      ["Status", preview.status],
+      ["Result", preview.result]
+    ];
+
+    privateDraftPreviewDisplay.replaceChildren();
+
+    const heading = document.createElement("h4");
+    heading.textContent = "PUBLIC FIGHT PREVIEW";
+    privateDraftPreviewDisplay.appendChild(heading);
+
+    for (const [label, value] of fields) {
+      const row = document.createElement("p");
+      const strong = document.createElement("strong");
+
+      strong.textContent = `${label}: `;
+      row.appendChild(strong);
+      row.appendChild(
+        document.createTextNode(String(value ?? ""))
+      );
+
+      privateDraftPreviewDisplay.appendChild(row);
+    }
+
+    privateDraftPreviewDisplay.hidden = false;
+
+  } catch (error) {
+
+    console.error("Private draft preview failed:", error);
+
+    privateDraftPreviewDisplay.hidden = false;
+    privateDraftPreviewDisplay.textContent =
+      "Preview unavailable: " + error.message;
+
+  }
+
+});
+/* PRIVATE FIGHT PUBLICATION - DISABLED DEVELOPMENT CONNECTION */
+
+const publishPrivateDraftButton =
+  document.getElementById("publishPrivateDraftButton");
+
+const privateDraftPublicationStatus =
+  document.getElementById("privateDraftPublicationStatus");
+
+if (!publishPrivateDraftButton || !privateDraftPublicationStatus) {
+  throw new Error("Private draft publication controls missing.");
+}
+
+publishPrivateDraftButton.disabled = true;
+
+let privateDraftPublicationInProgress = false;
+
+publishPrivateDraftButton.addEventListener("click", async function() {
+
+  if (!PRIVATE_DRAFT_MODE_ENABLED) {
+    privateDraftPublicationStatus.textContent =
+      "PUBLICATION DISABLED â€” DEVELOPMENT MODE";
+    return;
+  }
+
+  if (privateDraftPublicationInProgress) {
+    return;
+  }
+
+  const draftId = privateDraftEditState.getEditingDraftId();
+
+  if (!draftId) {
+    privateDraftPublicationStatus.textContent =
+      "Select a private fight draft before publishing.";
+    return;
+  }
+
+  const user = auth.currentUser;
+
+  if (!user || user.isAnonymous) {
+    privateDraftPublicationStatus.textContent =
+      "Administrator sign-in required.";
+    return;
+  }
+
+  const approved = window.confirm(
+    "Publish this fight to Mrs Wolfie and Team Wolfpack?\n\n" +
+    "This will make the fight publicly visible."
+  );
+
+  if (!approved) {
+    return;
+  }
+
+  privateDraftPublicationInProgress = true;
+  publishPrivateDraftButton.disabled = true;
+
+  privateDraftPublicationStatus.textContent =
+    "Publishing fight...";
+
+  try {
+
+    const result =
+      await privateDraftController.publishDraft(draftId);
+
+    privateDraftPublicationStatus.textContent =
+      "FIGHT PUBLISHED SUCCESSFULLY";
+
+    privateDraftEditState.clearEditing();
+
+    privateDraftPreviewDisplay.hidden = true;
+
+    console.info("Private fight publication completed.", result);
+
+  } catch (error) {
+
+    console.error("Private fight publication failed:", error);
+
+    privateDraftPublicationStatus.textContent =
+      "PUBLICATION FAILED: " + error.message;
+
+  } finally {
+
+    privateDraftPublicationInProgress = false;
+
+    // Publication stays disabled until separately authorised.
+    publishPrivateDraftButton.disabled = true;
+
+  }
+
+});
+/* PRIVATE DRAFT SAVE - DISABLED DEVELOPMENT CONNECTION */
+const privateDraftSaveButton =
+  document.getElementById("saveDraftButton");
+
+if (!privateDraftSaveButton) {
+  throw new Error("Private draft save button is missing.");
+}
+
+privateDraftSaveButton.addEventListener("click", async function(event) {
+  event.preventDefault();
+
+  try {
+    await savePrivateFightDraft({
+      controller: privateDraftController,
+      documentRef: document,
+      collectForm: collectPrivateDraftForm,
+      isPrivateMode: isPrivateDraftMode,
+      writesEnabled: false,
+      editingDraftId: privateDraftEditState.getEditingDraftId()
+    });
+
+    showMessage("PRIVATE DRAFT SAVED.", "success");
+
+  } catch (error) {
+    console.warn("Private draft save blocked:", error.message);
+    showMessage(error.message, "error");
+  }
+});
 /* EXISTING PUBLIC FORM RESET */
 function resetForm() {
+  privateDraftEditState.clearEditing();
   privateNoteRequestGuard.invalidate();
   setFightEditorMode("PUBLIC");
   editingId = null;
@@ -1701,6 +2216,7 @@ function resetForm() {
   loadingPrivateNote = false;
 
   fightForm.reset();
+  syncFightDateTba();
 
   ticketUrl.value = "";
   displayDate.value = "";
@@ -2180,7 +2696,7 @@ function renderFights() {
 
             <div class="fight-event">
               ${escapeHtml(fight.promotion || "")}
-              ${fight.event ? " • " + escapeHtml(fight.event) : ""}
+              ${fight.event ? " â€¢ " + escapeHtml(fight.event) : ""}
             </div>
 
             <div class="fight-opponent">
@@ -2193,7 +2709,7 @@ function renderFights() {
 
               ${
                 fight.dateEnd
-                  ? " — " + formatDate(fight.dateEnd)
+                  ? " â€” " + formatDate(fight.dateEnd)
                   : ""
               }
 
@@ -2365,6 +2881,7 @@ function renderFights() {
 ========================================================= */
 
 async function editFight(id) {
+  privateDraftEditState.clearEditing();
   setFightEditorMode("PUBLIC");
   if (saveButton.disabled) {
     showMessage("WAIT FOR THE CURRENT FIGHT SAVE TO FINISH BEFORE SWITCHING FIGHTS.", "error");
@@ -2395,6 +2912,15 @@ async function editFight(id) {
 
   fightDate.value =
     fight.date || "";
+
+  dateTba.checked =
+    Boolean(
+      fight.dateTba ||
+      (!fight.date &&
+        String(fight.displayDate || "").toUpperCase() === "TBA")
+    );
+
+  syncFightDateTba();
 
   endDate.value =
     fight.dateEnd || "";
@@ -2591,7 +3117,7 @@ async function deleteFight(id) {
     return;
   }
   const status = String(fight.status || "UPCOMING").toUpperCase();
-  const description = [fight.event, fight.opponent, fight.date || "DATE TBA"].filter(Boolean).join(" — ");
+  const description = [fight.event, fight.opponent, fight.date || "DATE TBA"].filter(Boolean).join(" â€” ");
   const warning = ["COMPLETED", "POSTPONED", "CANCELLED"].includes(status)
     ? "WARNING: This is a historical " + status + " fight. Deleting it removes its public history.\\n\\n"
     : "";
@@ -2751,6 +3277,8 @@ fightForm.addEventListener(
 
 
     const publicData = {
+      // All records in this public collection are announced fights.
+      published: true,
 
       promotion:
         promotion.value
@@ -2770,13 +3298,11 @@ fightForm.addEventListener(
       type:
         fightType.value,
 
-      date:
-        fightDate.value,
-
-      dateEnd:
-        endDate.value,
-
-      displayDate: displayDate.value.trim(),
+      date: dateTba.checked ? "" : fightDate.value,
+      dateEnd: dateTba.checked ? "" : endDate.value,
+      displayDate: dateTba.checked ? "TBA" : displayDate.value.trim(),
+      dateTba: dateTba.checked,
+      fightAgreed: editingId ? (typeof getFight(editingId)?.fightAgreed === "boolean" ? getFight(editingId).fightAgreed : true) : true,
       method: resultMethod.value.trim(),
       fightTitle: fightTitle.value.trim(),
       fighterImage: editingId ? (getFight(editingId)?.fighterImage || "") : "",
@@ -3002,8 +3528,8 @@ fightForm.addEventListener(
           savedFight.opponentImage = publicData.opponentImage;
         }
         refreshAllImagePreviews();
-        fighterImageState.textContent = publicData.fighterImage ? "FIGHT IMAGE SAVED — private note still needs retry." : "NO FIGHTER IMAGE SAVED — private note still needs retry.";
-        opponentImageState.textContent = publicData.opponentImage ? "OPPONENT IMAGE SAVED — private note still needs retry." : "NO OPPONENT IMAGE SAVED — private note still needs retry.";
+        fighterImageState.textContent = publicData.fighterImage ? "FIGHT IMAGE SAVED â€” private note still needs retry." : "NO FIGHTER IMAGE SAVED â€” private note still needs retry.";
+        opponentImageState.textContent = publicData.opponentImage ? "OPPONENT IMAGE SAVED â€” private note still needs retry." : "NO OPPONENT IMAGE SAVED â€” private note still needs retry.";
       }
 
       // Never delete files once the fight document references them.
@@ -3135,9 +3661,9 @@ onAuthStateChanged(
 
 
       status.textContent =
-        "● " +
+        "â— " +
         name +
-        " • ADMIN CONNECTED";
+        " â€¢ ADMIN CONNECTED";
 
 
       status.className =
