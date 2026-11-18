@@ -1005,7 +1005,6 @@ CHECKING ADMIN ACCESS...
 
   <div class="intro-text">
     Manage fights, results and updates directly inside the Mrs Wolfie app.
-    <br><br><strong>Setup:</strong> Fight Management and App Updates will open once their independent admin files are added to this repository.
   </div>
 
 </div>
@@ -1130,6 +1129,21 @@ CHECKING ADMIN ACCESS...
 
   </div>
 
+
+<div class="shared-fight-manager-link" style="margin:18px 0;text-align:center;">
+  <a
+    href="https://app.officialteamwolfpack.com/admin-mrs-wolfie-fights.html"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="display:inline-block;padding:14px 24px;border-radius:12px;background:linear-gradient(135deg,#83d8ff,#ff8fd3);color:#10131a;font-weight:900;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.25);"
+  >
+    🥊 MANAGE MRS WOLFIE FIGHTS
+  </a>
+  <p style="font-size:12px;opacity:.8;margin-top:10px;">
+    Opens the shared Team Wolfpack Fight Manager.
+    Administrator sign-in may be required.
+  </p>
+</div>
 </section>
 
 
@@ -1438,20 +1452,7 @@ CHECKING ADMIN ACCESS...
     MRS WOLFIE FIGHTS
   </div>
 
-  <div class="shared-fight-manager-link" style="margin:18px 0;text-align:center;">
-  <a
-    href="https://app.officialteamwolfpack.com/admin-mrs-wolfie-fights.html"
-    target="_blank"
-    rel="noopener noreferrer"
-    style="display:inline-block;padding:14px 24px;border-radius:12px;background:linear-gradient(135deg,#83d8ff,#ff8fd3);color:#10131a;font-weight:900;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.25);"
-  >
-    🥊 MANAGE MRS WOLFIE FIGHTS
-  </a>
-  <p style="font-size:12px;opacity:.8;margin-top:10px;">
-    Opens the shared Team Wolfpack Fight Manager.
-    Administrator sign-in may be required.
-  </p>
-</div>
+  
 <div
     id="fightManagerStatus"
     class="system-value"
@@ -1836,60 +1837,44 @@ function renderFightStatus(
 
   const upcoming =
     fights
-      .filter(
-        function(fight){
+      .filter(function(fight){
 
-          if(
-            String(
-              fight.status || ""
-            ).toUpperCase() === "CANCELLED"
-          ){
-            return false;
-          }
+        const status =
+          String(fight.status || "")
+            .trim()
+            .toUpperCase();
 
-          if(
-            String(
-              fight.status || ""
-            ).toUpperCase() === "COMPLETED"
-          ){
-            return false;
-          }
-
-          if(
-            fight.result
-          ){
-            return false;
-          }
-
-          const date =
-            parseDate(
-              fight.date
-            );
-
-          if(
-            !date
-          ){
-            return false;
-          }
-
-          return date >= now;
-
+        if (
+          status === "CANCELLED" ||
+          status === "CANCELED" ||
+          status === "POSTPONED" ||
+          status === "COMPLETED" ||
+          status === "COMPLETE"
+        ) {
+          return false;
         }
-      )
-      .sort(
-        function(a,b){
 
-          return String(
-            a.date || ""
-          ).localeCompare(
-            String(
-              b.date || ""
-            )
-          );
-
+        if (fight.result) {
+          return false;
         }
-      );
 
+        const date = parseDate(fight.date);
+
+        if (!date) {
+          return false;
+        }
+
+        return date >= now;
+
+      })
+      .sort(function(a,b){
+
+        return (
+          parseDate(a.date).getTime() -
+          parseDate(b.date).getTime()
+        );
+
+      });
 
   const nextFight =
     upcoming.length
