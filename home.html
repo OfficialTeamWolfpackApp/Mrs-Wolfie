@@ -4916,6 +4916,13 @@ if(grid){
 
   function getUpcomingFights(){
 
+    // Use the same status/date rules as the central fight database.
+    // This excludes past, postponed, cancelled and completed fights,
+    // while retaining announced fights with a TBA date.
+    if (typeof window.MRS_WOLFIE_GET_UPCOMING_FIGHTS === "function") {
+      return window.MRS_WOLFIE_GET_UPCOMING_FIGHTS();
+    }
+
     const data =
       window.MRS_WOLFIE_FIGHTS
       ||
